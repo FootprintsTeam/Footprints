@@ -8,9 +8,9 @@ namespace Footprints.DAL.Repository
 {
     public class DbContext
     {
-        public static IUserRepository Users { get { return new Users(); } }
-        public static ICommentRepository Comments { get { return new Comments(); } }
-        public static IDestinationRepository Destinations { get { return new Destinations(); } }
-        public static IJourneyRepository Journeys { get { return new Journeys(); } }
+        public static Users Users { get { return new Users(); } }
+        public static Comments Comments { get { return new Comments(); } }
+        public static Destinations Destinations { get { return new Destinations(); } }
+        public static Journeys Journeys { get { return new Journeys(); } }
     }
 }

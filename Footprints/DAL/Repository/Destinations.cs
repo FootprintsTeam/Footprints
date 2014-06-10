@@ -5,7 +5,7 @@ using System.Text;
 using Footprints.DAL.Core;
 namespace Footprints.DAL.Repository
 {
-    class Destinations : IDestinationRepository
+    public class Destinations : IDestinationRepository
     {
     }
 }
