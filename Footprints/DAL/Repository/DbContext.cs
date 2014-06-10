@@ -6,11 +6,22 @@ using Footprints.DAL.Core;
 
 namespace Footprints.DAL.Repository
 {
-    public class DbContext
+    public class DbContext : IDbContext
     {
-        public static Users Users { get { return new Users(); } }
-        public static Comments Comments { get { return new Comments(); } }
-        public static Destinations Destinations { get { return new Destinations(); } }
-        public static Journeys Journeys { get { return new Journeys(); } }
+        private IUserRepository _user;
+        private ICommentRepository _comment;
+        private IJourneyRepository _journey;
+        private IDestinationRepository _destination;
+
+        public DbContext(IUserRepository user, ICommentRepository comment, IJourneyRepository journey, IDestinationRepository destination) {
+            _user = user;
+            _comment = comment;
+            _journey = journey;
+            _destination = destination;
+        }
+        public IUserRepository Users { get { return _user; } }
+        public ICommentRepository Comments { get { return _comment; } }
+        public IDestinationRepository Destinations { get { return _destination; } }
+        public IJourneyRepository Journeys { get { return _journey; } }
     }
 }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Footprints.Models;
 
 namespace Footprints.DAL.Core
 {
-    interface IUserRepository
+    interface IUserRepository : IRepository<User>
     {
     }
 }
