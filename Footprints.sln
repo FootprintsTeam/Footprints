@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Footprints", "Footprints\Footprints.csproj", "{6C269D87-03C5-40DE-8D5D-58FE5EC3992C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Footprints.Tests", "Footprints.Tests\Footprints.Tests.csproj", "{D942A115-C92D-4DA8-8F7B-19FCF8387614}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C269D87-03C5-40DE-8D5D-58FE5EC3992C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C269D87-03C5-40DE-8D5D-58FE5EC3992C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C269D87-03C5-40DE-8D5D-58FE5EC3992C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C269D87-03C5-40DE-8D5D-58FE5EC3992C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D942A115-C92D-4DA8-8F7B-19FCF8387614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D942A115-C92D-4DA8-8F7B-19FCF8387614}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D942A115-C92D-4DA8-8F7B-19FCF8387614}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D942A115-C92D-4DA8-8F7B-19FCF8387614}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
