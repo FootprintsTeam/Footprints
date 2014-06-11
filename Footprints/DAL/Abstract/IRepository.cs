@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
 
-namespace Footprints.DAL.Core
+namespace Footprints.DAL.Abstract
 {
     interface IRepository<T> where T : class
     {

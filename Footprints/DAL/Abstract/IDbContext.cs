@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Footprints.DAL.Core
+namespace Footprints.DAL.Abstract
 {
     interface IDbContext
     {

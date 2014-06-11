@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Footprints.DAL.Core;
+using Footprints.DAL.Abstract;
 
-namespace Footprints.DAL.Repository
+namespace Footprints.DAL.Concrete
 {
     public class DbContext : IDbContext
     {

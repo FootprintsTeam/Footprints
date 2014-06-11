@@ -4,9 +4,9 @@ using System.Linq;
 using System.Web;
 using Autofac;
 using Neo4jClient;
-using Footprints.DAL.Core;
+using Footprints.DAL.Abstract;
 using Footprints.DAL.Infrastructure;
-using Footprints.DAL.Repository;
+using Footprints.DAL.Concrete;
 
 namespace Footprints.App_Start
 {

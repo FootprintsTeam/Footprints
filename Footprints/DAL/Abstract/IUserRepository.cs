@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Footprints.Models;
 
-namespace Footprints.DAL.Core
+namespace Footprints.DAL.Abstract
 {
-    interface ICommentRepository : IRepository<Comment>
+    interface IUserRepository : IRepository<User>
     {
     }
 }

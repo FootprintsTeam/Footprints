@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Linq.Expressions;
 
-namespace Footprints.DAL.Core
+namespace Footprints.DAL.Abstract
 {
     public abstract class RepositoryBase<T> where T : class
     {
