@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Footprints.App_Start;
 
 namespace Footprints
 {
@@ -16,6 +17,8 @@ namespace Footprints
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //Autofac setup
+            DependencyResolver.SetResolver(Bootstrapper.SetAutofacContainer());
         }
     }
 }

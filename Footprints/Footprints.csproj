@@ -166,14 +166,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DAL\Core\IDbContext.cs" />
+    <Compile Include="DAL\Core\IRepository.cs" />
     <Compile Include="DAL\Core\RepositoryBase.cs" />
-    <Compile Include="DAL\Core\Db.cs" />
     <Compile Include="DAL\Core\ICommentRepository.cs" />
     <Compile Include="DAL\Core\IDestinationRepository.cs" />
     <Compile Include="DAL\Core\IJourneyRepository.cs" />
@@ -248,7 +250,6 @@
     <Folder Include="Common\" />
     <Folder Include="Core\ImageProcessors\" />
     <Folder Include="Core\Mailers\" />
-    <Folder Include="DAL\Configuration\" />
     <Folder Include="Extensions\" />
     <Folder Include="Helpers\" />
     <Folder Include="Security\ActionFilters\" />
