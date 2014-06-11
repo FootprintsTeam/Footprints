@@ -173,19 +173,19 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DAL\Core\IDbContext.cs" />
-    <Compile Include="DAL\Core\IRepository.cs" />
-    <Compile Include="DAL\Core\RepositoryBase.cs" />
-    <Compile Include="DAL\Core\ICommentRepository.cs" />
-    <Compile Include="DAL\Core\IDestinationRepository.cs" />
-    <Compile Include="DAL\Core\IJourneyRepository.cs" />
-    <Compile Include="DAL\Core\IUserRepository.cs" />
+    <Compile Include="DAL\Abstract\IDbContext.cs" />
+    <Compile Include="DAL\Abstract\IRepository.cs" />
+    <Compile Include="DAL\Abstract\RepositoryBase.cs" />
+    <Compile Include="DAL\Abstract\ICommentRepository.cs" />
+    <Compile Include="DAL\Abstract\IDestinationRepository.cs" />
+    <Compile Include="DAL\Abstract\IJourneyRepository.cs" />
+    <Compile Include="DAL\Abstract\IUserRepository.cs" />
     <Compile Include="DAL\Infrastructure\Page.cs" />
-    <Compile Include="DAL\Repository\Comments.cs" />
-    <Compile Include="DAL\Repository\DbContext.cs" />
-    <Compile Include="DAL\Repository\Destinations.cs" />
-    <Compile Include="DAL\Repository\Journeys.cs" />
-    <Compile Include="DAL\Repository\Users.cs" />
+    <Compile Include="DAL\Concrete\Comments.cs" />
+    <Compile Include="DAL\Concrete\DbContext.cs" />
+    <Compile Include="DAL\Concrete\Destinations.cs" />
+    <Compile Include="DAL\Concrete\Journeys.cs" />
+    <Compile Include="DAL\Concrete\Users.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -254,7 +254,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Security\ActionFilters\" />
     <Folder Include="Security\Authentication\" />
-    <Folder Include="Service_Layer\" />
+    <Folder Include="Service\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
