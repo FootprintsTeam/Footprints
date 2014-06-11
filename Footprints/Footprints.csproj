@@ -43,6 +43,9 @@
       <HintPath>..\packages\Autofac.3.4.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Neo4jClient">
       <HintPath>..\packages\Neo4jClient.1.0.0.656\lib\net40\Neo4jClient.dll</HintPath>
     </Reference>
@@ -176,10 +179,6 @@
     <Compile Include="DAL\Abstract\IDbContext.cs" />
     <Compile Include="DAL\Abstract\IRepository.cs" />
     <Compile Include="DAL\Abstract\RepositoryBase.cs" />
-    <Compile Include="DAL\Abstract\ICommentRepository.cs" />
-    <Compile Include="DAL\Abstract\IDestinationRepository.cs" />
-    <Compile Include="DAL\Abstract\IJourneyRepository.cs" />
-    <Compile Include="DAL\Abstract\IUserRepository.cs" />
     <Compile Include="DAL\Infrastructure\Page.cs" />
     <Compile Include="DAL\Concrete\Comments.cs" />
     <Compile Include="DAL\Concrete\DbContext.cs" />

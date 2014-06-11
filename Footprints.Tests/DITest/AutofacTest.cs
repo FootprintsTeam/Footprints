@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Footprints.DAL.Abstract;
+
 namespace Footprints.Tests.DITest
 {
     [TestClass]
@@ -11,8 +14,8 @@ namespace Footprints.Tests.DITest
     {
         public void CreateDbConnection()
         { 
-            //Arrange
-
+            //Arrange            
+            
             //Act
 
             //Assert

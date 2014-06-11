@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Footprints.DAL.Abstract
 {
-    interface IDbContext
+    public interface IDbContext
     {
 
     }
