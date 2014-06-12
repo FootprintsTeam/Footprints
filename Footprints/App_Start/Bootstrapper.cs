@@ -7,6 +7,7 @@ using Neo4jClient;
 using Footprints.DAL.Abstract;
 using Footprints.DAL.Infrastructure;
 using Footprints.DAL.Concrete;
+using System.Web.Mvc;
 
 namespace Footprints.App_Start
 {
@@ -21,11 +22,11 @@ namespace Footprints.App_Start
                 graphClient.Connect();
                 return graphClient;
             }).SingleInstance();
-            builder.RegisterType<ICommentRepository>().As<Comments>();
-            builder.RegisterType<IJourneyRepository>().As<Journeys>();
-            builder.RegisterType<IDestinationRepository>().As<IDestinationRepository>();
-            builder.RegisterType<IUserRepository>().As<Users>();
-            builder.RegisterType<IDbContext>().As<DbContext>();
+            builder.RegisterType<Comments>().As<ICommentRepository>();
+            builder.RegisterType<Journeys>().As<IJourneyRepository>();
+            builder.RegisterType<Destinations>().As<IDestinationRepository>();
+            builder.RegisterType<Users>().As<IUserRepository>();
+            builder.RegisterType<DbContext>().As<IDbContext>();
             var container = builder.Build();
             return container;
         }

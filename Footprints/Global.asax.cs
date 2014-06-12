@@ -6,6 +6,12 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Footprints.App_Start;
+using Autofac;
+using Autofac.Integration.Mvc;
+using Autofac.Builder;
+using Autofac.Core;
+using Autofac.Util;
+using Autofac.Features;
 
 namespace Footprints
 {
@@ -18,7 +24,7 @@ namespace Footprints
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //Autofac setup
-            DependencyResolver.SetResolver(Bootstrapper.SetAutofacContainer());
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(Bootstrapper.SetAutofacContainer()));
         }
     }
 }
