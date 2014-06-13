@@ -47,9 +47,6 @@
       <HintPath>..\packages\Autofac.Mvc5.3.3.0\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.2.1402.2112\lib\net40\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="Neo4jClient">
       <HintPath>..\packages\Neo4jClient.1.0.0.656\lib\net40\Neo4jClient.dll</HintPath>
     </Reference>
