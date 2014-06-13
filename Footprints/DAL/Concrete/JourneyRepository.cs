@@ -7,9 +7,9 @@ using Footprints.Models;
 using Neo4jClient;
 namespace Footprints.DAL.Concrete
 {
-    public class Journeys : RepositoryBase<Journey>, IJourneyRepository
+    public class JourneyRepository : RepositoryBase<Journey>, IJourneyRepository
     {
-        public Journeys(IGraphClient client) : base(client) { }
+        public JourneyRepository(IGraphClient client) : base(client) { }
     }
 
     public interface IJourneyRepository : IRepository<Journey> { 

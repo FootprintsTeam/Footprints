@@ -22,11 +22,10 @@ namespace Footprints.App_Start
                 graphClient.Connect();
                 return graphClient;
             }).SingleInstance();
-            builder.RegisterType<Comments>().As<ICommentRepository>();
-            builder.RegisterType<Journeys>().As<IJourneyRepository>();
-            builder.RegisterType<Destinations>().As<IDestinationRepository>();
-            builder.RegisterType<Users>().As<IUserRepository>();
-            builder.RegisterType<DbContext>().As<IDbContext>();
+            builder.RegisterType<CommentRepository>().As<ICommentRepository>();
+            builder.RegisterType<JourneyRepository>().As<IJourneyRepository>();
+            builder.RegisterType<DestinationRepository>().As<IDestinationRepository>();
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
             var container = builder.Build();
             return container;
         }

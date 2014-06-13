@@ -179,17 +179,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Destination\Controllers\DestinationController.cs" />
+    <Compile Include="Areas\Destination\DestinationAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DAL\Abstract\IDbContext.cs" />
     <Compile Include="DAL\Abstract\IRepository.cs" />
     <Compile Include="DAL\Abstract\RepositoryBase.cs" />
     <Compile Include="DAL\Infrastructure\Page.cs" />
-    <Compile Include="DAL\Concrete\Comments.cs" />
-    <Compile Include="DAL\Concrete\DbContext.cs" />
-    <Compile Include="DAL\Concrete\Destinations.cs" />
-    <Compile Include="DAL\Concrete\Journeys.cs" />
-    <Compile Include="DAL\Concrete\Users.cs" />
+    <Compile Include="DAL\Concrete\CommentRepository.cs" />
+    <Compile Include="DAL\Concrete\DestinationRepository.cs" />
+    <Compile Include="DAL\Concrete\JourneyRepository.cs" />
+    <Compile Include="DAL\Concrete\UserRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -200,6 +200,10 @@
     <Compile Include="Models\Journey.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CommentService.cs" />
+    <Compile Include="Service\DestinationService.cs" />
+    <Compile Include="Service\JourneyService.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +216,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Destination\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -255,6 +260,9 @@
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Destination\Models\" />
+    <Folder Include="Areas\Destination\Views\Destination\" />
+    <Folder Include="Areas\Destination\Views\Shared\" />
     <Folder Include="Common\" />
     <Folder Include="Core\ImageProcessors\" />
     <Folder Include="Core\Mailers\" />
@@ -262,7 +270,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Security\ActionFilters\" />
     <Folder Include="Security\Authentication\" />
-    <Folder Include="Service\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
