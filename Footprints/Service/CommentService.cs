@@ -7,10 +7,11 @@ using Footprints.DAL.Concrete;
 namespace Footprints.Service
 {
     public interface ICommentService { }
-    public class CommentService
+    public class CommentService : ICommentService
     {
         ICommentRepository _commentRepo;
-        public CommentService(ICommentRepository commentRepo) {
+        public CommentService(ICommentRepository commentRepo)
+        {
             _commentRepo = commentRepo;
         }
     }
