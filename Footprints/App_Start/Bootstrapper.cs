@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Autofac;
+using Autofac.Integration.Mvc;
 using Neo4jClient;
 using Footprints.DAL.Abstract;
 using Footprints.DAL.Infrastructure;
 using Footprints.DAL.Concrete;
 using System.Web.Mvc;
 using Footprints.Service;
+using System.Reflection;
 
 namespace Footprints.App_Start
 {
@@ -17,10 +19,11 @@ namespace Footprints.App_Start
         public static IContainer SetAutofacContainer()
         {
             var builder = new ContainerBuilder();
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
             //register database connection
             builder.Register<IGraphClient>(context =>
             {
-                var graphClient = new GraphClient(new Uri("http://localhost:7474/db/data"));
+                var graphClient = new GraphClient(new Uri("http://54.255.155.78:7474/db/data"));
                 graphClient.Connect();
                 return graphClient;
             }).SingleInstance();

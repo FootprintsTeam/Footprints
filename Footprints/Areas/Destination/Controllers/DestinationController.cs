@@ -4,14 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Footprints.Service;
+using Neo4jClient;
 
 namespace Footprints.Areas.Destination.Controllers
 {
     public class DestinationController : Controller
     {
-         IDestinationService _destinationService;
+        IDestinationService _destinationService;
 
-        public DestinationController(IDestinationService destinationService) {
+        public DestinationController(IDestinationService destinationService)
+        {
             _destinationService = destinationService;
         }
         //

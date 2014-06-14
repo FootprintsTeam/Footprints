@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Footprints.DAL.Concrete;
 
 namespace Footprints.Service
 {
@@ -9,8 +10,8 @@ namespace Footprints.Service
     }
     public class DestinationService : IDestinationService
     {
-        IDestinationService _destinationRepo;
-        public DestinationService(IDestinationService destinationRepo) {
+        IDestinationRepository _destinationRepo;
+        public DestinationService(IDestinationRepository destinationRepo) {
             _destinationRepo = destinationRepo;
         }
     }
