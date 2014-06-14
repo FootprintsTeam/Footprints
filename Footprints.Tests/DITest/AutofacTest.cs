@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using 
 using Footprints.DAL.Abstract;
 
 namespace Footprints.Tests.DITest
@@ -15,7 +16,7 @@ namespace Footprints.Tests.DITest
         public void CreateDbConnection()
         { 
             //Arrange            
-            
+            var db =  new Mock<I
             //Act
 
             //Assert
