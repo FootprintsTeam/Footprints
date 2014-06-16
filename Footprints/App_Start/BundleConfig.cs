@@ -17,10 +17,10 @@ namespace Footprints
             bundles.Add(new ScriptBundle("~/bundle/jquerymig").Include(
                 "~/Scripts/jquery-migrate-{version}.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundle/nanogalleryscript").Include("~/Script/jquery.nanogallery.min.js"));
-            bundles.Add(new StyleBundle("~/Content/nanogallerycss").Include("~/Content/nanogallery.css"));
+            bundles.Add(new ScriptBundle("~/bundle/nanogalleryscript").Include("~/Scripts/jquery.nanogallery.min.js", "~/Script/jquery.nanogallery.js"));
+            bundles.Add(new StyleBundle("~/Content/nanogallerycss").Include("~/Content/nanogallerycss/nanogallery.css"));
 
-            bundles.Add(new ScriptBundle("~/bundle/destinationscript").Include("~/Script/destinationscript.js"));
+            bundles.Add(new ScriptBundle("~/bundle/destinationscript").Include("~/Scripts/destinationscript.js"));
             bundles.Add(new StyleBundle("~/Content/destinationcss").Include("~/Content/destinationcss.css"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
