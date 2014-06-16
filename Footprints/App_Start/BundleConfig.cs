@@ -17,8 +17,11 @@ namespace Footprints
             bundles.Add(new ScriptBundle("~/bundle/jquerymig").Include(
                 "~/Scripts/jquery-migrate-{version}.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundle/nanogallery").Include("~/Script/jquery.nanogallery.min.js",
-                "~/Content/nanogallery.css"));
+            bundles.Add(new ScriptBundle("~/bundle/nanogalleryscript").Include("~/Script/jquery.nanogallery.min.js"));
+            bundles.Add(new StyleBundle("~/Content/nanogallerycss").Include("~/Content/nanogallery.css"));
+
+            bundles.Add(new ScriptBundle("~/bundle/destinationscript").Include("~/Script/destinationscript.js"));
+            bundles.Add(new StyleBundle("~/Content/destinationcss").Include("~/Content/destinationcss.css"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -30,8 +33,8 @@ namespace Footprints
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap.css"
+                      ));
         }
     }
 }

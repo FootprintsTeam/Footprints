@@ -206,6 +206,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\destinationcss.css" />
     <Content Include="Content\nanogallerycss\font\nano_icon_font.svg" />
     <Content Include="Content\nanogallerycss\loading.gif" />
     <Content Include="Content\nanogallerycss\nanogallery.css" />
@@ -242,6 +243,7 @@
     <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.ttf" />
     <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\destinationscript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
