@@ -17,7 +17,7 @@ namespace Footprints.App_Start
     public class Bootstrapper
     {
         public static IContainer SetAutofacContainer()
-        {
+        {    
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
             //register database connection
