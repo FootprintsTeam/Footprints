@@ -9,10 +9,19 @@ namespace Footprints.DAL.Concrete
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        public UserRepository(IGraphClient client) : base(client) { }        
+        public UserRepository(IGraphClient client) : base(client) { }
+
+        public User getUserByUserID(String userID)
+        {
+            var query = Db.Cypher.Match("(user:User)").Where((User user) => user.userID == userID).Return(user => user.As<User>());
+            return query.Results.First<User>();
+        }
+
     }
+    
 
     public interface IUserRepository : IRepository<User>
-    { }
+    { 
+    }
     
 }

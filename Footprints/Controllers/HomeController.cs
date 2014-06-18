@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Footprints.DAL.Concrete;
+using Neo4jClient;
+using Footprints.Models;
 namespace Footprints.Controllers
 {
     public class HomeController : Controller
@@ -15,8 +17,12 @@ namespace Footprints.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            IGraphClient client;
+            DestinationRepository destinationRepo = new DestinationRepository();
+            Destination destination = destinationRepo.getDestinationInfo("1");
 
+            String message = destination.ToString();
+            ViewBag.Message = message;
             return View();
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Linq.Expressions;
 using Neo4jClient;
+using CypherNet.Configuration;
 
 namespace Footprints.DAL.Abstract
 {
@@ -22,6 +23,7 @@ namespace Footprints.DAL.Abstract
 
         public virtual void Add(T entity)
         {
+            
             return;
         }
         public virtual void Update(T entity)
