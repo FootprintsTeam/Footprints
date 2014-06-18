@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Footprints;
 using Footprints.Controllers;
+using Footprints.DAL.Concrete;
+using Moq;
 
 namespace Footprints.Tests.Controllers
 {
@@ -49,6 +51,17 @@ namespace Footprints.Tests.Controllers
 
             // Assert
             Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void CreateDbConnection()
+        {
+            //Arrange            
+            Mock<IJourneyRepository> testObj = new Mock<IJourneyRepository>();
+            //Act
+            var x = testObj.Object;
+            //Assert
+            Assert.IsNotNull(x);
         }
     }
 }

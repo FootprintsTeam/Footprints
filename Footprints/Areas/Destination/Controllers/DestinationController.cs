@@ -23,6 +23,10 @@ namespace Footprints.Areas.Destination.Controllers
             return View();
         }
 
+        public ActionResult GetComments() {
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // GET: /Destination/Destination/Details/5
         public ActionResult Details(int id)

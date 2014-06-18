@@ -1,0 +1,118 @@
+/*JOURNEY PAGE*/
+body {
+    background-color: #f1f1f1;
+}
+
+#map-canvas, #media-container {
+    height: 500px;
+}
+
+.no-border {
+    border: none !important;
+}
+
+.no-padding {
+    padding: 0px 0px 0px 0px !important;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+
+/*LOWER SECTION*/
+
+#lower-section-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+}
+
+#avatar-container {
+    padding-top: 10px;
+}
+
+lower-comment-section {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+}
+
+/*TABS*/
+.flat-nav-tabs {
+    border-bottom: none;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+}
+
+    .flat-nav-tabs li a {
+        border-radius: 0 !important;
+        border-bottom: 0;
+        border-top: 0;
+        border-right: solid 1px #ddd;
+        margin-right: 0px;
+    }
+
+    .flat-nav-tabs li.active a {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-bottom: 3px solid red;
+        background-color: transparent !important;
+        border-top: 0;
+    }
+
+
+/*AVATAR SECTION*/
+section#avatar-section div, img {
+    display: inline-block;
+    vertical-align: top;
+}
+
+section#avatar-section {
+    width: 400px;
+    height: auto;
+}
+
+div#right-text {
+    margin-left: 10px;
+}
+
+div#media-button-container {
+    width: 400px;
+    height: auto;
+}
+
+div#view-info h2, h4 {
+    display: block;
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+div#seperate-line {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0px 10px 0px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+div#comment-section {
+    height: 500px;
+}
+/*AVATAR SECTION*/
+
+/*JOURNEY PAGE*/
+
+
+/*WELCOME PAGE*/
+div.main-theme {
+    height: 1200px;
+    width: 100%;
+    position: relative;    
+    background: url(beach-footprints.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
