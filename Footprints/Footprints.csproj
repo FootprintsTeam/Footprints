@@ -201,10 +201,10 @@
     <Compile Include="Models\Journey.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\CommentService.cs" />
-    <Compile Include="Service\DestinationService.cs" />
-    <Compile Include="Service\JourneyService.cs" />
-    <Compile Include="Service\UserService.cs" />
+    <Compile Include="Services\CommentService.cs" />
+    <Compile Include="Services\DestinationService.cs" />
+    <Compile Include="Services\JourneyService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

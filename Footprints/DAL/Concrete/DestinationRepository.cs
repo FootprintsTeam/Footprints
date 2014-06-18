@@ -10,10 +10,10 @@ using Footprints.DAL.Concrete;
 namespace Footprints.DAL.Concrete
 {
     public class DestinationRepository : RepositoryBase<DestinationRepository>, IDestinationRepository
-    {        
+    {
         public DestinationRepository(IGraphClient client) : base(client) { }
 
-        public Destination getDestinationInfo(String destinationID){
+        public Destination getDestinationInfoByID(String destinationID){
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.destinationID == destinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>();
         }
@@ -25,8 +25,10 @@ namespace Footprints.DAL.Concrete
     }
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
-    { 
+    {
+        Destination getDestinationInfoByID(String destinationID);
 
+        int getNumberOfLikes(String destinationID);
     }
 
 }

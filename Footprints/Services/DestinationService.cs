@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Footprints.DAL.Concrete;
+using Footprints.Models;
 
 namespace Footprints.Service
 {
@@ -13,6 +14,11 @@ namespace Footprints.Service
         IDestinationRepository _destinationRepo;
         public DestinationService(IDestinationRepository destinationRepo) {
             _destinationRepo = destinationRepo;
+        }
+
+        public Destination getDestinationInfoByID(String destinationID)
+        {
+            return _destinationRepo.getDestinationInfoByID(destinationID);
         }
     }
 }

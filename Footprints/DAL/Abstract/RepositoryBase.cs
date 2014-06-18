@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Linq.Expressions;
 using Neo4jClient;
-using CypherNet.Configuration;
 
 namespace Footprints.DAL.Abstract
 {

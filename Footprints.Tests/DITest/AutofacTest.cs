@@ -13,6 +13,5 @@ namespace Footprints.Tests.DITest
     [TestClass]
     class AutofacTest
     {
-        
     }
 }

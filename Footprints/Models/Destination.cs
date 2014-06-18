@@ -11,11 +11,11 @@ namespace Footprints.Models
 
         public String name { get; set; }
 
-        public String desription { get; set; }
+        public String description { get; set; }
 
-        public float longitude { get; set; }
+        public double longitude { get; set; }
 
-        public float latitude { get; set; }
+        public double latitude { get; set; }
 
         public DateTime takenDate { get; set; }
 
