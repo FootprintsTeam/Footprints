@@ -1,0 +1,434 @@
+﻿@{
+    ViewBag.Title = "Main Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Begin content-->
+<div class="main">
+    <div class="row">
+        <!--column 1-->
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="list-itmes">
+                @{
+                    Html.RenderAction("ItemJourneyPost", "Newsfeed");
+                }
+                <div class="items items-img">
+                    <div class="top-title bg-green-light clearfix">
+                        <div class="avata">
+                            <a href="#"><img src="~/images/avata.jpg" style="width:60px; height: 60px" /></a>
+                        </div>
+                        <div class="box-name">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p>Đã thêm 3 ảnh vào <span class="time-travel">-15 giờ trước</span></p>
+
+                        </div>
+                        <!--pop up menu edit and delete-->
+                        <div class="icon-edit pull-right">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <i class="fa fa-pencil fa-1x"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li>
+                                        <a href="#">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Delete</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End-->
+                    </div>
+                    <div class="inner-all">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <a href="#"><img src="~/images/~/images.jpg" class="img-responsive" /></a>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <a href="#"><img src="~/images/img2.jpg" class="img-responsive" /></a>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                <a href="#"><img src="~/images/~/images.jpg" class="img-responsive" /></a>
+                            </div>
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <a href="#" class="txt-like">Like</a>
+                                <a href="#" class="txt-view">View detail</a>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-right">
+                                <div class="total-like">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    15
+                                </div>
+                                <div class="total-comment">
+                                    <i class="fa fa-comment-o"></i>
+                                    10
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row top-border bg-gray">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                <div class="avata">
+                                    <a href="#"><img src="~/images/avata.jpg" style="width:30px; height: 30px" /></a>
+                                </div>
+                                <div class="box-right">
+                                    <input type="text" class="form-control" id="" placeholder="Your comment here..">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--column 2-->
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="list-itmes">
+                <div class="items">
+                    <div class="top-title bg-gray clearfix">
+                        <div class="avata">
+                            <a href="#"><img src="~/images/avata.jpg" style="width:60px; height: 60px" /></a>
+                        </div>
+                        <div class="box-name">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p>Đã khởi động một chuyến đi <span class="time-travel">-15 giờ trước</span></p>
+
+                        </div>
+                        <!--pop up menu edit and delete-->
+                        <div class="icon-edit pull-right">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <i class="fa fa-pencil fa-1x"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li>
+                                        <a href="#">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Delete</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End-->
+                    </div>
+                    <div class="inner-all">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <div class="map">
+                                    <img src="~/images/map2.jpg" class="img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <div class="text-inverse ">Tại Hà Nội <span class="number-img">- 3 ảnh</span></div>
+                                <div class="txt-content">
+                                    Nội dung
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <a href="#" class="txt-like">Like</a>
+                                <a href="#" class="txt-view">View detail</a>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-right">
+                                <div class="total-like">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    15
+                                </div>
+                                <div class="total-comment">
+                                    <i class="fa fa-comment-o"></i>
+                                    10
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-12">
+
+                                <a href="#">View all 10 comment</a>
+                            </div>
+
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-12">
+                                <div class="avata ">
+                                    <a href="#"><img src="~/images/avata.jpg" style="width:30px; height: 30px" /></a>
+                                </div>
+                                <div class="box-right">
+                                    <p><a href="#" class="name-member">Nam</a> <span class="time-travel">-15 giờ trước</span></p>
+                                    <p>Tuyệt vời </p>
+                                    <p><a href="#" class="">Like</a> <span class="time-travel">-15 giờ trước</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-border bg-gray">
+                            <div class="col-md-12">
+                                <div class="avata ">
+                                    <a href="#"><img src="~/images/avata.jpg" style="width:30px; height: 30px" /></a>
+                                </div>
+                                <div class="box-right">
+                                    <input type="text" class="form-control" id="" placeholder="Your comment here..">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="items items-img">
+                    <div class="top-title bg-green-light clearfix">
+                        <div class="avata">
+                            <a href="#"><img src="~/images/avata.jpg" style="width:60px; height: 60px" /></a>
+                        </div>
+                        <div class="box-name">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p>Đã bình luận về một chuyến đi <span class="time-travel">-15 giờ trước</span></p>
+
+                        </div>
+                        <!--pop up menu edit and delete-->
+                        <div class="icon-edit pull-right">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <i class="fa fa-pencil fa-1x"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li>
+                                        <a href="#">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Delete</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End-->
+                    </div>
+                    <div class="inner-all">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <div class="map">
+                                    <img src="~/images/map2.jpg" class="img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <div class="text-inverse ">Tại Hà Nội <span class="number-img">- 3 ảnh</span></div>
+                                <div class="txt-content">
+                                    <p>Tạo bởi - <span class="relationship-member"> Chiến Thắng</span></p>
+                                    <p>2 ngày trước</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <a href="#" class="txt-like">Like</a>
+                                <a href="#" class="txt-view">View detail</a>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-right">
+                                <div class="total-like">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    15
+                                </div>
+                                <div class="total-comment">
+                                    <i class="fa fa-comment-o"></i>
+                                    10
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--column 3-->
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <div class="list-itmes">
+                <div class="items">
+                    <div class="top-title bg-gray clearfix">
+                        <div class="avata">
+                            <a href="#"><img src="~/images/avata.jpg" style="width:60px; height: 60px" /></a>
+                        </div>
+                        <div class="box-name">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p>Đã thêm địa điểm mới <span class="time-travel">-15 giờ trước</span></p>
+
+                        </div>
+                        <!--pop up menu edit and delete-->
+                        <div class="icon-edit pull-right">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <i class="fa fa-pencil fa-1x"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li>
+                                        <a href="#">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Delete</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End-->
+                    </div>
+                    <div class="inner-all">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-ms-12 col-xs-12">
+                                <div class="map">
+                                    <img src="~/images/map.jpg" class="img-responsive">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                                <a href="#" class="txt-like">Like</a>
+                                <a href="#" class="txt-view">View detail</a>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 text-right">
+                                <div class="total-like">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    15
+                                </div>
+                                <div class="total-comment">
+                                    <i class="fa fa-comment-o"></i>
+                                    10
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-12">
+
+                                <a href="#">View all 10 comment</a>
+                            </div>
+
+                        </div>
+                        <div class="row top-border">
+                            <div class="col-md-12">
+                                <div class="avata">
+                                    <a href="#"><img src="~/images/avata.jpg" style="width:30px; height: 30px" /></a>
+                                </div>
+                                <div class="box-right">
+                                    <p><a href="#" class="name-member">Nam</a> <span class="time-travel">-15 giờ trước</span></p>
+                                    <p>Tuyệt vời </p>
+                                    <p><a href="#" class="txt-like">Like</a> <span class="time-travel">-40 người thích </span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row top-border bg-gray">
+                            <div class="col-md-12">
+                                <div class="avata">
+                                    <a href="#"><img src="~/images/avata.jpg" style="width:30px; height: 30px" /></a>
+                                </div>
+                                <div class="box-right">
+                                    <input type="text" class="form-control" id="" placeholder="Your comment here..">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="items items-img">
+                    <div class="top-title bg-green-light clearfix">
+                        <div class="avata">
+                            <a href="#"><img src="~/images/avata.jpg" style="width:60px; height: 60px" /></a>
+                        </div>
+                        <div class="box-name">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p>Giờ đã là bạn của <span class="relationship-member"> Tuấn Nguyễn </span> <span class="time-travel">-15 giờ trước</span></p>
+
+                        </div>
+                        <!--pop up menu edit and delete-->
+                        <div class="icon-edit pull-right">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <i class="fa fa-pencil fa-1x"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li>
+                                        <a href="#">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Delete</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End-->
+                    </div>
+                    <div class="inner-all">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 col-ms-4 col-xs-6">
+                                <div class="map">
+                                    <img src="~/images/avata2.jpg" class="img-responsive">
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-lg-8 col-ms-8 col-xs-6">
+                                <div class="desc-rel">
+                                    <p class="relationship-member">Tuấn Nguyễn</p>
+                                    <p>200 chuyến đi<p>
+                                    <p>600 bạn</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="items items-chage-avata">
+                    <div class="top-title bg-green-light clearfix">
+                        <div class="avata">
+                            <a href="#"><img src="~/images/avata.jpg" style="width:60px; height: 60px" /></a>
+                        </div>
+                        <div class="box-name">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p>Đã thay đổi Avata <span class="time-travel">-15 giờ trước</span></p>
+
+                        </div>
+                        <!--pop up menu edit and delete-->
+                        <div class="icon-edit pull-right">
+                            <div class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <i class="fa fa-pencil fa-1x"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li>
+                                        <a href="#">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Delete</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End-->
+                    </div>
+                    <div class="inner-all">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-ms-12 col-xs-12">
+                                <div class="map">
+                                    <img src="~/images/avata2.jpg" class="img-responsive">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- End content-->

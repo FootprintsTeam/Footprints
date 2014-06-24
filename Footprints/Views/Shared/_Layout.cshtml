@@ -1,85 +1,152 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/mycss")
 </head>
 <body>
-    <div id="body">
-        <nav class="navbar navbar-default no-margin" style="border-radius:0 !important" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="row">
-                    <div class="col-sm-1 col-sm-offset-1">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="#"><b>Footprints</b></a>
+    <div class="header bg-green-light navbar-fixed-top">
+        <div class="container ">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-ms-2 col-xs-6">
+                    <div class="logo">
+                        <a href="#">
+                            <!--<img src="" class="img-responsive"/>-->
+                            <i class="fa fa-sun-o fa-3x" style="color:#fff"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-ms-6 col-xs-6">
+                    <div class="navbar-header">
+                        <button data-target=".bs-collapse-form" type="button" class="navbar-toggle" data-toggle="collapse">
+                            <i class="fa fa-search fa-3x"></i>
+                        </button>
+                    </div>
+                    <div class="navbar">
+                        <div class="navbar-collapse collapse bs-collapse-form">
+                            <div class="form-ground ">
+                                <form id="search_mini_form" class="btn-search" role="search">
+                                    <button class="button">
+                                        <i class="fa fa-search "></i>
+                                    </button>
+                                    <input type="text" name="q" class="search-header text-input" id="search" autocomplete="on">
+                                </form>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-ms-4 col-xs-12">
+                    <div class="div-nav">
+                        <a href="#responsive" data-toggle="modal" data-target=".bs-create-journey" class="">
+                            <i class="fa fa-plus"></i>
+                            New Journey
+                        </a>
+                    </div>
+                    <!--Popup of page new journey-->
+                    <div id="responsive" class="modal fade bs-create-journey" data-toggle="modal" tabindex="-1" data-width="760" style="display: none;">
+                        <div class="modal-header bg-green-light text-center">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Create new journey</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 control-label">Name</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 control-label">Description</label>
+                                            <div class="col-sm-9">
+                                                <textarea class="txt-desc" rows="3"></textarea>
 
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="nav-bar-collapse">
-                        <!--search group-->
-                        <div class="col-sm-4">
-                            <form class="navbar-form navbar-left" role="search">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon glyphicon-search"></span></button>
-                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 control-label">Location</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="" placeholder="">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 control-label">Map Pin</label>
+                                            <div class="col-sm-9">
+                                                <img src="images/map.jpg" class="img-responsive">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-2 control-label">Time</label>
+                                            <div class="col-sm-2 input-calendar">
+                                                <input type="date" class="form-control" id="" placeholder="">
+
+                                            </div>
+                                            <i class="fa fa-calendar fa-2x"></i>
+                                        </div>
                                     </div>
                                 </div>
 
-                            </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">Create </button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+                            </div>
                         </div>
 
-                        <!--right nav bar group-->
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#"><b>My Page</b></a></li>
-                            <li><a href="#"><b>Timeline</b></a></li>
-                            <li><a href="#"><b>Gallery</b></a></li>
-                            <li><a href="#"><b>Friends</b></a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Settings</b><span class="glyphicon glyphicon-chevron-down"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
+                    </div>
+                    <!--End popup-->
+
+
+                    <div class="div-nav">
+                        <a href="#" class="mypage">
+                            <i class="fa fa-user "></i>
+                            My page
+                        </a>
+                    </div>
+                    <div class="div-nav">
+                        <a href="#">
+                            <i class="fa icon-users"></i>
+                            Friend
+                        </a>
+                    </div>
+                    <div class="div-nav">
+                        <div class="dropdown">
+                            <a data-toggle="dropdown" href="#">
+                                <i class="fa fa-caret-down fa-2x"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li>
+                                    <a href="#">New Journey</a>
+                                </li>
+                                <li>
+                                    <a href="#">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="#">Report</a>
+                                </li>
+                                <li>
+                                    <a href="#">Exit</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </nav>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Footprints Project</p>
-            </footer>
         </div>
     </div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCENqxOk_1aIxTllx-AMHYsaCRdoNQ8fJU&sensor=SET_TO_TRUE_OR_FALSE"
-            type="text/javascript"></script>
+
+    @RenderBody();
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundle/destinationscript")
-    @Styles.Render("~/Content/destinationcss")
-    @Scripts.Render("~/bundle/nanogalleryscript")
-    @Styles.Render("~/Content/nanogallerycss")
     @RenderSection("scripts", required: false)
 </body>
 </html>
