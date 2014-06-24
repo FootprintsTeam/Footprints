@@ -98,7 +98,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DITest\AutofacTest.cs" />
-    <Compile Include="DITest\DestinationTest.cs" />
+    <Compile Include="DITest\CommentDALTest.cs" />
+    <Compile Include="DITest\DestinationDALTest.cs" />
+    <Compile Include="DITest\JourneyDALTest.cs" />
+    <Compile Include="DITest\UserDALTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>

@@ -20,5 +20,10 @@ namespace Footprints.Service
         {
             return _destinationRepo.getDestinationInfoByID(destinationID);
         }
+
+        public int getNumberOfLikes(String destinationID)
+        {
+            return _destinationRepo.getNumberOfLikes(destinationID);
+        }
     }
 }

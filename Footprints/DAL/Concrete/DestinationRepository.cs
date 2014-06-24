@@ -14,8 +14,9 @@ namespace Footprints.DAL.Concrete
         public DestinationRepository(IGraphClient client) : base(client) { }
 
         public Destination getDestinationInfoByID(String destinationID){
-            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.destinationID == destinationID).Return(destination => destination.As<Destination>());
-            return query.Results.First<Destination>();
+            var query = Db.Cypher.Start
+            //var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.destinationID == destinationID).Return(destination => destination.As<Destination>());
+            //return query.Results.First<Destination>();
         }
 
         public int getNumberOfLikes(String destinationID){
