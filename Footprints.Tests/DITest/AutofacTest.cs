@@ -10,8 +10,5 @@ using Footprints.DAL.Concrete;
 
 namespace Footprints.Tests.DITest
 {
-    [TestClass]
-    class AutofacTest
-    {
-    }
+    
 }

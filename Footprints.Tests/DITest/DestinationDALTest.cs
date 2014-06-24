@@ -12,7 +12,7 @@ using Footprints.Service;
 namespace Footprints.Tests.DITest
 {
     [TestClass]
-    public class DestinationDALTest
+    class DestinationDALTest
     {
         [TestMethod]
         public void getDestinationInfoByID()
