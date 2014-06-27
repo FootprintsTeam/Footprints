@@ -12,7 +12,7 @@ using Footprints.Service;
 namespace Footprints.Tests.DITest
 {
     [TestClass]
-    class DestinationDALTest
+    public class DestinationDALTest
     {
         [TestMethod]
         public void getDestinationInfoByID()
@@ -46,6 +46,31 @@ namespace Footprints.Tests.DITest
 
             //--3. Assert ---
         }
+
+        [TestMethod]
+        public void addNewDestination() 
+        {
+            //--1. Arrange ---
+            Destination destination = new Destination
+            {
+                destinationID = "2",
+                name = "Footprints 2",
+                description = "Footprints 2",
+                longitude = 105.838938,
+                latitude = 21.036476,
+                takenDate = DateTime.Today,
+                numberOfLikes = 0,
+                timestamp = DateTime.Today,             
+            };
+            var repository = new Mock<IDestinationRepository>();
+            repository.Setup(m => m.addNewDestination(destination));
+            var service = new DestinationService(repository.Object);
+            //--2. Act ---
+            var node = service.addNewDestination(destination);
+            //--3. Assert ---
+            Assert.IsTrue(node != null);
+        }
+
     }
 
 

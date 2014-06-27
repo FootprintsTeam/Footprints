@@ -16,6 +16,11 @@ namespace Footprints.Service
             _destinationRepo = destinationRepo;
         }
 
+        public CypherNet.Graph.Node addNewDestination(Destination destination)
+        {
+            return _destinationRepo.addNewDestination(destination);
+        }
+
         public Destination getDestinationInfoByID(String destinationID)
         {
             return _destinationRepo.getDestinationInfoByID(destinationID);
