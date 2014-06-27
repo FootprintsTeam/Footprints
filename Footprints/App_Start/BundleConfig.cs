@@ -35,7 +35,7 @@ namespace Footprints
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css"
                       ));
-            bundles.Add(new StyleBundle("~/mycss").Include("~/Content/style.css", "~/Content/font-awesome.min.css", "~/Content/Site.css"));
+            bundles.Add(new StyleBundle("~/mycss").Include("~/Content/style.css", "~/Content/font-awesome.min.css"));
         }
     }
 }
