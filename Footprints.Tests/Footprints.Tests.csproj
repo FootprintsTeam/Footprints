@@ -103,6 +103,7 @@
     <Compile Include="DITest\DestinationDALTest.cs" />
     <Compile Include="DITest\JourneyDALTest.cs" />
     <Compile Include="DITest\UserDALTest.cs" />
+    <Compile Include="ModelViews\NewsfeedViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
