@@ -7,7 +7,7 @@ namespace Footprints.Models
 {
     public class Content
     {
-        public String contentID { get; set; }
+        public Guid contentID { get; set; }
 
         public String name { get; set; }
 

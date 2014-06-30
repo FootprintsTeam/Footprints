@@ -68,6 +68,7 @@ namespace Footprints.Tests.DITest
             //--2. Act ---
             var node = service.addNewDestination(destination);
             //--3. Assert ---
+            repository.Verify(s => s.addNewDestination(destination));
             Assert.IsTrue(node != null);
         }
 

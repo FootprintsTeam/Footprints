@@ -7,13 +7,13 @@ namespace Footprints.Models
 {
     public class Comment
     {
-        public String commentID { get; set; }
+        public Guid commentID { get; set; }
 
         public String content{get; set;}
 
-        public String destinationID { get; set; }
+        public Guid destinationID { get; set; }
 
-        public String journeyID { get; set; }
+        public Guid journeyID { get; set; }
 
         public int numberOfLikes { get; set; }
 

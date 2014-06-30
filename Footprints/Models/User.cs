@@ -8,7 +8,7 @@ namespace Footprints.Models
     public class User
     {
 
-        public String userID { get; set; }
+        public Guid userID { get; set; }
 
         public String firstName { get; set; }
 

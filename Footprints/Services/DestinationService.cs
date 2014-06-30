@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Footprints.DAL.Concrete;
 using Footprints.Models;
-
+using Neo4jClient;
 namespace Footprints.Service
 {
     public interface IDestinationService { 
@@ -16,9 +16,9 @@ namespace Footprints.Service
             _destinationRepo = destinationRepo;
         }
 
-        public CypherNet.Graph.Node addNewDestination(Destination destination)
+        public Node<Destination> addNewDestination(Destination destination)
         {
-            return _destinationRepo.addNewDestination(destination);
+           return _destinationRepo.addNewDestination(destination);
         }
 
         public Destination getDestinationInfoByID(String destinationID)

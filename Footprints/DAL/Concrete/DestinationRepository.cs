@@ -14,17 +14,31 @@ namespace Footprints.DAL.Concrete
     public class DestinationRepository : RepositoryBase<DestinationRepository>, IDestinationRepository
     {
         public DestinationRepository(IGraphClient client) : base(client) { }
+        
+        //public CypherNet.Graph.Node addNewDestination(Destination destination){
+        //    var clientFactory = CypherNet.Configuration.Fluently.Configure("http://54.255.155.78:7474/db/data").CreateSessionFactory();
+        //    var cypherEndpoint = clientFactory.Create();
+        //    CypherNet.Graph.Node destinationNode;
+        //    using (var transaction = new TransactionScope(TransactionScopeOption.RequiresNew, TimeSpan.FromDays(1)))
+        //    {
+        //        destinationNode = cypherEndpoint.CreateNode(destination, "Destination");
+        //        // transaction.Complete();
+        //        return destinationNode;
+        //    }
+        //}
 
-        public CypherNet.Graph.Node addNewDestination(Destination destination){
-            var clientFactory = CypherNet.Configuration.Fluently.Configure("http://54.255.155.78:7474/db/data").CreateSessionFactory();
-            var cypherEndpoint = clientFactory.Create();
-            CypherNet.Graph.Node destinationNode;
-            using (var transaction = new TransactionScope(TransactionScopeOption.RequiresNew))
-            {
-                destinationNode = cypherEndpoint.CreateNode(destination, "Destination");
-                transaction.Complete();
-            }
-            return destinationNode;
+        public Node<Destination> addNewDestination(Destination destination)
+        {
+            var node = Db.Cypher.Create("(destination:Destination {destination})").
+                WithParams(new { destination }).
+                Return(dest => dest.Node<Destination>()).
+                Results.Single();
+            return node; 
+            //using (TransactionScope transaction = new TransactionScope(TransactionScopeOption.RequiresNew))
+            //{
+            //    Db.Cypher.Create("(destination:Destination {destination})").WithParams(new { destination }).ExecuteWithoutResults();
+            //    transaction.Complete();
+            //}
         }
 
         public Destination getDestinationInfoByID(String destinationID){            
@@ -44,7 +58,7 @@ namespace Footprints.DAL.Concrete
 
         int getNumberOfLikes(String destinationID);
 
-        CypherNet.Graph.Node addNewDestination(Destination destination);
+        Node<Destination> addNewDestination(Destination destination);
     }
 
 }

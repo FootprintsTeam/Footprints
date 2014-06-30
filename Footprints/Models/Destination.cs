@@ -7,7 +7,7 @@ namespace Footprints.Models
 {
     public class Destination
     {
-        public String destinationID { get; set; }
+        public Guid destinationID { get; set; }
 
         public String name { get; set; }
 
