@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Footprints.ViewModels;
 namespace Footprints.Areas.Newsfeed.Controllers
 {
     public class NewsfeedController : Controller
@@ -12,12 +12,13 @@ namespace Footprints.Areas.Newsfeed.Controllers
         // GET: /Newsfeed/Newsfeed/
         public ActionResult Index()
         {
-            return View();
+            var model = NewsfeedPostViewModel.GetSampleObject();
+            return View(model);
         }
 
         [ChildActionOnly]
-        public ActionResult ItemJourneyPost()
-        {
+        public PartialViewResult ItemJourneyPost()
+        {            
             return new PartialViewResult();
         }
 	}

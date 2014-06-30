@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Footprints.ViewModels.NewsfeedPostViewModel>
+
+@{
     ViewBag.Title = "Main Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,8 +11,9 @@
         <!--column 1-->
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <div class="list-itmes">
-                @{
-                    Html.RenderAction("ItemJourneyPost", "Newsfeed");
+                @foreach(var p in Model)
+                {
+                    Html.RenderPartial("ItemJourneyPost", p);
                 }
                 <div class="items items-img">
                     <div class="top-title bg-green-light clearfix">

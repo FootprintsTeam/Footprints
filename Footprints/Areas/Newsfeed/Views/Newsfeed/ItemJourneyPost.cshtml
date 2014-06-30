@@ -1,11 +1,13 @@
-﻿<div class="items">
+﻿@model Footprints.ViewModels.NewsfeedPostViewModel
+
+<div class="items">
     <div class="top-title bg-gray clearfix">
         <div class="avata">
             <a href="#"><img src="~/images/avata.jpg" style="width:60px; height: 60px" /></a>
         </div>
         <div class="box-name">
-            <a href="#" class="name-member">Trịnh Nhân</a>
-            <p>Đã khởi động một chuyến đi <span class="time-travel">-15 giờ trước</span></p>
+            @Html.ActionLink(@*"Trịnh Nhân"*@ @Model.AuthorName, "Index", null, new {@class = "name-member"})
+            <p>Đã khởi động một chuyến đi <span class="time-travel">-@*15 giờ trước*@ @Model.TimeAgo</span></p>
         </div>
         <!--pop up menu edit and delete-->
         <div class="icon-edit pull-right">
@@ -33,9 +35,10 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="text-inverse ">Tại Hà Nội <span class="number-img">- 3 ảnh</span></div>
+                <div class="text-inverse ">@*Tại Hà Nội*@ @Model.Location<span class="number-img">- @Model.NumberOfImages ảnh</span></div>
                 <div class="txt-content">
-                    Nội dung
+                    @*Nội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dungNội dung*@
+                    @Model.Description
                 </div>
             </div>
         </div>
@@ -47,31 +50,33 @@
             <div class="col-md-6 text-right">
                 <div class="total-like">
                     <i class="fa fa-thumbs-up"></i>
-                    15
+                    @Model.NumberOfLikes
                 </div>
                 <div class="total-comment">
                     <i class="fa fa-comment-o"></i>
-                    10
+                    @Model.NumberOfComments
                 </div>
             </div>
         </div>
         <div class="row top-border">
             <div class="col-md-12">
-                <a href="#">View all 10 comment</a>
+                <a href="#">View all @Model.NumberOfComments comment</a>
             </div>
         </div>
+        @foreach (var comment in Model.Comments) { 
         <div class="row top-border">
             <div class="col-md-12">
                 <div class="avata">
                     <a href="#"><img src="~/images/avata.jpg" style="width:30px; height: 30px" /></a>
                 </div>
                 <div class="box-right">
-                    <p><a href="#" class="name-member">Nam</a> <span class="time-travel">-15 giờ trước</span></p>
-                    <p>Tuyệt vời </p>
-                    <p><a href="#" class="">Like</a> <span class="time-travel">-15 giờ trước</span></p>
+                    <p><a href="#" class="name-member">@comment.UserCommentName</a> <span class="time-travel">-@comment.TimeAgo</span></p>
+                    <p>@comment.Content </p>
+                    <p><a href="#" class="">Like</a> <span class="time-travel">-@comment.TimeAgo</span></p>
                 </div>
             </div>
         </div>
+        }
         <div class="row top-border bg-gray">
             <div class="col-md-12">
                 <div class="avata">

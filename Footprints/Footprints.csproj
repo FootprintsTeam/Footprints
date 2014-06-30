@@ -182,6 +182,7 @@
     <Compile Include="Areas\Destination\DestinationAreaRegistration.cs" />
     <Compile Include="Areas\Newsfeed\Controllers\NewsfeedController.cs" />
     <Compile Include="Areas\Newsfeed\NewsfeedAreaRegistration.cs" />
+    <Compile Include="Common\DateTimeFormat.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\Abstract\IRepository.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Services\JourneyService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -287,14 +289,12 @@
     <Folder Include="Areas\Destination\Models\" />
     <Folder Include="Areas\Newsfeed\Models\" />
     <Folder Include="Areas\Newsfeed\Views\Shared\" />
-    <Folder Include="Common\" />
     <Folder Include="Core\ImageProcessors\" />
     <Folder Include="Core\Mailers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Helpers\" />
     <Folder Include="Security\ActionFilters\" />
     <Folder Include="Security\Authentication\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
