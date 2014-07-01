@@ -211,8 +211,26 @@
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\destinationcss.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\nanogallerycss\font\nano_icon_font.svg" />
+    <Content Include="Content\nanogallerycss\loading.gif" />
+    <Content Include="Content\nanogallerycss\nanogallery.css" />
+    <Content Include="Content\nanogallerycss\nano_gallery.png" />
+    <Content Include="Content\nanogallerycss\nano_image.png" />
+    <Content Include="Content\nanogallerycss\themes\clean\font\nano_icon_font.svg" />
+    <Content Include="Content\nanogallerycss\themes\clean\loading.gif" />
+    <Content Include="Content\nanogallerycss\themes\clean\nanogallery_clean.css" />
+    <Content Include="Content\nanogallerycss\themes\clean\nano_gallery.png" />
+    <Content Include="Content\nanogallerycss\themes\clean\nano_image.png" />
+    <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.svg" />
+    <Content Include="Content\nanogallerycss\themes\light\loading.gif" />
+    <Content Include="Content\nanogallerycss\themes\light\nanogallery_light.css" />
+    <Content Include="Content\nanogallerycss\themes\light\nano_gallery.png" />
+    <Content Include="Content\nanogallerycss\themes\light\nano_image.png" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -240,6 +258,15 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Content\nanogallerycss\font\nano_icon_font.eot" />
+    <Content Include="Content\nanogallerycss\font\nano_icon_font.ttf" />
+    <Content Include="Content\nanogallerycss\font\nano_icon_font.woff" />
+    <Content Include="Content\nanogallerycss\themes\clean\font\nano_icon_font.eot" />
+    <Content Include="Content\nanogallerycss\themes\clean\font\nano_icon_font.ttf" />
+    <Content Include="Content\nanogallerycss\themes\clean\font\nano_icon_font.woff" />
+    <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.eot" />
+    <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.ttf" />
+    <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
