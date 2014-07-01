@@ -13,7 +13,7 @@ namespace Footprints.DAL.Concrete
 
 
 
-        public int getNumberOfLikes(String journeyID)
+        public int getNumberOfLikes(Guid journeyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.journeyID == journeyID).Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>().numberOfLikes;

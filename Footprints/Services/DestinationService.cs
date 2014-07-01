@@ -21,12 +21,12 @@ namespace Footprints.Service
            return _destinationRepo.addNewDestination(destination);
         }
 
-        public Destination getDestinationInfoByID(String destinationID)
+        public Destination getDestinationInfoByID(Guid destinationID)
         {
             return _destinationRepo.getDestinationInfoByID(destinationID);
         }
 
-        public int getNumberOfLikes(String destinationID)
+        public int getNumberOfLikes(Guid destinationID)
         {
             return _destinationRepo.getNumberOfLikes(destinationID);
         }

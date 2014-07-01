@@ -13,13 +13,13 @@ namespace Footprints.DAL.Concrete
 
         //TODO
 
-        public List<Comment> getCommentByJourneyID(String journeyID)
+        public List<Comment> getCommentByJourneyID(Guid journeyID)
         {
             var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.journeyID == journeyID).Return(comment => comment.As<Comment>());
             return query.Results.ToList<Comment>();
         }
 
-        public List<Comment> getCommentByDestinationID(String destinationID)
+        public List<Comment> getCommentByDestinationID(Guid destinationID)
         {
             var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.destinationID == destinationID).Return(comment => comment.As<Comment>());
             return query.Results.ToList<Comment>();

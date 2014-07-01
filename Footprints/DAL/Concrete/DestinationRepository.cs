@@ -41,12 +41,12 @@ namespace Footprints.DAL.Concrete
             //}
         }
 
-        public Destination getDestinationInfoByID(String destinationID){            
+        public Destination getDestinationInfoByID(Guid destinationID){            
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.destinationID == destinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>();
         }
 
-        public int getNumberOfLikes(String destinationID){
+        public int getNumberOfLikes(Guid destinationID){
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.destinationID == destinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>().numberOfLikes;
         }        
@@ -54,9 +54,9 @@ namespace Footprints.DAL.Concrete
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
-        Destination getDestinationInfoByID(String destinationID);
+        Destination getDestinationInfoByID(Guid destinationID);
 
-        int getNumberOfLikes(String destinationID);
+        int getNumberOfLikes(Guid destinationID);
 
         Node<Destination> addNewDestination(Destination destination);
     }

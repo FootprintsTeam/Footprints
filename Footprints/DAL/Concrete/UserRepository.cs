@@ -11,7 +11,7 @@ namespace Footprints.DAL.Concrete
     {
         public UserRepository(IGraphClient client) : base(client) { }
 
-        public User getUserByUserID(String userID)
+        public User getUserByUserID(Guid userID)
         {
             var query = Db.Cypher.Match("(user:User)").Where((User user) => user.userID == userID).Return(user => user.As<User>());
             return query.Results.First<User>();
