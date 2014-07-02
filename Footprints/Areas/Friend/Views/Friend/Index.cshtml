@@ -1,0 +1,209 @@
+﻿@model IEnumerable<Footprints.ViewModels.FriendViewModel>
+
+@{
+    ViewBag.Title = "Friend";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+	<!-- Begin content-->
+<div class="main">
+    <div class="container">
+        <div class="row ">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="top-friend bg-green-light">
+                    <div class="pull-left">
+                        <p> <i class="fa icon-users"></i><span class="friends">Friends</span> <span>25 people</span></p>
+                    </div>
+                    <div class="pull-right">
+                        <div class="form-ground ">
+                            <form role="search" class="btn-search" id="search_mini_form">
+                                <button class="button">
+                                    <i class="fa fa-search "></i>
+                                </button>
+                                <input type="text" autocomplete="on" id="search" class="search-header text-input" name="q">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!--column 1-->
+
+            @foreach (var p in Model)
+            {
+                Html.RenderPartial("EachFriendArea", p);
+            }
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style ">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style ">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="list-friends bg-style">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                        <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+                        <div class="box-name pull-left">
+                            <a href="#" class="name-member">Trịnh Nhân</a>
+                            <p class="mrt-20">Đã kết bạn từ <span class="time-travel">2010</span></p>
+
+                        </div>
+                        <div class="pull-right">
+                            <button class="button btn-unfriend">
+                                <span>Unfriend</span>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <!-- End content-->
+        </div>
+    </div>
+</div>

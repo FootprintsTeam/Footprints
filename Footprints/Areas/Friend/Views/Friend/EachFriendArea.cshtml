@@ -1,0 +1,23 @@
+﻿@model Footprints.ViewModels.FriendViewModel
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="list-friends bg-style">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+            <a href="#"><img src="~/images/images.jpg" class="img-responsive" /></a> <!--You can resize img-->
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-8">
+            <div class="box-name pull-left">
+                <a href="#" class="name-member">@Model.UserName</a>
+                <p class="mrt-20">Đã kết bạn từ <span class="time-travel">@Model.TimeAgo</span></p>
+
+            </div>
+            <div class="pull-right">
+                <button class="button btn-unfriend">
+                    <span>Unfriend</span>
+                </button>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

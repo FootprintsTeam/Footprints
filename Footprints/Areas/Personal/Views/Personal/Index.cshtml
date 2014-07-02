@@ -1,0 +1,120 @@
+﻿@model Footprints.ViewModels.PersonalViewModel
+
+@{
+    ViewBag.Title = "Personal Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Begin content-->
+@foreach (var p in Model) { 
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="bg-style ">
+                    <p class="padding-bg bg-gray"><strong>Basic infor</strong></p>
+                    <ul class="infor">
+                        <li>
+                            <div class="title">
+                                <i class="fa fa-user "></i>
+                                Account name
+                            </div>
+                            <div class="tx-content">@Model.UserName</div>
+                        </li>
+                        <li>
+                            <div class="title">
+                                <i class="fa fa-calendar "></i>
+                                Joined since
+                            </div>
+                            <div class="tx-content">20/12/1995</div>
+                        </li>
+                        <li>
+                            <div class="title">
+                                <i class="fa fa-home "></i>Address
+                            </div>
+                            <div class="tx-content">@Model.Address</div>
+                        </li>
+                        <li>
+                            <div class="title">
+                                <i class="fa fa-phone  "></i>
+                                Phone
+                            </div>
+                            <div class="tx-content">@Model.Phone</div>
+                        </li>
+                        <li>
+                            <div class="title">
+                                <i class="fa fa-envelope  "></i>Email
+                            </div>
+                            <div class="tx-content">@Model.Email</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="bg-style">
+                            <p class="padding-bg bg-green-light"><strong>Status</strong></p>
+                            <div class="padding-bg">
+                                somewhere.....
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="bg-style mrt-20">
+                            <p class="padding-bg bg-green-light"><strong>Statistics</strong></p>
+                            <div class="list-statis clearfix ">
+                                <ul>
+                                    <li>
+                                        <div class="name-statis pull-left">
+                                            <i class="fa fa-users "></i>
+                                            Journey
+                                        </div>
+                                        <div class="number-statis pull-left">500</div>
+                                        <div class="txt-view pull-right">
+                                            <a href="#">View list</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="name-statis pull-left">
+                                            <i class="fa icon-users "></i>
+                                            Destinations
+                                        </div>
+                                        <div class="number-statis pull-left">400</div>
+                                        <div class="txt-view pull-right">
+                                            <a href="#">View list</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="name-statis pull-left">
+                                            <i class="fa icon-users "></i>
+                                            Friends
+                                        </div>
+                                        <div class="number-statis pull-left">500</div>
+                                        <div class="txt-view pull-right">
+                                            <a href="#">View list</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="name-statis pull-left">
+                                            <i class="fa fa-comment-o"></i>
+                                            Comment
+                                        </div>
+                                        <div class="number-statis pull-left">500</div>
+                                        <div class="txt-view pull-right">
+                                            <a href="#">View list</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

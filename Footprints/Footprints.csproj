@@ -184,8 +184,12 @@
     <Compile Include="Areas\Journey\JourneyAreaRegistration.cs" />
     <Compile Include="Areas\Media\Controllers\MediaController.cs" />
     <Compile Include="Areas\Media\MediaAreaRegistration.cs" />
+    <Compile Include="Areas\Friend\Controllers\FriendController.cs" />
+    <Compile Include="Areas\Friend\FriendAreaRegistration.cs" />
     <Compile Include="Areas\Newsfeed\Controllers\NewsfeedController.cs" />
     <Compile Include="Areas\Newsfeed\NewsfeedAreaRegistration.cs" />
+    <Compile Include="Areas\Personal\Controllers\PersonalController.cs" />
+    <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -214,7 +218,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\JourneyViewModel.cs" />
     <Compile Include="ViewModels\MediaViewModel.cs" />
+    <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
+    <Compile Include="ViewModels\PersonalViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -273,6 +279,11 @@
     <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.eot" />
     <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.ttf" />
     <Content Include="Content\nanogallerycss\themes\light\font\nano_icon_font.woff" />
+    <Content Include="Areas\Friend\Views\web.config" />
+    <Content Include="Areas\Friend\Views\Friend\Index.cshtml" />
+    <Content Include="Areas\Friend\Views\Friend\EachFriendArea.cshtml" />
+    <Content Include="Areas\Personal\Views\web.config" />
+    <Content Include="Areas\Personal\Views\Personal\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -331,8 +342,12 @@
     <Folder Include="Areas\Destination\Models\" />
     <Folder Include="Areas\Journey\Models\" />
     <Folder Include="Areas\Media\Models\" />
+    <Folder Include="Areas\Friend\Models\" />
+    <Folder Include="Areas\Friend\Views\Shared\" />
     <Folder Include="Areas\Newsfeed\Models\" />
     <Folder Include="Areas\Newsfeed\Views\Shared\" />
+    <Folder Include="Areas\Personal\Models\" />
+    <Folder Include="Areas\Personal\Views\Shared\" />
     <Folder Include="Core\ImageProcessors\" />
     <Folder Include="Core\Mailers\" />
     <Folder Include="Extensions\" />
