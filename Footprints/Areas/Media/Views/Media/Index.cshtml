@@ -1,0 +1,41 @@
+﻿@model Footprints.ViewModels.MediaViewModel
+
+@{
+    ViewBag.Title = "Media Gallery";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Begin content-->
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="bg-style clearfix padding-bg">
+                    <div class="pull-left">
+                        <p>
+                            <a href="#">Media Gallery</a>
+                            <span>
+                                <i class="fa fa-camera"></i>
+                                @Model.NumberOfPhotos Ảnh
+                            </span>
+                        </p>
+                    </div>
+                    <div class="pull-right search-img">
+                        <div class="form-ground ">
+                            <form role="search" class="btn-search" id="search_mini_form">
+                                <button class="button">
+                                    <i class="fa fa-search "></i>
+                                </button>
+                                <input placeholder="Nhập tên album" type="text" autocomplete="on" id="search" class="search-header text-input" name="q">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @foreach (var album in Model.Albums)
+            {
+                Html.RenderPartial("ItemMediaAlbum", album);
+            }
+        </div>
+    </div>
+</div>

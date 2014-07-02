@@ -1,0 +1,25 @@
+﻿@model Footprints.ViewModels.AlbumViewModel
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="bg-style ">
+        <div class="bg-green-light padding-bg clearfix">
+            <p class="pull-left">Đi @Model.Location.LocationName <span>-@Model.NumberOfPhotos Ảnh</span></p>
+            <p class="pull-right">
+                <a href="#">
+                    Add more picture
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+            </p>
+        </div>
+        <div class="padding-bg">
+            <ul class="row">
+                @foreach (var photo in @Model.CoverPhotos)
+                {
+                    <li class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <a class="" href="#"><img src="@photo.PhotoUrl" class="img-responsive" /> </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+﻿@model Footprints.ViewModels.JourneyViewModel
+
+@{
+    ViewBag.Title = "Journey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Begin content-->
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="top-friend bg-green-light">
+                    <div class="pull-left">
+                        <p> Created by <u>@Model.AuthorName</u></p>
+                    </div>
+                    <div class="pull-right">
+                        <a href="$">Edit</a>
+                        <a href="$">Detele</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!--column 1-->
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="bg-style clearfix padding-bg">
+                            <div class="add-new">Add new destination</div>
+                            <div class="top-border input-comment">
+                                <textarea placeholder="Description"></textarea>
+                            </div>
+                            <div class="list-icons top-border">
+                                <div class="pull-left">
+                                    <a href="#">
+                                        <i class="fa fa-image"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fa fa-image"></i>
+                                    </a>
+                                    <a href="#">
+                                        <i class="fa fa-image"></i>
+                                    </a>
+                                </div>
+                                <div class="pull-right">
+                                    <button class="button btn-unfriend">
+                                        <span>Submit</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="bg-style padding-bg clearfix">
+                            <div class="top-jurney bg-gray clearfix">
+                                <div class="avata pull-left">
+                                    <a href="#"><img style="width:60px; height: 60px" src="@Model.CoverPhoto.PhotoUrl"></a>
+                                </div>
+                                <div class="box-name pull-left">
+                                    <a class="name-member" href="#">@Model.AuthorName</a>
+                                    <p><span class="time-travel">@*12 giờ trước*@@Model.TimeAgo</span></p>
+
+                                </div>
+
+                            </div>
+                            <div class="map mrt-20">
+                                <img class="img-responsive" src="/images/map.jpg">
+                            </div>
+                            <div class="view-txt-desc">
+                                <p>@*Description text*@@Model.Description</p>
+                            </div>
+                            <div class=" mrt-10 clearfix">
+                                <div class="pull-left">
+                                    <a href="#">Like</a>
+                                    <a href="#">Share</a>
+                                    <a href="#">View Details</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#">
+                                        @*21*@@Model.NumberOfLikes
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </a>
+                                    <a href="#">
+                                        @*4*@@Model.NumberOfShares
+                                        <i class="fa fa-share-alt-square"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            @foreach (var comment in Model.Comments)
+                            {
+                                <div class="mrt-10 top-border ">
+                                    <div class="avata pull-left mrt-right">
+                                        <a href="#"><img style="width:30px; height: 30px" src="/images/avata.jpg"></a>
+                                    </div>
+                                    <div class="box-name pull-left">
+                                        <p>  <a class="name-member" href="#">@comment.UserCommentName</a> <span>@comment.Content</span></p>
+                                        <p>
+                                            <span class="time-travel">@comment.TimeAgo - </span><a href="#" class="txt-like">Like</a><i class="fa fa-thumbs-up"> </i>15
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="bg-style">
+                    <div class=" bg-gray padding-bg">
+                        <a class="txt-like" href="#">Like</a>
+                        <a class="txt-like" href="#">Share</a>
+                        <a class="txt-like" href="#">View</a>
+                    </div>
+                    <div class="date-time mrt-10 padding-bg">
+                        <p>From @*1th June 2014*@@Model.TakenDate</p>
+                        <p>
+                            <a href="#">On Going</a>
+                            <a href="#">Finished</a>
+                        </p>
+                    </div>
+                    <div class="clearfix top-border mrt-10 padding-bg">
+                        <div class="pull-left">
+                            <p>@*10*@@Model.NumberOfDestinations Destinations</p>
+                            <p>@*200*@@Model.NumberOfPhotos images</p>
+                        </div>
+                        <div class="pull-right">
+                            <a href="#"><img style="width:70px; height: 70px" src="@Model.CoverPhoto.PhotoUrl"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End content-->

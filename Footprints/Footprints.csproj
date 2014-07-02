@@ -180,6 +180,10 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Destination\Controllers\DestinationController.cs" />
     <Compile Include="Areas\Destination\DestinationAreaRegistration.cs" />
+    <Compile Include="Areas\Journey\Controllers\JourneyController.cs" />
+    <Compile Include="Areas\Journey\JourneyAreaRegistration.cs" />
+    <Compile Include="Areas\Media\Controllers\MediaController.cs" />
+    <Compile Include="Areas\Media\MediaAreaRegistration.cs" />
     <Compile Include="Areas\Newsfeed\Controllers\NewsfeedController.cs" />
     <Compile Include="Areas\Newsfeed\NewsfeedAreaRegistration.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
@@ -208,6 +212,8 @@
     <Compile Include="Services\JourneyService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\JourneyViewModel.cs" />
+    <Compile Include="ViewModels\MediaViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -309,11 +315,22 @@
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Media\Views\web.config" />
+    <Content Include="Areas\Media\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Media\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Media\Views\Media\Index.cshtml" />
+    <Content Include="Areas\Media\Views\Media\ItemMediaAlbum.cshtml" />
+    <Content Include="Areas\Journey\Views\web.config" />
+    <Content Include="Areas\Journey\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Journey\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Journey\Views\Journey\Index.cshtml" />
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Destination\Models\" />
+    <Folder Include="Areas\Journey\Models\" />
+    <Folder Include="Areas\Media\Models\" />
     <Folder Include="Areas\Newsfeed\Models\" />
     <Folder Include="Areas\Newsfeed\Views\Shared\" />
     <Folder Include="Core\ImageProcessors\" />
