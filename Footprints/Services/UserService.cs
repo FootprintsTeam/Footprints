@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Footprints.DAL.Concrete;
+using Footprints.Models;
 
 namespace Footprints.Service
 {
@@ -14,6 +15,21 @@ namespace Footprints.Service
         public UserService(IUserRepository userRepo)
         {
             _userRepo = userRepo;
+        }
+
+        public User getUserByUserID(Guid userID)
+        {
+            return _userRepo.getUserByUserID(userID);
+        }
+
+        public bool addNewUser(User user)
+        {
+            return _userRepo.addNewUser(user);
+        }
+
+        public bool addFriendRelationship(Guid userID_A, Guid userID_B)
+        {
+            return _userRepo.addFriendRelationship(userID_A, userID_B);
         }
     }
 }

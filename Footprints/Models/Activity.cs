@@ -7,8 +7,8 @@ namespace Footprints.Models
 {
     public class Activity
     {
-        public string type { get; set; }
+        public String type { get; set; }
 
-        public DateTime timestamp { get; set; }
+        public DateTime timeStamp { get; set; }
     }
 }

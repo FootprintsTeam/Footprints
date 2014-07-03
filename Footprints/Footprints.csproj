@@ -204,6 +204,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\Destination.cs" />
@@ -335,25 +336,6 @@
     <Content Include="Areas\Journey\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Journey\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Journey\Views\Journey\Index.cshtml" />
-    <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\Destination\Models\" />
-    <Folder Include="Areas\Journey\Models\" />
-    <Folder Include="Areas\Media\Models\" />
-    <Folder Include="Areas\Friend\Models\" />
-    <Folder Include="Areas\Friend\Views\Shared\" />
-    <Folder Include="Areas\Newsfeed\Models\" />
-    <Folder Include="Areas\Newsfeed\Views\Shared\" />
-    <Folder Include="Areas\Personal\Models\" />
-    <Folder Include="Areas\Personal\Views\Shared\" />
-    <Folder Include="Core\ImageProcessors\" />
-    <Folder Include="Core\Mailers\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Security\ActionFilters\" />
-    <Folder Include="Security\Authentication\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -366,6 +348,27 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Destination\Models\" />
+    <Folder Include="Areas\Friend\Models\" />
+    <Folder Include="Areas\Friend\Views\Shared\" />
+    <Folder Include="Areas\Journey\Models\" />
+    <Folder Include="Areas\Media\Models\" />
+    <Folder Include="Areas\Newsfeed\Models\" />
+    <Folder Include="Areas\Newsfeed\Views\Shared\" />
+    <Folder Include="Areas\Personal\Models\" />
+    <Folder Include="Areas\Personal\Views\Shared\" />
+    <Folder Include="Core\ImageProcessors\" />
+    <Folder Include="Core\Mailers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Security\ActionFilters\" />
+    <Folder Include="Security\Authentication\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
