@@ -23,9 +23,8 @@ namespace Footprints.ViewModels
         public string UserAvatarURL { get; set; }
 
 
-        public static IEnumerable<PersonalViewModel> GetSampleObject()
+        public static PersonalViewModel GetSampleObject()
         {
-
             var sample = new PersonalViewModel
             {
                 UserID = new Guid(),
@@ -34,10 +33,7 @@ namespace Footprints.ViewModels
                 Phone = "01668284290",
                 Email = "trungk18@hotmail.com"
             };
-            List<PersonalViewModel> list = new List<PersonalViewModel>();
-            list.Add(sample);
-            return list;
-
+            return sample;
         }
     }
 }
