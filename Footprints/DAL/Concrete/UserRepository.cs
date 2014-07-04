@@ -18,10 +18,9 @@ namespace Footprints.DAL.Concrete
             return query.Results.First<User>();
         }
 
-        public bool addNewUser(User userPara)
+        public void addNewUser(User userPara)
         {
-            var query = Db.Cypher.Create("(user:User {user})").WithParam("user", userPara).Return(user => user.As<User>()).Results;
-            return (query.First<User>() != null);
+            Db.Cypher.Create("(user:User {user})").WithParam("user", userPara).Return(user => user.As<User>()).ExecuteWithoutResults();
         }
 
         public bool updateUser(User user)
@@ -54,51 +53,52 @@ namespace Footprints.DAL.Concrete
             //WHERE fi IS NOT NULL
             //DELETE fi
             //CREATE (activityOfB)-[:NEXT]->(nextActivityB)
-            Activity activityOfA = new Activity{
+            Activity activityOfA = new Activity
+            {
                 type = "ADD_FRIEND",
                 userID = userID_B,
                 timeStamp = DateTime.Today
             };
-            Activity activityOfB = new Activity{
+            Activity activityOfB = new Activity
+            {
                 type = "ADD_FRIEND",
                 userID = userID_A,
                 timeStamp = DateTime.Today
             };
-           Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.userID == userID_A).
-                                    AndWhere((User userB) => userB.userID == userID_B).
-                                    Create("(userA)-[:FRIEND]->(userB)").
-                                    Create("(userB)-[:FRIEND]->(userA)").
-                                    Create("(activityOfA:Activity {activityOfA})").WithParams(new { activityOfA }).
-                                    Create("(activityOfA:Activity {activityOfB})").WithParams(new { activityOfB }).
-                                    With("userA, userB, activityOfA, activityOfB").
-                                    OptionalMatch("(userA)-[f:FIRST]->(nextActivityA)").
-                                    Create("(userA)-[:FIRST]->(activityOfA)").
-                                    With("f, activityOfA, nextActivityA, userB, activityOfB").
-                                    Where("f IS NOT NULL").
-                                    Delete("f").
-                                    Create("(activityOfA)-[:NEXT]->(nextActivityA)").
-                                    With("userB, activityOfB").
-                                    OptionalMatch("(userB)-[fi:FIRST]->(nextActivityB)").
-                                    Create("(userB)-[:FIRST]->(activityOfB)").
-                                    With("fi, activityOfB, nextActivityB").
-                                    Where("fi IS NOT NULL").
-                                    Delete("fi").
-                                    Create("(activityOfB)-[:NEXT]->(nextActivityB)").ExecuteWithoutResults();
-           return true;
+            Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.userID == userID_A).
+                                     AndWhere((User userB) => userB.userID == userID_B).
+                                     Create("(userA)-[:FRIEND]->(userB)").
+                                     Create("(userB)-[:FRIEND]->(userA)").
+                                     Create("(activityOfA:Activity {activityOfA})").WithParams(new { activityOfA }).
+                                     Create("(activityOfA:Activity {activityOfB})").WithParams(new { activityOfB }).
+                                     With("userA, userB, activityOfA, activityOfB").
+                                     OptionalMatch("(userA)-[f:FIRST]->(nextActivityA)").
+                                     Create("(userA)-[:FIRST]->(activityOfA)").
+                                     With("f, activityOfA, nextActivityA, userB, activityOfB").
+                                     Where("f IS NOT NULL").
+                                     Delete("f").
+                                     Create("(activityOfA)-[:NEXT]->(nextActivityA)").
+                                     With("userB, activityOfB").
+                                     OptionalMatch("(userB)-[fi:FIRST]->(nextActivityB)").
+                                     Create("(userB)-[:FIRST]->(activityOfB)").
+                                     With("fi, activityOfB, nextActivityB").
+                                     Where("fi IS NOT NULL").
+                                     Delete("fi").
+                                     Create("(activityOfB)-[:NEXT]->(nextActivityB)").ExecuteWithoutResults();
+            return true;
         }
 
     }
-    
+
 
     public interface IUserRepository : IRepository<User>
     {
         User getUserByUserID(Guid userID);
 
         //bool addNewUser(User user);
-        bool addNewUser(User user);
-
+        void addNewUser(User user);
         bool addFriendRelationship(Guid userID_A, Guid userID_B);
-        public bool updateUser(User user);
+        bool updateUser(User user);
     }
-    
+
 }
