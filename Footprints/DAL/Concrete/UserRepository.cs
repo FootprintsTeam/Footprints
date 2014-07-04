@@ -18,11 +18,11 @@ namespace Footprints.DAL.Concrete
             return query.Results.First<User>();
         }
 
-        public bool addNewUser(User user)
+        public bool addNewUser(User userPara)
         {
-            var query = Db.Cypher.CreateUnique("(user:User {user})").WithParams(new { user }).Return(userReturned => userReturned.As<User>());
-            return (query.Results.First<User>() != null);
-        }
+            var query = Db.Cypher.Create("(user:User {user})").WithParam("user", userPara).Return(user => user.As<User>()).Results;
+            return (query.First<User>() != null);
+        }       
 
         public bool addFriendRelationship(Guid userID_A, Guid userID_B)
         {
@@ -85,11 +85,12 @@ namespace Footprints.DAL.Concrete
 
     public interface IUserRepository : IRepository<User>
     {
-        public User getUserByUserID(Guid userID);
+        User getUserByUserID(Guid userID);
 
-        public bool addNewUser(User user);
+        //bool addNewUser(User user);
+        bool addNewUser(User user);
 
-        public bool addFriendRelationship(Guid userID_A, Guid userID_B)
+        bool addFriendRelationship(Guid userID_A, Guid userID_B);
     }
     
 }
