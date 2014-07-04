@@ -6,7 +6,6 @@ using System.Transactions;
 using Footprints.DAL.Abstract;
 using Footprints.Models;
 using Neo4jClient;
-using CypherNet;
 using Footprints.DAL.Concrete;
 
 namespace Footprints.DAL.Concrete

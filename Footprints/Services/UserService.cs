@@ -28,6 +28,11 @@ namespace Footprints.Service
             return false;
         }
 
+        public bool updateUser(User user)
+        {
+            return _userRepo.updateUser(user);
+        }
+
         public bool addFriendRelationship(Guid userID_A, Guid userID_B)
         {
             return _userRepo.addFriendRelationship(userID_A, userID_B);

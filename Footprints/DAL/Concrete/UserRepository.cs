@@ -22,7 +22,14 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.Create("(user:User {user})").WithParam("user", userPara).Return(user => user.As<User>()).Results;
             return (query.First<User>() != null);
-        }       
+        }
+
+        public bool updateUser(User user)
+        {
+            var query = Db.Cypher.Match("(userTaken:User)").Where((User userTaken) => userTaken.userID == user.userID).
+                        Set("userTaken = {user}").WithParams(new { user }).Return(userReturned => userReturned.As<User>()).Results;
+            return (query.First<User>() != null);
+        }
 
         public bool addFriendRelationship(Guid userID_A, Guid userID_B)
         {
@@ -91,6 +98,7 @@ namespace Footprints.DAL.Concrete
         bool addNewUser(User user);
 
         bool addFriendRelationship(Guid userID_A, Guid userID_B);
+        public bool updateUser(User user);
     }
     
 }

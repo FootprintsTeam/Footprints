@@ -16,27 +16,27 @@ namespace Footprints.DAL.Concrete
 
         public List<Comment> getCommentByJourneyID(Guid journeyID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.journeyID == journeyID).Return(comment => comment.As<Comment>());
-            return query.Results.ToList<Comment>();
+            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.journeyID == journeyID).Return(comment => comment.As<Comment>()).Results;
+            return query.ToList<Comment>();
         }
 
         public List<Comment> getCommentByDestinationID(Guid destinationID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.destinationID == destinationID).Return(comment => comment.As<Comment>());
-            return query.Results.ToList<Comment>();
+            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.destinationID == destinationID).Return(comment => comment.As<Comment>()).Results;
+            return query.ToList<Comment>();
         }
 
         public Comment getCommentByCommentID(Guid commentID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.commentID == commentID).Return(comment => comment.As<Comment>());
-            return query.Results.FirstOrDefault<Comment>();
+            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.commentID == commentID).Return(comment => comment.As<Comment>()).Results;
+            return query.FirstOrDefault<Comment>();
         }
 
         public bool updateAComment(Comment comment)
         {
             var query = Db.Cypher.Match("(commentTaken:Comment)").Where((Comment commentTaken) => commentTaken.commentID == comment.commentID).
-                                    Set("commentTaken = {comment}").WithParams(new { comment }).Return(commentReturned => commentReturned.As<Comment>());
-            return (query != null);
+                                    Set("commentTaken = {comment}").WithParams(new { comment }).Return(commentReturned => commentReturned.As<Comment>()).Results;
+            return (query.First<Comment>() != null);
         }
 
         public bool addNewCommentOnDestination(Guid userID, Comment comment)
