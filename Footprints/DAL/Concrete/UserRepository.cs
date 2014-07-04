@@ -5,6 +5,7 @@ using System.Text;
 using Footprints.DAL.Abstract;
 using Footprints.Models;
 using Neo4jClient;
+using Neo4jClient.Cypher;
 namespace Footprints.DAL.Concrete
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
@@ -60,8 +61,8 @@ namespace Footprints.DAL.Concrete
                                     AndWhere((User userB) => userB.userID == userID_B).
                                     Create("(userA)-[:FRIEND]->(userB)").
                                     Create("(userB)-[:FRIEND]->(userA)").
-                                    Create("(activityOfA:Activity) {activityOfA}").WithParams(new { activityOfA }).
-                                    Create("(activityOfA:Activity) {activityOfB}").WithParams(new { activityOfB }).
+                                    Create("(activityOfA:Activity {activityOfA})").WithParams(new { activityOfA }).
+                                    Create("(activityOfA:Activity {activityOfB})").WithParams(new { activityOfB }).
                                     With("userA, userB, activityOfA, activityOfB").
                                     OptionalMatch("(userA)-[f:FIRST]->(nextActivityA)").
                                     Create("(userA)-[:FIRST]->(activityOfA)").
