@@ -24,7 +24,8 @@ namespace Footprints.Service
 
         public bool addNewUser(User user)
         {
-            return _userRepo.addNewUser(user);
+            //return _userRepo.addNewUser(user);
+            return false;
         }
 
         public bool addFriendRelationship(Guid userID_A, Guid userID_B)

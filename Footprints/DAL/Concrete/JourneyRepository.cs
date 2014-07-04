@@ -63,7 +63,7 @@ namespace Footprints.DAL.Concrete
     }
 
     public interface IJourneyRepository : IRepository<Journey> {
-        public int getNumberOfLikes(Guid journeyID);
-        public Journey getJourneyByID(Guid journeyID);
+        int getNumberOfLikes(Guid journeyID);
+        Journey getJourneyByID(Guid journeyID);
     }
 }

@@ -190,6 +190,7 @@
     <Compile Include="Areas\Newsfeed\NewsfeedAreaRegistration.cs" />
     <Compile Include="Areas\Personal\Controllers\PersonalController.cs" />
     <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
+    <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
