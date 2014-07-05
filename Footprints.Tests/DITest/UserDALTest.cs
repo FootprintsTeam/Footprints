@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Neo4jClient;
+using Neo4jClient.Cypher;
 using Footprints.Models;
 using Footprints.DAL.Concrete;
 using System.Data;
@@ -17,6 +18,7 @@ namespace Footprints.Tests.DITest
     {
         static IList<User> users;
         static GraphClient client;
+        static UserRepository userRep;
         static void setup()
         {
             client = new GraphClient(new Uri("http://localhost:7474/db/data"));
@@ -28,19 +30,27 @@ namespace Footprints.Tests.DITest
                 firstName = "Nhan",
                 lastName = "Trinh"            
             });
+            userRep = new UserRepository(client);
+        }
+
+        public UserDALTest() {
+            setup();
         }
 
         [TestMethod]
         public void testAdd()
-        {
-            setup();
-            var userRepo = new UserRepository(client);
-            //userRepo.addNewUser(users.First());
-            Assert.IsFalse(false);
+        {                        
+            userRep.addNewUser(users.First());            
         }
 
-        public void testQuery() { 
-            
+        //[TestMethod]
+        //public void testQuery() {
+        //    var x = userRep.getUserByUserID(users.First<User>().userID);
+        //}
+        [TestMethod]
+        public void testCypherQuery() {
+            CypherQuery query = new CypherQuery("CREATE (ee:Person {person})", new Dictionary<string, object> { { "person", users.First() } }, CypherResultMode.Set);
+            ((IRawGraphClient)client).ExecuteCypher(query);
         }
     }
 }

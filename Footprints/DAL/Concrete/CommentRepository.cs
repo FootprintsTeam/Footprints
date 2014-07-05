@@ -133,12 +133,11 @@ namespace Footprints.DAL.Concrete
 
     public interface ICommentRepository : IRepository<CommentRepository>
     {
-        public List<Comment> getCommentByDestinationID(Guid destinationID);
-
-        public List<Comment> getCommentByJourneyID(Guid journeyID);
-        public bool addNewCommentOnDestination(Guid userID, Comment comment);
-        public bool addNewCommentOnJourney(Guid userID, Comment comment);
-        public Comment getCommentByCommentID(Guid commentID);
-        public bool updateAComment(Comment comment);
+        List<Comment> getCommentByDestinationID(Guid destinationID);
+        List<Comment> getCommentByJourneyID(Guid journeyID);
+        bool addNewCommentOnDestination(Guid userID, Comment comment);
+        bool addNewCommentOnJourney(Guid userID, Comment comment);
+        Comment getCommentByCommentID(Guid commentID);
+        bool updateAComment(Comment comment);
     }
 }
