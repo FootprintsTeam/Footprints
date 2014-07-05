@@ -16,7 +16,7 @@ namespace Footprints.Service
             _destinationRepo = destinationRepo;
         }
 
-        public Node<Destination> addNewDestination(Destination destination)
+        public bool addNewDestination(Destination destination)
         {
            return _destinationRepo.addNewDestination(destination);
         }
