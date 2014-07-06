@@ -14,39 +14,30 @@ using System.Data.Entity;
 namespace Footprints.Tests.DITest
 {
     [TestClass]
-    public class UserDALTest
-    {
-        static IList<User> users;
-        static GraphClient client;
-        static UserRepository userRep;
-        static void setup()
-        {
-            client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-            users = new List<User>();
-            users.Add(new User
-            {
-                userID = new Guid(),
-                firstName = "Nhan",
-                lastName = "Trinh"            
-            });
-            userRep = new UserRepository(client);
-        }
-
-        public UserDALTest() {
-            setup();
-        }
+    public class UserDALTest : BaseTestClass
+    {        
 
         [TestMethod]
-        public void testAdd()
+        public void addNewUser()
         {                        
             userRep.addNewUser(users.First());            
         }
 
-        //[TestMethod]
-        //public void testQuery() {
-        //    var x = userRep.getUserByUserID(users.First<User>().userID);
-        //}
+        [TestMethod]
+        public void getUserByUserID()
+        {
+            User x = userRep.getUserByUserID(users.First<User>().userID);
+            Assert.IsNotNull(x);
+        }
+
+        [TestMethod]
+        public void updateUser() {
+            var x = users.First<User>();
+            x.firstName = "Thang";
+            userRep.updateUser(x);
+            Assert.AreEqual(x.firstName, userRep.getUserByUserID(x.userID).firstName);
+        }
+
         [TestMethod]
         public void testCypherQuery() {
             CypherQuery query = new CypherQuery("CREATE (ee:Person {person})", new Dictionary<string, object> { { "person", users.First() } }, CypherResultMode.Set);

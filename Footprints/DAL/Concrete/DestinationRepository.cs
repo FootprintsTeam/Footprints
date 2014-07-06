@@ -16,7 +16,7 @@ namespace Footprints.DAL.Concrete
 
         public bool addNewDestination(Destination destination)
         {
-            
+            return false;
         }
 
         public Destination getDestinationInfoByID(Guid destinationID){            

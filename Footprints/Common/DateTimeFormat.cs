@@ -7,8 +7,8 @@ namespace Footprints.Common
 {
     public static class DateTimeFormat
     {
-        public static string TimeAgo(DateTime dt){
-            var ts = new TimeSpan(DateTime.UtcNow.Ticks - dt.Ticks);
+        public static string TimeAgo(DateTimeOffset dt){
+            var ts = new TimeSpan(DateTimeOffset.UtcNow.Ticks - dt.Ticks);
             double delta = Math.Abs(ts.TotalSeconds);
 
             if (delta < 60)

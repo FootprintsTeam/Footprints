@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DITest\AutofacTest.cs" />
+    <Compile Include="DITest\BaseTestClass.cs" />
     <Compile Include="DITest\CommentDALTest.cs" />
     <Compile Include="DITest\DestinationDALTest.cs" />
     <Compile Include="DITest\JourneyDALTest.cs" />

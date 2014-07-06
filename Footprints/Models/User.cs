@@ -26,7 +26,7 @@ namespace Footprints.Models
 
         public bool status { get; set; }
 
-        public DateTime joinedDate { get; set; }
+        public DateTimeOffset joinedDate { get; set; }
 
         public String profilePicURL { get; set; }
 

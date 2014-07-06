@@ -26,7 +26,7 @@ namespace Footprints.DAL.Concrete
         public bool updateUser(User user)
         {
             var query = Db.Cypher.Match("(userTaken:User)").Where((User userTaken) => userTaken.userID == user.userID).
-                        Set("userTaken = {user}").WithParams(new { user }).Return(userReturned => userReturned.As<User>()).Results;
+                        Set("userTaken = {user}").WithParam("user",user).Return(userTaken => userTaken.As<User>()).Results;
             return (query.First<User>() != null);
         }
 

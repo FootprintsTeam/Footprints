@@ -9,13 +9,15 @@ namespace Footprints.Models
     {
         public Guid journeyID { get; set; }
 
+        public Guid userID { get; set; }
+
         public String name { get; set; }
 
         public String description { get; set; }
 
-        public DateTime takenDate { get; set; }
+        public DateTimeOffset takenDate { get; set; }
 
-        public DateTime timestamp { get; set; }
+        public DateTimeOffset timestamp { get; set; }
 
         public int numberOfLikes { get; set; }
     }

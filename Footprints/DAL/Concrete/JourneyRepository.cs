@@ -13,13 +13,17 @@ namespace Footprints.DAL.Concrete
 
         public int getNumberOfLikes(Guid journeyID)
         {
-            var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.journeyID == journeyID).Return(journey => journey.As<Journey>());
+            var query = Db.Cypher.Match("(journey:Journey)").
+                Where((Journey journey) => journey.journeyID == journeyID).
+                Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>().numberOfLikes;
         }
 
         public Journey getJourneyByID(Guid journeyID)
         {
-            var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.journeyID == journeyID).Return(journey => journey.As<Journey>());
+            var query = Db.Cypher.Match("(journey:Journey)").
+                Where((Journey journey) => journey.journeyID == journeyID).
+                Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>();
         }
 
@@ -40,16 +44,18 @@ namespace Footprints.DAL.Concrete
             //WHERE f IS NOT NULL
             //DELETE f
             //CREATE (activity)-[:NEXT]->(nextActivity)
-            Activity activity = new Activity {
+            Activity activity = new Activity
+            {
                 type = "ADD_NEW_JOURNEY",
                 userID = userID,
                 journeyID = journey.journeyID,
                 timeStamp = DateTime.Today
             };
-            Db.Cypher.Create("(journey:Journey {journey} )").WithParams(new { journey }).With("journey").
-                    Match("user:User").Where((User user) => user.userID == userID).
+           
+            Db.Cypher.Create("(journey:Journey {j} )").WithParam("j", journey).With("journey").
+                    Match("(user:User)").Where((User user) => user.userID == userID).
                     Create("(user)-[:HAS_JOURNEY]->(journey)").
-                    Create("(activity:Activity {activity})").WithParams(new { activity }).
+                    Create("(activity:Activity {a})").WithParam("a", activity).
                     With("user, journey, activity").
                     OptionalMatch("(user)-[f:FIRST]->(nextActivity)").
                     Create("(user)-[:FIRST]->(activity)").
@@ -62,7 +68,8 @@ namespace Footprints.DAL.Concrete
 
     }
 
-    public interface IJourneyRepository : IRepository<Journey> {
+    public interface IJourneyRepository : IRepository<Journey>
+    {
         int getNumberOfLikes(Guid journeyID);
         Journey getJourneyByID(Guid journeyID);
     }

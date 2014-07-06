@@ -17,11 +17,11 @@ namespace Footprints.Models
 
         public double latitude { get; set; }
 
-        public DateTime takenDate { get; set; }
+        public DateTimeOffset takenDate { get; set; }
 
         public int numberOfLikes { get; set; }
 
-        public DateTime timestamp { get; set; }
+        public DateTimeOffset timestamp { get; set; }
 
         public List<Content> contents { get; set; }
     }

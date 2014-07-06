@@ -10,26 +10,24 @@ using Footprints.DAL;
 namespace Footprints.Tests.DITest
 {
     [TestClass]
-    public class JourneyDALTest
+    public class JourneyDALTest : BaseTestClass
     {
-        static IList<Journey> journeys;
-        static void setup() {
-            GraphClient client = new GraphClient(new Uri("http://localhost:7474/db/data"));
-            client.Connect();
-            journeys.Add(new Journey
-            {
-                journeyID = new Guid(),
-                description = "Journey Description",
-                name = "Nhan's Journey",
-                numberOfLikes = 2,
-                takenDate = DateTime.Now,
-                timestamp = DateTime.Now
-            });
+        [TestMethod]
+        public void addNewJourney()
+        {
+            journeyRep.addNewJourney( users.First().userID, journeys.First());
         }
 
         [TestMethod]
-        public void testAdd() { 
-            
+        public void getJourneyByID() {
+            var result = journeyRep.getJourneyByID(journeys.First().userID);
+            Assert.AreEqual(result.userID, journeys.First().userID);
+        }
+
+        [TestMethod]
+        public void getNumberOfLikes() {
+            var result = journeyRep.getNumberOfLikes(journeys.First().journeyID);
+            Assert.AreEqual(result, journeys.First().numberOfLikes);
         }
     }
 }
