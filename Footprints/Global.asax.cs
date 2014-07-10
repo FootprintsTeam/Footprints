@@ -12,6 +12,8 @@ using Autofac.Builder;
 using Autofac.Core;
 using Autofac.Util;
 using Autofac.Features;
+using AutoMapper;
+using Footprints.Mappings;
 
 namespace Footprints
 {
@@ -25,6 +27,8 @@ namespace Footprints
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //Autofac setup
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Bootstrapper.SetAutofacContainer()));
+            //Mapper setup
+            AutoMapperConfiguration.Configure();
         }
     }
 }

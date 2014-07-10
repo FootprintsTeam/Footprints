@@ -16,5 +16,10 @@ namespace Footprints.Areas.Journey.Controllers
             var model = JourneyViewModel.GetSampleObject();
             return View(model);
         }
+
+        public string AddJourney() {
+
+            return null;
+        }
     }
 }
