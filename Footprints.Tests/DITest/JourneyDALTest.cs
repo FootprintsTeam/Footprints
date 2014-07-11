@@ -20,14 +20,14 @@ namespace Footprints.Tests.DITest
 
         [TestMethod]
         public void getJourneyByID() {
-            var result = journeyRep.getJourneyByID(journeys.First().userID);
-            Assert.AreEqual(result.userID, journeys.First().userID);
+            var result = journeyRep.getJourneyByID(journeys.First().UserID);
+            Assert.AreEqual(result.UserID, journeys.First().UserID);
         }
 
         [TestMethod]
         public void getNumberOfLikes() {
-            var result = journeyRep.getNumberOfLikes(journeys.First().journeyID);
-            Assert.AreEqual(result, journeys.First().numberOfLikes);
+            var result = journeyRep.getNumberOfLikes(journeys.First().JourneyID);
+            Assert.AreEqual(result, journeys.First().NumberOfLike);
         }
     }
 }

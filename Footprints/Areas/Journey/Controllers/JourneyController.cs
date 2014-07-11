@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Footprints.ViewModels;
 
 namespace Footprints.Areas.Journey.Controllers
 {
@@ -17,8 +18,13 @@ namespace Footprints.Areas.Journey.Controllers
             return View(model);
         }
 
-        public string AddJourney() {
+        [HttpPost]
+        public string AddNewJourneyForm(AddNewJourneyViewModel journey) {
+            var x = journey;
+            return "success";
+        }
 
+        public string AddJourney() {
             return null;
         }
     }

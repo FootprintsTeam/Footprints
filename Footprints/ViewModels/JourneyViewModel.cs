@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.ComponentModel.DataAnnotations;
 namespace Footprints.ViewModels
 {
     public class JourneyViewModel
@@ -49,6 +49,24 @@ namespace Footprints.ViewModels
             };
         }
     }
+
+    public class AddNewJourneyViewModel {
+        public Guid JourneyID { get; set; }
+
+        public Guid UserID { get; set; }
+
+        public String Name { get; set; }
+
+        public String Description { get; set; }
+
+        [Display(Name = "Time")]
+        public DateTimeOffset TakenDate { get; set; }
+        
+        
+        public DateTimeOffset Timestamp { get; set; }
+
+        public int NumberOfLike { get; set; }
+    };
     public class CoverPhoto
     {
         public Guid PhotoId { get; set; }
