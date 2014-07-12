@@ -14,15 +14,15 @@ namespace Footprints.DAL.Concrete
         public int getNumberOfLikes(Guid journeyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").
-                Where((Journey journey) => journey.journeyID == journeyID).
+                Where((Journey journey) => journey.JourneyID == journeyID).
                 Return(journey => journey.As<Journey>());
-            return query.Results.First<Journey>().numberOfLikes;
+            return query.Results.First<Journey>().NumberOfLike;
         }
 
         public Journey getJourneyByID(Guid journeyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").
-                Where((Journey journey) => journey.journeyID == journeyID).
+                Where((Journey journey) => journey.JourneyID == journeyID).
                 Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>();
         }
@@ -48,8 +48,8 @@ namespace Footprints.DAL.Concrete
             {
                 type = "ADD_NEW_JOURNEY",
                 userID = userID,
-                journeyID = journey.journeyID,
-                timestamp = DateTimeOffset.Now
+                journeyID = journey.JourneyID,
+                timeStamp = DateTime.Today
             };
            
             Db.Cypher.Create("(journey:Journey {j} )").WithParam("j", journey).With("journey").

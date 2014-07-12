@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/mycss")
+    @using Footprints.ViewModels
 </head>
 <body>
     <div class="header bg-green-light">
@@ -46,7 +47,7 @@
                             New Journey
                         </a>
                     </div>
-                    <!--Popup of page new journey-->
+                    @*<!--Popup of page new journey-->
                     <div id="responsive" class="modal fade bs-create-journey" data-toggle="modal" tabindex="-1" data-width="760" style="display: none;">
                         <div class="modal-header bg-green-light text-center">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -102,8 +103,8 @@
                         </div>
 
                     </div>
-                    <!--End popup-->
-
+                    <!--End popup-->*@                    
+                    @{Html.RenderPartial("AddJourneyPartial", new AddNewJourneyViewModel());}
 
                     <div class="div-nav">
                         <a href="#" class="mypage">

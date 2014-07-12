@@ -44,13 +44,13 @@ namespace Footprints.Tests.DITest
             journeys = new List<Journey>();
             journeys.Add(new Journey
             {
-                journeyID = new Guid(),
-                description = "Journey Description",
-                name = "Nhan's Journey",
-                numberOfLikes = 2,
-                takenDate = DateTimeOffset.Now,
-                timestamp = DateTimeOffset.Now,                
-                userID = users.First().userID
+                JourneyID = new Guid(),
+                Description = "Journey Description",
+                Name = "Nhan's Journey",
+                NumberOfLike = 2,
+                TakenDate = DateTimeOffset.Now,
+                Timestamp = DateTimeOffset.Now,                
+                UserID = users.First().userID
             });
 
             journeyRep = new JourneyRepository(client);

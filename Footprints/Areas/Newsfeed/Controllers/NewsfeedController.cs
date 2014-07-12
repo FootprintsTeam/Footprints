@@ -18,7 +18,7 @@ namespace Footprints.Areas.Newsfeed.Controllers
 
         [ChildActionOnly]
         public PartialViewResult ItemJourneyPost()
-        {            
+        {
             return new PartialViewResult();
         }
 	}
