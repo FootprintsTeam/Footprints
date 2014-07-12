@@ -57,13 +57,13 @@ namespace Footprints.DAL.Concrete
             {
                 type = "ADD_FRIEND",
                 userID = userID_B,
-                timeStamp = DateTime.Today
+                timestamp = DateTimeOffset.Now
             };
             Activity activityOfB = new Activity
             {
                 type = "ADD_FRIEND",
                 userID = userID_A,
-                timeStamp = DateTime.Today
+                timestamp = DateTimeOffset.Now
             };
             Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.userID == userID_A).
                                      AndWhere((User userB) => userB.userID == userID_B).

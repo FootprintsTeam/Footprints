@@ -65,7 +65,7 @@ namespace Footprints.DAL.Concrete
                 type = "COMMENT_ON_DESTINATION",
                 userID = userID,
                 destinationID = comment.destinationID,
-                timeStamp = DateTime.Today
+                timestamp = DateTimeOffset.Now
             };
             Db.Cypher.Create("(comment:Comment {comment})").WithParams(new { comment }).
                        Create("(activity:Activity {activity})").WithParams(new { activity }).
@@ -110,7 +110,7 @@ namespace Footprints.DAL.Concrete
                 type = "COMMENT_ON_JOURNEY",
                 userID = userID,
                 journeyID = comment.journeyID,
-                timeStamp = DateTime.Today
+                timestamp = DateTimeOffset.Now
             };
             Db.Cypher.Create("(comment:Comment {comment})").WithParams(new { comment }).
                        Create("(activity:Activity {activity})").WithParams(new { activity }).

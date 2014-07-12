@@ -12,6 +12,6 @@ namespace Footprints.Models
         public Guid journeyID { get; set; }
         public Guid commentID { get; set; }
         public Guid destinationID { get; set; }
-        public DateTimeOffset timeStamp { get; set; }
+        public DateTimeOffset timestamp { get; set; }
     }
 }

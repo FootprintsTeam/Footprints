@@ -16,6 +16,7 @@ namespace Footprints.DAL.Concrete
 
         public bool addNewDestination(Destination destination)
         {
+            
             return false;
         }
 
