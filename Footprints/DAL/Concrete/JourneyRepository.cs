@@ -49,7 +49,7 @@ namespace Footprints.DAL.Concrete
                 type = "ADD_NEW_JOURNEY",
                 userID = userID,
                 journeyID = journey.JourneyID,
-                timeStamp = DateTime.Today
+                timestamp = DateTime.Today
             };
            
             Db.Cypher.Create("(journey:Journey {j} )").WithParam("j", journey).With("journey").
