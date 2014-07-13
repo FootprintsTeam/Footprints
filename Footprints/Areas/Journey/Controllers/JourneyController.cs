@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Footprints.ViewModels;
+using Footprints.Service;
 
 namespace Footprints.Areas.Journey.Controllers
 {
@@ -12,6 +13,11 @@ namespace Footprints.Areas.Journey.Controllers
     {
         //
         // GET: /Journey/Journey/
+        IJourneyService journeyService;
+
+        public JourneyController(IJourneyService journeyService) {
+            this.journeyService = journeyService;
+        }
         public ActionResult Index()
         {
             var model = JourneyViewModel.GetSampleObject();
@@ -20,7 +26,8 @@ namespace Footprints.Areas.Journey.Controllers
 
         [HttpPost]
         public string AddNewJourneyForm(AddNewJourneyViewModel journey) {
-            var x = journey;
+            var viewModel = journey;
+            journeyService.AddJourney(viewModel);
             return "success";
         }
 

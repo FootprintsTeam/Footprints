@@ -27,7 +27,7 @@ namespace Footprints.DAL.Concrete
             return query.Results.First<Journey>();
         }
 
-        public bool addNewJourney(Guid userID, Journey journey)
+        public bool AddNewJourney(Guid userID, Journey journey)
         {
             //Cypher Query
             //CREATE (journey:Journey {journeyID : '2', name : 'Hanoi', description : 'Hanoi', takenDate : '03/07/2014', timestamp : '03/07/2014', numberOfLikes : '0'})
@@ -70,6 +70,7 @@ namespace Footprints.DAL.Concrete
 
     public interface IJourneyRepository : IRepository<Journey>
     {
+        bool AddNewJourney(Guid userID, Journey journey);    
         int getNumberOfLikes(Guid journeyID);
         Journey getJourneyByID(Guid journeyID);
     }
