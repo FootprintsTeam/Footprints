@@ -15,6 +15,8 @@ namespace Footprints.DAL.Concrete
 
         private LinkedList<User> friendList = new LinkedList<User>();
         private LinkedList<LinkedList<Activity>> activities = new LinkedList<LinkedList<Activity>>();
+        private Activity latestActivity = new Activity(), mostRecentActivity = new Activity();
+        private int numberOfFriends, latestFriendPosition, currentFriendPosition;
         public NewsFeedRepository(IGraphClient client) : base(client) { }
         public void loadEgoNetwork(Guid userID)
         {
@@ -25,7 +27,7 @@ namespace Footprints.DAL.Concrete
                         friend = friend.As<User>(),
                         latest_activity = latest_activity.As<Activity>(),
                         next_activity = next_activity.As<Activity>()
-                    }).Results;           
+                    }).Results;
             LinkedList<Activity> activity = new LinkedList<Activity>();
             User currentFriend = new User();
             foreach (var item in query)
@@ -59,8 +61,7 @@ namespace Footprints.DAL.Concrete
             priorityQueue = new C5.IntervalHeap<Activity>(comparer);
             result = new HashSet<Activity>();
 
-            Activity latestActivity = new Activity(), mostRecentActivity = new Activity();
-            int numberOfFriends = friendList.Count, latestFriendPosition, currentFriendPosition;
+            numberOfFriends = friendList.Count;
             // Add latest activity of closest friend in ego
             result.Add(activities.ElementAt(0).ElementAt(0));
             // Add next activity of the activity above to priority queue           
@@ -82,7 +83,43 @@ namespace Footprints.DAL.Concrete
                 result.Add(mostRecentActivity);
                 var tempActivity = activities.ElementAt(currentFriendPosition).Find(mostRecentActivity);
                 if (tempActivity != null && tempActivity.Next != null)
-                {                   
+                {
+                    priorityQueue.Add(tempActivity.Next.Value);
+                }
+                else
+                {
+                    tempActivity = activities.ElementAt(latestFriendPosition).Find(mostRecentActivity);
+                    if (tempActivity != null && tempActivity.Next != null)
+                    {
+                        priorityQueue.Add(tempActivity.Next.Value);
+                    }
+                }
+                if (mostRecentActivity.timestamp == latestActivity.timestamp)
+                {
+                    latestFriendPosition = currentFriendPosition;
+                    if (currentFriendPosition < numberOfFriends - 1)
+                    {
+                        currentFriendPosition++;
+                        latestActivity = activities.ElementAt(currentFriendPosition).ElementAt(0);
+                        priorityQueue.Add(latestActivity);
+                    }
+                }
+            }
+        }
+
+        public void loadMoreNewsFeed(Guid userID, int l)
+        {
+            int cnt = 0;
+            numberOfFriends = friendList.Count;
+            while (!priorityQueue.IsEmpty && cnt < l)
+            {
+                mostRecentActivity = priorityQueue.FindMax();
+                priorityQueue.DeleteMax();
+                result.Add(mostRecentActivity);
+                cnt++;
+                var tempActivity = activities.ElementAt(currentFriendPosition).Find(mostRecentActivity);
+                if (tempActivity != null && tempActivity.Next != null)
+                {
                     priorityQueue.Add(tempActivity.Next.Value);
                 }
                 else
@@ -120,5 +157,6 @@ namespace Footprints.DAL.Concrete
     {
         void loadEgoNetwork(Guid userID);
         void RetrieveNewsFeed(Guid userId, int k);
+        void loadMoreNewsFeed(Guid userID, int l);
     }
 }
