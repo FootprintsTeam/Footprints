@@ -18,7 +18,7 @@ namespace Footprints.DAL.Concrete
         private Activity latestActivity = new Activity(), mostRecentActivity = new Activity();
         private int numberOfFriends, latestFriendPosition, currentFriendPosition;
         public NewsFeedRepository(IGraphClient client) : base(client) { }
-        public void loadEgoNetwork(Guid userID)
+        public void LoadEgoNetwork(Guid userID)
         {
             String egoEdges = "ego" + userID;
             //SQL-Injection-prone
@@ -56,7 +56,7 @@ namespace Footprints.DAL.Concrete
         public void RetrieveNewsFeed(Guid userId, int k)
         {
             //If necessary
-            loadEgoNetwork(userId);
+            LoadEgoNetwork(userId);
             //Init
             ActivityComparer comparer = new ActivityComparer();
             priorityQueue = new C5.IntervalHeap<Activity>(comparer);
@@ -108,7 +108,7 @@ namespace Footprints.DAL.Concrete
             }
         }
 
-        public void loadMoreNewsFeed(Guid userID, int l)
+        public void LoadMoreNewsfeed(Guid userID, int l)
         {
             int cnt = 0;
             numberOfFriends = friendList.Count;
@@ -156,8 +156,8 @@ namespace Footprints.DAL.Concrete
 
     public interface INewsFeedRepository
     {
-        void loadEgoNetwork(Guid userID);
+        void LoadEgoNetwork(Guid userID);
         void RetrieveNewsFeed(Guid userId, int k);
-        void loadMoreNewsFeed(Guid userID, int l);
+        void LoadMoreNewsfeed(Guid userID, int l);
     }
 }
