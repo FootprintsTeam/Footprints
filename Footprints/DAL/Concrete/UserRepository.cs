@@ -14,7 +14,7 @@ namespace Footprints.DAL.Concrete
 
         public User getUserByUserID(Guid userID)
         {
-            var query = Db.Cypher.Match("(user:User)").Where((User user) => user.userID == userID).Return(user => user.As<User>());
+            var query = Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == userID).Return(user => user.As<User>());
             return query.Results.First<User>();
         }
 
@@ -25,7 +25,7 @@ namespace Footprints.DAL.Concrete
 
         public bool updateUser(User user)
         {
-            var query = Db.Cypher.Match("(userTaken:User)").Where((User userTaken) => userTaken.userID == user.userID).
+            var query = Db.Cypher.Match("(userTaken:User)").Where((User userTaken) => userTaken.UserID == user.UserID).
                         Set("userTaken = {user}").WithParam("user",user).Return(userTaken => userTaken.As<User>()).Results;
             return (query.First<User>() != null);
         }
@@ -55,18 +55,18 @@ namespace Footprints.DAL.Concrete
             //CREATE (activityOfB)-[:NEXT]->(nextActivityB)
             Activity activityOfA = new Activity
             {
-                type = "ADD_FRIEND",
-                userID = userID_B,
-                timestamp = DateTimeOffset.Now
+                Type = "ADD_FRIEND",
+                UserID = userID_B,
+                Timestamp = DateTimeOffset.Now
             };
             Activity activityOfB = new Activity
             {
-                type = "ADD_FRIEND",
-                userID = userID_A,
-                timestamp = DateTimeOffset.Now
+                Type = "ADD_FRIEND",
+                UserID = userID_A,
+                Timestamp = DateTimeOffset.Now
             };
-            Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.userID == userID_A).
-                                     AndWhere((User userB) => userB.userID == userID_B).
+            Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.UserID == userID_A).
+                                     AndWhere((User userB) => userB.UserID == userID_B).
                                      Create("(userA)-[:FRIEND]->(userB)").
                                      Create("(userB)-[:FRIEND]->(userA)").
                                      Create("(activityOfA:Activity {activityOfA})").WithParams(new { activityOfA }).

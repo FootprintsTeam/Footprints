@@ -7,11 +7,11 @@ namespace Footprints.Models
 {
     public class Activity
     {
-        public String type { get; set; }
-        public Guid userID { get; set; }
-        public Guid journeyID { get; set; }
-        public Guid commentID { get; set; }
-        public Guid destinationID { get; set; }
-        public DateTimeOffset timestamp { get; set; }
+        public String Type { get; set; }
+        public Guid UserID { get; set; }
+        public Guid JourneyID { get; set; }
+        public Guid CommentID { get; set; }
+        public Guid DestinationID { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
     }
 }

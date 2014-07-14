@@ -21,20 +21,20 @@ namespace Footprints.DAL.Concrete
         }
 
         public Destination getDestinationInfoByID(Guid destinationID){            
-            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.destinationID == destinationID).Return(destination => destination.As<Destination>());
+            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == destinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>();
         }
 
         public bool updateDestination(Destination destination) 
         {
-            var query = Db.Cypher.Match("(destinationTaken:Destination)").Where((Destination destinationTaken) => destinationTaken.destinationID == destination.destinationID).
+            var query = Db.Cypher.Match("(destinationTaken:Destination)").Where((Destination destinationTaken) => destinationTaken.DestinationID == destination.DestinationID).
                 Set("destinationTaken = {destination}").WithParams(new { destination }).Return(destinationReturned => destinationReturned.As<Destination>()).Results;
             return (query.First<Destination>() != null);
         }
 
         public int getNumberOfLikes(Guid destinationID){
-            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.destinationID == destinationID).Return(destination => destination.As<Destination>());
-            return query.Results.First<Destination>().numberOfLikes;
+            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == destinationID).Return(destination => destination.As<Destination>());
+            return query.Results.First<Destination>().NumberOfLike;
         }        
     }
 

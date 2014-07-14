@@ -26,22 +26,22 @@ namespace Footprints.Tests.DITest
         [TestMethod]
         public void getUserByUserID()
         {
-            User x = userRep.getUserByUserID(users.First<User>().userID);
+            User x = userRep.getUserByUserID(users.First<User>().UserID);
             Assert.IsNotNull(x);
         }
 
         [TestMethod]
         public void updateUser() {
             var x = users.First<User>();
-            x.firstName = "Thang";
+            x.FirstName = "Thang";
             userRep.updateUser(x);
-            Assert.AreEqual(x.firstName, userRep.getUserByUserID(x.userID).firstName);
+            Assert.AreEqual(x.FirstName, userRep.getUserByUserID(x.UserID).FirstName);
         }
 
         [TestMethod]
         public void testCypherQuery() {
-            CypherQuery query = new CypherQuery("CREATE (ee:Person {person})", new Dictionary<string, object> { { "person", users.First() } }, CypherResultMode.Set);
-            ((IRawGraphClient)client).ExecuteCypher(query);
+            //CypherQuery query = new CypherQuery("CREATE (ee:Person {person})", new Dictionary<string, object> { { "person", users.First() } }, CypherResultMode.Set);
+            CypherQuery query = new CypherQuery("match (ee:Person) return ee",null,CypherResultMode.Projection);            
         }
     }
 }

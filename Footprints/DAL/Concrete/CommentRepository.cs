@@ -16,25 +16,25 @@ namespace Footprints.DAL.Concrete
 
         public List<Comment> getCommentByJourneyID(Guid journeyID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.journeyID == journeyID).Return(comment => comment.As<Comment>()).Results;
+            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.JourneyID == journeyID).Return(comment => comment.As<Comment>()).Results;
             return query.ToList<Comment>();
         }
 
         public List<Comment> getCommentByDestinationID(Guid destinationID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.destinationID == destinationID).Return(comment => comment.As<Comment>()).Results;
+            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.DestinationID == destinationID).Return(comment => comment.As<Comment>()).Results;
             return query.ToList<Comment>();
         }
 
         public Comment getCommentByCommentID(Guid commentID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.commentID == commentID).Return(comment => comment.As<Comment>()).Results;
+            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.CommentID == commentID).Return(comment => comment.As<Comment>()).Results;
             return query.FirstOrDefault<Comment>();
         }
 
         public bool updateAComment(Comment comment)
         {
-            var query = Db.Cypher.Match("(commentTaken:Comment)").Where((Comment commentTaken) => commentTaken.commentID == comment.commentID).
+            var query = Db.Cypher.Match("(commentTaken:Comment)").Where((Comment commentTaken) => commentTaken.CommentID == comment.CommentID).
                                     Set("commentTaken = {comment}").WithParams(new { comment }).Return(commentReturned => commentReturned.As<Comment>()).Results;
             return (query.First<Comment>() != null);
         }
@@ -62,19 +62,19 @@ namespace Footprints.DAL.Concrete
             //CREATE (activity)-[:NEXT]->(nextActivity)
             Activity activity = new Activity
             {
-                type = "COMMENT_ON_DESTINATION",
-                userID = userID,
-                destinationID = comment.destinationID,
-                timestamp = DateTimeOffset.Now
+                Type = "COMMENT_ON_DESTINATION",
+                UserID = userID,
+                DestinationID = comment.DestinationID,
+                Timestamp = DateTimeOffset.Now
             };
             Db.Cypher.Create("(comment:Comment {comment})").WithParams(new { comment }).
                        Create("(activity:Activity {activity})").WithParams(new { activity }).
                        With("comment, activity").
-                       Match("(destination:Destination)").Where("destination.destinationID = {destinationID}").WithParams(new { comment.destinationID }).
+                       Match("(destination:Destination)").Where("destination.DestinationID = {DestinationID}").WithParams(new { destinationID = comment.DestinationID }).
                        Create("(comment)-[:COMMENT_ON_DESTINATION]->(destination)").
                        Create("(activity)-[:COMMENT_ON_DESTINATION]->(destination)").
                        With("comment, activity").
-                       Match("(user:User)").Where("user.userID = {userID}").WithParams(new { userID }).
+                       Match("(user:User)").Where("user.UserID = {UserID}").WithParams(new { userID }).
                        Create("(comment)-[:COMMENT_BY]->(user)").
                        With("user, activity").
                        OptionalMatch("(user)-[f:FIRST]->(nextActivity)").
@@ -107,19 +107,19 @@ namespace Footprints.DAL.Concrete
             //CREATE (activity)-[:NEXT]->(nextActivity)
             Activity activity = new Activity
             {
-                type = "COMMENT_ON_JOURNEY",
-                userID = userID,
-                journeyID = comment.journeyID,
-                timestamp = DateTimeOffset.Now
+                Type = "COMMENT_ON_JOURNEY",
+                UserID = userID,
+                JourneyID = comment.JourneyID,
+                Timestamp = DateTimeOffset.Now
             };
             Db.Cypher.Create("(comment:Comment {comment})").WithParams(new { comment }).
                        Create("(activity:Activity {activity})").WithParams(new { activity }).
                        With("comment, activity").
-                       Match("(journey:Journey)").Where("journey.journeyID = {journeyID}").WithParams(new { comment.journeyID }).
+                       Match("(journey:Journey)").Where("journey.JourneyID = {JourneyID}").WithParams(new { journeyID = comment.JourneyID }).
                        Create("(comment)-[:COMMENT_ON_JOURNEY]->(journey)").
                        Create("(activity)-[:COMMENT_ON_JOURNEY]->(journey)").
                        With("comment, activity").
-                       Match("(user:User)").Where("user.userID = {userID}").WithParams(new { userID }).
+                       Match("(user:User)").Where("user.UserID = {UserID}").WithParams(new { userID }).
                        Create("(comment)-[:COMMENT_BY]->(user)").
                        With("user, activity").
                        OptionalMatch("(user)-[f:FIRST]->(nextActivity)").

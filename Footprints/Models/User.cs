@@ -8,31 +8,31 @@ namespace Footprints.Models
     public class User
     {
 
-        public Guid userID { get; set; }
+        public Guid UserID { get; set; }
 
-        public String firstName { get; set; }
+        public String FirstName { get; set; }
 
-        public String lastName { get; set; }
+        public String LastName { get; set; }
 
-        public String email { get; set; }
+        public String Email { get; set; }
 
-        public String address { get; set; }
+        public String Address { get; set; }
 
-        public String phoneNumber { get; set; }
+        public String PhoneNumber { get; set; }
 
-        public String username { get; set; }
+        public String UserName { get; set; }
 
-        public String password { get; set; }
+        public String Password { get; set; }
 
-        public bool status { get; set; }
+        public bool Status { get; set; }
 
-        public DateTimeOffset joinedDate { get; set; }
+        public DateTimeOffset JoinDate { get; set; }
 
-        public String profilePicURL { get; set; }
+        public String ProfilePicURL { get; set; }
 
-        public String displayName()
+        public String DisplayName()
         {
-            return firstName + " " + lastName;
+            return FirstName + " " + LastName;
         }
     }
 }

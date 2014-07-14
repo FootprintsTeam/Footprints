@@ -7,16 +7,16 @@ namespace Footprints.Models
 {
     public class Comment
     {
-        public Guid commentID { get; set; }
+        public Guid CommentID { get; set; }
 
-        public String content{get; set;}
+        public String Content{get; set;}
 
-        public Guid destinationID { get; set; }
+        public Guid DestinationID { get; set; }
 
-        public Guid journeyID { get; set; }
+        public Guid JourneyID { get; set; }
 
-        public int numberOfLikes { get; set; }
+        public int NumberOfLike { get; set; }
 
-        public DateTimeOffset timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
     }
 }

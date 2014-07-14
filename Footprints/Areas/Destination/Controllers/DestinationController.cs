@@ -21,8 +21,9 @@ namespace Footprints.Areas.Destination.Controllers
         // GET: /Destination/Destination/
         public ActionResult Index()
         {
-            var model = DestinationViewModel.GetSampleObject();
-            return View(model);
+            //var model = DestinationViewModel.GetSampleObject();
+            //return View(model);\
+            return View();
         }
 
         public ActionResult GetComments() {

@@ -46,14 +46,14 @@ namespace Footprints.DAL.Concrete
             //CREATE (activity)-[:NEXT]->(nextActivity)
             Activity activity = new Activity
             {
-                type = "ADD_NEW_JOURNEY",
-                userID = userID,
-                journeyID = journey.JourneyID,
-                timestamp = DateTime.Today
+                Type = "ADD_NEW_JOURNEY",
+                UserID = userID,
+                JourneyID = journey.JourneyID,
+                Timestamp = DateTime.Today
             };
            
             Db.Cypher.Create("(journey:Journey {j} )").WithParam("j", journey).With("journey").
-                    Match("(user:User)").Where((User user) => user.userID == userID).
+                    Match("(user:User)").Where((User user) => user.UserID == userID).
                     Create("(user)-[:HAS_JOURNEY]->(journey)").
                     Create("(activity:Activity {a})").WithParam("a", activity).
                     With("user, journey, activity").

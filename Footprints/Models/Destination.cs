@@ -7,22 +7,22 @@ namespace Footprints.Models
 {
     public class Destination
     {
-        public Guid destinationID { get; set; }
+        public Guid DestinationID { get; set; }
 
-        public String name { get; set; }
+        public String Name { get; set; }
 
-        public String description { get; set; }
+        public String Description { get; set; }
 
-        public double longitude { get; set; }
+        public double Longtitude { get; set; }
 
-        public double latitude { get; set; }
+        public double Latitude { get; set; }
 
-        public DateTimeOffset takenDate { get; set; }
+        public DateTimeOffset TakenDate { get; set; }
 
-        public int numberOfLikes { get; set; }
+        public int NumberOfLike { get; set; }
 
-        public DateTimeOffset timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
 
-        public List<Content> contents { get; set; }
+        public List<Content> Contents { get; set; }
     }
 }

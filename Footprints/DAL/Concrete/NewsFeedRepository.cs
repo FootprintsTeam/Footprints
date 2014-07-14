@@ -21,7 +21,8 @@ namespace Footprints.DAL.Concrete
         public void loadEgoNetwork(Guid userID)
         {
             String egoEdges = "ego" + userID;
-            var query = Db.Cypher.Match("(user:User)-[:" + egoEdges + "*]->(friend)-[:LATEST_ACTIVITY]->(latest_activity)-[:NEXT*]->(next_activity)").Where("user.userID = {userID}").WithParams(new { userID }).
+            //SQL-Injection-prone
+            var query = Db.Cypher.Match("(user:User)-[:" + egoEdges + "*]->(friend)-[:LATEST_ACTIVITY]->(latest_activity)-[:NEXT*]->(next_activity)").Where("user.UserID = {UserID}").WithParams(new { userID }).
                     Return((friend, latest_activity, next_activity) => new
                     {
                         friend = friend.As<User>(),
@@ -32,10 +33,10 @@ namespace Footprints.DAL.Concrete
             User currentFriend = new User();
             foreach (var item in query)
             {
-                if (currentFriend.userID == item.friend.userID)
+                if (currentFriend.UserID == item.friend.UserID)
                 {
                     activity.AddLast(item.next_activity);
-                    Console.WriteLine(item.next_activity.timestamp + " " + item.next_activity.userID);
+                    Console.WriteLine(item.next_activity.Timestamp + " " + item.next_activity.UserID);
                 }
                 else
                 {
@@ -44,9 +45,9 @@ namespace Footprints.DAL.Concrete
                     friendList.AddLast(currentFriend);
                     activity = new LinkedList<Activity>();
                     activity.AddLast(item.latest_activity);
-                    Console.WriteLine(item.latest_activity.timestamp + " " + item.latest_activity.userID);
+                    Console.WriteLine(item.latest_activity.Timestamp + " " + item.latest_activity.UserID);
                     activity.AddLast(item.next_activity);
-                    Console.WriteLine(item.next_activity.timestamp + " " + item.next_activity.userID);
+                    Console.WriteLine(item.next_activity.Timestamp + " " + item.next_activity.UserID);
                 }
             }
             activities.AddLast(activity);
@@ -94,7 +95,7 @@ namespace Footprints.DAL.Concrete
                         priorityQueue.Add(tempActivity.Next.Value);
                     }
                 }
-                if (mostRecentActivity.timestamp == latestActivity.timestamp)
+                if (mostRecentActivity.Timestamp == latestActivity.Timestamp)
                 {
                     latestFriendPosition = currentFriendPosition;
                     if (currentFriendPosition < numberOfFriends - 1)
@@ -130,7 +131,7 @@ namespace Footprints.DAL.Concrete
                         priorityQueue.Add(tempActivity.Next.Value);
                     }
                 }
-                if (mostRecentActivity.timestamp == latestActivity.timestamp)
+                if (mostRecentActivity.Timestamp == latestActivity.Timestamp)
                 {
                     latestFriendPosition = currentFriendPosition;
                     if (currentFriendPosition < numberOfFriends - 1)
@@ -149,7 +150,7 @@ namespace Footprints.DAL.Concrete
     {
         public override int Compare(Activity x, Activity y)
         {
-            return x.timestamp.CompareTo(y.timestamp);
+            return x.Timestamp.CompareTo(y.Timestamp);
         }
     }
 

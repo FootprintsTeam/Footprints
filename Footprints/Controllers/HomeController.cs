@@ -18,7 +18,7 @@ namespace Footprints.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Your application Description page.";
             return View();
         }
 

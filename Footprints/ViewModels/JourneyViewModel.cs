@@ -31,7 +31,7 @@ namespace Footprints.ViewModels
             return new JourneyViewModel
             {
                 AuthorId = new Guid(),
-                AuthorName = "Author name",
+                AuthorName = "Author Name",
                 JourneyId = new Guid(),
                 Name = "Journey Name",
                 Description = "Journey Description",

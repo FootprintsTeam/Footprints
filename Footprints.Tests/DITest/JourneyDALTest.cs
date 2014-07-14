@@ -15,7 +15,7 @@ namespace Footprints.Tests.DITest
         [TestMethod]
         public void addNewJourney()
         {
-            journeyRep.AddNewJourney( users.First().userID, journeys.First());
+            journeyRep.AddNewJourney( users.First().UserID, journeys.First());
         }
 
         [TestMethod]

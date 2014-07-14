@@ -33,9 +33,9 @@ namespace Footprints.Tests.DITest
             users = new List<User>();
             users.Add(new User
             {
-                userID = new Guid(),
-                firstName = "Nhan",
-                lastName = "Trinh"
+                UserID = new Guid(),
+                FirstName = "Nhan",
+                LastName = "Trinh"
             });
             userRep = new UserRepository(client);
         }
@@ -50,7 +50,7 @@ namespace Footprints.Tests.DITest
                 NumberOfLike = 2,
                 TakenDate = DateTimeOffset.Now,
                 Timestamp = DateTimeOffset.Now,                
-                UserID = users.First().userID
+                UserID = users.First().UserID
             });
 
             journeyRep = new JourneyRepository(client);
