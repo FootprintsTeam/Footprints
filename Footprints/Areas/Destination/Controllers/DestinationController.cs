@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Footprints.Service;
 using Neo4jClient;
+using Footprints.ViewModels;
 
 namespace Footprints.Areas.Destination.Controllers
 {
@@ -20,7 +21,8 @@ namespace Footprints.Areas.Destination.Controllers
         // GET: /Destination/Destination/
         public ActionResult Index()
         {
-            return View();
+            var model = DestinationViewModel.GetSampleObject();
+            return View(model);
         }
 
         public ActionResult GetComments() {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
+using Footprints.ViewModels;
+using Footprints.Models;
+
 namespace Footprints.Mappings
 {
     public class ViewModelToDomainMappingProfile : Profile
@@ -13,8 +16,8 @@ namespace Footprints.Mappings
         }
 
         protected override void Configure()
-        {            
-                
+        {
+            Mapper.CreateMap<AddNewJourneyViewModel, Journey>();
         }
     }
 }

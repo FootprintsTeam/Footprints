@@ -4,27 +4,35 @@ using System.Linq;
 using System.Web;
 using Footprints.DAL.Concrete;
 using Footprints.Models;
+using Footprints.ViewModels;
+using AutoMapper;
 namespace Footprints.Service
 {
     public interface IJourneyService
     {
+        void AddJourney(AddNewJourneyViewModel journeyViewModel);
     }
     public class JourneyService : IJourneyService
     {
-        IJourneyRepository _journeyRepo;
+        IJourneyRepository journeyRepository;
         public JourneyService(IJourneyRepository journeyRepo)
         {
-            _journeyRepo = journeyRepo;
+            this.journeyRepository = journeyRepo;
+        }
+
+        public void AddJourney(AddNewJourneyViewModel journeyViewModel) {
+            var model =  Mapper.Map<AddNewJourneyViewModel, Journey>(journeyViewModel);
+            journeyRepository.AddNewJourney(new Guid(),model);
         }
 
         public int getNumberOfLikes(Guid journeyID)
         {
-            return _journeyRepo.getNumberOfLikes(journeyID);
+            return journeyRepository.getNumberOfLikes(journeyID);
         }
 
         public Journey getJourneyByID(Guid journeyID)
         {
-            return _journeyRepo.getJourneyByID(journeyID);
+            return journeyRepository.getJourneyByID(journeyID);
         }
     }
 }

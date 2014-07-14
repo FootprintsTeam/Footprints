@@ -228,6 +228,7 @@
     <Compile Include="Services\JourneyService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DestinationViewModel.cs" />
     <Compile Include="ViewModels\JourneyViewModel.cs" />
     <Compile Include="ViewModels\MediaViewModel.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
@@ -268,6 +269,7 @@
     <Content Include="images\img2.jpg" />
     <Content Include="images\map.jpg" />
     <Content Include="images\map2.jpg" />
+    <Content Include="images\map_test.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />

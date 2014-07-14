@@ -20,7 +20,7 @@
                         @Html.HiddenFor(x => x.UserID)
                         @Html.HiddenFor(x => x.Timestamp)
                         <div class="form-group">
-                            @Html.DisplayFor(x => x.Name, new { @class = "col-sm-2 control-label" })
+                            @Html.LabelFor(x => x.Name, new { @class = "col-sm-2 control-label" })
                             @*<label for="" class="col-sm-2 control-label">Name</label>*@
                             <div class="col-sm-9">
                                 @Html.EditorFor(x => x.Name, new { @class = "form-control" })
@@ -28,11 +28,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            @Html.DisplayFor(x => x.Description, new { @class = "col-sm-2 control-label" })
+                            @Html.LabelFor(x => x.Description, new { @class = "col-sm-2 control-label" })
                             @*<label for="" class="col-sm-2 control-label">Description</label>*@
                             <div class="col-sm-9">
                                 @*<textarea class="txt-desc" rows="3"></textarea>*@
-                                @Html.TextAreaFor(x => x.Description)
+                                @Html.TextAreaFor(x => x.Description, new { @class = "txt-desc", @rows = "3" })
                             </div>
                         </div>
                         <div class="form-group">
@@ -50,7 +50,7 @@
                         </div>
                         <div class="form-group">
                             @*<label for="" class="col-sm-2 control-label">Time</label>*@
-                            @Html.DisplayFor(x => x.TakenDate, new { @class = "col-sm-2 control-label" })
+                            @Html.LabelFor(x => x.TakenDate, new { @class = "col-sm-2 control-label" })
                             <div class="col-sm-2 input-calendar">
                                 @Html.EditorFor(x => x.TakenDate, new { @class = "form-control" })
                             </div>
