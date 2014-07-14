@@ -30,10 +30,12 @@ namespace Footprints.Tests.DITest
             newsfeedRepository.LoadEgoNetwork(new Guid("ad49da1f-0481-4625-b906-66fbb2152474"));
         }
 
+        [TestMethod]
         public void RetrieveNewsfeed() {
             newsfeedRepository.RetrieveNewsFeed(new Guid("ad49da1f-0481-4625-b906-66fbb2152474"), 5);            
         }
 
+        [TestMethod]
         public void LoadMoreNewsfeed() {
             newsfeedRepository.LoadMoreNewsfeed(new Guid("ad49da1f-0481-4625-b906-66fbb2152474"), 5);
         }

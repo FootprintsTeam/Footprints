@@ -22,7 +22,7 @@ namespace Footprints.DAL.Concrete
         {
             String egoEdges = "ego" + userID;
             //SQL-Injection-prone
-            var query = Db.Cypher.Match("(user:User)-[:" + egoEdges + "*]->(friend)-[:LATEST_ACTIVITY]->(latest_activity)-[:NEXT*]->(next_activity)").Where("user.UserID = {UserID}").WithParams(new { userID }).
+            var query = Db.Cypher.Match("(user:User)-[:`" + egoEdges + "`*]->(friend)-[:LATEST_ACTIVITY]->(latest_activity)-[:NEXT*]->(next_activity)").Where("user.UserID = {UserID}").WithParams(new { userID }).
                     Return((friend, latest_activity, next_activity) => new
                     {
                         friend = friend.As<User>(),
