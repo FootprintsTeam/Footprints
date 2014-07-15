@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Neo4j.AspNet.Identity;
-using Neo4jClient;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Footprints.Models;
 
@@ -16,19 +15,15 @@ namespace Footprints.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        IGraphClient _graphClient;
-        public AccountController(IGraphClient graphClient)            
+        public AccountController()
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
-            _graphClient = graphClient;
-             this.UserManager = new UserManager<ApplicationUser>(
-          new UserStore<ApplicationUser>((GraphClient)_graphClient));
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
         }
-
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
         //
