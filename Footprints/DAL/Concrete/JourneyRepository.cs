@@ -29,21 +29,7 @@ namespace Footprints.DAL.Concrete
 
         public bool AddNewJourney(Guid userID, Journey journey)
         {
-            //Cypher Query
-            //CREATE (journey:Journey {journeyID : '2', name : 'Hanoi', description : 'Hanoi', takenDate : '03/07/2014', timestamp : '03/07/2014', numberOfLikes : '0'})
-            //WITH journey
-            //MATCH (user:User)
-            //WHERE (user.userID = '1')
-            //CREATE (user)-[:HAS_JOURNEY]->(journey)
-            //CREATE (activity:Activity { type : 'CREATE_NEW_JOURNEY', journeyID : '2', timestamp : '03/07/2014'})
-            //WITH user, journey, activity
-            //OPTIONAL MATCH (user)-[f:FIRST]->(nextActivity)
-            //CREATE (user)-[:FIRST]->(activity)
-            //CREATE (activity)-[:ACT_ON_JOURNEY]->(journey)
-            //WITH f, activity, nextActivity
-            //WHERE f IS NOT NULL
-            //DELETE f
-            //CREATE (activity)-[:NEXT]->(nextActivity)
+            //Cypher Query 
             Activity activity = new Activity
             {
                 Type = "ADD_NEW_JOURNEY",
@@ -57,8 +43,8 @@ namespace Footprints.DAL.Concrete
                     Create("(user)-[:HAS_JOURNEY]->(journey)").
                     Create("(activity:Activity {a})").WithParam("a", activity).
                     With("user, journey, activity").
-                    OptionalMatch("(user)-[f:FIRST]->(nextActivity)").
-                    Create("(user)-[:FIRST]->(activity)").
+                    OptionalMatch("(user)-[f:LATEST_ACTIVITY]->(nextActivity)").
+                    Create("(user)-[:LATEST_ACTIVITY]->(activity)").
                     Create("(activity)-[:ACT_ON_JOURNEY]->(journey)").
                     With("f, activity, nextActivity").
                     Where("f IS NOT NULL").Delete("f").

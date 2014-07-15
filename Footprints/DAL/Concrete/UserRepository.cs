@@ -69,13 +69,13 @@ namespace Footprints.DAL.Concrete
             //CREATE (userA)-[:ego43517b3c745f49c98c1b9e9de49dacee]->(EgoNodeOfB)
             Activity ActivityOfA = new Activity
             {
-                Type = "ADD_FRIEND",
+                Type = "ADD_NEW_FRIEND",
                 UserID = userID_B,
                 Timestamp = DateTimeOffset.Now
             };
             Activity ActivityOfB = new Activity
             {
-                Type = "ADD_FRIEND",
+                Type = "ADD_NEW_FRIEND",
                 UserID = userID_A,
                 Timestamp = DateTimeOffset.Now
             };
@@ -102,19 +102,19 @@ namespace Footprints.DAL.Concrete
                                      Delete("fi").
                                      Create("(activityOfB)-[:NEXT]->(nextActivityB)").
                                      With("userA, userB").
-                                     OptionalMatch("(userA)-[egoA:{egoA}]->(EgoNodeOfA)").WithParams(new {egoEdgeOfUserA = EgoEdgeOfUserA}).
-                                     Create("(userA)-[:{egoA}]->(userB)").WithParams(new { egoEdgeOfUserA = EgoEdgeOfUserA }).
+                                     OptionalMatch("(userA)-[egoA:{egoA}]->(EgoNodeOfA)").WithParams(new {egoA = EgoEdgeOfUserA}).
+                                     Create("(userA)-[:{egoA}]->(userB)").WithParams(new { egoA = EgoEdgeOfUserA }).
                                      With("userA, egoA, EgoNodeOfA, userB").
                                      Where("egoA IS NOT NULL").
                                      Delete("egoA").
-                                     Create("(userB)-[:{egoA}]->(EgoNodeOfA)").WithParams(new {egoEdgeOfUserA = EgoEdgeOfUserA}).
+                                     Create("(userB)-[:{egoA}]->(EgoNodeOfA)").WithParams(new {egoA = EgoEdgeOfUserA}).
                                      With("userA, userB").
-                                     OptionalMatch("(userB)-[egoB:{egoB}]->(EgoNodeOfB)").WithParams(new { egoEdgeOfUserB = EgoEdgeOfUserB }).
-                                     Create("(userB)-[:{egoB}]->(userA)").WithParams(new { egoEdgeOfUserB = EgoEdgeOfUserB }).
+                                     OptionalMatch("(userB)-[egoB:{egoB}]->(EgoNodeOfB)").WithParams(new { egoB = EgoEdgeOfUserB }).
+                                     Create("(userB)-[:{egoB}]->(userA)").WithParams(new { egoB = EgoEdgeOfUserB }).
                                      With("userA, egoB, EgoNodeOfB, userB").
                                      Where("egoB IS NOT NULL").
                                      Delete("egoB").
-                                     Create("(userA)-[:{egoB}]->(EgoNodeOfB)").WithParams(new { egoEdgeOfUserB = EgoEdgeOfUserB }).
+                                     Create("(userA)-[:{egoB}]->(EgoNodeOfB)").WithParams(new { egoB = EgoEdgeOfUserB }).
                                      ExecuteWithoutResults();
             return true;
         }
