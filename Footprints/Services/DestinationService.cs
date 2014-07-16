@@ -7,7 +7,10 @@ using Footprints.Models;
 using Neo4jClient;
 namespace Footprints.Service
 {
-    public interface IDestinationService { 
+    public interface IDestinationService {
+        bool AddDestination(Destination destination);
+        Destination GetDestinationDetail(Guid destinationID);
+        int GetNumberOfLike(Guid destinationID);
     }
     public class DestinationService : IDestinationService
     {
@@ -16,17 +19,17 @@ namespace Footprints.Service
             _destinationRepo = destinationRepo;
         }
 
-        public bool addNewDestination(Destination destination)
+        public bool AddDestination(Destination destination)
         {
            return _destinationRepo.AddNewDestination(destination);
         }
 
-        public Destination getDestinationInfoByID(Guid destinationID)
+        public Destination GetDestinationDetail(Guid destinationID)
         {
             return _destinationRepo.GetDestinationDetail(destinationID);
         }
 
-        public int getNumberOfLikes(Guid destinationID)
+        public int GetNumberOfLike(Guid destinationID)
         {
             return _destinationRepo.GetNumberOfLike(destinationID);
         }

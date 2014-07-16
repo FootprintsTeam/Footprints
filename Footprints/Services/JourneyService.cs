@@ -11,6 +11,8 @@ namespace Footprints.Service
     public interface IJourneyService
     {
         void AddJourney(AddNewJourneyViewModel journeyViewModel);
+        int GetNumberOfLike(Guid journeyID);
+        Journey RetrieveJourney(Guid journeyID);
     }
     public class JourneyService : IJourneyService
     {
@@ -25,12 +27,12 @@ namespace Footprints.Service
             journeyRepository.AddNewJourney(new Guid(),model);
         }
 
-        public int getNumberOfLikes(Guid journeyID)
+        public int GetNumberOfLike(Guid journeyID)
         {
             return journeyRepository.GetNumberOfLike(journeyID);
         }
 
-        public Journey getJourneyByID(Guid journeyID)
+        public Journey RetrieveJourney(Guid journeyID)
         {
             return journeyRepository.GetJourneyByID(journeyID);
         }
