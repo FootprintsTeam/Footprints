@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Neo4jClient;
+using Footprints.DAL.Abstract;
+using Footprints.DAL.Concrete;
 
 namespace Footprints.DAL.Infrastructure
 {
@@ -11,7 +14,7 @@ namespace Footprints.DAL.Infrastructure
         public int PageSize { get; set; }
 
         public Page()
-        {
+        {                        
             PageNumber = 1;
             PageSize = 10;
         }

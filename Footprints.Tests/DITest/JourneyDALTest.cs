@@ -20,13 +20,13 @@ namespace Footprints.Tests.DITest
 
         [TestMethod]
         public void getJourneyByID() {
-            var result = journeyRep.getJourneyByID(journeys.First().UserID);
+            var result = journeyRep.GetJourneyByID(journeys.First().UserID);
             Assert.AreEqual(result.UserID, journeys.First().UserID);
         }
 
         [TestMethod]
         public void getNumberOfLikes() {
-            var result = journeyRep.getNumberOfLikes(journeys.First().JourneyID);
+            var result = journeyRep.GetNumberOfLike(journeys.First().JourneyID);
             Assert.AreEqual(result, journeys.First().NumberOfLike);
         }
     }

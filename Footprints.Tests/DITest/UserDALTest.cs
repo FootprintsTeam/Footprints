@@ -20,13 +20,13 @@ namespace Footprints.Tests.DITest
         [TestMethod]
         public void addNewUser()
         {                        
-            userRep.addNewUser(users.First());            
+            userRep.AddNewUser(users.First());            
         }
 
         [TestMethod]
         public void getUserByUserID()
         {
-            User x = userRep.getUserByUserID(users.First<User>().UserID);
+            User x = userRep.GetUserByUserID(users.First<User>().UserID);
             Assert.IsNotNull(x);
         }
 
@@ -34,8 +34,8 @@ namespace Footprints.Tests.DITest
         public void updateUser() {
             var x = users.First<User>();
             x.FirstName = "Thang";
-            userRep.updateUser(x);
-            Assert.AreEqual(x.FirstName, userRep.getUserByUserID(x.UserID).FirstName);
+            userRep.UpdateUser(x);
+            Assert.AreEqual(x.FirstName, userRep.GetUserByUserID(x.UserID).FirstName);
         }
 
         [TestMethod]

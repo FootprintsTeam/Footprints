@@ -27,6 +27,7 @@ namespace Footprints.Tests.DITest
         [TestMethod]
         public void LoadEgoNetWork()
         {
+            var x = DateTimeOffset.Now;
             newsfeedRepository.LoadEgoNetwork(new Guid("ad49da1f-0481-4625-b906-66fbb2152474"));
         }
 

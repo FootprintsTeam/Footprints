@@ -12,25 +12,25 @@ namespace Footprints.DAL.Concrete
     {
         public UserRepository(IGraphClient client) : base(client) { }
 
-        public User getUserByUserID(Guid userID)
+        public User GetUserByUserID(Guid userID)
         {
             var query = Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == userID).Return(user => user.As<User>());
             return query.Results.First<User>();
         }
 
-        public void addNewUser(User userPara)
+        public void AddNewUser(User userPara)
         {
             Db.Cypher.Create("(user:User {user})").WithParam("user", userPara).Return(user => user.As<User>()).ExecuteWithoutResults();
         }
 
-        public bool updateUser(User user)
+        public bool UpdateUser(User user)
         {
             var query = Db.Cypher.Match("(userTaken:User)").Where((User userTaken) => userTaken.UserID == user.UserID).
                         Set("userTaken = {user}").WithParam("user",user).Return(userTaken => userTaken.As<User>()).Results;
             return (query.First<User>() != null);
         }
 
-        public bool addFriendRelationship(Guid userID_A, Guid userID_B)
+        public bool AddFriendRelationship(Guid userID_A, Guid userID_B)
         {
             //Cypher Query
             //MATCH (userA:User),(userB:User)
@@ -119,16 +119,58 @@ namespace Footprints.DAL.Concrete
             return true;
         }
 
+
+
+        public bool DeleteFriendRelationship(Guid userID_A, Guid userID_B)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BanUser(Guid userID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ReportUser(Guid reporterID, Guid reporteeID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UnbanUser(Guid userID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UnactiveUser(Guid userID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GrantAdminPrivilege(Guid userID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<User> GetUser()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IUserRepository : IRepository<User>
     {
-        User getUserByUserID(Guid userID);
-
+        IEnumerable<User> GetUser();
+        User GetUserByUserID(Guid userID);
         //bool addNewUser(User user);
-        void addNewUser(User user);
-        bool addFriendRelationship(Guid userID_A, Guid userID_B);
-        bool updateUser(User user);
+        void AddNewUser(User user);
+        bool AddFriendRelationship(Guid userID_A, Guid userID_B);
+        bool DeleteFriendRelationship(Guid userID_A, Guid userID_B);
+        bool UpdateUser(User user);
+        bool BanUser(Guid userID);
+        bool ReportUser(Guid reporterID, Guid reporteeID);
+        bool UnbanUser(Guid userID);
+        bool UnactiveUser(Guid userID);
+        bool GrantAdminPrivilege(Guid userID);
     }
 
 }

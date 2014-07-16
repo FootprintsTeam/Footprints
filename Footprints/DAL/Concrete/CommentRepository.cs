@@ -14,32 +14,32 @@ namespace Footprints.DAL.Concrete
 
         //TODO
 
-        public List<Comment> getCommentByJourneyID(Guid journeyID)
+        public List<Comment> GetCommentByJourney(Guid journeyID)
         {
             var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.JourneyID == journeyID).Return(comment => comment.As<Comment>()).Results;
             return query.ToList<Comment>();
         }
 
-        public List<Comment> getCommentByDestinationID(Guid destinationID)
+        public List<Comment> GetCommentByDestination(Guid destinationID)
         {
             var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.DestinationID == destinationID).Return(comment => comment.As<Comment>()).Results;
             return query.ToList<Comment>();
         }
 
-        public Comment getCommentByCommentID(Guid commentID)
+        public Comment GetComment(Guid commentID)
         {
             var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.CommentID == commentID).Return(comment => comment.As<Comment>()).Results;
             return query.FirstOrDefault<Comment>();
         }
 
-        public bool updateAComment(Comment comment)
+        public bool UpdateComment(Comment comment)
         {
             var query = Db.Cypher.Match("(commentTaken:Comment)").Where((Comment commentTaken) => commentTaken.CommentID == comment.CommentID).
                                     Set("commentTaken = {comment}").WithParams(new { comment }).Return(commentReturned => commentReturned.As<Comment>()).Results;
             return (query.First<Comment>() != null);
         }
 
-        public bool addNewCommentOnDestination(Guid userID, Comment comment)
+        public bool AddCommentOnDestination(Guid userID, Comment comment)
         {
             //Cypher Query
             //CREATE (comment:Comment {commentID = '1', destinationID = '1', numberOfLikes = '0', timestamp = '04/07/2014'})
@@ -84,7 +84,7 @@ namespace Footprints.DAL.Concrete
             return true;
         }
 
-        public bool addNewCommentOnJourney(Guid userID, Comment comment)
+        public bool AddCommentOnJourney(Guid userID, Comment comment)
         {
             //Cypher Query
             //CREATE (comment:Comment {commentID = '1', journeyID = '1', numberOfLikes = '0', timestamp = '04/07/2014'})
@@ -133,11 +133,11 @@ namespace Footprints.DAL.Concrete
 
     public interface ICommentRepository : IRepository<CommentRepository>
     {
-        List<Comment> getCommentByDestinationID(Guid destinationID);
-        List<Comment> getCommentByJourneyID(Guid journeyID);
-        bool addNewCommentOnDestination(Guid userID, Comment comment);
-        bool addNewCommentOnJourney(Guid userID, Comment comment);
-        Comment getCommentByCommentID(Guid commentID);
-        bool updateAComment(Comment comment);
+        List<Comment> GetCommentByDestination(Guid destinationID);
+        List<Comment> GetCommentByJourney(Guid journeyID);
+        bool AddCommentOnDestination(Guid userID, Comment comment);
+        bool AddCommentOnJourney(Guid userID, Comment comment);
+        Comment GetComment(Guid commentID);
+        bool UpdateComment(Comment comment);
     }
 }

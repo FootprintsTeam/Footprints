@@ -18,17 +18,17 @@ namespace Footprints.Service
 
         public bool addNewDestination(Destination destination)
         {
-           return _destinationRepo.addNewDestination(destination);
+           return _destinationRepo.AddNewDestination(destination);
         }
 
         public Destination getDestinationInfoByID(Guid destinationID)
         {
-            return _destinationRepo.getDestinationInfoByID(destinationID);
+            return _destinationRepo.GetDestinationDetail(destinationID);
         }
 
         public int getNumberOfLikes(Guid destinationID)
         {
-            return _destinationRepo.getNumberOfLikes(destinationID);
+            return _destinationRepo.GetNumberOfLike(destinationID);
         }
     }
 }
