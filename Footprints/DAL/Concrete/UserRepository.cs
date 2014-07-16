@@ -79,8 +79,8 @@ namespace Footprints.DAL.Concrete
                 UserID = userID_A,
                 Timestamp = DateTimeOffset.Now
             };
-            String EgoEdgeOfUserA = "ego" + userID_A.ToString("N");
-            String EgoEdgeOfUserB = "ego" + userID_B.ToString("N");
+            String EgoEdgeOfUserA = userID_A.ToString("N");
+            String EgoEdgeOfUserB = userID_B.ToString("N");
             Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.UserID == userID_A).
                                      AndWhere((User userB) => userB.UserID == userID_B).
                                      Create("(userA)-[:FRIEND]->(userB)").
