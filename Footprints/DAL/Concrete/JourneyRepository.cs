@@ -11,7 +11,7 @@ namespace Footprints.DAL.Concrete
     {
         public JourneyRepository(IGraphClient client) : base(client) { }
 
-        public int getNumberOfLikes(Guid journeyID)
+        public int GetNumberOfLike(Guid journeyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").
                 Where((Journey journey) => journey.JourneyID == journeyID).
@@ -19,7 +19,7 @@ namespace Footprints.DAL.Concrete
             return query.Results.First<Journey>().NumberOfLike;
         }
 
-        public Journey getJourneyByID(Guid journeyID)
+        public Journey GetJourneyByID(Guid journeyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").
                 Where((Journey journey) => journey.JourneyID == journeyID).
@@ -52,12 +52,31 @@ namespace Footprints.DAL.Concrete
             return true;
         }
 
+
+
+        public void UpdateJourney(Journey journey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteJourney(Guid journeyID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Journey> GetJourneyList()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IJourneyRepository : IRepository<Journey>
     {
         bool AddNewJourney(Guid userID, Journey journey);    
-        int getNumberOfLikes(Guid journeyID);
-        Journey getJourneyByID(Guid journeyID);
+        int GetNumberOfLike(Guid journeyID);
+        Journey GetJourneyByID(Guid journeyID);
+        void UpdateJourney(Journey journey);
+        void DeleteJourney(Guid journeyID);
+        IEnumerable<Journey> GetJourneyList();
     }
 }

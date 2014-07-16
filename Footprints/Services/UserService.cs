@@ -19,7 +19,7 @@ namespace Footprints.Service
 
         public User getUserByUserID(Guid userID)
         {
-            return _userRepo.getUserByUserID(userID);
+            return _userRepo.GetUserByUserID(userID);
         }
 
         public bool addNewUser(User user)
@@ -30,12 +30,12 @@ namespace Footprints.Service
 
         public bool updateUser(User user)
         {
-            return _userRepo.updateUser(user);
+            return _userRepo.UpdateUser(user);
         }
 
         public bool addFriendRelationship(Guid userID_A, Guid userID_B)
         {
-            return _userRepo.addFriendRelationship(userID_A, userID_B);
+            return _userRepo.AddFriendRelationship(userID_A, userID_B);
         }
     }
 }

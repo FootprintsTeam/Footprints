@@ -14,25 +14,25 @@ namespace Footprints.DAL.Concrete
     {
         public DestinationRepository(IGraphClient client) : base(client) { }
 
-        public bool addNewDestination(Destination destination)
+        public bool AddNewDestination(Destination destination)
         {
             
             return false;
         }
 
-        public Destination getDestinationInfoByID(Guid destinationID){            
+        public Destination GetDestinationDetail(Guid destinationID){            
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == destinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>();
         }
 
-        public bool updateDestination(Destination destination) 
+        public bool UpdateDestination(Destination destination) 
         {
             var query = Db.Cypher.Match("(destinationTaken:Destination)").Where((Destination destinationTaken) => destinationTaken.DestinationID == destination.DestinationID).
                 Set("destinationTaken = {destination}").WithParams(new { destination }).Return(destinationReturned => destinationReturned.As<Destination>()).Results;
             return (query.First<Destination>() != null);
         }
 
-        public int getNumberOfLikes(Guid destinationID){
+        public int GetNumberOfLike(Guid destinationID){
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == destinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>().NumberOfLike;
         }        
@@ -40,11 +40,11 @@ namespace Footprints.DAL.Concrete
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
-        Destination getDestinationInfoByID(Guid destinationID);
+        Destination GetDestinationDetail(Guid destinationID);
 
-        int getNumberOfLikes(Guid destinationID);
+        int GetNumberOfLike(Guid destinationID);
 
-        bool addNewDestination(Destination destination);
+        bool AddNewDestination(Destination destination);
     }
 
 }

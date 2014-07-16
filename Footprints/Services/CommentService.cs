@@ -17,30 +17,30 @@ namespace Footprints.Service
 
         public List<Comment> getCommentByDestinationID(Guid destinationID)
         {
-            return _commentRepo.getCommentByDestinationID(destinationID);
+            return _commentRepo.GetCommentByDestination(destinationID);
         }
 
         public List<Comment> getCommentByJourneyID(Guid journeyID)
         {
-            return _commentRepo.getCommentByJourneyID(journeyID);
+            return _commentRepo.GetCommentByJourney(journeyID);
         }
 
         public bool addNewCommentOnDestination(Guid userID, Comment comment)
         {
-            return _commentRepo.addNewCommentOnDestination(userID, comment);
+            return _commentRepo.AddCommentOnDestination(userID, comment);
         }
 
         public bool addNewCommentOnJourney(Guid userID, Comment comment)
         {
-            return _commentRepo.addNewCommentOnJourney(userID, comment);
+            return _commentRepo.AddCommentOnJourney(userID, comment);
         }
         public Comment getCommentByCommentID(Guid commentID) 
         {
-            return _commentRepo.getCommentByCommentID(commentID);
+            return _commentRepo.GetComment(commentID);
         }
         public bool updateAComment(Comment comment)
         {
-            return _commentRepo.updateAComment(comment);
+            return _commentRepo.UpdateComment(comment);
         }
     }
 }

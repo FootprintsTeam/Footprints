@@ -27,12 +27,12 @@ namespace Footprints.Service
 
         public int getNumberOfLikes(Guid journeyID)
         {
-            return journeyRepository.getNumberOfLikes(journeyID);
+            return journeyRepository.GetNumberOfLike(journeyID);
         }
 
         public Journey getJourneyByID(Guid journeyID)
         {
-            return journeyRepository.getJourneyByID(journeyID);
+            return journeyRepository.GetJourneyByID(journeyID);
         }
     }
 }
