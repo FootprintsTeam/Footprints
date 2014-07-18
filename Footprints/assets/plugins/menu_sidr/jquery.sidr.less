@@ -1,0 +1,29 @@
+@media (max-width: 767px) {
+    .sidr {
+        display: none;
+        position: absolute;
+        position: fixed;
+        top: 0;
+        height: 100%;
+        z-index: 999999;
+        width: @menuSidebarWidth;
+        overflow-x: none;
+        overflow-y: auto;
+    }
+    .sidr.left {
+        left: -@menuSidebarWidth;
+        right: auto;
+    }
+}
+
+.sidr.right {
+    display: none;
+    position: absolute;
+    position: fixed;
+    top: 0;
+    right: -@menuSidebarWidth;
+    height: 100%;
+    z-index: 999999;
+    width: @menuSidebarWidth;
+    overflow: hidden;
+}

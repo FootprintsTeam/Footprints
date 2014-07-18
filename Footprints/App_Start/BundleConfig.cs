@@ -36,6 +36,40 @@ namespace Footprints
                       "~/Content/bootstrap.css"
                       ));
             bundles.Add(new StyleBundle("~/mycss").Include("~/Content/style.css", "~/Content/font-awesome.min.css"));
+
+            //Template css and scripts
+            bundles.Add(new StyleBundle("~/Content/all").Include("~/assets/css/admin/module.admin.stylesheet-complete.min.css"));
+            bundles.Add(new ScriptBundle("~/script/core").Include("~/assets/library/jquery/jquery.min.js", "~/assets/library/modernizr/modernizr.js"));
+            bundles.Add(new ScriptBundle("~/script/dependency").Include(
+                "~/assets/library/bootstrap/js/bootstrap.min.js",
+                "~/assets/library/jquery/jquery-migrate.min.js",
+                "~/assets/components/maps_google/maps-google.init.js"
+                ));
+            bundles.Add(new ScriptBundle("~/script/plugins").Include(
+                //"~/assets/plugins/core_nicescroll/jquery.nicescroll.min.js",
+                "~/assets/plugins/core_breakpoints/breakpoints.js",
+                "~/assets/plugins/core_ajaxify_davis/davis.min.js",
+                "~/assets/plugins/core_ajaxify_lazyjaxdavis/jquery.lazyjaxdavis.min.js",
+                //"~/assets/plugins/core_preload/pace.min.js",
+                "~/assets/plugins/menu_sidr/jquery.sidr.js",
+                "~/assets/plugins/menu_sidr/jquery.sidr.js",
+                "~/assets/plugins/media_holder/holder.js",
+                "~/assets/plugins/media_gridalicious/jquery.gridalicious.min.js",
+                //"~/assets/plugins/other_mixitup/jquery.mixitup.min.js",
+                "~/assets/plugins/core_less-js/less.min.js",
+                //"~/assets/plugins/charts_flot/excanvas.js",
+                "~/assets/plugins/core_browser/ie/ie.prototype.polyfill.js"
+                ));
+            bundles.Add(new ScriptBundle("~/script/bundle").Include(
+                "~/assets/components/core_ajaxify/ajaxify.init.js",
+                //"~/assets/components/core_preload/preload.pace.init.js",
+                //"~/assets/components/widget_twitter/twitter.init.js",
+                "~/assets/components/media_gridalicious/gridalicious.init.js",
+                //"~/assets/components/menus/sidebar.main.init.js",
+                //"~/assets/components/menus/sidebar.collapse.init.js",
+                //"~/assets/components/menus/menus.sidebar.chat.init.js",
+                //"~/assets/plugins/other_mixitup/mixitup.init.js",
+                "~/assets/components/core/core.init.js"));
         }
     }
 }

@@ -1,0 +1,143 @@
+//
+// Forms
+// --------------------------------------------------
+
+input[type="text"] {
+	&:focus, &:active, &:hover {
+	 	background-color: lighten(#efefef,3%);
+	}
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+	border-color: @contentBorder;
+  	#reset .boxShadow();
+  	
+}
+select, 
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="datetime"], 
+input[type="datetime-local"], 
+input[type="date"], 
+input[type="month"], 
+input[type="time"], 
+input[type="week"], 
+input[type="number"], 
+input[type="email"], 
+input[type="url"], 
+input[type="search"], 
+input[type="tel"], 
+input[type="color"], 
+.uneditable-input { 
+	font-size: 13px;
+	#reset .boxShadow();
+	.rounded();
+	border-color: @contentBorder;
+
+}
+.uniformjs .radio .disabled input[type="radio"], 
+.uniformjs .checkbox .disabled input[type="checkbox"] { margin-left: 0; }
+.uniformjs .radio, .uniformjs .checkbox { padding-left: 0; }
+.uniformjs .radio { height: auto; }
+.radio.inline + .radio.inline, .checkbox.inline + .checkbox.inline { margin-left: 3px; }
+.uniformjs label.radio { margin-bottom: 0; }
+.uniformjs label.radio.inline { margin: 0; }
+.checkbox.inline { padding-bottom: 1px; }
+.uniformjs .radio span { margin: 2px 0 0; }
+.uniformjs .checkbox span { margin: -2px 0 0; }
+label, input, button, select, textarea { font-size: 13px; }
+.input-full input { width: 83%; height: 17px; }
+legend {
+	line-height: normal;
+	height: auto;
+	font-size: 18px;
+	margin: 0 0 6px;
+	text-align: left;
+	padding: 0;
+	border: 0;
+	color: #797979;
+}
+.strong { font-weight: bold; }
+input[type=text],
+input[type=password],
+select, textarea { 
+	border-color: @contentBorder;
+	
+}
+
+.control-label.center { text-align: center; }
+.form-actions { background: none; border: none; margin: 0; }
+.form-horizontal {
+	.form-actions { margin-top: 0; padding: 0; }
+	.control-group:last-child { margin: 0; }
+}
+.input-prepend .add-on,
+.input-append .add-on {
+	background: #fff;
+	border-color: @contentBorder;
+	i:before { color: #D0D1D1; }
+	icon { margin-top: 0; }
+}
+.input-prepend .add-on.glyphicons,
+.input-append .add-on.glyphicons {
+	background: #fff;
+	i:before { font-size: 14px; left: 7px; top: 7px; color: #D0D1D1; }
+}
+.input-append .add-on.glyphicons i:before { left: 6px; }
+
+.input-group {
+	.input-group-addon {
+		background: #fff;
+		border-color: #efefef;
+	}
+	.input-group-btn {
+		button.btn {
+			border-radius: 0;
+			border:none;
+		}
+	}
+	&.comment {
+		border-top:1px solid #efefef;
+		input { 
+			margin:none;
+			border-color:#fff;
+			
+		}
+		.input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group { margin-left:0;}
+	}
+
+}
+
+.form-control  { border-color: #efefef; box-shadow: none; height: auto;
+	&.clean { border:none;}
+}
+.friends-search {
+	.form-control {
+		border: none;
+		font-style: italic;
+		color:#000;
+	}
+	.btn { 
+		border: none; 
+		background: none;
+		color:#ccc;	
+		&:active { color:#ccc;color:@primaryColor;}
+	}
+	border-bottom: 1px solid #efefef;
+}

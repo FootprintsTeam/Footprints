@@ -1,0 +1,23 @@
+#menu {
+	width: @menuSidebarWidth;
+	position: fixed;
+	height: 100%;
+	background: @inverseColor;
+	z-index: 1;
+}
+
+.sidebar.sidebar-social {
+	.menu-hidden {
+		#footer {
+			left: 0;
+			right: 0;
+		}
+		.navbar.main {
+			left: 0 !important;
+			right: 0 !important;
+		}
+		#content {
+			margin: 0;
+		}
+	}
+}

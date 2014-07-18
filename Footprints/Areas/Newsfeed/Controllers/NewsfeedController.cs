@@ -16,6 +16,10 @@ namespace Footprints.Areas.Newsfeed.Controllers
             return View(model);
         }
 
+        public ActionResult TemplateIndex() {
+            return View();
+        }
+
         [ChildActionOnly]
         public PartialViewResult ItemJourneyPost()
         {
