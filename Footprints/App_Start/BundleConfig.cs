@@ -37,8 +37,7 @@ namespace Footprints
                       ));
             bundles.Add(new StyleBundle("~/mycss").Include("~/Content/style.css", "~/Content/font-awesome.min.css"));
 
-            //Template css and scripts
-            bundles.Add(new StyleBundle("~/Content/all").Include("~/assets/css/admin/module.admin.stylesheet-complete.min.css"));
+            //Template scripts            
             bundles.Add(new ScriptBundle("~/script/core").Include("~/assets/library/jquery/jquery.min.js", "~/assets/library/modernizr/modernizr.js"));
             bundles.Add(new ScriptBundle("~/script/dependency").Include(
                 "~/assets/library/bootstrap/js/bootstrap.min.js",
@@ -70,6 +69,33 @@ namespace Footprints
                 //"~/assets/components/menus/menus.sidebar.chat.init.js",
                 //"~/assets/plugins/other_mixitup/mixitup.init.js",
                 "~/assets/components/core/core.init.js"));
+
+            //Core css
+            bundles.Add(new StyleBundle("~/css/core").Include(                
+                "~/assets/css/admin/module.admin.stylesheet-complete.min.css"
+                //, "~/assets/library/bootstrap/css/bootstrap.min.css"
+                //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
+                //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_regular.css"
+                //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_social.css"
+                //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_filetypes.css"
+                //, "~/assets/components/core/variables.less"
+                //, "~/assets/components/core/mixins.less"
+                //, "~/assets/components/core/scaffolding.less"
+                //, "~/assets/components/core/helpers.less"
+                ));
+
+            //Timeline page css
+            bundles.Add(new StyleBundle("~/css/timeline").Include(
+                "~/assets/components/ui_buttons/buttons.less",
+                "~/assets/library/icons/pictoicons/css/picto.css",
+                "~/assets/components/core/widgets.less",
+                "~/assets/components/ui_tabs/tabs.less",
+                "~/assets/components/ui_buttons/buttons.less",
+                "~/assets/components/ui_forms/forms.less",
+                "~/assets/components/ui_ribbons/ribbons.less",
+                "~/assets/components/admin_ratings/rating.less"));
+
+
         }
     }
 }

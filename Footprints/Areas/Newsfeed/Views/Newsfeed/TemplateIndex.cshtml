@@ -31,7 +31,8 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    @Styles.Render("~/Content/all")
+    @Styles.Render("~/css/core")
+    @Styles.Render("~/css/timeline")
 
 
     <script src="../assets/plugins/core_ajaxify_loadscript/script.min.js?v=v2.0.0-rc8&sv=v0.0.1.2"></script>
@@ -61,77 +62,8 @@
     @Scripts.Render("~/script/dependency")
     @Scripts.Render("~/script/plugins")
     @Scripts.Render("~/script/bundle")
-
-
-    @*<script>var App = {};</script>
-
-        <script data-id="App.Scripts">
-            App.Scripts = {
-
-                /* CORE scripts always load first; */
-                core: [
-                    '../assets/library/jquery/jquery.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/library/modernizr/modernizr.js?v=v2.0.0-rc8&sv=v0.0.1.2'
-                ],
-
-                /* PLUGINS_DEPENDENCY always load after CORE but before PLUGINS; */
-                plugins_dependency: [
-                    '../assets/library/bootstrap/js/bootstrap.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/library/jquery/jquery-migrate.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/components/maps_google/maps-google.init.js?v=v2.0.0-rc8&sv=v0.0.1.2'
-                ],
-
-                /* PLUGINS always load after CORE and PLUGINS_DEPENDENCY, but before the BUNDLE / initialization scripts; */
-                plugins: [
-                    '../assets/plugins/core_nicescroll/jquery.nicescroll.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/core_breakpoints/breakpoints.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/core_ajaxify_davis/davis.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/core_ajaxify_lazyjaxdavis/jquery.lazyjaxdavis.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/core_preload/pace.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/menu_sidr/jquery.sidr.js?v=v2.0.0-rc8',
-                    '../assets/plugins/media_holder/holder.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/media_gridalicious/jquery.gridalicious.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    'http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps',
-                    '../assets/plugins/ui_modals/bootbox.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/other_mixitup/jquery.mixitup.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/core_less-js/less.min.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/charts_flot/excanvas.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/plugins/core_browser/ie/ie.prototype.polyfill.js?v=v2.0.0-rc8&sv=v0.0.1.2'
-                ],
-
-                /* The initialization scripts always load last and are automatically and dynamically loaded when AJAX navigation is enabled; */
-                bundle: [
-                    '../assets/components/core_ajaxify/ajaxify.init.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/components/core_preload/preload.pace.init.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/components/widget_twitter/twitter.init.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/components/media_gridalicious/gridalicious.init.js?v=v2.0.0-rc8',
-                    '../assets/components/menus/sidebar.main.init.js?v=v2.0.0-rc8',
-                    '../assets/components/menus/sidebar.collapse.init.js?v=v2.0.0-rc8',
-                    '../assets/components/menus/menus.sidebar.chat.init.js?v=v2.0.0-rc8',
-                    '../assets/plugins/other_mixitup/mixitup.init.js?v=v2.0.0-rc8&sv=v0.0.1.2',
-                    '../assets/components/core/core.init.js?v=v2.0.0-rc8'
-                ]
-
-            };
-        </script>
-
-        <script>
-            $script(App.Scripts.core, 'core');
-
-            $script.ready(['core'], function () {
-                $script(App.Scripts.plugins_dependency, 'plugins_dependency');
-            });
-            $script.ready(['core', 'plugins_dependency'], function () {
-                $script(App.Scripts.plugins, 'plugins');
-            });
-            $script.ready(['core', 'plugins_dependency', 'plugins'], function () {
-                $script(App.Scripts.bundle, 'bundle');
-            });
-        </script>*@
-    <script>
-        if (false && document.documentMode === 10) { document.documentElement.className += ' ie ie10'; }</script>
-
 </head>
+
 <body class=" scripts-async menu-right-hidden">
     <!-- Main Container Fluid -->
     <div class="container-fluid menu-hidden ">
@@ -206,9 +138,8 @@
             <!-- <div class="layout-app">  -->
             <div class="innerAll">
                 <div class="row">
-                    <div class="col-lg-9 col-md-8">
-
-                        <div class="timeline-cover">
+                    <div class="col-lg-12 col-md-12 col-lg-offset-0 col-md-offset-0">
+                        @*<div class="timeline-cover">
                             <div class="cover">
                                 <div class="top">
                                     <img src="../assets//images/photodune-2755655-party-time-s.jpg" class="img-responsive" />
@@ -229,13 +160,27 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
 
 
                         <div class="gridalicious-row" data-toggle="gridalicious" data-gridalicious-width="340" data-gridalicious-gutter="12" data-gridalicious-selector=".gridalicious-item">
                             <div class="innerAll inner-2x loading text-center text-medium"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
                             <div class="loaded hide2">
+                                <!-- Widget -->
+                                <div class="widget gridalicious-item not-responsive">
+                                    <div class="widget-body text-center">
+                                        <a href=""><img src="../assets/images/people/250/22.jpg" width="120" alt="" class="img-circle"></a>
+                                        <h2 class="strong margin-none">Adrian Demian</h2>
+                                        <div class="innerB">Working at MOSAICPRO</div>
+                                        <a href="" class="btn btn-primary text-center btn-block">PRO Account</a>
+                                        <div class="btn-group-vertical btn-block">
+                                            <a href="" class="btn btn-default"><i class="fa fa-cog pull-right"></i>Edit Account</a>
+                                            <a href="" class="btn btn-default"><i class="fa fa-cog pull-right"></i>Logout</a>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <!-- Widget -->
                                 <div class="widget gridalicious-item not-responsive">
                                     <img src="../assets/images/photodune-2755655-party-time-s.jpg" alt="" class="img-responsive" />
@@ -849,7 +794,7 @@
 
                     </div>
 
-                    <div class="col-md-4 col-lg-3">
+                    @*<div class="col-md-4 col-lg-3">
 
                         <div class="widget">
                             <div class="widget-body text-center">
@@ -933,7 +878,7 @@
                                 <div class="jstwitter" data-gridalicious="false" data-type="slide" data-images="false"><span class="label label-default">Loading .. </span></div>
                             </div>
                         </div>
-                        <!-- // Widget END -->
+                        <!-- // Widget END -->*@
 
 
 
@@ -972,28 +917,5 @@
     <!-- // Main Container Fluid END -->
     <!-- Global -->\
     <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>
-    @*<script>
-            var basePath = '',
-            commonPath = '../assets/',
-            rootPath = '../',
-            DEV = false,
-            componentsPath = '../assets/components/';
-
-            var primaryColor = '#25ad9f',
-                dangerColor = '#b55151',
-                successColor = '#609450',
-                infoColor = '#4a8bc2',
-                warningColor = '#ab7a4b',
-                inverseColor = '#45484d';
-
-            var themerPrimaryColor = primaryColor;
-
-            App.Config = {
-                ajaxify_menu_selectors: ['#menu'],
-                ajaxify_layout_app: false
-            };
-        </script>*@
-
-
 </body>
 </html>

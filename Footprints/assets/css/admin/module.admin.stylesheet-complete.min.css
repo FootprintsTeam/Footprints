@@ -6,32 +6,7 @@
 @import '../../../assets/library/icons/pictoicons/css/picto.css';
 @import '../../../assets/library/jquery-ui/css/jquery-ui.min.css';
 @import '../../../assets/library/animate/animate.min.css';
-@import '../../../assets/plugins/calendar_fullcalendar/css/fullcalendar.css';
-@import '../../../assets/plugins/forms_elements_bootstrap-datepicker/css/bootstrap-datepicker.css';
-@import '../../../assets/plugins/forms_elements_bootstrap-select/css/bootstrap-select.css';
-@import '../../../assets/plugins/forms_elements_bootstrap-switch/css/bootstrap-switch.css';
-@import '../../../assets/plugins/forms_elements_bootstrap-timepicker/css/bootstrap-timepicker.css';
-@import '../../../assets/plugins/forms_elements_colorpicker-farbtastic/css/farbtastic.css';
-@import '../../../assets/plugins/forms_elements_jasny-fileupload/css/fileupload.css';
-@import '../../../assets/plugins/forms_elements_multiselect/css/multi-select.css';
-@import '../../../assets/plugins/forms_elements_select2/css/select2.css';
-@import '../../../assets/plugins/forms_file_dropzone/css/dropzone.css';
-@import '../../../assets/plugins/forms_file_plupload/jquery.plupload.queue/css/jquery.plupload.queue.css';
-@import '../../../assets/plugins/maps_vector/css/elements.css';
-@import '../../../assets/plugins/maps_vector/css/jquery-jvectormap-1.1.1.css';
-@import '../../../assets/plugins/maps_vector/css/jquery-jvectormap-1.2.2.css';
-@import '../../../assets/plugins/media_owl-carousel/owl.carousel.css';
-@import '../../../assets/plugins/media_owl-carousel/owl.theme.css';
-@import '../../../assets/plugins/media_prettyphoto/css/prettyPhoto.css';
-@import '../../../assets/plugins/notifications_gritter/css/jquery.gritter.css';
-@import '../../../assets/plugins/notifications_notyfy/css/jquery.notyfy.css';
-@import '../../../assets/plugins/notifications_notyfy/css/notyfy.theme.default.css';
-@import '../../../assets/plugins/other_page-tour/css/pageguide.css';
-@import '../../../assets/plugins/tables_datatables/extras/ColReorder/media/css/ColReorder.css';
-@import '../../../assets/plugins/tables_datatables/extras/ColVis/media/css/ColVis.css';
-@import '../../../assets/plugins/tables_datatables/extras/TableTools/media/css/TableTools.css';
-@import '../../../assets/plugins/tables_responsive/css/footable.core.min.css';
-@import '../../../assets/plugins/ui_sliders_range_jqrangeslider/css/iThing.css';
+
 
 .scripts-async .container-fluid {
     visibility: hidden;
@@ -52,6 +27,7 @@
 .innerAll {
     padding: 10px;
     position: relative;
+    align-content:center;
 }
 
 .innerL {
