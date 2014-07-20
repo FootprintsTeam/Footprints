@@ -93,9 +93,7 @@ namespace Footprints
                 "~/assets/components/ui_buttons/buttons.less",
                 "~/assets/components/ui_forms/forms.less",
                 "~/assets/components/ui_ribbons/ribbons.less",
-                "~/assets/components/admin_ratings/rating.less"));
-
-
+                "~/assets/components/admin_ratings/rating.less"));  
         }
     }
 }
