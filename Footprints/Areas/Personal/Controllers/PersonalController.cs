@@ -13,8 +13,9 @@ namespace Footprints.Areas.Personal.Controllers
         // GET: /Personal/Personal/
         public ActionResult Index()
         {
-            var model = PersonalViewModel.GetSampleObject();
-            return View(model);
+            //var model = PersonalViewModel.GetSampleObject();
+            //return View(model);
+            return View();
         }
 	}
 }

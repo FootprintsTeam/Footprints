@@ -2,22 +2,22 @@
 
 namespace Footprints.Areas.Personal
 {
-    public class PersonalAreaRegistration : AreaRegistration 
+    public class PersonalAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "Personal";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "Personal_default",
-                "Personal/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                "{controller}/{action}/{id}",
+                new { controller = "Personal", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -71,7 +71,7 @@ namespace Footprints
                 "~/assets/components/core/core.init.js"));
 
             //Core css
-            bundles.Add(new StyleBundle("~/css/core").Include(                
+            bundles.Add(new StyleBundle("~/css/core").Include(
                 "~/assets/css/admin/module.admin.stylesheet-complete.min.css"
                 //, "~/assets/library/bootstrap/css/bootstrap.min.css"
                 //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
@@ -93,7 +93,27 @@ namespace Footprints
                 "~/assets/components/ui_buttons/buttons.less",
                 "~/assets/components/ui_forms/forms.less",
                 "~/assets/components/ui_ribbons/ribbons.less",
-                "~/assets/components/admin_ratings/rating.less"));  
+                "~/assets/components/admin_ratings/rating.less"));
+
+            //Personal page
+            bundles.Add(new StyleBundle("~/css/personal").Include(
+                "~/assets/components/admin_timeline/timeline-cover.less",
+                "~/assets/plugins/media_blueimp/css/blueimp-gallery.min.css",
+                "~/assets/components/media_blueimp/blueimp-gallery.less",
+                "~/assets/components/admin_timeline/timeline.less",
+                "~/assets/components/ui_tabs/tabs.less",
+                "~/assets/components/ui_buttons/buttons.less",
+                "~/assets/components/core/widgets.less",
+                "~/assets/components/ui_media/gallery.less",
+                "~/assets/components/widget_generic/widget-generic.less",
+                "~/assets/components/core/widgets.less",
+                "~/assets/library/icons/pictoicons/css/picto.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/script/personal").Include(
+                "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
+                "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
+                ));
         }
     }
 }

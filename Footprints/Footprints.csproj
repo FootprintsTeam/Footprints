@@ -1766,7 +1766,6 @@
     <Content Include="Areas\Newsfeed\Views\web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Areas\Newsfeed\Views\Newsfeed\Index.cshtml" />
     <Content Include="Areas\Newsfeed\Views\Newsfeed\ItemJourneyPost.cshtml" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -1786,7 +1785,7 @@
     <Content Include="Areas\Friend\Views\Friend\EachFriendArea.cshtml" />
     <Content Include="Areas\Personal\Views\web.config" />
     <Content Include="Areas\Personal\Views\Personal\Index.cshtml" />
-    <Content Include="Areas\Newsfeed\Views\Newsfeed\TemplateIndex.cshtml" />
+    <Content Include="Areas\Newsfeed\Views\Newsfeed\Index.cshtml" />
     <Content Include="assets\components\admin_courses\courses-featured-1.less" />
     <Content Include="assets\components\admin_email\email.less" />
     <Content Include="assets\components\admin_employees\employees.less" />

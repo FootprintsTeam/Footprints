@@ -12,8 +12,7 @@ namespace Footprints.Areas.Newsfeed.Controllers
         // GET: /Newsfeed/Newsfeed/
         public ActionResult Index()
         {
-            var model = NewsfeedPostViewModel.GetSampleObject();
-            return View(model);
+            return View();
         }
 
         public ActionResult TemplateIndex() {
