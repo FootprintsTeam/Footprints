@@ -1,0 +1,226 @@
+﻿@*@model Footprints.ViewModels.PersonalViewModel*@
+
+@{
+    ViewBag.Title = "Personal Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/css/personal")
+<div class="container">
+    <div class="innerAll">
+        @*Main content*@
+        <div class="row">
+            <div class="col-lg-9 col-md-8">
+                @*Timeline cover*@
+                <div class="timeline-cover">
+                    <div class="cover image ">
+                        <div class="top">
+                            <img src="../assets//images/photodune-2755655-party-time-s.jpg" class="img-responsive" />
+                        </div>
+                        <ul class="list-unstyled">
+                            <li><a href="index.html?component=timeline&amp;v=v2.0.1-rc1"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
+                            <li><a href="about_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+                            <li><a href="media_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(102)</small></a></li>
+                            <li><a href="contacts_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-group"></i> <span>Friends</span> <small>(19)</small></a></li>
+                            <li><a href="messages.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-envelope-fill-1"></i> <span>Messages</span> <small>(2 new)</small></a></li>
+                        </ul>
+                    </div>
+                    <div class="widget cover image">
+                        <div class="widget-body padding-none margin-none">
+                            <div class="photo">
+                                <img src="../assets/images/people/100/22.jpg" class="img-circle" />
+                            </div>
+                            <div class="innerAll border-right pull-left">
+                                <h3 class="margin-none">Adrian Demian</h3>
+                                <span>Works at MOSAICPRO</span>
+                            </div>
+                            <div class="innerAll pull-left">
+                                <p class="lead margin-none "> <i class="fa fa-quote-left text-muted fa-fw"></i> What a fun Partyyy</p>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                @*Timeline mirror*@
+                <h5 class="strong innerAll margin-none">Mirror Timeline</h5>
+                <div class="relativeWrap overflow-hidden">
+                    <div class="row row-merge border-bottom border-top layout-timeline layout-timeline-mirror">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="innerAll">
+                                <ul class="timeline">
+                                    <li class="active">
+                                        <div class="separator bottom">
+                                            <span class="date box-generic">Now</span>
+                                            <span class="type glyphicons suitcase">Task <i></i><span class="time">08:00</span></span>
+                                            <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-plus-circle fa-fw"></i> Add event</button>
+                                        </div>
+                                        <div class="widget widget-heading-simple widget-body-white margin-none">
+                                            <div class="widget-body">
+                                                <div class="media">
+                                                    <div class="media-object pull-left thumb"><img src="../assets//images/avatar-51x51.jpg" alt="Image" /></div>
+                                                    <div class="media-body">
+                                                        <a class="author">Adrian Demian</a><br />
+                                                        <span class="muted">adrian@ennovation.ie</span>
+                                                    </div>
+                                                </div>
+                                                <div class="alert alert-gray">
+                                                    <p class="glyphicons circle_info margin-none"><i></i> Added a new milestone named <a href="">MosaicPro</a></p>
+                                                </div>
+                                                <a class="glyphicons single pencil"><i></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="active">
+                                        <span class="type glyphicons comments">Comment <i></i><span class="time">11:00</span></span>
+                                        <div class="widget widget-heading-simple widget-body-white margin-none">
+                                            <div class="widget-body">
+                                                <p class="glyphicons user margin-none"><i></i> <strong><a href="">MosaicPro</a> said</strong>: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an ...</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="separator">
+                                            <span class="date box-generic"><strong>27</strong>may</span>
+                                            <span class="type glyphicons picture">Photo <i></i><span class="time">08:00</span></span>
+                                        </div>
+                                        <div class="widget widget-heading-simple widget-body-white margin-none">
+                                            <div class="widget-body">
+                                                <div class="media">
+                                                    <div class="media-object pull-left thumb"><img src="../assets//images/avatar-51x51.jpg" alt="Image" /></div>
+                                                    <div class="media-body">
+                                                        <a class="author">Adrian Demian</a><br />
+                                                        <span class="muted">adrian@ennovation.ie</span>
+                                                    </div>
+                                                </div>
+                                                <div class="alert alert-gray">
+                                                    <p class="glyphicons circle_info"><i></i> Added photos to the album <a href="">MosaicPro</a></p>
+
+                                                    <!-- Gallery Layout -->
+                                                    <div class="gallery gallery-2 separator top">
+                                                        <ul class="row" data-toggle="modal-gallery" data-target="#modal-gallery" id="gallery-4" data-delegate="#gallery-4">
+                                                            <li class="col-md-4 hidden-phone"><a class="thumb" href="../assets/images/gallery-2/6.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/6.jpg" alt="photo" class="img-responsive" /></a></li>
+                                                            <li class="col-md-4 hidden-phone"><a class="thumb" href="../assets/images/gallery-2/5.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/5.jpg" alt="photo" class="img-responsive" /></a></li>
+                                                            <li class="col-md-4 hidden-phone"><a class="thumb" href="../assets/images/gallery-2/4.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/4.jpg" alt="photo" class="img-responsive" /></a></li>
+                                                            <li class="col-md-4"><a class="thumb" href="../assets/images/gallery-2/3.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/3.jpg" alt="photo" class="img-responsive" /></a></li>
+                                                            <li class="col-md-4"><a class="thumb" href="../assets/images/gallery-2/2.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/2.jpg" alt="photo" class="img-responsive" /></a></li>
+                                                            <li class="col-md-4"><a class="thumb" href="../assets/images/gallery-2/1.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/1.jpg" alt="photo" class="img-responsive" /></a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <!-- // Gallery Layout END -->
+
+                                                </div>
+                                                <a class="glyphicons single pencil"><i></i></a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <!-- START ACCOUNT DETAILS -->
+                <div class="widget widget-body-white padding-none ">
+                    <div class="widget-head height-auto">
+                        <div class="media innerAll">
+                            <a href="" class="pull-right"><i class="fa icon-comment-fill-2"></i></a>
+                            <a href="" class="pull-left"><img src="../assets/images/people/50/8.jpg" alt="" class="img-circle"></a>
+                            <div class="media-body">
+                                <h4>Emanuel L.</h4>
+                                <p class="margin-none">Project Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="innerAll border-bottom">
+                            <span class="badge badge-default pull-right">4</span>
+                            <i class="fa fa-fw icon-user-1"></i> Team Members
+                        </li>
+                        <li class="innerAll border-bottom">
+                            <span class="badge badge-default pull-right">4</span>
+                            <i class="fa fa-fw fa-dashboard"></i> Active Projects
+                        </li>
+                        <li class="innerAll border-bottom">
+                            <span class="badge badge-default bg-primary pull-right">59</span>
+                            <i class="fa fa-fw icon-browser-check"></i> Completed Tasks
+                        </li>
+                        <li class="innerAll border-bottom">
+                            <span class="badge badge-default pull-right">3</span>
+                            <i class="fa fa-fw fa-file-text-o"></i> Files under review
+                        </li>
+                        <li class="innerAll bg-white text-center">
+                            <a href="" class="btn btn-primary btn-sm">View Profile</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- //END ACCOUNT DETAILS -->
+
+                @*Basic Info*@
+                <div class="widget">
+                    <div class="widget-head border-bottom bg-gray">
+                        <h5 class="innerAll pull-left margin-none">Basic Info</h5>
+                        <div class="pull-right">
+                            <a href="" class="text-muted">
+                                <i class="fa fa-pencil innerL"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="row">
+                            <div class="col-sm-6">User:</div>
+                            <div class="col-sm-6 text-right">
+                                <span class="label label-default">mosaicpro</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">Friends:</div>
+                            <div class="col-sm-6 text-right">
+                                <span class="label label-default">219</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">Joined:</div>
+                            <div class="col-sm-6 text-right">
+                                <span class="label label-default">2 months ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Contact*@
+                <div class="widget">
+                    <div class="widget-head border-bottom bg-gray">
+                        <h5 class="innerAll pull-left margin-none">Contact</h5>
+                        <div class="pull-right">
+                            <a href="" class="text-muted">
+                                <i class="fa fa-facebook innerL"></i>
+                            </a>
+                            <a href="" class="text-muted">
+                                <i class="fa fa-twitter innerL"></i>
+                            </a>
+                            <a href="" class="text-muted">
+                                <i class="fa fa-dribbble innerL"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body padding-none">
+                        <div class="innerAll">
+                            <p class=" margin-none"><i class="fa fa-phone fa-fw text-muted"></i> 01 21198478</p>
+                        </div>
+                        <div class="border-top innerAll">
+                            <p class=" margin-none"><i class="fa fa-envelope fa-fw text-muted"></i> Email us</p>
+                        </div>
+                        <div class="border-top innerAll">
+                            <p class=" margin-none"><i class="fa fa-link fa-fw text-muted"></i> <a href="">Visit website</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/script/personal")

@@ -164,6 +164,12 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("User:User").Return(user => user.As<User>()).Results;
         }
+
+
+        public bool ReportUser(Guid reporterID, Guid reporteeID)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IUserRepository : IRepository<User>

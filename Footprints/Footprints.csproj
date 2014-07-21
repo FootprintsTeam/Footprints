@@ -2492,6 +2492,8 @@
     <Content Include="Views\Newsfeed\PersonalWidget.cshtml" />
     <Content Include="Views\Newsfeed\ShareWidget.cshtml" />
     <Content Include="Views\Newsfeed\WidePictureWidget.cshtml" />
+    <Content Include="Views\Personal\Index.cshtml" />
+    <Content Include="Views\Personal\CoverWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

@@ -16,8 +16,8 @@ namespace Footprints.Areas.Personal
         {
             context.MapRoute(
                 "Personal_default",
-                "Personal/{controller}/{action}/{id}",
-                new { controller="Personal",action="Index", id = UrlParameter.Optional}
+                "Personal1/{controller}/{action}/{id}",
+                new { controller="Personal", action="Index", id = UrlParameter.Optional }
             );
         }
     }
