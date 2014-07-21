@@ -114,7 +114,8 @@ namespace Footprints.DAL.Concrete
 
         public void DeleteJourney(Guid JourneyID)
         {
-            Db.Cypher.Match("(journeyTaken:Journey)").Where((Journey journeyTaken) => journeyTaken.JourneyID == JourneyID).Delete("journeyTaken").ExecuteWithoutResults();
+            Db.Cypher.Match("(journeyTaken:Journey)-[r]-()").Where((Journey journeyTaken) => journeyTaken.JourneyID == JourneyID).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).Set("Activity.Status = 'DELETED'").Delete("journeyTaken, r").ExecuteWithoutResults();
         }
 
         public IEnumerable<Journey> GetJourneyList()
@@ -184,6 +185,13 @@ namespace Footprints.DAL.Concrete
             ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
         }
 
+        public void UnlikeJourney(Guid UserID, Guid JourneyID)
+        {
+            Db.Cypher.Match("(Journey:Journey)-[rel:LIKED_BY]->(User:User)").Where((User User) => User.UserID == UserID).AndWhere((Journey Journey) => Journey.JourneyID == JourneyID).
+                 Set("Journey.NumberOfLike = Journey.NumberOfLike - 1").Delete("rel")
+                .ExecuteWithoutResults();
+        }
+
         public IEnumerable<User> GetAllUserLiked(Guid JourneyID)
         {
             return Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
@@ -244,11 +252,17 @@ namespace Footprints.DAL.Concrete
 
     public interface IJourneyRepository : IRepository<Journey>
     {
-        bool AddNewJourney(Guid userID, Journey journey);
-        int GetNumberOfLike(Guid journeyID);
+        bool AddNewJourney(Guid userID, Journey journey);        
         Journey GetJourneyByID(Guid journeyID);
         void UpdateJourney(Journey journey);
         void DeleteJourney(Guid journeyID);
         IEnumerable<Journey> GetJourneyList();
+        void LikeJourney(Guid UserID, Guid JourneyID);
+        void UnlikeJourney(Guid UserID, Guid JourneyID);
+        int GetNumberOfLike(Guid journeyID);
+        IEnumerable<User> GetAllUserLiked(Guid JourneyID);
+        void ShareJourney(Guid UserID, Guid JourneyID, String Content);
+        IEnumerable<User> GetAllUserShared(Guid JourneyID);
+        int GetNumberOfShare(Guid JourneyID);
     }
 }

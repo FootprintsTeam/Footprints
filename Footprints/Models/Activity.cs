@@ -7,6 +7,7 @@ namespace Footprints.Models
 {
     public class Activity
     {
+        public Guid ActivityID { get; set; } 
         public String Type { get; set; }
         public Guid UserID { get; set; }
         public Guid JourneyID { get; set; }

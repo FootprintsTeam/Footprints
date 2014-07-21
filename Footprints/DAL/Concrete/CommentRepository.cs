@@ -14,130 +14,181 @@ namespace Footprints.DAL.Concrete
 
         //TODO
 
-        public List<Comment> GetCommentByJourney(Guid journeyID)
+        public IEnumerable<Comment> GetAllCommentOnJourney(Guid JourneyID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.JourneyID == journeyID).Return(comment => comment.As<Comment>()).Results;
-            return query.ToList<Comment>();
+            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.JourneyID == JourneyID).Return(comment => comment.As<Comment>()).Results;
         }
 
-        public List<Comment> GetCommentByDestination(Guid destinationID)
+        public IEnumerable<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.DestinationID == destinationID).Return(comment => comment.As<Comment>()).Results;
-            return query.ToList<Comment>();
+            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.DestinationID == DestinationID).Return(comment => comment.As<Comment>()).Results;
         }
 
-        public Comment GetComment(Guid commentID)
+        public Comment GetAComment(Guid CommentID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.CommentID == commentID).Return(comment => comment.As<Comment>()).Results;
+            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.CommentID == CommentID).Return(comment => comment.As<Comment>()).Results;
             return query.FirstOrDefault<Comment>();
         }
 
-        public bool UpdateComment(Comment comment)
+        public bool UpdateComment(Comment Comment)
         {
-            var query = Db.Cypher.Match("(commentTaken:Comment)").Where((Comment commentTaken) => commentTaken.CommentID == comment.CommentID).
-                                    Set("commentTaken = {comment}").WithParams(new { comment }).Return(commentReturned => commentReturned.As<Comment>()).Results;
+            var query = Db.Cypher.Match("(commentTaken:Comment)").Where((Comment commentTaken) => commentTaken.CommentID == Comment.CommentID).
+                                    Set("commentTaken = {comment}").WithParams(new { comment = Comment }).Return(commentReturned => commentReturned.As<Comment>()).Results;
             return (query.First<Comment>() != null);
         }
 
-        public bool AddCommentOnDestination(Guid userID, Comment comment)
+        public bool AddCommentOnDestination(Guid UserID, Comment Comment)
         {
             //Cypher Query
-            //CREATE (comment:Comment {commentID = '1', destinationID = '1', numberOfLikes = '0', timestamp = '04/07/2014'})
-            //CREATE (activity:Activity {type : 'COMMENT_ON_DESTINATION', userID : '1', destinationID : '1', timestamp : '04/07/2014'})
-            //WITH comment, activity
-            //MATCH (destination:Destination)
-            //WHERE (destination.destinationID = '1')
-            //CREATE (comment)-[:COMMENT_ON_DESTINATION]->(destination)
-            //CREATE (activity)-[:COMMENT_ON_DESTINATION]->(destination)
-            //WITH comment, activity
-            //MATCH (user:User)
-            //WHERE (user.userID = '1')
-            //CREATE (comment)-[:COMMENT_BY]->(user)
-            //WITH user, activity
-            //OPTIONAL MATCH (user)-[f:FIRST]->(nextActivity)
-            //CREATE (user)-[:FIRST]->(activity)
-            //WITH f, activity, nextActivity
-            //WHERE f IS NOT NULL
+            //CREATE (Comment:Comment {CommentID : '1', DestinationID : '1', NumberOfLike : 0, Timestamp : '04/07/2014'})
+            //CREATE (Activity:Activity {Type : 'COMMENT_ON_DESTINATION', UserID : '1', DestinationID : '1', Timestamp : '04/07/2014'})
+            //WITH Comment, Activity
+            //MATCH (Destination:Destination)
+            //WHERE (Destination.DestinationID = '1')
+            //CREATE (Comment)-[:COMMENT_ON_DESTINATION]->(Destination)
+            //CREATE (Activity)-[:COMMENT_ON_DESTINATION]->(Destination)
+            //WITH Comment, Activity
+            //MATCH (User:User)
+            //WHERE (User.UserID = '1')
+            //CREATE (Comment)-[:COMMENT_BY]->(User)
+            //WITH User, Activity
+            //MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity)
             //DELETE f
-            //CREATE (activity)-[:NEXT]->(nextActivity)
+            //CREATE (User)-[:LATEST_ACTIVITY]->(Activity)
+            //CREATE (Activity)-[:NEXT]->(nextActivity)
+            //WITH User
+            //MATCH (User)-[:FRIEND]->(friend)
+            //WITH User, COLLECT(friend) AS friends
+            //UNWIND friends AS fr
+            //MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
+            //OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser)
+            //WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo
+            //WHERE NextFriendInEgo <>  User
+            //CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User)
+            //CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
+            //WITH fr, previousUser, nextUser
+            //WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL
+            //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
             Activity activity = new Activity
             {
                 Type = "COMMENT_ON_DESTINATION",
-                UserID = userID,
-                DestinationID = comment.DestinationID,
+                UserID = UserID,
+                DestinationID = Comment.DestinationID,
                 Timestamp = DateTimeOffset.Now
             };
-            Db.Cypher.Create("(comment:Comment {comment})").WithParams(new { comment }).
-                       Create("(activity:Activity {activity})").WithParams(new { activity }).
-                       With("comment, activity").
-                       Match("(destination:Destination)").Where("destination.DestinationID = {DestinationID}").WithParams(new { destinationID = comment.DestinationID }).
-                       Create("(comment)-[:COMMENT_ON_DESTINATION]->(destination)").
-                       Create("(activity)-[:COMMENT_ON_DESTINATION]->(destination)").
-                       With("comment, activity").
-                       Match("(user:User)").Where("user.UserID = {UserID}").WithParams(new { userID }).
-                       Create("(comment)-[:COMMENT_BY]->(user)").
-                       With("user, activity").
-                       OptionalMatch("(user)-[f:FIRST]->(nextActivity)").
-                       Create("(user)-[:FIRST]->(activity)").
-                       With("f, activity, nextActivity").Where("f IS NOT NULL").Delete("f").
-                       Create("(activity)-[:NEXT]->(nextActivity)").ExecuteWithoutResults();
+            CypherQuery query = new CypherQuery("CREATE (Comment:Comment {Comment}) " +
+                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH Comment, Activity " +
+                                                " MATCH (Destination:Destination) " +
+                                                " WHERE (Destination.DestinationID = {DestinationID}) " +
+                                                " CREATE (Comment)-[:COMMENT_ON_DESTINATION]->(Destination) " +
+                                                " CREATE (Activity)-[:COMMENT_ON_DESTINATION]->(Destination) " +
+                                                " WITH Comment, Activity " +
+                                                " MATCH (User:User) " +
+                                                " WHERE (User.UserID = {UserID}) " +
+                                                " CREATE (Comment)-[:COMMENT_BY]->(User) " +
+                                                " WITH User, Activity " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
+                                                " DELETE f " +
+                                                " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
+                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " +
+                                                " WITH User " +
+                                                " MATCH (User)-[:FRIEND]->(friend) " +
+                                                " WITH User, COLLECT(friend) AS friends " +
+                                                " UNWIND friends AS fr " +
+                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                                " WHERE NextFriendInEgo <>  User " +
+                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
+                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " WITH fr, previousUser, nextUser " +
+                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
+                                                new Dictionary<String, Object> { { "Comment", Comment }, { "Activity", activity }, { "DestinationID", Comment.DestinationID }, { "UserID", UserID } }, CypherResultMode.Projection);
             return true;
         }
 
-        public bool AddCommentOnJourney(Guid userID, Comment comment)
+        public bool AddCommentOnJourney(Guid UserID, Comment Comment)
         {
-            //Cypher Query
-            //CREATE (comment:Comment {commentID = '1', journeyID = '1', numberOfLikes = '0', timestamp = '04/07/2014'})
-            //CREATE (activity:Activity {type : 'COMMENT_ON_JOURNEY', userID : '1', journeyID : '1', timestamp : '04/07/2014'})
-            //WITH comment, activity
-            //MATCH (journey:Journey)
-            //WHERE (journey.journeyID = '1')
-            //CREATE (comment)-[:COMMENT_ON_JOURNEY]->(journey)
-            //CREATE (activity)-[:COMMENT_ON_JOURNEY]->(journey)
-            //WITH comment, activity
-            //MATCH (user:User)
-            //WHERE (user.userID = '1')
-            //CREATE (comment)-[:COMMENT_BY]->(user)
-            //WITH user, activity
-            //OPTIONAL MATCH (user)-[f:FIRST]->(nextActivity)
-            //CREATE (user)-[:FIRST]->(activity)
-            //WITH f, activity, nextActivity
-            //WHERE f IS NOT NULL
-            //DELETE f
-            //CREATE (activity)-[:NEXT]->(nextActivity)
             Activity activity = new Activity
             {
                 Type = "COMMENT_ON_JOURNEY",
-                UserID = userID,
-                JourneyID = comment.JourneyID,
+                UserID = UserID,
+                JourneyID = Comment.JourneyID,
                 Timestamp = DateTimeOffset.Now
             };
-            Db.Cypher.Create("(comment:Comment {comment})").WithParams(new { comment }).
-                       Create("(activity:Activity {activity})").WithParams(new { activity }).
-                       With("comment, activity").
-                       Match("(journey:Journey)").Where("journey.JourneyID = {JourneyID}").WithParams(new { journeyID = comment.JourneyID }).
-                       Create("(comment)-[:COMMENT_ON_JOURNEY]->(journey)").
-                       Create("(activity)-[:COMMENT_ON_JOURNEY]->(journey)").
-                       With("comment, activity").
-                       Match("(user:User)").Where("user.UserID = {UserID}").WithParams(new { userID }).
-                       Create("(comment)-[:COMMENT_BY]->(user)").
-                       With("user, activity").
-                       OptionalMatch("(user)-[f:FIRST]->(nextActivity)").
-                       Create("(user)-[:FIRST]->(activity)").
-                       With("f, activity, nextActivity").Where("f IS NOT NULL").Delete("f").
-                       Create("(activity)-[:NEXT]->(nextActivity)").ExecuteWithoutResults();
+
+            CypherQuery query = new CypherQuery("CREATE (Comment:Comment {Comment}) " +
+                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH Comment, Activity " +
+                                                " MATCH (Journey:Journey) " +
+                                                " WHERE (Journey.JourneyID = {JourneyID}) " +
+                                                " CREATE (Comment)-[:COMMENT_ON_JOURNEY]->(Journey) " +
+                                                " CREATE (Activity)-[:COMMENT_ON_JOURNEY]->(Journey) " +
+                                                " WITH Comment, Activity " +
+                                                " MATCH (User:User) " +
+                                                " WHERE (User.UserID = {UserID}) " +
+                                                " CREATE (Comment)-[:COMMENT_BY]->(User) " +
+                                                " WITH User, Activity " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
+                                                " DELETE f " +
+                                                " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
+                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " +
+                                                " WITH User " +
+                                                " MATCH (User)-[:FRIEND]->(friend) " +
+                                                " WITH User, COLLECT(friend) AS friends " +
+                                                " UNWIND friends AS fr " +
+                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                                " WHERE NextFriendInEgo <>  User " +
+                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
+                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " WITH fr, previousUser, nextUser " +
+                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
+                                                new Dictionary<String, Object> { { "Comment", Comment }, { "Activity", activity }, { "JourneyID", Comment.JourneyID }, { "UserID", UserID } }, CypherResultMode.Projection);
             return true;
         }
 
+        public void LikeAComment(Guid UserID, Guid CommentID)
+        {
+            Db.Cypher.Match("(User:User), (Comment:Comment)").Where((User User) => User.UserID == UserID).AndWhere((Comment Comment) => Comment.CommentID == CommentID).
+                Create("(Comment)-[:LIKED_BY]->(User)").Set("Comment.NumberOfLike = Comment.NumberOfLike + 1")
+                .ExecuteWithoutResults();
+        }
+
+        public void UnlikeAComment(Guid UserID, Guid CommentID)
+        {
+            Db.Cypher.Match("(Comment:Comment)-[rel:LIKED_BY]->(User:User)").Where((User User) => User.UserID == UserID).AndWhere((Comment Comment) => Comment.CommentID == CommentID).
+                 Set("Comment.NumberOfLike = Comment.NumberOfLike - 1").Delete("rel")
+                .ExecuteWithoutResults();
+        }
+
+        public IEnumerable<User> GetAllUserLikeComment(Guid CommentID)
+        {
+            return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(User:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results;
+        }
+
+        public void DeleteAComment(Guid CommentID)
+        {
+            Db.Cypher.Match("(CommentTaken:Comment)-[r]-()").Where((Comment CommentTaken) => CommentTaken.CommentID == CommentID).
+                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.CommentID == CommentID).Set("Activity.Status = 'DELETED'").Delete("CommentTaken, r").ExecuteWithoutResults();
+        }
     }
 
     public interface ICommentRepository : IRepository<CommentRepository>
     {
-        List<Comment> GetCommentByDestination(Guid destinationID);
-        List<Comment> GetCommentByJourney(Guid journeyID);
+        List<Comment> GetAllCommentOnDestination(Guid destinationID);
+        List<Comment> GetAllCommentOnJourney(Guid journeyID);
         bool AddCommentOnDestination(Guid userID, Comment comment);
         bool AddCommentOnJourney(Guid userID, Comment comment);
-        Comment GetComment(Guid commentID);
+        Comment GetAComment(Guid commentID);
         bool UpdateComment(Comment comment);
+        void LikeAComment(Guid UserID, Guid CommentID);
+        void UnlikeAComment(Guid UserID, Guid CommentID);
+        IEnumerable<User> GetAllUserLikeComment(Guid CommentID);
+        void DeleteAComment(Guid CommentID);
     }
 }
