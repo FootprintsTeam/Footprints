@@ -20,6 +20,7 @@ namespace Footprints.DAL.Concrete
 
         public void AddNewUser(User userPara)
         {
+            //Must set User:Status : 'ACTIVE'
             //CREATE (User:User {UserID : '2'})
             //CREATE (Activity:Activity { Type : 'JOIN_FOOTPRINTS', timestamp : '17/07/2014'})
             //WITH User, Activity
@@ -118,41 +119,50 @@ namespace Footprints.DAL.Concrete
             return true;
         }
 
-
-
         public bool DeleteFriendRelationship(Guid userID_A, Guid userID_B)
         {
-            throw new NotImplementedException();
+            Db.Cypher.Match("(UserA:User)-[rel:FRIEND]-(UserB:User)").Where((User userA) => userA.UserID == userID_A).
+                                     AndWhere((User userB) => userB.UserID == userID_B).Delete("rel").ExecuteWithoutResults();
+            return true;
         }
 
         public bool BanUser(Guid userID)
         {
-            throw new NotImplementedException();
+            Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == userID).Set("user.Status = 'Baned'");
+            return true;
         }
 
-        public bool ReportUser(Guid reporterID, Guid reporteeID)
+        public bool ReportUser(Report report)
         {
-            throw new NotImplementedException();
+            Db.Cypher.Create("(report:Report {report})").WithParams(new { report = report}).ExecuteWithoutResults();
+            return true;
         }
 
+        public IEnumerable<Report> GetReport()
+        {
+            return Db.Cypher.Match("report:Report").Return(report => report.As<Report>()).Results;
+        }
         public bool UnbanUser(Guid userID)
         {
-            throw new NotImplementedException();
+            Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == userID).Set("user.Status = 'Active'");
+            return true;
         }
 
         public bool UnactiveUser(Guid userID)
         {
-            throw new NotImplementedException();
+            Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == userID).Set("user.Status = 'Inactive'");
+            return true;
         }
 
         public bool GrantAdminPrivilege(Guid userID)
         {
-            throw new NotImplementedException();
+            Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == userID).Set("user.Status = 'Admin'");
+            return true;
         }
 
         public IEnumerable<User> GetUser()
         {
-            throw new NotImplementedException();
+            return Db.Cypher.Match("User:User").Return(user => user.As<User>()).Results;
         }
     }
 

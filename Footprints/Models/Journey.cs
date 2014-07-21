@@ -20,5 +20,7 @@ namespace Footprints.Models
         public DateTimeOffset Timestamp { get; set; }
 
         public int NumberOfLike { get; set; }
+
+        public int NumberOfShare { get; set; }
     }
 }
