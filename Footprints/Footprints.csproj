@@ -2436,6 +2436,9 @@
     <Content Include="Areas\Newsfeed\Views\Shared\CommentWidget.cshtml" />
     <Content Include="Areas\Newsfeed\Views\Shared\WidePictureWidget.cshtml" />
     <Content Include="Areas\Newsfeed\Views\Shared\ShareWidget.cshtml" />
+    <Content Include="Areas\Personal\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Personal\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Personal\Views\Shared\CoverWidget.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2513,7 +2516,6 @@
     <Folder Include="Areas\Media\Models\" />
     <Folder Include="Areas\Newsfeed\Models\" />
     <Folder Include="Areas\Personal\Models\" />
-    <Folder Include="Areas\Personal\Views\Shared\" />
     <Folder Include="assets\components\guides\" />
     <Folder Include="Extensions\" />
     <Folder Include="Helpers\" />

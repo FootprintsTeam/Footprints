@@ -2,23 +2,23 @@
 
 namespace Footprints.Areas.Media
 {
-    public class MediaAreaRegistration : AreaRegistration 
+    public class MediaAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "Media";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "Media_default",
                 "Media/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
-            );
+                new { controller="Media",action="Index",id=UrlParameter.Optional}
+                );
         }
     }
 }
