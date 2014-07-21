@@ -16,8 +16,8 @@ namespace Footprints.Areas.Newsfeed
         {
             context.MapRoute(
                 "Newsfeed_default",
-                "{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                "Newsfeed/{controller}/{action}/{id}",
+                new { controller = "Newsfeed", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

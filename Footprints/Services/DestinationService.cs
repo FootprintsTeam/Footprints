@@ -11,6 +11,7 @@ namespace Footprints.Service
         bool AddDestination(Destination destination);
         Destination GetDestinationDetail(Guid destinationID);
         int GetNumberOfLike(Guid destinationID);
+        bool UpdateDestination(Destination destination);
     }
     public class DestinationService : IDestinationService
     {
@@ -32,6 +33,10 @@ namespace Footprints.Service
         public int GetNumberOfLike(Guid destinationID)
         {
             return _destinationRepo.GetNumberOfLike(destinationID);
+        }
+
+        public bool UpdateDestination(Destination destination) {
+            return _destinationRepo.UpdateDestination(destination);
         }
     }
 }

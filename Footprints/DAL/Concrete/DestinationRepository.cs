@@ -45,6 +45,8 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfLike(Guid destinationID);
 
         bool AddNewDestination(Destination destination);
+
+        bool UpdateDestination(Destination destination);
     }
 
 }
