@@ -16,7 +16,7 @@ namespace Footprints.Areas.Friend
         {
             context.MapRoute(
                 "Friend_default",
-                "Friend/{controller}/{action}/{id}",
+                "Friend1/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

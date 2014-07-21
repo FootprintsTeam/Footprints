@@ -17,7 +17,7 @@ namespace Footprints.Areas.Media
             context.MapRoute(
                 "Media_default",
                 "Media/{controller}/{action}/{id}",
-                new { controller="Media",action="Index",id=UrlParameter.Optional}
+                new { controller="Media1",action="Index",id=UrlParameter.Optional}
                 );
         }
     }

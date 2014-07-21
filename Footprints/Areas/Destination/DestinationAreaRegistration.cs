@@ -16,7 +16,7 @@ namespace Footprints.Areas.Destination
         {
             context.MapRoute(
                 "Destination_default",
-                "Destination/{controller}/{action}/{id}",
+                "Destination1/{controller}/{action}/{id}",
                 new {controller = "Destination", action = "Index", id = UrlParameter.Optional }
             );
         }
