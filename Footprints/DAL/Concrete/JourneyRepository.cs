@@ -43,12 +43,12 @@ namespace Footprints.DAL.Concrete
                     Create("(user)-[:HAS_JOURNEY]->(journey)").
                     Create("(activity:Activity {a})").WithParam("a", activity).
                     With("user, journey, activity").
-                    OptionalMatch("(user)-[f:LATEST_ACTIVITY]->(nextActivity)").
+                    Match("(user)-[f:LATEST_ACTIVITY]->(nextActivity)").
+                    Delete("f").
                     Create("(user)-[:LATEST_ACTIVITY]->(activity)").
-                    Create("(activity)-[:ACT_ON_JOURNEY]->(journey)").
-                    With("f, activity, nextActivity").
-                    Where("f IS NOT NULL").Delete("f").
-                    Create("(activity)-[:NEXT]->(nextActivity)").ExecuteWithoutResults();
+                    Create("(activity)-[:NEXT]->(nextActivity)").
+                    Create("(activity)-[:ACT_ON_JOURNEY]->(journey)")
+                    .ExecuteWithoutResults();
             return true;
         }
 
