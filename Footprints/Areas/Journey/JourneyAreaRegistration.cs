@@ -16,7 +16,7 @@ namespace Footprints.Areas.Journey
         {
             context.MapRoute(
                 "Journey_default",
-                "Journey/{controller}/{action}/{id}",
+                "Journey1/{controller}/{action}/{id}",
                 defaults: new { action = "Index", id = UrlParameter.Optional }
             );
         }

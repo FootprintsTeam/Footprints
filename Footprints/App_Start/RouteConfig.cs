@@ -17,7 +17,7 @@ namespace Footprints
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] { "Footprints.Controllers"}
+                namespaces: new []{"Footprints.Controllers"}
             );
         }
     }

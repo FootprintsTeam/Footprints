@@ -209,7 +209,10 @@
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsfeedController.cs" />
+    <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="DAL\Abstract\IRepository.cs" />
     <Compile Include="DAL\Abstract\RepositoryBase.cs" />
     <Compile Include="DAL\Concrete\NewsFeedRepository.cs" />
@@ -2481,6 +2484,18 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\AddJourneyPartial.cshtml" />
+    <Content Include="Views\Newsfeed\Index.cshtml" />
+    <Content Include="Views\Newsfeed\AddPhotoWidget.cshtml" />
+    <Content Include="Views\Newsfeed\CommentWidget.cshtml" />
+    <Content Include="Views\Newsfeed\DestinationWidget.cshtml" />
+    <Content Include="Views\Newsfeed\JourneyWidget.cshtml" />
+    <Content Include="Views\Newsfeed\ListFriendWidget.cshtml" />
+    <Content Include="Views\Newsfeed\PersonalWidget.cshtml" />
+    <Content Include="Views\Newsfeed\ShareWidget.cshtml" />
+    <Content Include="Views\Newsfeed\WidePictureWidget.cshtml" />
+    <Content Include="Views\Personal\Index.cshtml" />
+    <Content Include="Views\Personal\CoverWidget.cshtml" />
+    <Content Include="Views\Destination\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
