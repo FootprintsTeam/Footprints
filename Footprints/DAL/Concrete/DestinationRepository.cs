@@ -46,7 +46,7 @@ namespace Footprints.DAL.Concrete
 
         bool AddNewDestination(Destination destination);
 
-        public bool UpdateDestination(Destination destination);
+        bool UpdateDestination(Destination destination);
     }
 
 }
