@@ -1,0 +1,53 @@
+// Breadcrumb
+// -------------------------
+
+.breadcrumb {
+	height: 38px;
+	line-height: 39px;
+	padding: 0;
+	margin: 0;
+
+	.rounded();
+	
+	background: lighten(#797979,50%);
+	
+	color: #ababab;
+	font-size: 12px;
+	position: relative;
+	overflow: hidden;
+	& > li + li:before { display: none; }
+	li { 
+		
+		line-height: 38px;
+		height: 38px;
+		font-style:italic;
+		margin: 0 10px;	
+		
+		&.glyphicons {
+			
+			padding: 0 0 0 20px;
+			margin: 0;
+			i:before {
+				color: #dfdfdf;
+				font-size: 16px;
+				top: 10px;
+				left: 10px;
+			}
+		}	 
+		a { 
+		font-weight: 400;
+		font-style: normal;
+		color: @inverseColor;
+
+		&:hover { color:@infoColor; cursor: pointer;}
+		
+		}
+		&.divider { 
+			margin: 0;
+			padding:0;
+		  	border-left:1px solid #dfdfdf;
+			vertical-align: top;
+
+		}
+	}
+}

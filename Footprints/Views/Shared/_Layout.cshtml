@@ -1,154 +1,225 @@
 ﻿<!DOCTYPE html>
-<html>
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7 paceCounter paceSocial sidebar sidebar-social footer-sticky"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8 paceCounter paceSocial sidebar sidebar-social footer-sticky"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9 paceCounter paceSocial sidebar sidebar-social footer-sticky"> <![endif]-->
+<!--[if gt IE 8]> <html class="ie paceCounter paceSocial sidebar sidebar-social footer-sticky"> <![endif]-->
+<!--[if !IE]><!-->
+<html class="paceCounter paceSocial sidebar sidebar-social footer-sticky">
+<!-- <![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/mycss")
-    @using Footprints.ViewModels
+    <title>@ViewBag.Title</title>
+        <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!--
+    **********************************************************
+    In development, use the LESS files and the less.js compiler
+    instead of the minified CSS loaded by default.
+    **********************************************************
+    <link rel="stylesheet/less" href="../assets/less/admin/module.admin.stylesheet-complete.less" />
+    -->
+    <!--[if lt IE 9]><link rel="stylesheet" href="../assets/components/library/bootstrap/css/bootstrap.min.css" /><![endif]-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    @Styles.Render("~/css/core")
+
+    <script src="../assets/plugins/core_ajaxify_loadscript/script.min.js?v=v2.0.0-rc8&sv=v0.0.1.2"></script>
+    <script>
+        var basePath = '',
+       commonPath = '../assets/',
+       rootPath = '../',
+       DEV = false,
+       componentsPath = '../assets/components/';
+
+        var primaryColor = '#5577b4',
+            dangerColor = '#b55151',
+            successColor = '#609450',
+            infoColor = '#4a8bc2',
+            warningColor = '#ab7a4b',
+            inverseColor = '#45484d';
+
+        var themerPrimaryColor = primaryColor;
+        var App = {};
+        App.Config = {
+            ajaxify_menu_selectors: ['#menu'],
+            ajaxify_layout_app: false
+        };
+    </script>
+
+    @Scripts.Render("~/script/core")
+    @Scripts.Render("~/script/dependency")
+    @Scripts.Render("~/script/plugins")
+    @Scripts.Render("~/script/bundle")
+    @Styles.Render("~/css/timeline")
 </head>
-<body>
-    <div class="header bg-green-light">
-        <div class="container ">
-            <div class="row">
-                <div class="col-lg-2 col-md-2 col-ms-2 col-xs-6">
-                    <div class="logo">
-                        <a href="#">
-                            <!--<img src="" class="img-responsive"/>-->
-                            <i class="fa fa-sun-o fa-3x" style="color:#fff"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-ms-6 col-xs-6">
+
+<body class=" scripts-async menu-right-hidden">
+    <!-- Main Container Fluid -->
+    <div class="container-fluid menu-hidden ">
+        <!-- Content START -->
+        <div id="content">
+            @*Nav Bar*@
+            <nav class="navbar navbar-default top-nav navbar-fixed-top" role="navigation">
+
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                        <button data-target=".bs-collapse-form" type="button" class="navbar-toggle" data-toggle="collapse">
-                            <i class="fa fa-search fa-3x"></i>
+                        <button type="button" class="navbar-toggle btn btn-default" data-toggle="collapse" data-target="#navbar-fixed-layout-collapse">
+                            <i class="fa fa-indent"></i>
                         </button>
+                        <a class="navbar-brand" href="#"><img src="../assets//images/logo/logo.jpg" alt=""></a>
                     </div>
-                    <div class="navbar">
-                        <div class="navbar-collapse collapse bs-collapse-form">
-                            <div class="form-ground ">
-                                <form id="search_mini_form" class="btn-search" role="search">
-                                    <button class="button">
-                                        <i class="fa fa-search "></i>
-                                    </button>
-                                    <input type="text" name="q" class="search-header text-input" id="search" autocomplete="on">
-                                </form>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="navbar-fixed-layout-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Layout <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="no-ajaxify" href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=false&v=v2.0.0-rc8">
+                                            Fluid Layout
+                                        </a>
+                                    </li>
+                                    <li class="active">
+                                        <a class="no-ajaxify" href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8">
+                                            Fixed Layout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">Timeline</li>
+                                    <li class="active"><a href="index.html?lang=en"><span>Timeline #1</span></a></li>
+                                    <li><a href="timeline_2.html?lang=en"><span>Timeline #2</span></a></li>
+                                    <li><a href="timeline_3.html?lang=en"><span>Timeline #3</span></a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Media</li>
+                                    <li><a href="media_1.html?lang=en"><span>Photos #1</span></a></li>
+                                    <li><a href="media_2.html?lang=en"><span>Photos #2</span></a></li>
+                                    <li><a href="media_3.html?lang=en"><span>Photos #3</span></a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Contacts</li>
+                                    <li><a href="contacts_1.html?lang=en"><span>Friends #1</span></a></li>
+                                    <li><a href="contacts_2.html?lang=en"><span>Friends #2</span></a></li>
+                                    <li><a href="contacts_3.html?lang=en"><span>Friends #3</span></a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">About</li>
+                                    <li><a href="about_1.html?lang=en"><span>About #1</span></a></li>
+                                    <li><a href="about_2.html?lang=en"><span>About #2</span></a></li>
+                                    <li><a href="about_3.html?lang=en"><span>About #3</span></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="messages.html?lang=en"><span>Messages</span></a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Music</li>
+                                    <li><a href="playlist.html?lang=en"><span>playlist</span></a></li>
+                                    <li><a href="albums.html?lang=en"><span>Albums</span></a></li>
+                                    <li><a href="song.html?lang=en"><span>Song</span></a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nav Color <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&navbar_type=navbar-default">
+                                            White Navbar
+                                        </a>
+
+                                    </li>
+                                    <li>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&navbar_type=navbar-inverse">
+                                            Dark Navbar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&navbar_type=navbar-primary">
+                                            Primary Color Navbar
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li class="innerAll half" style="line-height:20px;">
+                                        <div class="strong">Skin Colors</div>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=style-default" style="background-color: #25ad9f; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">style-default</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=green-army" style="background-color: #9FB478; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">green-army</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=alizarin-crimson" style="background-color: #F06F6F; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">alizarin-crimson</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=blue-gray" style="background-color: #5577b4; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">blue-gray</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=brown" style="background-color: #d39174; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">brown</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=purple-gray" style="background-color: #AF86B9; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">purple-gray</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=purple-wine" style="background-color: #CC6788; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">purple-wine</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=black-and-white" style="background-color: #979797; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">black-and-white</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=amazon" style="background-color: #8BC4B9; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">amazon</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=amber" style="background-color: #b0b069; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">amber</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=android-green" style="background-color: #A9C784; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">android-green</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=antique-brass" style="background-color: #B3998A; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">antique-brass</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=antique-bronze" style="background-color: #8D8D6E; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">antique-bronze</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=artichoke" style="background-color: #B0B69D; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">artichoke</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=atomic-tangerine" style="background-color: #F19B69; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">atomic-tangerine</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=bazaar" style="background-color: #98777B; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">bazaar</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=bistre-brown" style="background-color: #C3A961; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">bistre-brown</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=green" style="background-color: #77ac40; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">green</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=bittersweet" style="background-color: #d6725e; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">bittersweet</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=blueberry" style="background-color: #7789D1; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">blueberry</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=bud-green" style="background-color: #6fa362; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">bud-green</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=coral" style="background-color: #7eccc2; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">coral</span></a>
+                                        <a href="?module=admin&page=index&url_rewrite=&build=&layout_fixed=true&v=v2.0.0-rc8&skin=burnt-sienna" style="background-color: #E4968A; display:inline-block; width:30px; height:30px; margin:1px;" class="no-ajaxify innerAll half "><span class="hide">burnt-sienna</span></a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="navbar-form navbar-left hidden-sm" role="search">
+                            <div class="form-group inline-block">
+                                <input type="text" class="form-control" placeholder="Search">
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-ms-4 col-xs-12">
-                    <div class="div-nav">
-                        <a href="#responsive" data-toggle="modal" data-target=".bs-create-journey" class="">
-                            <i class="fa fa-plus"></i>
-                            New Journey
-                        </a>
-                    </div>
-                    @*<!--Popup of page new journey-->
-                    <div id="responsive" class="modal fade bs-create-journey" data-toggle="modal" tabindex="-1" data-width="760" style="display: none;">
-                        <div class="modal-header bg-green-light text-center">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Create new journey</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <form>
-                                        <div class="form-horizontal">
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">Name</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="" placeholder="">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">Description</label>
-                                                <div class="col-sm-9">
-                                                    <textarea class="txt-desc" rows="3"></textarea>
+                            <button type="submit" class="btn btn-inverse"><i class="fa fa-search fa-fw"></i></button>
+                        </form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="innerLR"><button type="button" class="btn btn-success navbar-btn"><i class="fa fa-pencil"></i> Sign in</button></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="pull-left innerR"><img src="../assets/images/people/35/16.jpg" alt="user" class="img-circle"></span>
+                                    Bill <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
 
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">Location</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" id="" placeholder="">
-                                                </div>
-                                            </div>
+            @*Render BODY*@            
+                @RenderBody()
+            
 
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">Map Pin</label>
-                                                <div class="col-sm-9">
-                                                    <img src="images/map.jpg" class="img-responsive">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">Time</label>
-                                                <div class="col-sm-2 input-calendar">
-                                                    <input type="date" class="form-control" id="" placeholder="">
-                                                </div>
-                                                <i class="fa fa-calendar fa-2x"></i>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">Create </button>
-                                <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!--End popup-->*@                    
-                    @{Html.RenderPartial("AddJourneyPartial", new AddNewJourneyViewModel());}
-
-                    <div class="div-nav">
-                        <a href="#" class="mypage">
-                            <i class="fa fa-user "></i>
-                            My page
-                        </a>
-                    </div>
-                    <div class="div-nav">
-                        <a href="#">
-                            <i class="fa icon-users"></i>
-                            Friend
-                        </a>
-                    </div>
-                    <div class="div-nav">
-                        <div class="dropdown">
-                            <a data-toggle="dropdown" href="#">
-                                <i class="fa fa-caret-down fa-2x"></i>
-                            </a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                <li>
-                                    <a href="#">New Journey</a>
-                                </li>
-                                <li>
-                                    <a href="#">Settings</a>
-                                </li>
-                                <li>
-                                    <a href="#">Report</a>
-                                </li>
-                                <li>
-                                    <a href="#">Exit</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+    <!-- // Content END -->
 
-    @RenderBody();
+    <div class="clearfix"></div>
+    <!-- // Sidebar menu & content wrapper END -->
+    <!-- Footer -->
+    <div id="footer" class="hidden-print">
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+        <!--  Copyright Line -->
+        <div class="copy">&copy; 2012 - 2014 - <a href="http://www.mosaicpro.biz">MosaicPro</a> - All Rights Reserved. <a href="http://themeforest.net/?ref=mosaicpro" target="_blank">Purchase Social Admin Template</a> - Current version: v2.0.0-rc8 / <a target="_blank" href="../assets/../../CHANGELOG.txt?v=v2.0.0-rc8">changelog</a></div>
+        <!--  End Copyright Line -->
+
+    </div>
+    <!-- // Footer END -->
+    <!-- // Main Container Fluid END -->
+    <!-- Global -->
+    <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>
 </body>
 </html>

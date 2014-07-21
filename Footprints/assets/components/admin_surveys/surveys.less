@@ -1,0 +1,73 @@
+.survey-wrapper {
+	padding: 100px 0;
+	
+	&.survey-bg-1 { background: url('../../images/survey-1.jpg'); }
+	&.survey-bg-2 { background: url('../../images/photodune-5141054-blurred-flowers-xs.jpg'); }
+	&.survey-bg-3 { background: url('../../images/survey-3.jpg'); }
+	
+	&[class*="survey-bg-"] {
+		background-attachment: fixed;
+		background-size: 100%;
+		background-repeat: no-repeat;
+	}
+
+	.survey-container {
+		margin: 0 auto;
+		max-width: 500px;
+		min-height: 300px;
+		padding-bottom: 45px;
+		background: #fff;
+		position: relative;
+
+		.survey-heading {
+			height: 45px;
+			line-height: 45px;
+			.btn {
+				.rounded();
+			}
+			h4 { line-height: 45px; padding-left: 15px; }
+		}
+		.survey-footer {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+		}
+
+		.survey-body {
+			padding: 30px;
+			.lead { font-size: 16px; }
+		}
+		.survey-answer {
+			padding: 20px 0 0;
+			.btn-group-vertical {
+				width: 100%;
+				.btn-primary {
+					border-top-color: darken(@primaryColor, 10%);
+				}
+			}
+			[data-toggle="survey-answer"] {
+				.rounded(7px,7px,7px,7px);
+				border: 1px solid @contentBorder;
+				.display-block + .display-block {
+					&.btn-lg { .rounded(0,0,6px,6px); }
+				}
+				.fa {
+					padding: 10px 0;
+				}
+				&.active {
+					border: 1px solid @primaryColor;
+					[class*="bg-"] {
+						background: @primaryColor !important;
+					}
+					.fa {
+						color: @primaryColor;
+					}
+				}
+			}
+		}
+	}
+}
+.widget-survey .widget-head {
+	height: auto;
+}

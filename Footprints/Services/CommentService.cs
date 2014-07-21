@@ -6,7 +6,14 @@ using Footprints.DAL.Concrete;
 using Footprints.Models;
 namespace Footprints.Service
 {
-    public interface ICommentService { }
+    public interface ICommentService {
+        List<Comment> RetrieveDestinationComment(Guid destinationID);
+        List<Comment> RetrieveJourneyComment(Guid journeyID);
+        bool AddDestinationComment(Guid userID, Comment comment);
+        bool AddJourneyComment(Guid userID, Comment comment);
+        Comment RetrieveComment(Guid commentID);
+        bool UpdateComment(Comment comment);
+    }
     public class CommentService : ICommentService
     {
         ICommentRepository _commentRepo;
@@ -15,30 +22,30 @@ namespace Footprints.Service
             _commentRepo = commentRepo;
         }
 
-        public List<Comment> getCommentByDestinationID(Guid destinationID)
+        public List<Comment> RetrieveDestinationComment(Guid destinationID)
         {
             return _commentRepo.GetCommentByDestination(destinationID);
         }
 
-        public List<Comment> getCommentByJourneyID(Guid journeyID)
+        public List<Comment> RetrieveJourneyComment(Guid journeyID)
         {
             return _commentRepo.GetCommentByJourney(journeyID);
         }
 
-        public bool addNewCommentOnDestination(Guid userID, Comment comment)
+        public bool AddDestinationComment(Guid userID, Comment comment)
         {
             return _commentRepo.AddCommentOnDestination(userID, comment);
         }
 
-        public bool addNewCommentOnJourney(Guid userID, Comment comment)
+        public bool AddJourneyComment(Guid userID, Comment comment)
         {
             return _commentRepo.AddCommentOnJourney(userID, comment);
         }
-        public Comment getCommentByCommentID(Guid commentID) 
+        public Comment RetrieveComment(Guid commentID)
         {
             return _commentRepo.GetComment(commentID);
         }
-        public bool updateAComment(Comment comment)
+        public bool UpdateComment(Comment comment)
         {
             return _commentRepo.UpdateComment(comment);
         }

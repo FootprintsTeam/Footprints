@@ -8,6 +8,10 @@ using Footprints.Models;
 namespace Footprints.Service
 {
     public interface IUserService { 
+        User RetrieveUser(Guid userID);
+        bool AddNewUser(User user);
+        bool UpdateUser(User user);
+        bool AddFriendRelationship(Guid userID_A, Guid userID_B);
     }
     public class UserService : IUserService
     {
@@ -17,23 +21,23 @@ namespace Footprints.Service
             _userRepo = userRepo;
         }
 
-        public User getUserByUserID(Guid userID)
+        public User RetrieveUser(Guid userID)
         {
             return _userRepo.GetUserByUserID(userID);
         }
 
-        public bool addNewUser(User user)
+        public bool AddNewUser(User user)
         {
             //return _userRepo.addNewUser(user);
             return false;
         }
 
-        public bool updateUser(User user)
+        public bool UpdateUser(User user)
         {
             return _userRepo.UpdateUser(user);
         }
 
-        public bool addFriendRelationship(Guid userID_A, Guid userID_B)
+        public bool AddFriendRelationship(Guid userID_A, Guid userID_B)
         {
             return _userRepo.AddFriendRelationship(userID_A, userID_B);
         }

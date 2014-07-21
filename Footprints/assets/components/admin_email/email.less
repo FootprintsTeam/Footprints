@@ -1,0 +1,27 @@
+.email {
+	.list-group { margin:0; }
+	.email-item-list {
+	  	.list-group-item {
+	  		border:none;
+	  		border-bottom:1px solid #efefef !important;
+	  		margin:0; 
+	  		.rounded();
+	  		&.active { background: #f5f5f5; }
+	  		&:hover { color: #797979; }
+	  	}
+	}
+	#email_details.open {
+		display: block !important;
+	}
+	#close-email-details { display: none; }
+}
+
+@media (max-width: 991px) {
+	.email #email_details.open #close-email-details {
+		display: block;
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		bottom: 10px;
+	}
+}

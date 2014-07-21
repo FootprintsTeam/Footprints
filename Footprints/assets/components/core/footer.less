@@ -1,0 +1,31 @@
+// Footer
+// -------------------------
+
+@footerHeight: 48px;
+#footer {
+	font-weight: 700;
+	position: relative;
+	overflow: hidden;
+	background: @footerBg;
+	text-align: center;
+	padding: 0 10px;
+	height: @footerHeight;
+	line-height: @footerHeight;
+	a { color: #686868; text-decoration: underline; }
+}
+
+.footer-sticky {
+	#footer {
+		position: fixed;
+		z-index: 10000;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+}
+
+.sidebar.sidebar-social {
+	#footer {
+		left: @menuSidebarWidth;
+	}
+}

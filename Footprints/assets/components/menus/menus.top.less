@@ -1,0 +1,147 @@
+@menuTopHeight: 30px;
+@layoutAppTop: @layoutAppSeparator + @menuTopHeight;
+
+#menu-top {
+	position: relative;
+	height: @menuTopHeight;
+	background: #fff;
+	padding: 0 6px;
+	margin: 0 0 @layoutAppSeparator;
+	z-index: 1000;
+	border-bottom: 1px solid #dfdfdf;
+
+	.container {
+		padding: 0;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+	ul.main {
+		height: @menuTopHeight;
+		> li {
+			height: @menuTopHeight;
+			line-height: @menuTopHeight;
+			float: left;
+			> a {
+				height: @menuTopHeight;
+				line-height: @menuTopHeight;
+				color: #797979;
+				font-weight: 700;
+				padding: 0 6px;
+				text-decoration: none;
+				i { color: #ccc; }
+				.caret { border-top-color: #ccc; }
+				&:hover i { color: @primaryColor; }
+			}
+			&.dropdown.open,
+			&.active { 
+				> a,
+				> a i {
+					color: @primaryColor; 
+				}
+			}
+			.dropdown-menu {
+				background: #fff;
+				margin: -1px 0 0;
+				border-color: #dedede;
+				padding: 5px 0;
+				li {
+					border-bottom: none;
+					a {
+						padding: 3px 10px;
+						font-size: 13px;
+					}
+					&.active a { font-weight: 700; }
+				}
+			}
+		}
+	}
+	ul.colors {
+		height: @menuTopHeight;
+		> li {
+			padding: 5px 2px;
+			float: left;
+			> a {
+				display: block;
+				width: 18px;
+				height: 18px;
+				background: @primaryColor;
+			}
+			&.active {
+				> a {
+					border: 1px solid #000;
+					-webkit-box-shadow: 0 0 0 1px #fff inset;
+					-moz-box-shadow: 0 0 0 1px #fff inset;
+					box-shadow: 0 0 0 1px #fff inset;
+				}
+			}
+			&.dropdown {
+				> a {
+					background: none;
+					.color {
+						width: 9px;
+						height: 9px;
+						display: inline-block;
+						float: left;
+						&.primary { background: @primaryColor; }
+						&.info { background: @infoColor; }
+						&.inverse { background: @inverseColor; }
+						&.success { background: @successColor; }
+						&.danger { background: @dangerColor; }
+					}
+				}
+				.dropdown-menu {
+					border-color: #dedede;
+					margin: 1px 0 0;
+					width: 622px;
+					padding: 10px;
+					li {
+						width: 150px;
+						float: left;
+						border: none;
+						a {
+							padding: 3px 3px 3px 5px;
+							font-size: 13px;
+						}
+					}
+					.color {
+						display: inline-block;
+						margin-right: 5px;
+						margin-top: 3px;
+						vertical-align: text-top;
+						width: 10px;
+						height: 10px;
+						&.primary { background: @primaryColor; }
+					}
+				}
+			}
+		}
+	}
+	&.menu-top-gray {
+		border-bottom-color: #dfdfdf;
+		background: #eaeaea;
+	}
+	&.menu-top-inverse {
+		background: @inverseColor;
+		ul.main > li {
+			> a { &, > i { color: #fff; } }
+		}
+	}
+}
+
+@media (max-width: 1199px) {
+	#menu-top {
+		ul.colors li.dropdown .dropdown-menu {
+			width: 322px;
+		}
+	}
+	.app #menu-top {
+		z-index: 1000;
+	}
+}
+
+.app #menu-top {
+	margin: 0 0 @layoutAppSeparator;
+}
