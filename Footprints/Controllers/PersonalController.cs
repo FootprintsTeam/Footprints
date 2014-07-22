@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Footprints.Models;
+using Footprints.ViewModels;
 
 namespace Footprints.Controllers
 {
@@ -21,6 +22,11 @@ namespace Footprints.Controllers
             //var model = PersonalViewModel.GetSampleObject();
             //return View(model);
             return View();
+        }
+        public ActionResult About()
+        {
+            var model = PersonalAboutViewModel.GetSampleObject();
+            return View(model);
         }
 	}
 }
