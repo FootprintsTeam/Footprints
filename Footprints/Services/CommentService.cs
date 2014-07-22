@@ -24,12 +24,12 @@ namespace Footprints.Service
 
         public List<Comment> RetrieveDestinationComment(Guid destinationID)
         {
-            return _commentRepo.GetCommentByDestination(destinationID);
+            return _commentRepo.GetAllCommentOnDestination(destinationID);
         }
 
         public List<Comment> RetrieveJourneyComment(Guid journeyID)
         {
-            return _commentRepo.GetCommentByJourney(journeyID);
+            return _commentRepo.GetAllCommentOnJourney(journeyID);
         }
 
         public bool AddDestinationComment(Guid userID, Comment comment)
@@ -43,7 +43,7 @@ namespace Footprints.Service
         }
         public Comment RetrieveComment(Guid commentID)
         {
-            return _commentRepo.GetComment(commentID);
+            return _commentRepo.GetAComment(commentID);
         }
         public bool UpdateComment(Comment comment)
         {
