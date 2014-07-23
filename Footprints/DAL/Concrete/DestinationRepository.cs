@@ -78,9 +78,9 @@ namespace Footprints.DAL.Concrete
 
         }
 
-        public void GetNumberOfShare(Guid DestinationID)
+        public int GetNumberOfShare(Guid DestinationID)
         {
-
+            return 0;
         }
 
         public void ShareDestination(Guid UserID,Guid DestinationID, String Content)
