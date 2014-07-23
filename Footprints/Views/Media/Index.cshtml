@@ -1,0 +1,19 @@
+﻿@model Footprints.ViewModels.MediaViewModel
+@{
+    ViewBag.Title = "Media";
+    ViewBag.ActiveTab = "AllPhotos";
+    ViewBag.NumberOfPhotos = @Model.NumberOfPhotos;
+    ViewBag.NumberOfAlbums = @Model.NumberOfAlbums;
+    Layout = "_MediaLayout.cshtml";
+}
+<!-- Gallery Layout -->
+<div class="gallery gallery-2">
+    <ul class="row">
+        @foreach (var photo in @Model.Photos)
+        {
+            @*../assets/images/gallery-2/3.jpg*@
+            <li class="col-md-3"><a class="thumb no-ajaxify" data-gallery="gallery-2" href="@photo"><img src="@photo" alt="photo" class="img-responsive" /></a></li>
+        }
+    </ul>
+</div>
+<!-- // Gallery Layout END -->

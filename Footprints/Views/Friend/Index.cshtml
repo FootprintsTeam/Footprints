@@ -1,0 +1,28 @@
+﻿@model Footprints.ViewModels.FriendViewModel
+@{
+    ViewBag.Title = "Friend";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="innerAll">
+        <div class="row">
+            <div class="col-lg-9 col-md-8">
+                @*Timeline cover*@
+                @{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}
+                <div class="input-group innerB">
+                    <input type="text" class="form-control " placeholder="Search contacts">
+                    <div class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
+                </div>
+                <div class="row row-merge">
+                    @foreach (var friend in @Model.FriendList)
+                    {
+                        Html.RenderPartial("FriendItem", friend);
+                    }
+                </div>
+            </div>
+
+            @{Html.RenderPartial("TimelineAccountMenu");}
+
+        </div>
+    </div>
+</div>

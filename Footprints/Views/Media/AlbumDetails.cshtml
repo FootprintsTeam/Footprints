@@ -1,0 +1,30 @@
+﻿@model Footprints.ViewModels.AlbumDetailsViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/css/media")
+<div class="container">
+    <div class="innerAll">
+        <div class="row">
+            <div class="col-lg-9 col-md-8">
+
+                @*Timeline cover*@
+                @{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}
+                @{Html.RenderPartial("GalleryWidget", Model);}
+                
+            </div>
+        </div>
+    </div>
+    <!-- Blueimp Gallery -->
+    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev no-ajaxify">‹</a>
+        <a class="next no-ajaxify">›</a>
+        <a class="close no-ajaxify">×</a>
+        <a class="play-pause no-ajaxify"></a>
+        <ol class="indicator"></ol>
+    </div>
+    <!-- // Blueimp Gallery END -->
+</div>
+@Scripts.Render("~/script/media")

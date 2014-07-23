@@ -8,30 +8,19 @@ namespace Footprints.ViewModels
 {
     public class FriendViewModel
     {
-        public Guid UserID { get; set; }
-        
-        public string UserName { get; set; }
-
-        public DateTime Time { get; set; }
-
-        public string UserAvatarURL { get; set; }
-        public string TimeAgo
+        public IEnumerable<FriendItemViewModel> FriendList { get; set; }
+        public static FriendViewModel GetSampleObject()
         {
-            get { return DateTimeFormat.TimeAgo(this.Time); }
-            private set { }
-        }
-
-        public static IEnumerable<FriendViewModel> GetSampleObject()
-        {
-            var sample = new FriendViewModel
+            var list = new List<FriendItemViewModel>();
+            for (int i = 0; i < 20; i++)
             {
-                UserID = new Guid(),
-                UserName = "Hung Vi",                
-                Time = DateTime.Now                
+                list.Add(FriendItemViewModel.GetSampleObject());
+            }
+            return new FriendViewModel()
+            {
+                FriendList = list
             };
-            List<FriendViewModel> list = new List<FriendViewModel>();
-            list.Add(sample);
-            return list;
+
         }
     }
 }

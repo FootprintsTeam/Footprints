@@ -118,9 +118,18 @@ namespace Footprints
             //Destination Page
             bundles.Add(new StyleBundle("~/script/destination").Include(
                 "~/assets/components/widget_lists/list-group.less",
-                "~/assets/components/ui_labels/labels.less"
-                ));
-            
+				"~/assets/components/ui_labels/labels.less"
+            ));
+
+            //Media
+            bundles.Add(new StyleBundle("~/css/media").Include(
+                "~/assets/plugins/media_blueimp/css/blueimp-gallery.min.css",
+                "~/assets/components/media_blueimp/blueimp-gallery.less"
+            ));
+            bundles.Add(new ScriptBundle("~/script/media").Include(
+               "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
+               "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
+               ));
         }
     }
 }

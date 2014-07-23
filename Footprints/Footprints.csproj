@@ -212,6 +212,7 @@
     <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\NewsfeedController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
     <Compile Include="DAL\Abstract\IRepository.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="Services\JourneyService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\FriendItemViewModel.cs" />
     <Compile Include="ViewModels\JourneyViewModel.cs" />
     <Compile Include="ViewModels\MediaViewModel.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
@@ -2500,6 +2502,16 @@
     <Content Include="Views\Destination\Index.cshtml" />
     <Content Include="Views\Personal\About.cshtml" />
     <Content Include="Views\Shared\MainNavbar.cshtml" />
+    <Content Include="Views\Media\Index.cshtml" />
+    <Content Include="Views\Media\Albums.cshtml" />
+    <Content Include="Views\Media\AddPhotos.cshtml" />
+    <Content Include="Views\Media\CreateAlbum.cshtml" />
+    <Content Include="Views\Friend\Index.cshtml" />
+    <Content Include="Views\Friend\FriendItem.cshtml" />
+    <Content Include="Views\Friend\TimelineAccountMenu.cshtml" />
+    <Content Include="Views\Media\_MediaLayout.cshtml" />
+    <Content Include="Views\Media\AlbumDetails.cshtml" />
+    <Content Include="Views\Media\GalleryWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

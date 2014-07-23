@@ -1,0 +1,145 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/css/media")
+<div class="container">
+    <div class="innerAll">
+        <div class="row">
+            <div class="col-lg-9 col-md-8">
+
+                @*Timeline cover*@
+                @{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}
+                <div class="widget widget-gallery" data-toggle="collapse-widget">
+                    <div class="widget-head"><h4 class="heading">Photo Gallery</h4></div>
+                    <div class="widget-body">
+
+                        <!-- Tabs -->
+                        <div class="tabsbar">
+                            <ul>
+                                <li class="glyphicons camera @(ViewBag.ActiveTab == "AllPhotos" ? "active" : "")"><a href=""><i></i> View all photos <strong>(@ViewBag.NumberOfPhotos)</strong></a></li>
+                                <li class="glyphicons folder_open @(ViewBag.ActiveTab == "Albums" ? "active" : "")"><a href=""><i></i> Albums <strong>(@ViewBag.NumberOfAlbums)</strong></a></li>
+                                <li class="glyphicons circle_plus tab-stacked @(ViewBag.ActiveTab == "AddPhotos" ? "active" : "")"><a href=""><i></i> <span>Add Photos</span></a></li>
+                                <li class="glyphicons folder_plus tab-stacked @(ViewBag.ActiveTab == "CreateAlbum" ? "active" : "")"><a href=""><i></i> <span>Create Album</span></a></li>
+                            </ul>
+                        </div>
+                        <!-- // Tabs END -->
+                        @RenderBody()
+                        <!-- Pagination -->
+                        <div class="btn-group">
+                            <a class="btn disabled btn-small btn-default glyphicons standard chevron-left"><i></i></a>
+                            <a class="btn btn-small btn-default glyphicons standard chevron-right"><i></i></a>
+                        </div>
+                        <span class="innerLR">1-6 out of @Model.NumberOfPhotos</span>
+                        <!-- // Pagination END -->
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+
+                <div class="widget">
+                    <h5 class="innerAll margin-none bg-primary">Recent</h5>
+                    <div class="widget-body padding-none">
+                        <ul class="list-group list-group-1 borders-none margin-none">
+                            <li class="list-group-item"><a href="">January</a></li>
+                            <li class="list-group-item"><a href="">December</a></li>
+                            <li class="list-group-item"><a href="">November</a></li>
+                            <li class="list-group-item"><a href="">October</a></li>
+                            <li class="list-group-item"><a href="">September</a></li>
+                            <li class="list-group-item"><a href="">August</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="widget">
+                    <h5 class="innerAll margin-none border-bottom bg-gray">Recent News</h5>
+                    <div class="widget-body padding-none">
+                        <div class="media border-bottom innerAll margin-none">
+                            <img src="../assets/images/people/35/22.jpg" class="pull-left media-object" />
+                            <div class="media-body">
+                                <a href="" class="pull-right text-muted innerT half">
+                                    <i class="fa fa-comments"></i> 4
+                                </a>
+                                <h5 class="margin-none"><a href="" class="text-inverse">Social Admin Released</a></h5>
+                                <small>on February 2nd, 2014 </small>
+                            </div>
+                        </div>
+                        <div class="media border-bottom innerAll margin-none">
+                            <img src="../assets/images/people/35/22.jpg" class="pull-left media-object" />
+                            <div class="media-body">
+                                <a href="" class="pull-right text-muted innerT half">
+                                    <i class="fa fa-comments"></i> 4
+                                </a>
+                                <h5 class="margin-none"><a href="" class="text-inverse">Timeline Cover Page</a></h5>
+                                <small>on February 2nd, 2014 </small>
+                            </div>
+                        </div>
+                        <div class="media border-bottom innerAll margin-none">
+                            <img src="../assets/images/people/35/22.jpg" class="pull-left media-object" />
+                            <div class="media-body">
+                                <a href="" class="pull-right text-muted innerT half">
+                                    <i class="fa fa-comments"></i> 4
+                                </a>
+                                <h5 class="margin-none"><a href="" class="text-inverse">1000+ Sales</a></h5>
+                                <small>on February 2nd, 2014 </small>
+                            </div>
+                        </div>
+                        <div class="media border-bottom innerAll margin-none">
+                            <img src="../assets/images/people/35/22.jpg" class="pull-left media-object" />
+                            <div class="media-body">
+                                <a href="" class="pull-right text-muted innerT half">
+                                    <i class="fa fa-comments"></i> 4
+                                </a>
+                                <h5 class="margin-none"><a href="" class="text-inverse">On-Page Optimization</a></h5>
+                                <small>on February 2nd, 2014 </small>
+                            </div>
+                        </div>
+                        <div class="media border-bottom innerAll margin-none">
+                            <img src="../assets/images/people/35/22.jpg" class="pull-left media-object" />
+                            <div class="media-body">
+                                <a href="" class="pull-right text-muted innerT half">
+                                    <i class="fa fa-comments"></i> 4
+                                </a>
+                                <h5 class="margin-none"><a href="" class="text-inverse">14th Admin Template</a></h5>
+                                <small>on February 2nd, 2014 </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Widget -->
+                <div class="widget widget-heading-simple widget-body-white">
+
+                    <!-- Widget Heading -->
+                    <div class="widget-head">
+                        <h4 class="heading glyphicons glyphicons-social twitter"><i></i>Twitter feed</h4>
+                    </div>
+                    <!-- // Widget Heading END -->
+
+                    <div class="widget-body" data-builder-exclude="element children">
+                        <div class="jstwitter" data-gridalicious="false" data-type="slide" data-images="false"><span class="label label-default">Loading .. </span></div>
+                    </div>
+                </div>
+                <!-- // Widget END -->
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Blueimp Gallery -->
+    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev no-ajaxify">‹</a>
+        <a class="next no-ajaxify">›</a>
+        <a class="close no-ajaxify">×</a>
+        <a class="play-pause no-ajaxify"></a>
+        <ol class="indicator"></ol>
+    </div>
+    <!-- // Blueimp Gallery END -->
+
+</div>
+@Scripts.Render("~/script/media")
