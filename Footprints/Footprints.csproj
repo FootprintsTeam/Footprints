@@ -2499,6 +2499,7 @@
     <Content Include="Views\Personal\CoverWidget.cshtml" />
     <Content Include="Views\Destination\Index.cshtml" />
     <Content Include="Views\Personal\About.cshtml" />
+    <Content Include="Views\Shared\MainNavbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
