@@ -165,6 +165,11 @@ namespace Footprints.DAL.Concrete
             return Db.Cypher.Match("User:User").Return(user => user.As<User>()).Results;
         }
 
+        public IEnumerable<User> GetFriendList(Guid UserID)
+        {
+            return Db.Cypher.Match("(User:User)-[:FRIEND]->(Friend:User)").Where((User user) => user.UserID == UserID).Return(Friend => Friend.As<User>()).Results;
+        }
+
         public void DeleteAnActivity(Guid ActivityID)
         {
             Db.Cypher.Match("(Activity:Activity)").Where((Activity Activity) => Activity.ActivityID == ActivityID).Delete("Activity").ExecuteWithoutResults();
@@ -187,5 +192,6 @@ namespace Footprints.DAL.Concrete
         bool GrantAdminPrivilege(Guid userID);
         IEnumerable<User> GetUser();
         void DeleteAnActivity(Guid ActivityID);
+        IEnumerable<User> GetFriendList(Guid UserID);
     }
 }

@@ -27,7 +27,7 @@ namespace Footprints.Service
 
         public Destination GetDestinationDetail(Guid destinationID)
         {
-            return _destinationRepo.GetDestinationDetail(destinationID);
+            return _destinationRepo.GetADestination(destinationID);
         }
 
         public int GetNumberOfLike(Guid destinationID)

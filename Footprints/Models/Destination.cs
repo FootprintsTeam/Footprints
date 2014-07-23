@@ -13,10 +13,6 @@ namespace Footprints.Models
 
         public String Description { get; set; }
 
-        public double Longtitude { get; set; }
-
-        public double Latitude { get; set; }
-
         public DateTimeOffset TakenDate { get; set; }
 
         public int NumberOfLike { get; set; }
