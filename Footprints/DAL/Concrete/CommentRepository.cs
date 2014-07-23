@@ -176,6 +176,16 @@ namespace Footprints.DAL.Concrete
             Db.Cypher.Match("(CommentTaken:Comment)-[r]-()").Where((Comment CommentTaken) => CommentTaken.CommentID == CommentID).
                  Match("(Activity:Activity)").Where((Activity Activity) => Activity.CommentID == CommentID).Set("Activity.Status = 'DELETED'").Delete("CommentTaken, r").ExecuteWithoutResults();
         }
+
+        List<Comment> ICommentRepository.GetAllCommentOnDestination(Guid destinationID)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Comment> ICommentRepository.GetAllCommentOnJourney(Guid journeyID)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface ICommentRepository : IRepository<CommentRepository>

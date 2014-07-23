@@ -210,6 +210,7 @@
     <Compile Include="Common\DateTimeFormat.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DestinationController.cs" />
+    <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NewsfeedController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
@@ -247,7 +248,7 @@
     <Compile Include="ViewModels\MediaViewModel.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
-    <Compile Include="ViewModels\PersonalViewModel.cs" />
+    <Compile Include="ViewModels\PersonalAboutViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\components\admin_courses\courses-featured-1.init.js" />
@@ -2497,6 +2498,7 @@
     <Content Include="Views\Personal\Index.cshtml" />
     <Content Include="Views\Personal\CoverWidget.cshtml" />
     <Content Include="Views\Destination\Index.cshtml" />
+    <Content Include="Views\Personal\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
@@ -2538,6 +2540,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Security\ActionFilters\" />
     <Folder Include="Security\Authentication\" />
+    <Folder Include="Views\Friend\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

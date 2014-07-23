@@ -174,6 +174,12 @@ namespace Footprints.DAL.Concrete
         {
             Db.Cypher.Match("(Activity:Activity)").Where((Activity Activity) => Activity.ActivityID == ActivityID).Delete("Activity").ExecuteWithoutResults();
         }
+
+
+        public bool ReportUser(Guid reporterID, Guid reporteeID)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IUserRepository : IRepository<User>
@@ -190,7 +196,6 @@ namespace Footprints.DAL.Concrete
         bool UnbanUser(Guid userID);
         bool UnactiveUser(Guid userID);
         bool GrantAdminPrivilege(Guid userID);
-        IEnumerable<User> GetUser();
         void DeleteAnActivity(Guid ActivityID);
         IEnumerable<User> GetFriendList(Guid UserID);
     }

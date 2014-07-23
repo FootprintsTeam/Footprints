@@ -114,6 +114,12 @@ namespace Footprints
                 "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
                 "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
                 ));
+
+            //Destination Page
+            bundles.Add(new StyleBundle("~/script/destination").Include(
+                "~/assets/components/widget_well/wells.less"
+                ));
+            
         }
     }
 }

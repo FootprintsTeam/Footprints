@@ -1,0 +1,126 @@
+﻿@model Footprints.ViewModels.PersonalAboutViewModel
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- <div class="layout-app">  -->
+<div class="container">
+    <div class="innerAll">
+        <div class="row">
+            <div class="col-lg-9 col-md-8">
+
+                @*@{Html.RenderPartial("CoverWidget");}*@
+
+                <h3>About</h3>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="innerAll bg-white">
+                            <h5>Short Bio</h5>
+                            <div class="media innerB ">
+                                <a href="" class="pull-left">
+                                    <img src="@Model.ProfilePictureUrl" alt="" width="75" />
+                                </a>
+                                <div class="media-body">
+                                    <p>@Model.AboutMe</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="widget">
+                            <div class="widget-head border-bottom bg-gray">
+                                <h5 class="innerAll pull-left margin-none">Basic Info</h5>
+                                <div class="pull-right">
+                                    <a href="" class="text-muted">
+                                        <i class="fa fa-pencil innerL"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="widget-body">
+                                <div class="row">
+                                    <div class="col-sm-6">User:</div>
+                                    <div class="col-sm-6 text-right">
+                                        <span class="label label-default">@Model.UserName</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">Gender:</div>
+                                    <div class="col-sm-6 text-right">
+                                        <span class="label label-default">@Model.Gender</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">Joined:</div>
+                                    <div class="col-sm-6 text-right">
+                                        <span class="label label-default">@Model.JoinDate.ToString("dd MMM yyyy")</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <div class="widget-head border-bottom bg-gray">
+                                <h5 class="innerAll pull-left margin-none">Contact</h5>
+                            </div>
+                            <div class="widget-body padding-none">
+                                <div class="innerAll">
+                                    <p class=" margin-none"><i class="fa fa-phone fa-fw text-muted"></i> @Model.Phone</p>
+                                </div>
+                                <div class="border-top innerAll">
+                                    <p class=" margin-none"><i class="fa fa-envelope fa-fw text-muted"></i> @Model.Email</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget">
+                            <div class="widget-head border-bottom bg-gray">
+                                <h5 class="innerAll pull-left margin-none">Statistics</h5>
+                            </div>
+                            <div class="widget-body">
+                                <div class="row">
+                                    <div class="col-sm-6">Journey:</div>
+                                    <div class="col-sm-6 text-right">
+                                        <span class="label label-default">@Model.NumberOfJourney</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">Destinations:</div>
+                                    <div class="col-sm-6 text-right">
+                                        <span class="label label-default">@Model.NumberOfDestinations</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">Friends:</div>
+                                    <div class="col-sm-6 text-right">
+                                        <span class="label label-default">@Model.NumberOfFriends</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <div class="widget">
+                    <div class="widget-body text-center">
+                        <a href=""><img src="@Model.ProfilePictureUrl" width="120" alt="" class="img-circle"></a>
+                        <h2 class="strong margin-none">@*Adrian Demian*@@Model.UserName</h2>
+                        @*<div class="innerB">Working at MOSAICPRO</div>*@
+                        <div class="btn-group-vertical btn-block">
+                            <a href="" class="btn btn-default"><i class="fa fa-cog pull-right"></i>Edit Account</a>
+                            <a href="" class="btn btn-default"><i class="fa fa-cog pull-right"></i>Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
