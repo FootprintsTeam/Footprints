@@ -87,6 +87,12 @@ namespace Footprints.DAL.Concrete
         {
 
         }
+
+
+        public bool AddNewDestination(Destination destination)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IDestinationRepository : IRepository<DestinationRepository>

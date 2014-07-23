@@ -117,7 +117,8 @@ namespace Footprints
 
             //Destination Page
             bundles.Add(new StyleBundle("~/script/destination").Include(
-                "~/assets/components/widget_well/wells.less"
+                "~/assets/components/widget_lists/list-group.less",
+                "~/assets/components/ui_labels/labels.less"
                 ));
             
         }
