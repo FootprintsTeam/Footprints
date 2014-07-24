@@ -1759,6 +1759,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\avata.jpg" />
     <Content Include="images\avata2.jpg" />
+    <Content Include="images\beach-footprints.jpg" />
     <Content Include="images\icon_users.png" />
     <Content Include="images\images.jpg" />
     <Content Include="images\img2.jpg" />
@@ -2512,6 +2513,9 @@
     <Content Include="Views\Media\_MediaLayout.cshtml" />
     <Content Include="Views\Media\AlbumDetails.cshtml" />
     <Content Include="Views\Media\GalleryWidget.cshtml" />
+    <Content Include="Views\Destination\DestinationMainContentWidget.cshtml" />
+    <Content Include="Views\Destination\DestinationDescriptionWidget.cshtml" />
+    <Content Include="Views\Destination\CommentSection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
@@ -2553,7 +2557,6 @@
     <Folder Include="Helpers\" />
     <Folder Include="Security\ActionFilters\" />
     <Folder Include="Security\Authentication\" />
-    <Folder Include="Views\Friend\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

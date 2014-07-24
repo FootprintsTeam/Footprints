@@ -15,130 +15,14 @@
 
                 <!-- Tabs -->
                 <div class="relativeWrap">
-                    <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
-
-                        <div class="widget-body">
-                            <div class="tab-content">
-                                <!-- Tab content -->
-                                <div class="tab-pane active" id="tab1-2">
-                                    <h4>First tab</h4>
-                                    <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
-                                </div>
-                                <!-- // Tab content END -->
-                                <!-- Tab content -->
-                                <div class="tab-pane" id="tab2-2">
-                                    <h4>Second tab</h4>
-                                    <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
-                                </div>
-                                <!-- // Tab content END -->
-                            </div>
-                        </div>
-
-                        <!-- Tabs Heading -->
-                        <div class="widget-head" style="border-top: 1px solid #efefef; border-bottom:none !important">
-                            <ul>
-                                <li class="active">
-                                    <a href="#tab1-2" class="glyphicons google_maps" data-toggle="tab"><i></i><span class="strong">Maps</span><span>Pin location</span></a>
-                                </li>
-                                <li>
-                                    <a href="#tab2-2" class="glyphicons picture" data-toggle="tab"><i></i><span class="strong">Images</span><span>Captured</span></a>
-                                </li>
-                            </ul>
-
-                            <div class="innerAll pull-right">
-                                <a href="#" class="innerLR"><i class="fa fa-2x fa-thumbs-o-up"></i> <span>Like</span></a>
-                                <a href="#" class="innerLR"><i class="fa fa-2x fa-share-square-o"></i> <span>Share</span></a>
-                                <a href="#"><i class="fa fa-2x fa-facebook-square"></i> <span>Facebook</span></a>
-                            </div>
-                        </div>
-                        <!-- // Tabs Heading END -->
-                    </div>
+                    @{Html.RenderPartial("DestinationMainContentWidget");}
                 </div>
                 <!-- // Tabs END -->
                 @*description area*@
-                <div class="widget">
-                    <div class="widget-body">
-                        @*<button class="pull-right btn btn-default btn-sm"><i class="fa fa-fw fa-edit"></i> Edit</button>*@
-                        <div class="pull-right media-body innerLR">
-                            <h3 class="media-heading strong">
-                                Chuyến đi đến Đà Nẵng
-                            </h3>
-                            <p>
-                                <h5 class="text-muted" style="margin-bottom:0px !important">2 ngày trước</h5><br />
-                                <button class="btn btn-default no-margin">
-                                    <i class="glyphicon glyphicon-pencil"></i> Edit
-                                </button>
-                            </p>
-                        </div>
+                @{Html.RenderPartial("DestinationDescriptionWidget");}
 
-                        <img src="../assets/images/people/250/2.jpg" class="thumb pull-left" alt="" width="100">
-                        <div class="media-body innerLR innerT">
-                            <h3 class="media-heading strong">Trịnh Thành Nhân</h3>
-                            <p>
-                                <span class="label label-info">22 Journeys</span><br />
-                                <span class="label label-danger">120 Destinations</span><br />
-                                <span class="label label-success">200 Friends</span>
-                            </p>
-                            @*<p>22 Journeys<br />120 Destinations<br /> 200 Friends</p>*@
-                        </div>
-
-                        <div class="row innerT">
-                            <div class="col-sm-10 col-sm-offset-1 border-top">
-                                <div class="panel-group accordion accordion-2" style="border:none !important" id="tabAccountAccordion">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading" style="border:none !important">
-                                            <center><h4 class="panel-title text-danger strong"><a class="accordion-toggle" data-toggle="collapse" data-parent="#tabAccountAccordion" href="#collapse-1-1">Description</a></h4></center>
-                                        </div>
-                                        <div id="collapse-1-1" class="panel-collapse collapse">
-                                            <div class="panel-body" style="border:none !important">
-                                                <p class="innerT">This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @*<p class="innerT">This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content</p>*@
-                            </div>                            
-                        </div>
-                    </div>
-                </div>
                 @*comment area*@
-                <div class="row">
-                    <div class="col-md-10 col-sm-8">
-                        <ul class="list-group social-comments margin-none">
-                            <li class="list-group-item innerAll">
-                                <input type="text" name="message" class="form-control input-sm" placeholder="Comment here ..." />
-                            </li>
-                            <li class="list-group-item">
-                                <img src="../assets/images/avatar-36x36.jpg" alt="Avatar" class="pull-left" />
-                                <div class="user-info">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <a href="">Adrian Demian</a>
-                                            <abbr>4 days ago</abbr>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <span> Wow... nice post</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <img src="../assets/images/avatar-36x36.jpg" alt="Avatar" class="pull-left">
-                                <div class="user-info">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <a href="">Adrian Demian</a>
-                                            <abbr>4 days ago</abbr>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <span> Wow... nice post</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                @{Html.RenderPartial("CommentSection");}
 
                 @*Side Area*@
                 <div class="col-lg-3 col-md-4">
@@ -146,6 +30,7 @@
                 </div>
             </div>
 
+            @*Statistic board*@
             <div class="pull-right col-lg-3 col-md-4">
                 <ul class="list-group list-group-1 margin-none">
                     <li class="list-group-item active bg-info"><a href="#"><i class="fa fa-user"></i> Stats</a></li>
