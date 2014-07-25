@@ -14,9 +14,8 @@ namespace Footprints.Models
         public String Description { get; set; }
 
         public DateTimeOffset TakenDate { get; set; }
-
-        public int NumberOfLike { get; set; }
-
+        public int NumberOfLike { get; set; } 
+        public int NumberOfShare { get; set; }
         public DateTimeOffset Timestamp { get; set; }
 
         public List<Content> Contents { get; set; }
