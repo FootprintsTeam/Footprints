@@ -1,0 +1,12 @@
+﻿@model Footprints.ViewModels.AlbumsViewModel
+@{
+    ViewBag.Title = "Media - Albums";
+    ViewBag.ActiveTab = "Albums";
+    ViewBag.NumberOfPhotos = @Model.NumberOfPhotos;
+    ViewBag.NumberOfAlbums = @Model.NumberOfAlbums;
+    Layout = "_MediaLayout.cshtml";
+}
+@foreach (var album in @Model.AlbumList)
+{
+    Html.RenderPartial("GalleryWidget", album);
+}

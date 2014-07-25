@@ -8,66 +8,76 @@ namespace Footprints.ViewModels
     public class MediaViewModel
     {
         public int NumberOfPhotos { get; set; }
-        public IEnumerable<AlbumViewModel> Albums { get; set; }
+        public int NumberOfAlbums { get; set; }
+        public List<String> Photos { get; set; }
+        public static MediaViewModel GetSampleObject()
+        {
+            return new MediaViewModel()
+            {
+                NumberOfAlbums = 10,
+                NumberOfPhotos = 159,
+                Photos = new List<string>()
+                {
+                    "../assets/images/gallery-2/3.jpg",
+                    "../assets/images/gallery-2/3.jpg",
+                    "../assets/images/gallery-2/3.jpg",
+                    "../assets/images/gallery-2/3.jpg"
+                }
+            };
+        }
     }
 
-    public class AlbumViewModel
+    public class AlbumsViewModel
+    {
+        public int NumberOfPhotos { get; set; }
+        public int NumberOfAlbums { get; set; }
+        public IEnumerable<AlbumDetailsViewModel> AlbumList { get; set; }
+
+        public static AlbumsViewModel GetSampleObject()
+        {
+            List<AlbumDetailsViewModel> listAlbumDetails = new List<AlbumDetailsViewModel>();
+            listAlbumDetails.Add(AlbumDetailsViewModel.GetSampleObject());
+            listAlbumDetails.Add(AlbumDetailsViewModel.GetSampleObject());
+            listAlbumDetails.Add(AlbumDetailsViewModel.GetSampleObject());
+            return new AlbumsViewModel
+            {
+                NumberOfPhotos = 159,
+                NumberOfAlbums = 10,
+                AlbumList = listAlbumDetails
+            };
+        }
+    }
+
+    public class AlbumDetailsViewModel
     {
         public Guid AlbumId { get; set; }
         public string AlbumName { get; set; }
         public int NumberOfPhotos { get; set; }
-        public Location Location { get; set; }
-        public IEnumerable<Photo> CoverPhotos { get; set; }
+        public String JourneyId { get; set; }
+        public String JourneyName { get; set; }
+        public String DestinationId { get; set; }
+        public String DestinationName { get; set; }
+        public List<String> Photos { get; set; }
 
-        public static IEnumerable<AlbumViewModel> GetSampleObject()
+        public static AlbumDetailsViewModel GetSampleObject()
         {
-            var sample = new AlbumViewModel
+            return new AlbumDetailsViewModel
             {
                 AlbumId = new Guid(),
                 AlbumName = "Tên Album...",
                 NumberOfPhotos = 23,
-                Location = new Location
+                JourneyId = new Guid().ToString(),
+                JourneyName = "Journey name",
+                DestinationId = new Guid().ToString(),
+                DestinationName = "Destination name",
+                Photos = new List<String>()
                 {
-                    LocationId = new Guid(),
-                    LocationName = "Đồ Sơn"
-                },
-                CoverPhotos = new List<Photo>()
-                {
-                    new Photo {
-                        PhotoId = new Guid(),
-                        PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
-                    },
-                    new Photo {
-                        PhotoId = new Guid(),
-                        PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
-                    },
-                    new Photo {
-                        PhotoId = new Guid(),
-                        PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
-                    },
-                    new Photo {
-                        PhotoId = new Guid(),
-                        PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
-                    }
+                    "../assets/images/gallery-2/3.jpg",
+                    "../assets/images/gallery-2/3.jpg",
+                    "../assets/images/gallery-2/3.jpg",
+                    "../assets/images/gallery-2/3.jpg"
                 }
             };
-            var sample2 = sample;
-            List<AlbumViewModel> list = new List<AlbumViewModel>();
-            list.Add(sample);
-            list.Add(sample2);
-            return list;
         }
-    }
-
-    public class Photo
-    {
-        public Guid PhotoId { get; set; }
-        public string PhotoUrl { get; set; }
-    }
-
-    public class Location
-    {
-        public Guid LocationId { get; set; }
-        public string LocationName { get; set; }
     }
 }

@@ -10,7 +10,17 @@
 @import "../assets/components/core/mixins.less";
 @import "../assets/components/core/scaffolding.less";
 @import "../assets/components/core/helpers.less";
+/*added*/
+.divider-vertical {
+height: 50px;
+margin: 0 9px;
+border-left: 1px solid #F2F2F2;
+border-right: 1px solid #FFF;
+}
 
+ul.nav > li:hover {
+    background:#eee;
+}
 .scripts-async .container-fluid {
     visibility: hidden;
 }

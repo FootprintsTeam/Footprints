@@ -1,0 +1,17 @@
+﻿@model Footprints.ViewModels.AlbumDetailsViewModel
+<div class="widget widget-gallery" data-toggle="collapse-widget">
+    <div class="widget-head"><h4 class="heading">@Model.AlbumName - @Model.DestinationName - @Model.JourneyName</h4></div>
+    <div class="widget-body">
+        <!-- Gallery Layout -->
+        <div class="gallery gallery-2">
+            <ul class="row">
+                @foreach (var photo in @Model.Photos)
+                {
+                    @*../assets/images/gallery-2/3.jpg*@
+                    <li class="col-md-3"><a class="thumb no-ajaxify" data-gallery="gallery-2" href="@photo"><img src="@photo" alt="photo" class="img-responsive" /></a></li>
+                }
+            </ul>
+        </div>
+        <!-- // Gallery Layout END -->
+    </div>
+</div>

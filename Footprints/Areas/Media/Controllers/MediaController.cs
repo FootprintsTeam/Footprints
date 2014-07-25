@@ -13,12 +13,7 @@ namespace Footprints.Areas.Media.Controllers
         // GET: /Media/Media/
         public ActionResult Index()
         {
-            var model = new MediaViewModel
-            {
-                NumberOfPhotos = 233,
-                Albums = AlbumViewModel.GetSampleObject()
-            };
-            return View(model);
+            return View();
         }
 
         [ChildActionOnly]
