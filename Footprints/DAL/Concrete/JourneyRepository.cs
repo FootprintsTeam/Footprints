@@ -105,22 +105,28 @@ namespace Footprints.DAL.Concrete
             return true;
         }
 
-        public void UpdateJourney(Journey Journey)
+        public bool UpdateJourney(Journey Journey)
         {
             var query = Db.Cypher.Match("(journeyTaken:Journey)").Where((Journey journeyTaken) => journeyTaken.JourneyID == Journey.JourneyID).
                          Set("journeyTaken = {journey}").WithParam("journey", Journey).Return(journeyTaken => journeyTaken.As<Journey>()).Results;
-            // return (query.First<Journey>() != null);
+            return (query.First<Journey>() != null);
         }
 
-        public void DeleteJourney(Guid JourneyID)
+        public bool DeleteJourney(Guid JourneyID)
         {
             Db.Cypher.Match("(journeyTaken:Journey)-[r]-()").Where((Journey journeyTaken) => journeyTaken.JourneyID == JourneyID).
                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).Set("Activity.Status = 'DELETED'").Delete("journeyTaken, r").ExecuteWithoutResults();
+            return true;
         }
 
         public IEnumerable<Journey> GetJourneyList()
         {
             return Db.Cypher.Match("(journey:Journey)").Return(journey => journey.As<Journey>()).Results;
+        }
+
+        public IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID)
+        {
+            return Db.Cypher.Match("(User:User)-[:HAS]->(journey:Journey)").Where((User User) => User.UserID == UserID).Return(journey => journey.As<Journey>()).Results;
         }
 
         public void LikeJourney(Guid UserID, Guid JourneyID)
@@ -183,6 +189,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "JoureyID", JourneyID }, { "Activity", Activity } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
+            // return true;
         }
 
         public void UnlikeJourney(Guid UserID, Guid JourneyID)
@@ -254,9 +261,10 @@ namespace Footprints.DAL.Concrete
     {
         bool AddNewJourney(Guid userID, Journey journey);        
         Journey GetJourneyByID(Guid journeyID);
-        void UpdateJourney(Journey journey);
-        void DeleteJourney(Guid journeyID);
+        bool UpdateJourney(Journey journey);
+        bool DeleteJourney(Guid journeyID);
         IEnumerable<Journey> GetJourneyList();
+        IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID);
         void LikeJourney(Guid UserID, Guid JourneyID);
         void UnlikeJourney(Guid UserID, Guid JourneyID);
         int GetNumberOfLike(Guid journeyID);

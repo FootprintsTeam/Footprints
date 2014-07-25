@@ -10,9 +10,22 @@ namespace Footprints.Service
 {
     public interface IJourneyService
     {
-        void AddJourney(AddNewJourneyViewModel journeyViewModel);
-        int GetNumberOfLike(Guid journeyID);
+        void AddJourney(AddNewJourneyViewModel journeyViewModel);        
         Journey RetrieveJourney(Guid journeyID);
+        bool AddNewJourney(Guid UserID, Journey Journey);
+        bool UpdateJourney(Journey Journey);
+        bool DeleteJourney(Guid JourneyID);
+        //For Admin Page
+        IEnumerable<Journey> GetJourneyList();
+        //For Personal Page
+        IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID);
+        void LikeJourney(Guid UserID, Guid JourneyID);
+        void UnlikeJourney(Guid UserID, Guid JourneyID);
+        IEnumerable<User> GetAllUserLiked(Guid JourneyID);
+        void ShareJourney(Guid UserID, Guid JourneyID, String Content);
+        IEnumerable<User> GetAllUserShared(Guid JourneyID);
+        int GetNumberOfShare(Guid JourneyID);
+        int GetNumberOfLike(Guid JourneyID);
     }
     public class JourneyService : IJourneyService
     {
@@ -29,12 +42,69 @@ namespace Footprints.Service
 
         public int GetNumberOfLike(Guid journeyID)
         {
-            return journeyRepository.GetNumberOfLike(journeyID);
+            return journeyRepository.GetNumberOfLike(JourneyID);
         }
 
         public Journey RetrieveJourney(Guid journeyID)
         {
             return journeyRepository.GetJourneyByID(journeyID);
+        }
+
+        public bool AddNewJourney(Guid UserID, Journey Journey)
+        {
+            return journeyRepository.AddNewJourney(UserID, Journey);
+        }
+
+        public bool UpdateJourney(Journey Journey)
+        {
+            return journeyRepository.UpdateJourney(Journey);
+        }
+
+        public bool DeleteJourney(Guid JourneyID)
+        {
+            return journeyRepository.DeleteJourney(JourneyID);
+        }
+
+        public IEnumerable<Journey> GetJourneyList()
+        {
+            return journeyRepository.GetJourneyList();
+        }
+        IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID)
+        {
+            return journeyRepository.GetJourneyListBelongToUser(UserID);
+        }
+
+        public void LikeJourney(Guid UserID, Guid JourneyID)
+        {
+            journeyRepository.LikeJourney(UserID, JourneyID);
+        }
+        public void UnlikeJourney(Guid UserID, Guid JourneyID)
+        {
+            journeyRepository.UnlikeJourney(UserID, JourneyID);
+        }
+
+        public IEnumerable<User> GetAllUserLiked(Guid JourneyID)
+        {
+            return journeyRepository.GetAllUserLiked(JourneyID);
+        }
+        public void ShareJourney(Guid UserID, Guid JourneyID, String Content)
+        {
+            journeyRepository.ShareJourney(UserID, JourneyID, Content);
+        }
+
+        public IEnumerable<User> GetAllUserShared(Guid JourneyID)
+        {
+            return journeyRepository.GetAllUserShared(JourneyID);
+        }
+
+        public int GetNumberOfShare(Guid JourneyID)
+        {
+            return journeyRepository.GetNumberOfShare(JourneyID);
+        }
+
+        public int GetNumberOfLike(Guid JourneyID)
+        {
+            return journeyRepository.GetNumberOfLike(JourneyID);
         }
     }
 }
