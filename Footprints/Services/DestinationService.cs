@@ -96,7 +96,7 @@ namespace Footprints.Service
         }
         public IEnumerable<User> GetAllUserShared(Guid DestinationID)
         {
-            return _destinationRepo.GetAllUserShared();
+            return _destinationRepo.GetAllUserShared(DestinationID);
         }
     }
 }
