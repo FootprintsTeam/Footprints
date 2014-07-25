@@ -212,6 +212,7 @@
     <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JourneyController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\NewsfeedController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
@@ -2516,6 +2517,7 @@
     <Content Include="Views\Destination\DestinationMainContentWidget.cshtml" />
     <Content Include="Views\Destination\DestinationDescriptionWidget.cshtml" />
     <Content Include="Views\Destination\CommentSection.cshtml" />
+    <Content Include="Views\Journey\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
