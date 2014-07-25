@@ -19,6 +19,29 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>();
         }
+
+        public Destination GetADestinationDetail(Guid DestinationID)
+        {
+            var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                Match("(Destination)-[:HAS*]->(Content:Content)").
+                Return((destination, place, contents) => new
+                {
+                    destination = destination.As<Destination>(),
+                    place = place.As<Place>(),
+                    contents = contents.CollectAs<Content>()
+                }).Results;
+            Destination result = new Destination();
+            foreach (var item in query)
+            {
+                result = item.destination;
+                result.Place = item.place;
+                foreach (var content in item.contents)
+                {
+                    result.Contents.Add(content.Data);
+                }
+            }
+            return result;
+        }
         //TODO
         public bool AddNewDestination(Destination Destination, String PlaceID, Guid JourneyID)
         {
@@ -133,19 +156,25 @@ namespace Footprints.DAL.Concrete
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
-        Destination GetADestination(Guid destinationID);
+        Destination GetADestination(Guid DestinationID);
+        Destination GetADestinationDetail(Guid DestinationID);
 
-        int GetNumberOfLike(Guid destinationID);
+        bool AddNewDestination(Destination Destination);
 
-        bool AddNewDestination(Destination destination);
-
-        bool UpdateDestination(Destination destination);
+        bool UpdateDestination(Destination Destination);
         void DeleteDestination(Guid DestinationID);
         void AddNewContent(Content Content, Guid DestinationID);
         void UpdateContent(Content Content);
         void DeleteContent(Guid ContentID);
         IEnumerable<Content> GetAllContent(Guid DestinationID);
         void AddNewPlace(Place Place);
+        int GetNumberOfLike(Guid DestinationID);
+        void LikeDestination(Guid UserID, Guid DestinationID);
+        void UnlikeDestination(Guid UserID, Guid DestinationID);
+        IEnumerable<User> GetAllUserLiked(Guid DestinationID);
+        int GetNumberOfShare(Guid DestinationID);
+        void ShareDestination(Guid UserID, Guid DestinationID, String Content);
+        IEnumerable<User> GetAllUserShared(Guid DestinationID);
     }
 
 }

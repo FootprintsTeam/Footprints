@@ -19,13 +19,21 @@ namespace Footprints.DAL.Concrete
                 Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>().NumberOfLike;
         }
-
+        
         public Journey GetJourneyByID(Guid JourneyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").
                 Where((Journey journey) => journey.JourneyID == JourneyID).
                 Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>();
+        }
+
+        //TODO
+        public Journey GetJourneyDetail(Guid JourneyID)
+        {
+            Journey result = new Journey();
+
+            return result;
         }
 
         public bool AddNewJourney(Guid UserID, Journey Journey)
@@ -261,6 +269,7 @@ namespace Footprints.DAL.Concrete
     {
         bool AddNewJourney(Guid userID, Journey journey);        
         Journey GetJourneyByID(Guid journeyID);
+        Journey GetJourneyDetail(Guid JourneyID);
         bool UpdateJourney(Journey journey);
         bool DeleteJourney(Guid journeyID);
         IEnumerable<Journey> GetJourneyList();

@@ -37,7 +37,7 @@ namespace Footprints.DAL.Concrete
             return (query.First<Comment>() != null);
         }
 
-        public bool AddCommentOnDestination(Guid UserID, Comment Comment)
+        public bool AddDestinationComment(Guid UserID, Comment Comment)
         {
             //Cypher Query
             //CREATE (Comment:Comment {CommentID : '1', DestinationID : '1', NumberOfLike : 0, Timestamp : '04/07/2014'})
@@ -109,7 +109,7 @@ namespace Footprints.DAL.Concrete
             return true;
         }
 
-        public bool AddCommentOnJourney(Guid UserID, Comment Comment)
+        public bool AddJourneyComment(Guid UserID, Comment Comment)
         {
             Activity activity = new Activity
             {
@@ -176,24 +176,14 @@ namespace Footprints.DAL.Concrete
             Db.Cypher.Match("(CommentTaken:Comment)-[r]-()").Where((Comment CommentTaken) => CommentTaken.CommentID == CommentID).
                  Match("(Activity:Activity)").Where((Activity Activity) => Activity.CommentID == CommentID).Set("Activity.Status = 'DELETED'").Delete("CommentTaken, r").ExecuteWithoutResults();
         }
-
-        List<Comment> ICommentRepository.GetAllCommentOnDestination(Guid destinationID)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<Comment> ICommentRepository.GetAllCommentOnJourney(Guid journeyID)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public interface ICommentRepository : IRepository<CommentRepository>
     {
         List<Comment> GetAllCommentOnDestination(Guid destinationID);
         List<Comment> GetAllCommentOnJourney(Guid journeyID);
-        bool AddCommentOnDestination(Guid userID, Comment comment);
-        bool AddCommentOnJourney(Guid userID, Comment comment);
+        bool AddDestinationComment(Guid userID, Comment comment);
+        bool AddJourneyComment(Guid userID, Comment comment);
         Comment GetAComment(Guid commentID);
         bool UpdateComment(Comment comment);
         void LikeAComment(Guid UserID, Guid CommentID);

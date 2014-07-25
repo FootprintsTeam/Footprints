@@ -13,6 +13,10 @@ namespace Footprints.Service
         bool AddJourneyComment(Guid userID, Comment comment);
         Comment RetrieveComment(Guid commentID);
         bool UpdateComment(Comment comment);
+        void LikeAComment(Guid UserID, Guid CommentID);
+        void UnlikeAComment(Guid UserID, Guid CommentID);
+        IEnumerable<User> GetAllUserLikeComment(Guid CommentID);
+        void DeleteAComment(Guid CommentID);
     }
     public class CommentService : ICommentService
     {
@@ -34,12 +38,12 @@ namespace Footprints.Service
 
         public bool AddDestinationComment(Guid userID, Comment comment)
         {
-            return _commentRepo.AddCommentOnDestination(userID, comment);
+            return _commentRepo.AddDestinationComment(userID, comment);
         }
 
         public bool AddJourneyComment(Guid userID, Comment comment)
         {
-            return _commentRepo.AddCommentOnJourney(userID, comment);
+            return _commentRepo.AddJourneyComment(userID, comment);
         }
         public Comment RetrieveComment(Guid commentID)
         {
@@ -48,6 +52,22 @@ namespace Footprints.Service
         public bool UpdateComment(Comment comment)
         {
             return _commentRepo.UpdateComment(comment);
+        }
+        public void LikeAComment(Guid UserID, Guid CommentID)
+        {
+            _commentRepo.LikeAComment(UserID, CommentID);
+        }
+        public void UnlikeAComment(Guid UserID, Guid CommentID)
+        {
+            _commentRepo.UnlikeAComment(UserID, CommentID);
+        }
+        public IEnumerable<User> GetAllUserLikeComment(Guid CommentID)
+        {
+            return _commentRepo.GetAllUserLikeComment(CommentID);
+        }
+        public void DeleteAComment(Guid CommentID)
+        {
+            _commentRepo.DeleteAComment(CommentID);
         }
     }
 }

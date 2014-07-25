@@ -36,7 +36,7 @@ namespace Footprints.DAL.Concrete
                 if (currentFriend.UserID == item.friend.UserID)
                 {
                     activity.AddLast(item.next_activity);
-                    Console.WriteLine(item.next_activity.Timestamp + " " + item.next_activity.UserID);
+                    // Console.WriteLine(item.next_activity.Timestamp + " " + item.next_activity.UserID);
                 }
                 else
                 {
@@ -45,9 +45,9 @@ namespace Footprints.DAL.Concrete
                     friendList.AddLast(currentFriend);
                     activity = new LinkedList<Activity>();
                     activity.AddLast(item.latest_activity);
-                    Console.WriteLine(item.latest_activity.Timestamp + " " + item.latest_activity.UserID);
+                    // Console.WriteLine(item.latest_activity.Timestamp + " " + item.latest_activity.UserID);
                     activity.AddLast(item.next_activity);
-                    Console.WriteLine(item.next_activity.Timestamp + " " + item.next_activity.UserID);
+                    // Console.WriteLine(item.next_activity.Timestamp + " " + item.next_activity.UserID);
                 }
             }
             activities.AddLast(activity);
