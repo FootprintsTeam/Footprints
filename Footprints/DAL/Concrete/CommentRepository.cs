@@ -121,7 +121,7 @@ namespace Footprints.DAL.Concrete
                 Timestamp = DateTimeOffset.Now
             };
 
-            CypherQuery query = new CypherQuery("CREATE (Comment:Comment {Comment}) " +
+            CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (Journey:Journey) " +

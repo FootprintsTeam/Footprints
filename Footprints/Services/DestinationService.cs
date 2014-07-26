@@ -10,10 +10,10 @@ namespace Footprints.Service
     public interface IDestinationService {
         Destination GetADestination(Guid destinationID);
         Destination GetADestinationDetail(Guid DestinationID);
-        bool AddNewDestination(Destination Destination, String PlaceID, Guid JourneyID);
+        bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID);
         bool UpdateDestination(Destination Destination);
         void DeleteDestination(Guid DestinationID);
-        void AddNewContent(Content Content, Guid DestinationID);
+        void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Content Content);
         void DeleteContent(Guid ContentID);
         IEnumerable<Content> GetAllContent(Guid DestinationID);
@@ -37,9 +37,9 @@ namespace Footprints.Service
         {
             return _destinationRepo.GetADestinationDetail(DestinationID);
         }
-        public bool AddNewDestination(Destination Destination, String PlaceID, Guid JourneyID)
+        public bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID)
         {
-            return _destinationRepo.AddNewDestination(Destination, PlaceID, JourneyID);
+            return _destinationRepo.AddNewDestination(UserID, Destination, PlaceID, JourneyID);
         }
 
         public bool UpdateDestination(Destination Destination)
@@ -50,9 +50,9 @@ namespace Footprints.Service
         {
             _destinationRepo.DeleteDestination(DestinationID);
         }
-        public void AddNewContent(Content Content, Guid DestinationID)
+        public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
         {
-            _destinationRepo.AddNewContent(Content, DestinationID);
+            _destinationRepo.AddNewContent(Content, DestinationID, UserID);
         }
         public void UpdateContent(Content Content)
         {
