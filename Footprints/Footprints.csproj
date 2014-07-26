@@ -2520,6 +2520,7 @@
     <Content Include="Views\Destination\DestinationDescriptionWidget.cshtml" />
     <Content Include="Views\Destination\CommentSection.cshtml" />
     <Content Include="Views\Journey\Index.cshtml" />
+    <Content Include="Views\Shared\NewJourneyFormModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

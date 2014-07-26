@@ -56,6 +56,7 @@
     @Scripts.Render("~/script/plugins")
     @Scripts.Render("~/script/bundle")
     @Styles.Render("~/css/timeline")
+    @Styles.Render("~/css/form-modal")
 </head>
 
 <body class=" scripts-async menu-right-hidden">
@@ -70,6 +71,7 @@
 
 
         </div>
+        @{Html.RenderPartial("NewJourneyFormModal");}
     </div>
     <!-- // Content END -->
 
@@ -88,5 +90,6 @@
     <!-- Global -->
     <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>
     @RenderSection("scripts", required: false)
+    @Styles.Render("~/script/form-modal")
 </body>
 </html>

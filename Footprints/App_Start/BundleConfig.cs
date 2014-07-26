@@ -149,6 +149,34 @@ namespace Footprints
                 "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
                 "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
                 ));
+			//Form-modal
+            bundles.Add(new StyleBundle("~/css/form-modal").Include(
+                "~/assets/components/ui_forms/forms.less",
+                "~/assets/components/ui_buttons/buttons.less",
+                "~/assets/components/forms_elements_fuelux-checkbox/fuelux-checkbox.less",
+                "~/assets/plugins/notifications_gritter/css/jquery.gritter.css",
+                "~/assets/components/admin_notifications_gritter/gritter.less",
+                "~/assets/components/ui_modals/modals.less",
+                "~/assets/components/ui_modals/modal-inline.less"
+                ));
+            bundles.Add(new ScriptBundle("~/script/form-modal").Include(
+                "~/assets/components/forms_elements_fuelux-checkbox/fuelux-checkbox.init.js",
+                "~/assets/plugins/ui_modals/bootbox.min.js",
+                "~/assets/components/ui_modals/modals.init.js",
+                "~/assets/plugins/notifications_gritter/js/jquery.gritter.min.js",
+                "~/assets/components/admin_notifications_gritter/gritter.init.js"
+               ));
+            
+
+            //Datepicker
+            bundles.Add(new StyleBundle("~/css/datepicker").Include(
+                "~/assets/plugins/forms_elements_bootstrap-datepicker/css/bootstrap-datepicker.css",
+                "~/assets/components/forms_elements_bootstrap-datepicker/bootstrap-datepicker.less"
+            ));
+            bundles.Add(new ScriptBundle("~/script/datepicker").Include(
+               "~/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.js",
+               "~/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.init.js"
+               ));
         }
     }
 }
