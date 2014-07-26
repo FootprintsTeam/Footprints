@@ -43,10 +43,37 @@ namespace Footprints.DAL.Concrete
             return result;
         }
         //TODO
+        // Add a destination to the tail of LinkedList
         public bool AddNewDestination(Destination Destination, String PlaceID, Guid JourneyID)
         {
 
             return false;
+        }
+        //TODO
+        //Add the first Destination of a Journey [:BEGIN] relationship
+        public bool AddTheFirstDestination(Destination Destination, String PlaceID, Guid JourneyID)
+        {
+            //Cypher Query
+            //MATCH (Place:Place) WHERE (Place.PlaceID = '1')
+            //MATCH (Journey:Journey) WHERE (Journey.JourneyID = '1')
+            //MATCH (Journey)-[rel:BEGIN]->(FirstDestination)
+            //CREATE (Destination:Destination {DestinationID : '2', Name : 'Footprints 2'})
+            //CREATE (Destination)-[:AT]->(Place)
+            //CREATE (Journey)-[:BEGIN]->(Destination)
+            //WITH Journey, rel, Destination, FirstDestination
+            //WHERE rel IS NOT NULL
+            //DELETE rel
+            //CREATE (Destination)-[:NEXT]->(FirstDestination)
+            Db.Cypher.Match("(Place:Place)").Where((Place Place) => Place.PlaceID == PlaceID).
+                        Match("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                        OptionalMatch("MATCH (Journey)-[rel:BEGIN]->(FirstDestination)").
+                        Create("(Destination:Destination {Destination})").WithParam("Destination", Destination).
+                        Create("(Destination)-[:AT]->(Place)").
+                        Create(" (Journey)-[:BEGIN]->(Destination)").
+                        With("Journey, rel, Destination, FirstDestination").
+                        Where("rel IS NOT NULL").Delete("rel").
+                        Create("CREATE (Destination)-[:NEXT]->(FirstDestination)").ExecuteWithoutResults();
+            return true;
         }
 
         public bool UpdateDestination(Destination Destination)
@@ -144,7 +171,7 @@ namespace Footprints.DAL.Concrete
             return query.Results.First<Destination>().NumberOfShare;
         }
 
-        public void ShareDestination(Guid UserID,Guid DestinationID, String Content)
+        public void ShareDestination(Guid UserID, Guid DestinationID, String Content)
         {
 
         }
