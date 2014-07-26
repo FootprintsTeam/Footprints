@@ -32,7 +32,17 @@ namespace Footprints.DAL.Concrete
         public Journey GetJourneyDetail(Guid JourneyID)
         {
             Journey result = new Journey();
-
+            var query = Db.Cypher.Match("(Journey:Journey)-[:HAS*]->(Destination:Destination)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                Return((journey, destination) => new 
+                {
+                    journey = journey.As<Journey>(),
+                    destination = destination.As<Destination>()
+                }).OrderBy("Destination.OrderNumber").Results;
+            foreach (var item in query)
+            {
+                result = item.journey;
+                result.Destinations.Add(item.destination);
+            }
             return result;
         }
 
@@ -88,7 +98,7 @@ namespace Footprints.DAL.Concrete
             //        .ExecuteWithoutResults();
             CypherQuery query = new CypherQuery("CREATE (journey:Journey {journey}) " +
                                                 " WITH journey " +
-                                                " MATCH (user:User {UserID : '1'}) " +
+                                                " MATCH (user:User {UserID : {UserID}}) " +
                                                 " CREATE (user)-[:HAS_JOURNEY]->(journey) " +
                                                 " CREATE (activity:Activity {activity}) " +
                                                 " WITH user, journey, activity " +
@@ -109,7 +119,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (user)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
                                                 " WITH fr, previousUser, nextUser " +
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", new Dictionary<String, Object> { { "journey", Journey }, { "activity", activity } }, CypherResultMode.Projection);
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", new Dictionary<String, Object> { { "journey", Journey }, { "activity", activity }, {"UserID", UserID} }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteGetCypherResults<User>(query);
             return true;
         }

@@ -14,6 +14,7 @@ namespace Footprints.Models
         public Guid CommentID { get; set; }
         public Guid DestinationID { get; set; }
         public Guid ContentID { get; set; }
+        public String PlaceID { get; set; }
         public DateTimeOffset Timestamp { get; set; }
         public String Content { get; set; }
     }

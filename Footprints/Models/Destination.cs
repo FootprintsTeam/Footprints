@@ -8,11 +8,9 @@ namespace Footprints.Models
     public class Destination
     {
         public Guid DestinationID { get; set; }
-
         public String Name { get; set; }
-
+        public int OrderNumber { get; set; }
         public String Description { get; set; }
-
         public DateTimeOffset TakenDate { get; set; }
         public int NumberOfLike { get; set; } 
         public int NumberOfShare { get; set; }

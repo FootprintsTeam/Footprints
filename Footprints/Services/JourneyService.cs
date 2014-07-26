@@ -74,7 +74,7 @@ namespace Footprints.Service
         {
             return journeyRepository.GetJourneyList();
         }
-        IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID)
+        public IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID)
         {
             return journeyRepository.GetJourneyListBelongToUser(UserID);
         }
@@ -105,12 +105,6 @@ namespace Footprints.Service
         public int GetNumberOfShare(Guid JourneyID)
         {
             return journeyRepository.GetNumberOfShare(JourneyID);
-        }
-
-
-        IEnumerable<Journey> IJourneyService.GetJourneyListBelongToUser(Guid UserID)
-        {
-            throw new NotImplementedException();
         }
     }
 }

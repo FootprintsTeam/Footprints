@@ -43,39 +43,49 @@ namespace Footprints.DAL.Concrete
             return result;
         }
         //TODO
-        // Add a destination to the tail of LinkedList
-        public bool AddNewDestination(Destination Destination, String PlaceID, Guid JourneyID)
+        public bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID)
         {
-
-            return false;
-        }
-        //TODO
-        //Add the first Destination of a Journey [:BEGIN] relationship
-        public bool AddTheFirstDestination(Destination Destination, String PlaceID, Guid JourneyID)
-        {
-            //Cypher Query
-            //MATCH (Place:Place) WHERE (Place.PlaceID = '1')
-            //MATCH (Journey:Journey) WHERE (Journey.JourneyID = '1')
-            //MATCH (Journey)-[rel:BEGIN]->(FirstDestination)
-            //CREATE (Destination:Destination {DestinationID : '2', Name : 'Footprints 2'})
-            //CREATE (Destination)-[:AT]->(Place)
-            //CREATE (Journey)-[:BEGIN]->(Destination)
-            //WITH Journey, rel, Destination, FirstDestination
-            //WHERE rel IS NOT NULL
-            //DELETE rel
-            //CREATE (Destination)-[:NEXT]->(FirstDestination)
-            Db.Cypher.Match("(Place:Place)").Where((Place Place) => Place.PlaceID == PlaceID).
-                        Match("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
-                        OptionalMatch("MATCH (Journey)-[rel:BEGIN]->(FirstDestination)").
-                        Create("(Destination:Destination {Destination})").WithParam("Destination", Destination).
-                        Create("(Destination)-[:AT]->(Place)").
-                        Create(" (Journey)-[:BEGIN]->(Destination)").
-                        With("Journey, rel, Destination, FirstDestination").
-                        Where("rel IS NOT NULL").Delete("rel").
-                        Create("CREATE (Destination)-[:NEXT]->(FirstDestination)").ExecuteWithoutResults();
+            Activity Activity = new Activity()
+            {
+                ActivityID = new Guid("N"),
+                Type = "ADD_NEW_DESTINATION",
+                JourneyID = JourneyID,
+                DestinationID = Destination.DestinationID,
+                UserID = UserID,
+                PlaceID = PlaceID
+            };
+            CypherQuery query = new CypherQuery(" CREATE (Destination:Destination {Destination}) " +
+                                                " WITH Destination " +
+                                                " MATCH (User:User {UserID : {UserID}}) " +
+                                                " MATCH (Journey:Journey {JourneyID : {JourneyID}}) " +
+                                                " MATCH (Place:Place {PlaceID : {PlaceID}}) " +
+                                                " CREATE (Destination)-[:AT]->(Place) " +
+                                                " CREATE (Journey)-[:HAS]->(Destination) " +
+                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH Destination, Journey, Activity, User " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
+                                                " DELETE f " +
+                                                " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
+                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " +
+                                                " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
+                                                " WITH User " +
+                                                " MATCH (User)-[:FRIEND]->(friend) " +
+                                                " WITH User, COLLECT(friend) AS friends " +
+                                                " UNWIND friends AS fr " +
+                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(user)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                                " WHERE NextFriendInEgo <>  User " +
+                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(user) " +
+                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " WITH fr, previousUser, nextUser " +
+                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", 
+                                                new Dictionary<String, Object> { { "Destination", Destination }, { "UserID", UserID }, { "JourneyID", JourneyID }, {"Activity", Activity}, {"PlaceID", PlaceID} }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
             return true;
         }
-
         public bool UpdateDestination(Destination Destination)
         {
             var query = Db.Cypher.Match("(destinationTaken:Destination)").Where((Destination destinationTaken) => destinationTaken.DestinationID == Destination.DestinationID).
@@ -90,9 +100,41 @@ namespace Footprints.DAL.Concrete
 
         }
         //TODO
-        public void AddNewContent(Content Content, Guid DestinationID)
+        public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
         {
-
+            Activity Activity = new Activity()
+            {
+                ActivityID = new Guid("N"),
+                Type = "ADD_NEW_CONTENT",
+                DestinationID = DestinationID
+            };
+            CypherQuery query = new CypherQuery(" CREATE (Content:Content {Content}) " +
+                                                " WITH Content " +
+                                                " MATCH (User:User {UserID : {UserID}}) " +
+                                                " MATCH (Destination:Destination {DestinationID : {DestinationID}}) " +
+                                                " CREATE (Destination)-[:HAS]->(Content) " +
+                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH Destination, Content, Activity, User " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
+                                                " DELETE f " +
+                                                " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
+                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
+                                                " WITH User " +
+                                                " MATCH (User)-[:FRIEND]->(friend) " +
+                                                " WITH User, COLLECT(friend) AS friends " +
+                                                " UNWIND friends AS fr " +
+                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(user)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                                " WHERE NextFriendInEgo <>  User " +
+                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(user) " +
+                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " WITH fr, previousUser, nextUser " +
+                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ",
+                                                new Dictionary<String, Object> { { "DestinationID", DestinationID }, { "UserID", UserID }, { "Content", Content }, { "Activity", Activity } }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);            
         }
         public void UpdateContent(Content Content)
         {
@@ -117,7 +159,7 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>().NumberOfLike;
         }
-        public void LikeDestination(Guid UserID ,Guid DestinationID) 
+        public void LikeDestination(Guid UserID, Guid DestinationID)
         {
             Activity Activity = new Activity
             {
@@ -126,7 +168,7 @@ namespace Footprints.DAL.Concrete
                 DestinationID = DestinationID,
                 Timestamp = DateTimeOffset.Now
             };
-            CypherQuery query = new CypherQuery("MATCH (User:User), (Destination:Destination) " +
+            CypherQuery query = new CypherQuery(" MATCH (User:User), (Destination:Destination) " +
                                                 " WHERE (User.UserID = {UserID} ) AND (Destination.DestinationID = {DestinationID} ) " +
                                                 " CREATE (Destination)-[:LIKED_BY]->(User) " +
                                                 " SET Destinatino.NumberOfLike = Destination.NumberOfLike + 1 " +
@@ -150,10 +192,9 @@ namespace Footprints.DAL.Concrete
                                                 " WITH fr, previousUser, nextUser " +
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
-                                                new Dictionary<String, Object> { { "UserID", UserID }, { "JoureyID", DestinationID }, { "Activity", Activity } }, CypherResultMode.Projection);
+                                                new Dictionary<String, Object> { { "UserID", UserID }, { "DestinationID", DestinationID }, { "Activity", Activity } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
         }
-
         public void UnlikeDestination(Guid UserID, Guid DestinationID)
         {
 
@@ -165,16 +206,48 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Destination:Destination)-[:LIKED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(user => user.As<User>()).Results;
         }
-
         public int GetNumberOfShare(Guid DestinationID)
         {
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>().NumberOfShare;
         }
-
         public void ShareDestination(Guid UserID, Guid DestinationID, String Content)
         {
 
+            Activity Activity = new Activity
+            {
+                ActivityID = new Guid("N"),
+                Type = "SHARE_A_DESTINATION",
+                DestinationID = DestinationID,
+                Content = Content,
+                Timestamp = DateTimeOffset.Now
+            };
+            CypherQuery query = new CypherQuery("MATCH (User:User), (Destination:Destination) " +
+                                                " WHERE (User.UserID = {UserID} ) AND (Destination.DestinationID = {DestinationID} ) " +
+                                                " CREATE (Destination)-[:SHARED_BY]->(User) " +
+                                                " SET Destination.NumberOfShare = Destination.NumberOfShare + 1 " +
+                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH User, Destination, Activity " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
+                                                " DELETE f " +
+                                                " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
+                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
+                                                " WITH User " +
+                                                " MATCH (User)-[:FRIEND]->(friend) " +
+                                                " WITH User, COLLECT(friend) AS friends " +
+                                                " UNWIND friends AS fr " +
+                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                                " WHERE NextFriendInEgo <>  User " +
+                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
+                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " WITH fr, previousUser, nextUser " +
+                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
+                                                new Dictionary<String, Object> { { "UserID", UserID }, { "DestinationID", DestinationID }, { "Activity", Activity } }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
         }
         public IEnumerable<User> GetAllUserShared(Guid DestinationID)
         {
@@ -186,10 +259,10 @@ namespace Footprints.DAL.Concrete
     {
         Destination GetADestination(Guid DestinationID);
         Destination GetADestinationDetail(Guid DestinationID);
-        bool AddNewDestination(Destination Destination, String PlaceID, Guid JourneyID);
+        bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID);
         bool UpdateDestination(Destination Destination);
         void DeleteDestination(Guid DestinationID);
-        void AddNewContent(Content Content, Guid DestinationID);
+        void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Content Content);
         void DeleteContent(Guid ContentID);
         IEnumerable<Content> GetAllContent(Guid DestinationID);
