@@ -38,6 +38,7 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="col-sm-5 col-sm-offset-1 col-md-8">
+                    @*@using (Html.BeginForm("Account", "Login", FormMethod.Post, new { @class = "navbar-form navbar-right form-inline" }))*@
                     <form class="navbar-form navbar-right form-inline" role="form">
                         <div class="form-group">
                             <label class="sr-only" for="exampleInputEmail2">Email address</label>
@@ -71,9 +72,10 @@
                 </div>
             </div>
             <div class="row" style="margin-top: 40px">
-                <div class="col-md-5 col-md-offset-1 col-lg-3 col-lg-offset-1" style="background: rgba(255, 255, 255, 0.5)">
-                    <form role="form" style="margin:50px 40px">
-                        <h1>Register now for free</h1>
+                <div class="col-md-5 col-md-offset-1 col-lg-3 col-lg-offset-1" style="background: rgba(0, 0, 0, 0.3)">
+                    @*<form role="form" style="margin:30px 30px">
+                        <h1 style="color:#fff">Register</h1>
+                        <hr/>
                         <div class="form-group">
                             <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Your Name">
                         </div>
@@ -82,14 +84,11 @@
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"> Check me out
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-default">Register now</button>
-                    </form>
+                        </div>          
+                        <hr />              
+                        <button type="submit" class="btn btn-info">Register now</button>                        
+                    </form>*@
+                    @{Html.RenderAction("RegisterPartial");}
                 </div>
             </div>
         </div>

@@ -60,9 +60,8 @@ namespace Footprints.ViewModels
         public String Description { get; set; }
 
         [Display(Name = "Time")]
-        public DateTimeOffset TakenDate { get; set; }
-        
-        
+        public DateTimeOffset TakenDate { get; set; }    
+
         public DateTimeOffset Timestamp { get; set; }
 
         public int NumberOfLike { get; set; }

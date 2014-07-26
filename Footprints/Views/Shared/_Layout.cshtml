@@ -57,6 +57,7 @@
     @Scripts.Render("~/script/bundle")
     @Styles.Render("~/css/timeline")
     @Styles.Render("~/css/form-modal")
+    @Styles.Render("~/css/datepicker")
 </head>
 
 <body class=" scripts-async menu-right-hidden">
@@ -71,7 +72,7 @@
 
 
         </div>
-        @{Html.RenderPartial("NewJourneyFormModal");}
+        @{Html.RenderPartial("NewJourneyFormModal",null);}
     </div>
     <!-- // Content END -->
 
@@ -91,5 +92,7 @@
     <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>
     @RenderSection("scripts", required: false)
     @Styles.Render("~/script/form-modal")
+    @*<script src="http://cdn2.mosaicpro.biz/shared/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.js?v=v2.0.1-rc1&amp;sv=v0.0.1.2"></script>
+    <script src="http://cdn2.mosaicpro.biz/shared/assets/components/forms_elements_bootstrap-datepicker/bootstrap-datepicker.init.js?v=v2.0.1-rc1&amp;sv=v0.0.1.2"></script>*@
 </body>
 </html>
