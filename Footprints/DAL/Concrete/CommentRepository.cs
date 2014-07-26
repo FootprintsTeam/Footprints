@@ -71,6 +71,7 @@ namespace Footprints.DAL.Concrete
             //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
             Activity activity = new Activity
             {
+                ActivityID = new Guid("N"),
                 Type = "COMMENT_ON_DESTINATION",
                 UserID = UserID,
                 DestinationID = Comment.DestinationID,
@@ -113,6 +114,7 @@ namespace Footprints.DAL.Concrete
         {
             Activity activity = new Activity
             {
+                ActivityID = new Guid("N"),
                 Type = "COMMENT_ON_JOURNEY",
                 UserID = UserID,
                 JourneyID = Comment.JourneyID,
@@ -170,28 +172,18 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(User:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results;
         }
-
+        //TODO
         public void DeleteAComment(Guid CommentID)
         {
             Db.Cypher.Match("(CommentTaken:Comment)-[r]-()").Where((Comment CommentTaken) => CommentTaken.CommentID == CommentID).
                  Match("(Activity:Activity)").Where((Activity Activity) => Activity.CommentID == CommentID).Set("Activity.Status = 'DELETED'").Delete("CommentTaken, r").ExecuteWithoutResults();
         }
-
-        List<Comment> ICommentRepository.GetAllCommentOnDestination(Guid destinationID)
-        {
-            throw new NotImplementedException();
-        }
-
-        List<Comment> ICommentRepository.GetAllCommentOnJourney(Guid journeyID)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public interface ICommentRepository : IRepository<CommentRepository>
     {
-        List<Comment> GetAllCommentOnDestination(Guid destinationID);
-        List<Comment> GetAllCommentOnJourney(Guid journeyID);
+        IEnumerable<Comment> GetAllCommentOnDestination(Guid destinationID);
+        IEnumerable<Comment> GetAllCommentOnJourney(Guid journeyID);
         bool AddDestinationComment(Guid userID, Comment comment);
         bool AddJourneyComment(Guid userID, Comment comment);
         Comment GetAComment(Guid commentID);

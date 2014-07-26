@@ -82,13 +82,13 @@ namespace Footprints.DAL.Concrete
                 Set("destinationTaken = {destination}").WithParams(new { destination = Destination }).Return(destinationReturned => destinationReturned.As<Destination>()).Results;
             return (query.First<Destination>() != null);
         }
+        //TODO
         public void DeleteDestination(Guid DestinationID)
         {
-            Db.Cypher.Match("(destinationTaken:Destinatino)-[r]-()").Where((Destination destinationTaken) => destinationTaken.DestinationID == DestinationID).
+            Db.Cypher.Match("(destinationTaken:Destination)-[r]-()").Where((Destination destinationTaken) => destinationTaken.DestinationID == DestinationID).
                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("destinationTaken, r").ExecuteWithoutResults();
 
         }
-
         //TODO
         public void AddNewContent(Content Content, Guid DestinationID)
         {
@@ -121,6 +121,7 @@ namespace Footprints.DAL.Concrete
         {
             Activity Activity = new Activity
             {
+                ActivityID = new Guid("N"),
                 Type = "LIKE_A_DESTINATION",
                 DestinationID = DestinationID,
                 Timestamp = DateTimeOffset.Now
@@ -179,21 +180,13 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Destination:Destination)-[:SHARED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(user => user.As<User>()).Results;
         }
-
-
-        public bool AddNewDestination(Destination Destination)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
         Destination GetADestination(Guid DestinationID);
         Destination GetADestinationDetail(Guid DestinationID);
-
-        bool AddNewDestination(Destination Destination);
-
+        bool AddNewDestination(Destination Destination, String PlaceID, Guid JourneyID);
         bool UpdateDestination(Destination Destination);
         void DeleteDestination(Guid DestinationID);
         void AddNewContent(Content Content, Guid DestinationID);

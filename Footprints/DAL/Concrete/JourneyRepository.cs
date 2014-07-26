@@ -65,6 +65,7 @@ namespace Footprints.DAL.Concrete
             //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
             Activity activity = new Activity
             {
+                ActivityID = new Guid("N"),
                 Type = "ADD_NEW_JOURNEY",
                 UserID = UserID,
                 JourneyID = Journey.JourneyID,
@@ -119,7 +120,7 @@ namespace Footprints.DAL.Concrete
                          Set("journeyTaken = {journey}").WithParam("journey", Journey).Return(journeyTaken => journeyTaken.As<Journey>()).Results;
             return (query.First<Journey>() != null);
         }
-
+        //TODO
         public bool DeleteJourney(Guid JourneyID)
         {
             Db.Cypher.Match("(journeyTaken:Journey)-[r]-()").Where((Journey journeyTaken) => journeyTaken.JourneyID == JourneyID).
@@ -167,6 +168,7 @@ namespace Footprints.DAL.Concrete
 
             Activity Activity = new Activity
             {
+                ActivityID = new Guid("N"),
                 Type = "LIKE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Timestamp = DateTimeOffset.Now
@@ -217,6 +219,7 @@ namespace Footprints.DAL.Concrete
 
             Activity Activity = new Activity
             {
+                ActivityID = new Guid("N"),
                 Type = "SHARE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Content = Content,
