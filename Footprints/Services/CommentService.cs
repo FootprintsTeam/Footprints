@@ -7,12 +7,12 @@ using Footprints.Models;
 namespace Footprints.Service
 {
     public interface ICommentService {
-        IEnumerable<Comment> RetrieveDestinationComment(Guid destinationID);
-        IEnumerable<Comment> RetrieveJourneyComment(Guid journeyID);
-        bool AddDestinationComment(Guid userID, Comment comment);
-        bool AddJourneyComment(Guid userID, Comment comment);
-        Comment RetrieveComment(Guid commentID);
-        bool UpdateComment(Comment comment);
+        IEnumerable<Comment> RetrieveDestinationComment(Guid DestinationID);
+        IEnumerable<Comment> RetrieveJourneyComment(Guid JourneyID);
+        bool AddDestinationComment(Guid UserID, Comment Comment);
+        bool AddJourneyComment(Guid UserID, Comment Comment);
+        Comment RetrieveComment(Guid CommentID);
+        bool UpdateComment(Comment Comment);
         void LikeAComment(Guid UserID, Guid CommentID);
         void UnlikeAComment(Guid UserID, Guid CommentID);
         IEnumerable<User> GetAllUserLikeComment(Guid CommentID);
@@ -26,32 +26,32 @@ namespace Footprints.Service
             _commentRepo = commentRepo;
         }
 
-        public IEnumerable<Comment> RetrieveDestinationComment(Guid destinationID)
+        public IEnumerable<Comment> RetrieveDestinationComment(Guid DestinationID)
         {
-            return _commentRepo.GetAllCommentOnDestination(destinationID);
+            return _commentRepo.GetAllCommentOnDestination(DestinationID);
         }
 
-        public IEnumerable<Comment> RetrieveJourneyComment(Guid journeyID)
+        public IEnumerable<Comment> RetrieveJourneyComment(Guid JourneyID)
         {
-            return _commentRepo.GetAllCommentOnJourney(journeyID);
+            return _commentRepo.GetAllCommentOnJourney(JourneyID);
         }
 
-        public bool AddDestinationComment(Guid userID, Comment comment)
+        public bool AddDestinationComment(Guid userID, Comment Comment)
         {
-            return _commentRepo.AddDestinationComment(userID, comment);
+            return _commentRepo.AddDestinationComment(userID, Comment);
         }
 
-        public bool AddJourneyComment(Guid userID, Comment comment)
+        public bool AddJourneyComment(Guid UserID, Comment Comment)
         {
-            return _commentRepo.AddJourneyComment(userID, comment);
+            return _commentRepo.AddJourneyComment(UserID, Comment);
         }
-        public Comment RetrieveComment(Guid commentID)
+        public Comment RetrieveComment(Guid CommentID)
         {
-            return _commentRepo.GetAComment(commentID);
+            return _commentRepo.GetAComment(CommentID);
         }
-        public bool UpdateComment(Comment comment)
+        public bool UpdateComment(Comment Comment)
         {
-            return _commentRepo.UpdateComment(comment);
+            return _commentRepo.UpdateComment(Comment);
         }
         public void LikeAComment(Guid UserID, Guid CommentID)
         {

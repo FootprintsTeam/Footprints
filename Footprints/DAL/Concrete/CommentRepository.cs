@@ -182,12 +182,12 @@ namespace Footprints.DAL.Concrete
 
     public interface ICommentRepository : IRepository<CommentRepository>
     {
-        IEnumerable<Comment> GetAllCommentOnDestination(Guid destinationID);
-        IEnumerable<Comment> GetAllCommentOnJourney(Guid journeyID);
-        bool AddDestinationComment(Guid userID, Comment comment);
-        bool AddJourneyComment(Guid userID, Comment comment);
-        Comment GetAComment(Guid commentID);
-        bool UpdateComment(Comment comment);
+        IEnumerable<Comment> GetAllCommentOnDestination(Guid DestinationID);
+        IEnumerable<Comment> GetAllCommentOnJourney(Guid JounreyID);
+        bool AddDestinationComment(Guid UserID, Comment Comment);
+        bool AddJourneyComment(Guid UserID, Comment Comment);
+        Comment GetAComment(Guid CommentID);
+        bool UpdateComment(Comment Comment);
         void LikeAComment(Guid UserID, Guid CommentID);
         void UnlikeAComment(Guid UserID, Guid CommentID);
         IEnumerable<User> GetAllUserLikeComment(Guid CommentID);
