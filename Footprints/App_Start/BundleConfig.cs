@@ -175,7 +175,7 @@ namespace Footprints
             ));
             bundles.Add(new ScriptBundle("~/script/datepicker").Include(
                "~/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.js",
-               "~/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.init.js"
+               "~/assets/components/forms_elements_bootstrap-datepicker/bootstrap-datepicker.init.js"
                ));
         }
     }
