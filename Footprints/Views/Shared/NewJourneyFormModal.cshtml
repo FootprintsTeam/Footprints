@@ -1,0 +1,55 @@
+﻿<!--Popup of page new journey-->
+<div class="modal fade" id="modal-new-journey">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">CREATE NEW JOURNEY</h3>
+            </div>
+            <!-- // Modal heading END -->
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="innerAll">
+                    <div class="innerLR">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="journeyname" class="col-sm-2 control-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" placeholder="Enter journey name..." class="form-control" id="journeyname" name="journeyname" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="journey-description" class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="notebook border-none form-control padding-none" id="journey-description" name="journey-description" rows="4" placeholder="Write your description here..."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Start Date</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group date datepicker3">
+                                        <input class="form-control" type="text" value="14 February 2013"/>
+                                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!-- // Modal body END -->
+
+        </div>
+    </div>
+
+</div>
+<!-- // Modal END -->
