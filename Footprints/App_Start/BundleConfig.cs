@@ -130,6 +130,25 @@ namespace Footprints
                "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
                "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
                ));
+
+            //Journey Page
+            bundles.Add(new StyleBundle("~/css/journey").Include(
+                "~/assets/components/admin_timeline/timeline-cover.less",
+                "~/assets/plugins/media_blueimp/css/blueimp-gallery.min.css",
+                "~/assets/components/media_blueimp/blueimp-gallery.less",
+                "~/assets/components/admin_timeline/timeline.less",
+                "~/assets/components/ui_tabs/tabs.less",
+                "~/assets/components/ui_buttons/buttons.less",
+                "~/assets/components/core/widgets.less",
+                "~/assets/components/ui_media/gallery.less",
+                "~/assets/components/widget_generic/widget-generic.less",
+                "~/assets/components/widget_lists/list-group.less"
+                ));
+
+            bundles.Add(new ScriptBundle("~/script/journey").Include(
+                "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
+                "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
+                ));
         }
     }
 }

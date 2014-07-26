@@ -179,6 +179,12 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Destination:Destination)-[:SHARED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(user => user.As<User>()).Results;
         }
+
+
+        public bool AddNewDestination(Destination Destination)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IDestinationRepository : IRepository<DestinationRepository>

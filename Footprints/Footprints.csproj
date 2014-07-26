@@ -212,6 +212,7 @@
     <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\JourneyController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\NewsfeedController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HtmlBuilder.cs" />
     <Compile Include="Mappings\AutoMapperConfiguration.cs" />
     <Compile Include="Mappings\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Mappings\ViewModelToDomainMappingProfile.cs" />
@@ -246,6 +248,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\FriendItemViewModel.cs" />
+    <Compile Include="ViewModels\InfiniteScrollJsonModel.cs" />
     <Compile Include="ViewModels\JourneyViewModel.cs" />
     <Compile Include="ViewModels\MediaViewModel.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
@@ -2516,6 +2519,7 @@
     <Content Include="Views\Destination\DestinationMainContentWidget.cshtml" />
     <Content Include="Views\Destination\DestinationDescriptionWidget.cshtml" />
     <Content Include="Views\Destination\CommentSection.cshtml" />
+    <Content Include="Views\Journey\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
@@ -2554,7 +2558,6 @@
     <Folder Include="Areas\Personal\Models\" />
     <Folder Include="assets\components\guides\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Security\ActionFilters\" />
     <Folder Include="Security\Authentication\" />
   </ItemGroup>

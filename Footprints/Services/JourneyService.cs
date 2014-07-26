@@ -107,9 +107,10 @@ namespace Footprints.Service
             return journeyRepository.GetNumberOfShare(JourneyID);
         }
 
-        public int GetNumberOfLike(Guid JourneyID)
+
+        IEnumerable<Journey> IJourneyService.GetJourneyListBelongToUser(Guid UserID)
         {
-            return journeyRepository.GetNumberOfLike(JourneyID);
+            throw new NotImplementedException();
         }
     }
 }
