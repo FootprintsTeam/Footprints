@@ -2531,6 +2531,7 @@
     <Content Include="Views\Journey\Index.cshtml" />
     <Content Include="Views\Shared\NewJourneyFormModal.cshtml" />
     <Content Include="Views\Account\RegisterPartial.cshtml" />
+    <Content Include="Views\Account\LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
