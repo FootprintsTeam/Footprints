@@ -50,7 +50,6 @@
             ajaxify_layout_app: false
         };
     </script>
-
     @Scripts.Render("~/script/core")
     @Scripts.Render("~/script/dependency")
     @Scripts.Render("~/script/plugins")
@@ -89,7 +88,7 @@
     <!-- // Footer END -->
     <!-- // Main Container Fluid END -->
     <!-- Global -->
-    <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>
+    @*<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>*@
     @RenderSection("scripts", required: false)
     @Styles.Render("~/script/form-modal")
     @*<script src="http://cdn2.mosaicpro.biz/shared/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.js?v=v2.0.1-rc1&amp;sv=v0.0.1.2"></script>

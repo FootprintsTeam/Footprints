@@ -142,7 +142,8 @@ namespace Footprints
                 "~/assets/components/core/widgets.less",
                 "~/assets/components/ui_media/gallery.less",
                 "~/assets/components/widget_generic/widget-generic.less",
-                "~/assets/components/widget_lists/list-group.less"
+                "~/assets/components/widget_lists/list-group.less",
+                "~/assets/plugins/google_map/css/google.map.css"
                 ));
 
             bundles.Add(new ScriptBundle("~/script/journey").Include(

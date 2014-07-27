@@ -2,7 +2,6 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 @Styles.Render("~/css/journey")
 
 <div class="container">
@@ -69,6 +68,60 @@
             </div>
 
             <div class="pull-right col-lg-8 col-md-8">
+
+                <div class="row innerAll">
+                    <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
+                    <div id="google-map-container" style="height: 400px; width: 100%">
+                        <div id="map-canvas"></div>
+                        <div id="sp-container">
+                            <div id="sp-close-button" class="close-button"><span>×</span></div>
+                            <div id="sp-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#new-destination-form"><i class="fa fa-plus-circle"></i> Add Destination</a></h4>
+                    </div>
+                    <div id="new-destination-form" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <form name="frmNewDestination" role="form" class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" placeholder="Destination name" name="Name" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Description</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="notebook border-none form-control padding-none" cols="20" name="Description" placeholder="Write your description here..." rows="4"></textarea>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Start Date</label>
+                                    <div class="col-sm-10">
+                                        <div class="input-group date datepicker2">
+                                            <input class="form-control" data-val="true" data-val-required="The Time field is required." id="TakenDate" name="TakenDate" type="text" value="" />
+                                            <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="PlaceId" />
+                                <input type="hidden" name="Location" />
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-primary" type="submit">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 @*Time Line*@
                 <div class="media">
                     <a href="" class="btn btn-default pull-left">Today</a>
@@ -262,5 +315,5 @@
     </div>
 </div>
 @Scripts.Render("~/script/journey")
-
-
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+<script src="/assets/plugins/google_map/js/google.map.init.js"></script>

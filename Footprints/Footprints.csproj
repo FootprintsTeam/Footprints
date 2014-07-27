@@ -1592,6 +1592,8 @@
     <Content Include="assets\plugins\forms_validator\jquery-validation\localization\methods_nl.js" />
     <Content Include="assets\plugins\forms_validator\jquery-validation\localization\methods_pt.js" />
     <Content Include="assets\plugins\forms_wizards\jquery.bootstrap.wizard.js" />
+    <Content Include="assets\plugins\google_map\css\google.map.css" />
+    <Content Include="assets\plugins\google_map\js\google.map.init.js" />
     <Content Include="assets\plugins\maps_google\jquery-ui-map\addons\markerclustererplus\markerclusterer.min.js" />
     <Content Include="assets\plugins\maps_google\jquery-ui-map\ui\jquery.ui.map.extensions.js" />
     <Content Include="assets\plugins\maps_google\jquery-ui-map\ui\jquery.ui.map.js" />
