@@ -38,19 +38,19 @@
                                     New Destination
                                 </b>
                             </a>
-                        </li>                        
+                        </li>
                         <li>
                             <a href="#">
                                 <b>
-                                    <span class="pull-left innerR"><i class="fa fa-envelope-square"></i></span>                                   
-                                    Notifications 
+                                    <span class="pull-left innerR"><i class="fa fa-envelope-square"></i></span>
+                                    Notifications
                                 </b>
                             </a>
                         </li>
                         <li>
                             <a href="#" id="setting-dropdown" data-toggle="dropdown" class="dropdown-toggle">
                                 <b>
-                                    <span class="pull-left innerR"><i class="fa fa-asterisk info"></i></span>                                    
+                                    <span class="pull-left innerR"><i class="fa fa-asterisk info"></i></span>
                                     Settings
                                 </b>
                             </a>
@@ -58,7 +58,12 @@
                             <ul class="dropdown-menu" role="menu" aria-labelledby="setting-dropdown">
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-stats innerR"><i class=""></i></span>Configuration</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-question-sign innerR"></span> Q&A</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-off innerR"></span>Exit</a></li>                                                                
+                                <li role="presentation">
+                                    <form action="@Url.Action("LogOff","Account")" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <a role="menuitem" tabindex="-1" href="#" onclick="this.parentNode.submit()"><span class="glyphicon glyphicon-off innerR"></span>Exit</a>
+                                    </form>
+                                </li>
                             </ul>
                         </li>
                     </ul>

@@ -352,12 +352,18 @@ namespace Footprints.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
+            try
             {
-                return user.PasswordHash != null;
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    return user.PasswordHash != null;
+                }
+                return false;
             }
-            return false;
+            catch (Exception) {
+                return false;
+            }
         }
 
         public enum ManageMessageId

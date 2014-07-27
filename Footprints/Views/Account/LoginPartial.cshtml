@@ -4,8 +4,7 @@
     @Html.Hidden("returnUrl", @Url.Action("Index", "Newsfeed"))
     @*@using (Html.BeginForm("Login", "Account", new { returnUrl = @Url.Action("Index", "Newsfeed") }, FormMethod.Post, new { @class = "navbar-form navbar-right form-inline" }))
         {*@
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()    
     <div class="form-group">
         <label class="sr-only" for="exampleInputEmail2">Email address</label>
         @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", placeholder = "UserName" })
@@ -27,6 +26,7 @@
     <div class="form-group">
         <button type="submit" class="btn btn-default">Sign in</button>
     </div>
+    @Html.ValidationSummary(true)
     @*}*@
 
 </form>
