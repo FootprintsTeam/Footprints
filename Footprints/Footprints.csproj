@@ -245,6 +245,7 @@
     <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\DestinationService.cs" />
     <Compile Include="Services\JourneyService.cs" />
+    <Compile Include="Services\NewsfeedService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\FriendItemViewModel.cs" />

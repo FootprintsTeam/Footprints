@@ -18,9 +18,9 @@ namespace Footprints.DAL.Concrete
         private Activity latestActivity = new Activity(), mostRecentActivity = new Activity();
         private int numberOfFriends, latestFriendPosition, currentFriendPosition;
         public NewsFeedRepository(IGraphClient client) : base(client) { }
-        public void LoadEgoNetwork(Guid userID)
+        public void LoadEgoNetwork(Guid UserID)
         {
-            String egoEdges = userID.ToString("N");
+            String egoEdges = UserID.ToString("N");
             //SQL-Injection-prone
             var query = Db.Cypher.Match("(user:User {UserID : {UserID} })-[ego:EGO* {UserID : {UserID} }]->(friend:User)-[:LATEST_ACTIVITY]->(latest_activity:Activity)-[:NEXT*]->(next_activity:Activity)").WithParams(new { UserID = egoEdges }).
                     Return((friend, latest_activity, next_activity) => new
@@ -53,10 +53,10 @@ namespace Footprints.DAL.Concrete
             activities.AddLast(activity);
         }
 
-        public void RetrieveNewsFeed(Guid userId, int k)
+        public void RetrieveNewsFeed(Guid UserID, int k)
         {
             //If necessary
-            LoadEgoNetwork(userId);
+            LoadEgoNetwork(UserID);
             //Init
             ActivityComparer comparer = new ActivityComparer();
             priorityQueue = new C5.IntervalHeap<Activity>(comparer);
@@ -108,7 +108,7 @@ namespace Footprints.DAL.Concrete
             }
         }
 
-        public void LoadMoreNewsfeed(Guid userID, int l)
+        public void LoadMoreNewsfeed(Guid UserID, int l)
         {
             int cnt = 0;
             numberOfFriends = friendList.Count;
@@ -156,8 +156,8 @@ namespace Footprints.DAL.Concrete
 
     public interface INewsFeedRepository
     {
-        void LoadEgoNetwork(Guid userID);
-        void RetrieveNewsFeed(Guid userId, int k);
-        void LoadMoreNewsfeed(Guid userID, int l);
+        void LoadEgoNetwork(Guid UserID);
+        void RetrieveNewsFeed(Guid UserID, int k);
+        void LoadMoreNewsfeed(Guid UserID, int l);
     }
 }
