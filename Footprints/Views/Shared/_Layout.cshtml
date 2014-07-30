@@ -50,13 +50,13 @@
             ajaxify_layout_app: false
         };
     </script>
-
     @Scripts.Render("~/script/core")
     @Scripts.Render("~/script/dependency")
     @Scripts.Render("~/script/plugins")
     @Scripts.Render("~/script/bundle")
     @Styles.Render("~/css/timeline")
     @Styles.Render("~/css/form-modal")
+    @Styles.Render("~/css/datepicker")
 </head>
 
 <body class=" scripts-async menu-right-hidden">
@@ -71,7 +71,7 @@
 
 
         </div>
-        @{Html.RenderPartial("NewJourneyFormModal");}
+        @{Html.RenderPartial("NewJourneyFormModal",null);}
     </div>
     <!-- // Content END -->
 
@@ -88,8 +88,9 @@
     <!-- // Footer END -->
     <!-- // Main Container Fluid END -->
     <!-- Global -->
-    <script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>
+    @*<script src="http://maps.googleapis.com/maps/api/js?v=3&sensor=false&callback=initGoogleMaps"></script>*@
     @RenderSection("scripts", required: false)
-    @Styles.Render("~/script/form-modal")
+    @Scripts.Render("~/script/form-modal")
+    @Scripts.Render("~/script/datepicker")
 </body>
 </html>

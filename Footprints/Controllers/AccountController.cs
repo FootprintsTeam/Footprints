@@ -68,6 +68,11 @@ namespace Footprints.Controllers
             return View();
         }
 
+        [ChildActionOnly]
+        [AllowAnonymous]
+        public ActionResult RegisterPartial() {
+            return PartialView();
+        }
         //
         // POST: /Account/Register
         [HttpPost]
@@ -77,7 +82,7 @@ namespace Footprints.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -347,12 +352,18 @@ namespace Footprints.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
+            try
             {
-                return user.PasswordHash != null;
+                var user = UserManager.FindById(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    return user.PasswordHash != null;
+                }
+                return false;
             }
-            return false;
+            catch (Exception) {
+                return false;
+            }
         }
 
         public enum ManageMessageId

@@ -16,5 +16,6 @@ namespace Footprints.Common
             CommentAdd,
             Like
         }
+        public static int DefaultNumberOfLike = 0;
     }
 }

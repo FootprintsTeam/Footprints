@@ -72,8 +72,8 @@ namespace Footprints
 
             //Core css
             bundles.Add(new StyleBundle("~/css/core").Include(
-                "~/assets/css/admin/module.admin.stylesheet-complete.min.css"
-                //, "~/assets/library/bootstrap/css/bootstrap.min.css"
+                "~/assets/css/admin/module.admin.stylesheet-complete.min.css",
+                "~/assets/library/bootstrap/css/bootstrap.min.css"
                 //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
                 //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_regular.css"
                 //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_social.css"
@@ -142,7 +142,8 @@ namespace Footprints
                 "~/assets/components/core/widgets.less",
                 "~/assets/components/ui_media/gallery.less",
                 "~/assets/components/widget_generic/widget-generic.less",
-                "~/assets/components/widget_lists/list-group.less"
+                "~/assets/components/widget_lists/list-group.less",
+                "~/assets/plugins/google_map/css/google.map.css"
                 ));
 
             bundles.Add(new ScriptBundle("~/script/journey").Include(

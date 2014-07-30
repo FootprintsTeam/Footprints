@@ -1,4 +1,6 @@
-﻿<!--Popup of page new journey-->
+﻿@model Footprints.ViewModels.AddNewJourneyViewModel
+@using System
+<!--Popup of page new journey-->
 <div class="modal fade" id="modal-new-journey">
 
     <div class="modal-dialog">
@@ -14,24 +16,35 @@
             <div class="modal-body">
                 <div class="innerAll">
                     <div class="innerLR">
-                        <form class="form-horizontal" role="form">
+                        @using (Html.BeginForm("Create", "Journey", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            Html.ValidationSummary();
+                            Html.AntiForgeryToken();
+                            @Html.Hidden("UserID", Guid.NewGuid());
+                            @Html.Hidden("JourneyID", Guid.NewGuid());
+                            @Html.Hidden("Timestamp", DateTimeOffset.Now)
+                            @Html.Hidden("NumberOfLike", Footprints.Common.Constant.DefaultNumberOfLike);
+                            @*<form class="form-horizontal" role="form">*@
                             <div class="form-group">
                                 <label for="journeyname" class="col-sm-2 control-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" placeholder="Enter journey name..." class="form-control" id="journeyname" name="journeyname" />
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder = "Enter journey name..." })
+                                    @*<input type="text" placeholder="Enter journey name..." class="form-control" id="journeyname" name="journeyname" />*@
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="journey-description" class="col-sm-2 control-label">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea class="notebook border-none form-control padding-none" id="journey-description" name="journey-description" rows="4" placeholder="Write your description here..."></textarea>
+                                    @Html.TextAreaFor(x => x.Description, new { @class = "notebook border-none form-control padding-none", placeholder = "Write your description here...", rows = "4" })
+                                    @*<textarea class="notebook border-none form-control padding-none" id="journey-description" name="journey-description" rows="4" placeholder="Write your description here..."></textarea>*@
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Start Date</label>
                                 <div class="col-sm-10">
-                                    <div class="input-group date datepicker3">
-                                        <input class="form-control" type="text" value="14 February 2013"/>
+                                    <div class="input-group date datepicker2">
+                                        @Html.TextBoxFor(x => x.TakenDate, new { @class = "form-control", value = "14 February 2013" })
+                                        @*<input class="form-control" type="text" value="14 February 2013" />*@
                                         <span class="input-group-addon"><i class="fa fa-th"></i></span>
                                     </div>
                                 </div>
@@ -41,8 +54,8 @@
                                     <button type="submit" class="btn btn-primary">Create</button>
                                 </div>
                             </div>
-                        </form>
-
+                            @*</form>*@
+                        }
                     </div>
                 </div>
             </div>

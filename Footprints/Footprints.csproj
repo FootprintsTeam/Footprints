@@ -231,6 +231,15 @@
     <Compile Include="Mappings\AutoMapperConfiguration.cs" />
     <Compile Include="Mappings\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Mappings\ViewModelToDomainMappingProfile.cs" />
+    <Compile Include="Migrations\201407260859023_Init.cs" />
+    <Compile Include="Migrations\201407260859023_Init.Designer.cs">
+      <DependentUpon>201407260859023_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201407260909018_Init1.cs" />
+    <Compile Include="Migrations\201407260909018_Init1.Designer.cs">
+      <DependentUpon>201407260909018_Init1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -1584,6 +1593,8 @@
     <Content Include="assets\plugins\forms_validator\jquery-validation\localization\methods_nl.js" />
     <Content Include="assets\plugins\forms_validator\jquery-validation\localization\methods_pt.js" />
     <Content Include="assets\plugins\forms_wizards\jquery.bootstrap.wizard.js" />
+    <Content Include="assets\plugins\google_map\css\google.map.css" />
+    <Content Include="assets\plugins\google_map\js\google.map.init.js" />
     <Content Include="assets\plugins\maps_google\jquery-ui-map\addons\markerclustererplus\markerclusterer.min.js" />
     <Content Include="assets\plugins\maps_google\jquery-ui-map\ui\jquery.ui.map.extensions.js" />
     <Content Include="assets\plugins\maps_google\jquery-ui-map\ui\jquery.ui.map.js" />
@@ -2522,6 +2533,8 @@
     <Content Include="Views\Destination\CommentSection.cshtml" />
     <Content Include="Views\Journey\Index.cshtml" />
     <Content Include="Views\Shared\NewJourneyFormModal.cshtml" />
+    <Content Include="Views\Account\RegisterPartial.cshtml" />
+    <Content Include="Views\Account\LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
@@ -2562,6 +2575,14 @@
     <Folder Include="Extensions\" />
     <Folder Include="Security\ActionFilters\" />
     <Folder Include="Security\Authentication\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201407260859023_Init.resx">
+      <DependentUpon>201407260859023_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201407260909018_Init1.resx">
+      <DependentUpon>201407260909018_Init1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

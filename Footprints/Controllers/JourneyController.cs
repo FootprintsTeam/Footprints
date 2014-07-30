@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Footprints.ViewModels;
+using Footprints.Service;
 
 namespace Footprints.Controllers
 {
     public class JourneyController : Controller
     {
+        IJourneyService journeyService;
+        public JourneyController(IJourneyService journeyService) {
+            this.journeyService = journeyService;
+        }
         //
         // GET: /Journey/
         public ActionResult Index()
@@ -24,8 +30,9 @@ namespace Footprints.Controllers
 
         //
         // GET: /Journey/Create
-        public ActionResult Create()
+        public ActionResult Create(AddNewJourneyViewModel model)
         {
+            journeyService.AddJourney(model);
             return View();
         }
 

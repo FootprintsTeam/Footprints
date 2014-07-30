@@ -59,5 +59,8 @@ namespace Footprints.Models
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "The Password and confirmation Password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [DataType(DataType.EmailAddress)]        
+        public string Email { get; set; }
     }
 }
