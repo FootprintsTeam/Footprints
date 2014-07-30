@@ -14,8 +14,8 @@ namespace Footprints.Service
         Journey RetrieveJourney(Guid JourneyID);
         Journey GetJourneyDetail(Guid JourneyID);
         bool AddNewJourney(Guid UserID, Journey Journey);
-        bool UpdateJourney(Journey Journey);
-        bool DeleteJourney(Guid JourneyID);
+        bool UpdateJourney(Guid UserID, Journey Journey);
+        bool DeleteJourney(Guid UserID, Guid JourneyID);
         //For Admin Page
         IEnumerable<Journey> GetJourneyList();
         //For Personal Page
@@ -49,13 +49,13 @@ namespace Footprints.Service
         {
             return journeyRepository.AddNewJourney(UserID, Journey);
         }
-        public bool UpdateJourney(Journey Journey)
+        public bool UpdateJourney(Guid UserID, Journey Journey)
         {
-            return journeyRepository.UpdateJourney(Journey);
+            return journeyRepository.UpdateJourney(UserID, Journey);
         }
-        public bool DeleteJourney(Guid JourneyID)
+        public bool DeleteJourney(Guid UserID, Guid JourneyID)
         {
-            return journeyRepository.DeleteJourney(JourneyID);
+            return journeyRepository.DeleteJourney(UserID, JourneyID);
         }
         public IEnumerable<Journey> GetJourneyList()
         {

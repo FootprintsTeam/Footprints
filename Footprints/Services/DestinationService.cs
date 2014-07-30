@@ -14,8 +14,8 @@ namespace Footprints.Service
         bool UpdateDestination(Guid UserID, Destination Destination);
         void DeleteDestination(Guid UserID, Guid DestinationID);
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
-        void UpdateContent(Content Content);
-        void DeleteContent(Guid ContentID);
+        void UpdateContent(Guid UserID, Content Content);
+        void DeleteContent(Guid UserID, Guid ContentID);
         IEnumerable<Content> GetAllContent(Guid DestinationID);
         void LikeDestination(Guid UserID, Guid DestinationID);
         void UnlikeDestination(Guid UserID, Guid DestinationID);
@@ -54,13 +54,13 @@ namespace Footprints.Service
         {
             _destinationRepo.AddNewContent(Content, DestinationID, UserID);
         }
-        public void UpdateContent(Content Content)
+        public void UpdateContent(Guid UserID, Content Content)
         {
-            _destinationRepo.UpdateContent(Content);
+            _destinationRepo.UpdateContent(UserID, Content);
         }
-        public void DeleteContent(Guid ContentID)
+        public void DeleteContent(Guid UserID, Guid ContentID)
         {
-            _destinationRepo.DeleteContent(ContentID);
+            _destinationRepo.DeleteContent(UserID, ContentID);
         }
         public IEnumerable<Content> GetAllContent(Guid DestinationID)
         {

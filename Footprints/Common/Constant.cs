@@ -17,5 +17,6 @@ namespace Footprints.Common
             Like
         }
         public static int DefaultNumberOfLike = 0;
+        public static int DefaultNumberOfShare = 0;
     }
 }

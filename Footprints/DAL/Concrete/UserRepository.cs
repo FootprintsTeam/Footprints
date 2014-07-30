@@ -11,13 +11,11 @@ namespace Footprints.DAL.Concrete
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
         public UserRepository(IGraphClient client) : base(client) { }
-
         public User GetUserByUserID(Guid UserID)
         {
             var query = Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Return(user => user.As<User>());
             return query.Results.First<User>();
         }
-
         public void AddNewUser(User UserPara)
         {
             //Must set User:Status : 'ACTIVE'
@@ -40,14 +38,12 @@ namespace Footprints.DAL.Concrete
                       Create("CREATE (User)-[:EGO {UserID : User.UserID}]->(UserTemp)").Create("CREATE (User)-[:LATEST_ACTIVITY]->(Activity)")
                       .ExecuteWithoutResults();
         }
-
         public bool UpdateUser(User User)
         {
             var query = Db.Cypher.Match("(userTaken:User)").Where((User userTaken) => userTaken.UserID == User.UserID).
                         Set("userTaken = {user}").WithParam("user",User).Return(userTaken => userTaken.As<User>()).Results;
             return (query.First<User>() != null);
         }
-
         public bool AddFriendRelationship(Guid UserID_A, Guid UserID_B)
         {
             //Cypher Query
@@ -128,19 +124,16 @@ namespace Footprints.DAL.Concrete
                                      AndWhere((User userB) => userB.UserID == UserID_B).Delete("rel").ExecuteWithoutResults();
             return true;
         }
-
         public bool BanUser(Guid UserID)
         {
             Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Baned'");
             return true;
         }
-
         public bool ReportUser(Report Report)
         {
             Db.Cypher.Create("(report:Report {report})").WithParams(new { report = Report}).ExecuteWithoutResults();
             return true;
         }
-
         public IEnumerable<Report> GetReport()
         {
             return Db.Cypher.Match("report:Report").Return(report => report.As<Report>()).Results;
@@ -150,30 +143,24 @@ namespace Footprints.DAL.Concrete
             Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Active'");
             return true;
         }
-
         public bool UnactiveUser(Guid UserID)
         {
             Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Inactive'");
             return true;
         }
-
         public bool GrantAdminPrivilege(Guid UserID)
         {
             Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Admin'");
             return true;
         }
-
         public IEnumerable<User> GetUser()
         {
             return Db.Cypher.Match("User:User").Return(user => user.As<User>()).Results;
         }
-
         public IEnumerable<User> GetFriendList(Guid UserID)
         {
             return Db.Cypher.Match("(User:User)-[:FRIEND]->(Friend:User)").Where((User user) => user.UserID == UserID).Return(Friend => Friend.As<User>()).Results;
         }
-
-        //TODO
         public void DeleteAnActivity(Guid ActivityID)
         {
             Db.Cypher.Match("(Activity:Activity)").Where((Activity Activity) => Activity.ActivityID == ActivityID).Delete("Activity").ExecuteWithoutResults();
@@ -184,7 +171,6 @@ namespace Footprints.DAL.Concrete
     {
         IEnumerable<User> GetUser();
         User GetUserByUserID(Guid UserID);
-        //bool addNewUser(User user);
         void AddNewUser(User User);
         bool AddFriendRelationship(Guid UserID_A, Guid UserID_B);
         bool DeleteFriendRelationship(Guid UserID_A, Guid UserID_B);

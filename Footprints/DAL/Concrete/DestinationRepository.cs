@@ -53,10 +53,10 @@ namespace Footprints.DAL.Concrete
                 UserID = UserID,
                 PlaceID = Place.PlaceID
             };
-            CypherQuery query = new CypherQuery(" CREATE (Destination:Destination {Destination}) " +
-                                                " WITH Destination " +
-                                                " MATCH (User:User {UserID : {UserID}}) " +
-                                                " MATCH (Journey:Journey {JourneyID : {JourneyID}}) " +
+            CypherQuery query = new CypherQuery("MATCH (User:User)-[:HAS]->(Journey:Journey) WHERE (User.UserID = {UserID}) AND (Journey.JourneyID = {JourneyID})" +
+                                                " WITH User, Journey " +
+                                                " WHERE (Journey IS NOT NULL) AND (User IS NOT NULL) " +
+                                                " CREATE (Destination:Destination {Destination}) " +
                                                 " MERGE (Place:Place {Place}) " +
                                                 " CREATE (Destination)-[:AT]->(Place) " +
                                                 " CREATE (Journey)-[:HAS]->(Destination) " +
@@ -88,12 +88,12 @@ namespace Footprints.DAL.Concrete
         public bool UpdateDestination(Guid UserID, Destination Destination)
         {
             var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).AndWhere((User user)=>user.UserID == UserID).
-                Set("Destination = {destination}").WithParams(new { destination = Destination }).Return(destinationReturned => destinationReturned.As<Destination>()).Results;
+                Set("Destination = {destination}").WithParams(new { destination = Destination }).Return(destination => destination.As<Destination>()).Results;
             return (query.First<Destination>() != null);
         }
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
-            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]-()").Where((Destination destination) => destination.DestinationID == DestinationID).AndWhere((User user) => user.UserID == UserID).
+            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]-()").Where((Destination Destination) => Destination.DestinationID == DestinationID).AndWhere((User User) => User.UserID == UserID).
                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("Destination, r").ExecuteWithoutResults();
 
         }
@@ -105,10 +105,10 @@ namespace Footprints.DAL.Concrete
                 Type = "ADD_NEW_CONTENT",
                 DestinationID = DestinationID
             };
-            CypherQuery query = new CypherQuery(" CREATE (Content:Content {Content}) " +
-                                                " WITH Content " +
-                                                " MATCH (User:User {UserID : {UserID}}) " +
-                                                " MATCH (Destination:Destination {DestinationID : {DestinationID}}) " +
+            CypherQuery query = new CypherQuery(" MATCH (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination) WHERE (User.UserID = {UserID}) AND (Destination.DestinationID = {DestinationID}) " +
+                                                " WITH User, Destination " +
+                                                " WHERE (Destination IS NOT NULL) AND (User IS NOT NULL) " +
+                                                " CREATE (Content:Content {Content}) " +                                               
                                                 " CREATE (Destination)-[:HAS]->(Content) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
                                                 " WITH Destination, Content, Activity, User " +
@@ -133,15 +133,15 @@ namespace Footprints.DAL.Concrete
                                                 new Dictionary<String, Object> { { "DestinationID", DestinationID }, { "UserID", UserID }, { "Content", Content }, { "Activity", Activity } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);            
         }
-        public void UpdateContent(Content Content)
+        public void UpdateContent(Guid UserID, Content Content)
         {
-            Db.Cypher.Match("(Content:Content)").Where((Content content) => content.ContentID == Content.ContentID).
+            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)").Where((Content content) => content.ContentID == Content.ContentID).AndWhere((User user)=> user.UserID == UserID).
                         Set("Content = {Content}").WithParam("Content", Content).ExecuteWithoutResults();
         }
-        public void DeleteContent(Guid ContentID)
+        public void DeleteContent(Guid UserID, Guid ContentID)
         {
-            Db.Cypher.Match("(contentTaken:Journey)-[r]-()").Where((Content contentTaken) => contentTaken.ContentID == ContentID).
-                Match("(Activity:Activity)").Where((Activity Activity) => Activity.ContentID == ContentID).Set("Activity.Status = 'DELETED'").Delete("journeyTaken, r").ExecuteWithoutResults();
+            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)-[r]-()").Where((Content Content) => Content.ContentID == ContentID).AndWhere((User User) => User.UserID == UserID).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.ContentID == ContentID).Set("Activity.Status = 'DELETED'").Delete("Content, r").ExecuteWithoutResults();
         }
         public IEnumerable<Content> GetAllContent(Guid DestinationID)
         {
@@ -246,8 +246,8 @@ namespace Footprints.DAL.Concrete
         bool UpdateDestination(Guid UserID, Destination Destination);
         void DeleteDestination(Guid UserID, Guid DestinationID);
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
-        void UpdateContent(Content Content);
-        void DeleteContent(Guid ContentID);
+        void UpdateContent(Guid UserID, Content Content);
+        void DeleteContent(Guid UserID, Guid ContentID);
         IEnumerable<Content> GetAllContent(Guid DestinationID);
         void LikeDestination(Guid UserID, Guid DestinationID);
         void UnlikeDestination(Guid UserID, Guid DestinationID);

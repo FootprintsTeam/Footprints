@@ -112,17 +112,16 @@ namespace Footprints.DAL.Concrete
             ((IRawGraphClient)Db).ExecuteGetCypherResults<User>(query);
             return true;
         }
-        public bool UpdateJourney(Journey Journey)
+        public bool UpdateJourney(Guid UserID, Journey Journey)
         {
-            var query = Db.Cypher.Match("(journeyTaken:Journey)").Where((Journey journeyTaken) => journeyTaken.JourneyID == Journey.JourneyID).
-                         Set("journeyTaken = {journey}").WithParam("journey", Journey).Return(journeyTaken => journeyTaken.As<Journey>()).Results;
+            var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).AndWhere((User user) => user.UserID == UserID).
+                         Set("Journey = {journey}").WithParam("journey", Journey).Return(journey => journey.As<Journey>()).Results;
             return (query.First<Journey>() != null);
         }
-        //TODO
-        public bool DeleteJourney(Guid JourneyID)
+        public bool DeleteJourney(Guid UserID, Guid JourneyID)
         {
-            Db.Cypher.Match("(journeyTaken:Journey)-[r]-()").Where((Journey journeyTaken) => journeyTaken.JourneyID == JourneyID).
-                Match("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).Set("Activity.Status = 'DELETED'").Delete("journeyTaken, r").ExecuteWithoutResults();
+            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[r]-()").Where((Journey journey) => journey.JourneyID == JourneyID).AndWhere((User user) => user.UserID == UserID).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).Set("Activity.Status = 'DELETED'").Delete("Journey, r").ExecuteWithoutResults();
             return true;
         }
         public IEnumerable<Journey> GetJourneyList()
@@ -251,11 +250,11 @@ namespace Footprints.DAL.Concrete
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
-        bool AddNewJourney(Guid userID, Journey journey);        
-        Journey GetJourneyByID(Guid journeyID);
+        bool AddNewJourney(Guid UserID, Journey Journey);        
+        Journey GetJourneyByID(Guid JourneyID);
         Journey GetJourneyDetail(Guid JourneyID);
-        bool UpdateJourney(Journey journey);
-        bool DeleteJourney(Guid journeyID);
+        bool UpdateJourney(Guid UserID, Journey Journey);
+        bool DeleteJourney(Guid UserID, Guid JourneyID);
         IEnumerable<Journey> GetJourneyList();
         IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID);
         void LikeJourney(Guid UserID, Guid JourneyID);
