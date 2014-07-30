@@ -10,9 +10,20 @@ namespace Footprints.Service
     public interface IDestinationService {
         Destination GetADestination(Guid destinationID);
         Destination GetADestinationDetail(Guid DestinationID);
-        bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID);
+
+
+        //bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID);
+        bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
+
+
         bool UpdateDestination(Destination Destination);
-        void DeleteDestination(Guid DestinationID);
+
+
+        //void DeleteDestination(Guid DestinationID);
+        void DeleteDestination(Guid UserID, Guid DestinationID);
+
+
+
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Content Content);
         void DeleteContent(Guid ContentID);
@@ -29,6 +40,10 @@ namespace Footprints.Service
     public class DestinationService : IDestinationService
     {
         IDestinationRepository _destinationRepo;
+        public DestinationService(IDestinationRepository destinationRepo)
+        {
+            this._destinationRepo = destinationRepo;
+        }
         public Destination GetADestination(Guid DestinationID)
         {
             return _destinationRepo.GetADestination(DestinationID);
@@ -37,19 +52,29 @@ namespace Footprints.Service
         {
             return _destinationRepo.GetADestinationDetail(DestinationID);
         }
-        public bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID)
+
+
+        //public bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID)
+        public bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID)
         {
-            return _destinationRepo.AddNewDestination(UserID, Destination, PlaceID, JourneyID);
+            return _destinationRepo.AddNewDestination(UserID, Destination, Place, JourneyID);
         }
+
+
 
         public bool UpdateDestination(Destination Destination)
         {
             return _destinationRepo.UpdateDestination(Destination);
         }
-        public void DeleteDestination(Guid DestinationID)
+
+
+        //void DeleteDestination(Guid UserID, Guid DestinationID)
+        public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
-            _destinationRepo.DeleteDestination(DestinationID);
+            _destinationRepo.DeleteDestination(UserID, DestinationID);
         }
+
+
         public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
         {
             _destinationRepo.AddNewContent(Content, DestinationID, UserID);
