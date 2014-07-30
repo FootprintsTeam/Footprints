@@ -1,5 +1,6 @@
 ﻿@model Footprints.ViewModels.AddNewJourneyViewModel
 @using System
+@using Microsoft.AspNet.Identity;
 <!--Popup of page new journey-->
 <div class="modal fade" id="modal-new-journey">
 
@@ -20,7 +21,7 @@
                         {
                             Html.ValidationSummary();
                             Html.AntiForgeryToken();
-                            @Html.Hidden("UserID", Guid.NewGuid());
+                            @Html.Hidden("UserID", User.Identity.GetUserId());
                             @Html.Hidden("JourneyID", Guid.NewGuid());
                             @Html.Hidden("Timestamp", DateTimeOffset.Now)
                             @Html.Hidden("NumberOfLike", Footprints.Common.Constant.DefaultNumberOfLike);
