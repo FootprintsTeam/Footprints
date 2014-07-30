@@ -33,9 +33,9 @@ namespace Footprints.ViewModels
             {
                 AuthorName = "Trịnh Nhân",
                 UserName = "Nam",
-                AuthorId = new Guid(),
-                UserId = new Guid(),
-                JourneyId = new Guid(),
+                AuthorId = new Guid(Guid.NewGuid().ToString("N")),
+                UserId = new Guid(Guid.NewGuid().ToString("N")),
+                JourneyId = new Guid(Guid.NewGuid().ToString("N")),
                 Description = "Nội Dung Nội DungNội DungNội DungNội DungNội Dung",
                 Location = "Hà Nội",
                 NumberOfComments = 10,
@@ -64,7 +64,7 @@ namespace Footprints.ViewModels
         }
         public static IEnumerable<CommentViewModel> GetSampleObject()
         {
-            var sample = new CommentViewModel { UserCommentId = new Guid(), Content = "đây là một comment", Time = DateTime.Now, NumberOfLike = 10, UserCommentName = "Chiến Thắng" };
+            var sample = new CommentViewModel { UserCommentId = new Guid(Guid.NewGuid().ToString("N")), Content = "đây là một comment", Time = DateTime.Now, NumberOfLike = 10, UserCommentName = "Chiến Thắng" };
             var list = new List<CommentViewModel>();
             list.Add(sample);
             return list;

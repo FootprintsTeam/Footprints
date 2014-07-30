@@ -63,12 +63,12 @@ namespace Footprints.ViewModels
         {
             return new AlbumDetailsViewModel
             {
-                AlbumId = new Guid(),
+                AlbumId = new Guid(Guid.NewGuid().ToString("N")),
                 AlbumName = "Tên Album...",
                 NumberOfPhotos = 23,
-                JourneyId = new Guid().ToString(),
+                JourneyId = Guid.NewGuid().ToString("N"),
                 JourneyName = "Journey name",
-                DestinationId = new Guid().ToString(),
+                DestinationId = Guid.NewGuid().ToString("N"),
                 DestinationName = "Destination name",
                 Photos = new List<String>()
                 {

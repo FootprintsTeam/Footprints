@@ -8,32 +8,18 @@ using Neo4jClient;
 namespace Footprints.Service
 {
     public interface IDestinationService {
-        Destination GetADestination(Guid destinationID);
-        Destination GetADestinationDetail(Guid DestinationID);
-
-
-        //bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID);
+        Destination GetDestination(Guid destinationID);
+        Destination GetDestinationDetail(Guid DestinationID);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
-
-
         bool UpdateDestination(Destination Destination);
-
-
-        //void DeleteDestination(Guid DestinationID);
         void DeleteDestination(Guid UserID, Guid DestinationID);
-
-
-
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Content Content);
         void DeleteContent(Guid ContentID);
         IEnumerable<Content> GetAllContent(Guid DestinationID);
-        void AddNewPlace(Place Place);
-        int GetNumberOfLike(Guid DestinationID);
         void LikeDestination(Guid UserID, Guid DestinationID);
         void UnlikeDestination(Guid UserID, Guid DestinationID);
         IEnumerable<User> GetAllUserLiked(Guid DestinationID);
-        int GetNumberOfShare(Guid DestinationID);
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
         IEnumerable<User> GetAllUserShared(Guid DestinationID);
     }
@@ -44,37 +30,26 @@ namespace Footprints.Service
         {
             this._destinationRepo = destinationRepo;
         }
-        public Destination GetADestination(Guid DestinationID)
+        public Destination GetDestination(Guid DestinationID)
         {
-            return _destinationRepo.GetADestination(DestinationID);
+            return _destinationRepo.GetDestination(DestinationID);
         }
-        public Destination GetADestinationDetail(Guid DestinationID)
+        public Destination GetDestinationDetail(Guid DestinationID)
         {
-            return _destinationRepo.GetADestinationDetail(DestinationID);
+            return _destinationRepo.GetDestinationDetail(DestinationID);
         }
-
-
-        //public bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID)
         public bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID)
         {
             return _destinationRepo.AddNewDestination(UserID, Destination, Place, JourneyID);
         }
-
-
-
         public bool UpdateDestination(Destination Destination)
         {
             return _destinationRepo.UpdateDestination(Destination);
         }
-
-
-        //void DeleteDestination(Guid UserID, Guid DestinationID)
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
             _destinationRepo.DeleteDestination(UserID, DestinationID);
         }
-
-
         public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
         {
             _destinationRepo.AddNewContent(Content, DestinationID, UserID);
@@ -91,14 +66,6 @@ namespace Footprints.Service
         {
             return _destinationRepo.GetAllContent(DestinationID);
         }
-        public void AddNewPlace(Place Place)
-        {
-            _destinationRepo.AddNewPlace(Place);
-        }
-        public int GetNumberOfLike(Guid DestinationID)
-        {
-            return _destinationRepo.GetNumberOfLike(DestinationID);
-        }
         public void LikeDestination(Guid UserID, Guid DestinationID)
         {
              _destinationRepo.LikeDestination(UserID, DestinationID);
@@ -110,10 +77,6 @@ namespace Footprints.Service
         public IEnumerable<User> GetAllUserLiked(Guid DestinationID)
         {
             return _destinationRepo.GetAllUserLiked(DestinationID);
-        }
-        public int GetNumberOfShare(Guid DestinationID)
-        {
-            return _destinationRepo.GetNumberOfShare(DestinationID);
         }
         public void ShareDestination(Guid UserID, Guid DestinationID, String Content)
         {

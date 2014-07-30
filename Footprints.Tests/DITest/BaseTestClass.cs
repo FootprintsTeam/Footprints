@@ -33,7 +33,7 @@ namespace Footprints.Tests.DITest
             users = new List<User>();
             users.Add(new User
             {
-                UserID = new Guid(),
+                UserID = new Guid(Guid.NewGuid().ToString("N")),
                 FirstName = "Nhan",
                 LastName = "Trinh"
             });
@@ -44,7 +44,7 @@ namespace Footprints.Tests.DITest
             journeys = new List<Journey>();
             journeys.Add(new Journey
             {
-                JourneyID = new Guid(),
+                JourneyID = new Guid(Guid.NewGuid().ToString("N")),
                 Description = "Journey Description",
                 Name = "Nhan's Journey",
                 NumberOfLike = 2,

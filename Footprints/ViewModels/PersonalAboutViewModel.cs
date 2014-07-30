@@ -25,7 +25,7 @@ namespace Footprints.ViewModels
         {
             return new PersonalAboutViewModel
             {
-                UserID = new Guid(),
+                UserID = new Guid(Guid.NewGuid().ToString("N")),
                 UserName = "Hùng VN",
                 JoinDate = DateTime.Now,
                 Gender = "Male",

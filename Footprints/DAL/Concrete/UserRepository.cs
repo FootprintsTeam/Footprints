@@ -30,7 +30,7 @@ namespace Footprints.DAL.Concrete
 
             Activity activity = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "JOIN_FOOTPRINTS",
                 Timestamp = DateTimeOffset.Now
             };
@@ -78,14 +78,14 @@ namespace Footprints.DAL.Concrete
             //    CREATE (userA)-[:EGO {UserID : '13'}]->(EgoNodeOfB)
             Activity ActivityOfA = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "ADD_NEW_FRIEND",
                 UserID = UserID_B,
                 Timestamp = DateTimeOffset.Now
             };
             Activity ActivityOfB = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "ADD_NEW_FRIEND",
                 UserID = UserID_A,
                 Timestamp = DateTimeOffset.Now

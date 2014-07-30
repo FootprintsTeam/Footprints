@@ -30,7 +30,7 @@ namespace Footprints.ViewModels
         {
             return new JourneyViewModel
             {
-                AuthorId = new Guid(),
+                AuthorId = new Guid(Guid.NewGuid().ToString("N")),
                 AuthorName = "Author Name",
                 JourneyId = new Guid(),
                 Name = "Journey Name",
@@ -42,7 +42,7 @@ namespace Footprints.ViewModels
                 NumberOfPhotos = 200,
                 CoverPhoto = new CoverPhoto
                 {
-                    PhotoId = new Guid(),
+                    PhotoId = new Guid(Guid.NewGuid().ToString("N")),
                     PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
                 },
                 Comments = CommentViewModel.GetSampleObject()

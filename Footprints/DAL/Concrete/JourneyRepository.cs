@@ -10,16 +10,7 @@ namespace Footprints.DAL.Concrete
 {
     public class JourneyRepository : RepositoryBase<Journey>, IJourneyRepository
     {
-        public JourneyRepository(IGraphClient client) : base(client) { }
-
-        public int GetNumberOfLike(Guid JourneyID)
-        {
-            var query = Db.Cypher.Match("(journey:Journey)").
-                Where((Journey journey) => journey.JourneyID == JourneyID).
-                Return(journey => journey.As<Journey>());
-            return query.Results.First<Journey>().NumberOfLike;
-        }
-        
+        public JourneyRepository(IGraphClient client) : base(client) { }        
         public Journey GetJourneyByID(Guid JourneyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").
@@ -27,7 +18,6 @@ namespace Footprints.DAL.Concrete
                 Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>();
         }
-
         //TODO
         public Journey GetJourneyDetail(Guid JourneyID)
         {
@@ -45,7 +35,6 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
-
         public bool AddNewJourney(Guid UserID, Journey Journey)
         {
             //Cypher Query 
@@ -75,7 +64,7 @@ namespace Footprints.DAL.Concrete
             //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
             Activity activity = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "ADD_NEW_JOURNEY",
                 UserID = UserID,
                 JourneyID = Journey.JourneyID,
@@ -174,7 +163,7 @@ namespace Footprints.DAL.Concrete
 
             Activity Activity = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "LIKE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Timestamp = DateTimeOffset.Now
@@ -222,7 +211,7 @@ namespace Footprints.DAL.Concrete
         {
             Activity Activity = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "SHARE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Content = Content,
@@ -259,13 +248,6 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
         }
-        public int GetNumberOfShare(Guid JourneyID)
-        {
-            var query = Db.Cypher.Match("(journey:Journey)").
-                Where((Journey journey) => journey.JourneyID == JourneyID).
-                Return(journey => journey.As<Journey>());
-            return query.Results.First<Journey>().NumberOfShare;
-        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -278,10 +260,8 @@ namespace Footprints.DAL.Concrete
         IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID);
         void LikeJourney(Guid UserID, Guid JourneyID);
         void UnlikeJourney(Guid UserID, Guid JourneyID);
-        int GetNumberOfLike(Guid journeyID);
         IEnumerable<User> GetAllUserLiked(Guid JourneyID);
         void ShareJourney(Guid UserID, Guid JourneyID, String Content);
         IEnumerable<User> GetAllUserShared(Guid JourneyID);
-        int GetNumberOfShare(Guid JourneyID);
     }
 }

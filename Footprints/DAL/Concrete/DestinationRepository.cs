@@ -14,13 +14,13 @@ namespace Footprints.DAL.Concrete
     public class DestinationRepository : RepositoryBase<DestinationRepository>, IDestinationRepository
     {
         public DestinationRepository(IGraphClient client) : base(client) { }
-        public Destination GetADestination(Guid DestinationID)
+        public Destination GetDestination(Guid DestinationID)
         {
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>();
         }
 
-        public Destination GetADestinationDetail(Guid DestinationID)
+        public Destination GetDestinationDetail(Guid DestinationID)
         {
             var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
                 Match("(Destination)-[:HAS*]->(Content:Content)").
@@ -42,52 +42,47 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
-        //TODO
-        //public bool AddNewDestination(Guid UserID, Destination Destination, String PlaceID, Guid JourneyID)
-        //{
-        //    Activity Activity = new Activity()
-        //    {
-        //        ActivityID = new Guid("N"),
-        //        Type = "ADD_NEW_DESTINATION",
-        //        JourneyID = JourneyID,
-        //        DestinationID = Destination.DestinationID,
-        //        UserID = UserID,
-        //        PlaceID = PlaceID
-        //    };
-        //    CypherQuery query = new CypherQuery(" CREATE (Destination:Destination {Destination}) " +
-        //                                        " WITH Destination " +
-        //                                        " MATCH (User:User {UserID : {UserID}}) " +
-        //                                        " MATCH (Journey:Journey {JourneyID : {JourneyID}}) " +
-        //                                        " MATCH (Place:Place {PlaceID : {PlaceID}}) " +
-        //                                        " CREATE (Destination)-[:AT]->(Place) " +
-        //                                        " CREATE (Journey)-[:HAS]->(Destination) " +
-        //                                        " CREATE (Activity:Activity {Activity}) " +
-        //                                        " WITH Destination, Journey, Activity, User " +
-        //                                        " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
-        //                                        " DELETE f " +
-        //                                        " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
-        //                                        " CREATE (Activity)-[:NEXT]->(nextActivity) " +
-        //                                        " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " +
-        //                                        " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
-        //                                        " WITH User " +
-        //                                        " MATCH (User)-[:FRIEND]->(friend) " +
-        //                                        " WITH User, COLLECT(friend) AS friends " +
-        //                                        " UNWIND friends AS fr " +
-        //                                        " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-        //                                        " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(user)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
-        //                                        " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
-        //                                        " WHERE NextFriendInEgo <>  User " +
-        //                                        " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(user) " +
-        //                                        " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-        //                                        " WITH fr, previousUser, nextUser " +
-        //                                        " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-        //                                        " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", 
-        //                                        new Dictionary<String, Object> { { "Destination", Destination }, { "UserID", UserID }, { "JourneyID", JourneyID }, {"Activity", Activity}, {"PlaceID", PlaceID} }, CypherResultMode.Projection);
-        //    ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
-        //    return true;
-        //}
         public bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID)
         {
+            Activity Activity = new Activity()
+            {
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                Type = "ADD_NEW_DESTINATION",
+                JourneyID = JourneyID,
+                DestinationID = Destination.DestinationID,
+                UserID = UserID,
+                PlaceID = Place.PlaceID
+            };
+            CypherQuery query = new CypherQuery(" CREATE (Destination:Destination {Destination}) " +
+                                                " WITH Destination " +
+                                                " MATCH (User:User {UserID : {UserID}}) " +
+                                                " MATCH (Journey:Journey {JourneyID : {JourneyID}}) " +
+                                                " MATCH (Place:Place {PlaceID : {PlaceID}}) " +
+                                                " CREATE (Destination)-[:AT]->(Place) " +
+                                                " CREATE (Journey)-[:HAS]->(Destination) " +
+                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH Destination, Journey, Activity, User " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
+                                                " DELETE f " +
+                                                " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
+                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " +
+                                                " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
+                                                " WITH User " +
+                                                " MATCH (User)-[:FRIEND]->(friend) " +
+                                                " WITH User, COLLECT(friend) AS friends " +
+                                                " UNWIND friends AS fr " +
+                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(user)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                                " WHERE NextFriendInEgo <>  User " +
+                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(user) " +
+                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                                " WITH fr, previousUser, nextUser " +
+                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ",
+                                                new Dictionary<String, Object> { { "Destination", Destination }, { "UserID", UserID }, { "JourneyID", JourneyID }, { "Activity", Activity }, { "PlaceID", PlaceID } }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
             return true;
         }
         public bool UpdateDestination(Destination Destination)
@@ -108,14 +103,13 @@ namespace Footprints.DAL.Concrete
         //TODO
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
+
         }
-
-
         public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
         {
             Activity Activity = new Activity()
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "ADD_NEW_CONTENT",
                 DestinationID = DestinationID
             };
@@ -161,20 +155,11 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Destination:Destination)-[:HAS]->(Content:Content)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(content => content.As<Content>()).Results;
         }
-        public void AddNewPlace(Place Place)
-        {
-            Db.Cypher.Create("(Place:Place {Place})").WithParam("Place", Place).ExecuteWithoutResults();
-        }
-        public int GetNumberOfLike(Guid DestinationID)
-        {
-            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
-            return query.Results.First<Destination>().NumberOfLike;
-        }
         public void LikeDestination(Guid UserID, Guid DestinationID)
         {
             Activity Activity = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "LIKE_A_DESTINATION",
                 DestinationID = DestinationID,
                 Timestamp = DateTimeOffset.Now
@@ -217,17 +202,12 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Destination:Destination)-[:LIKED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(user => user.As<User>()).Results;
         }
-        public int GetNumberOfShare(Guid DestinationID)
-        {
-            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
-            return query.Results.First<Destination>().NumberOfShare;
-        }
         public void ShareDestination(Guid UserID, Guid DestinationID, String Content)
         {
 
             Activity Activity = new Activity
             {
-                ActivityID = new Guid("N"),
+                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "SHARE_A_DESTINATION",
                 DestinationID = DestinationID,
                 Content = Content,
@@ -268,30 +248,18 @@ namespace Footprints.DAL.Concrete
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
-        Destination GetADestination(Guid DestinationID);
-        Destination GetADestinationDetail(Guid DestinationID);
-
-
+        Destination GetDestination(Guid DestinationID);
+        Destination GetDestinationDetail(Guid DestinationID);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
-
-
         bool UpdateDestination(Destination Destination);
-
-
-        //void DeleteDestination(Guid DestinationID);
         void DeleteDestination(Guid UserID, Guid DestinationID);
-
-
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Content Content);
         void DeleteContent(Guid ContentID);
         IEnumerable<Content> GetAllContent(Guid DestinationID);
-        void AddNewPlace(Place Place);
-        int GetNumberOfLike(Guid DestinationID);
         void LikeDestination(Guid UserID, Guid DestinationID);
         void UnlikeDestination(Guid UserID, Guid DestinationID);
         IEnumerable<User> GetAllUserLiked(Guid DestinationID);
-        int GetNumberOfShare(Guid DestinationID);
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
         IEnumerable<User> GetAllUserShared(Guid DestinationID);
     }

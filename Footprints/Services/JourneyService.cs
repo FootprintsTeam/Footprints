@@ -25,8 +25,6 @@ namespace Footprints.Service
         IEnumerable<User> GetAllUserLiked(Guid JourneyID);
         void ShareJourney(Guid UserID, Guid JourneyID, String Content);
         IEnumerable<User> GetAllUserShared(Guid JourneyID);
-        int GetNumberOfShare(Guid JourneyID);
-        int GetNumberOfLike(Guid JourneyID);
     }
     public class JourneyService : IJourneyService
     {
@@ -35,17 +33,10 @@ namespace Footprints.Service
         {
             this.journeyRepository = journeyRepo;
         }
-
         public void AddJourney(AddNewJourneyViewModel journeyViewModel) {
             var model =  Mapper.Map<AddNewJourneyViewModel, Journey>(journeyViewModel);
-            journeyRepository.AddNewJourney(new Guid(),model);
+            journeyRepository.AddNewJourney(new Guid(Guid.NewGuid().ToString("N")), model);
         }
-
-        public int GetNumberOfLike(Guid JourneyID)
-        {
-            return journeyRepository.GetNumberOfLike(JourneyID);
-        }
-
         public Journey RetrieveJourney(Guid JourneyID)
         {
             return journeyRepository.GetJourneyByID(JourneyID);
@@ -54,22 +45,18 @@ namespace Footprints.Service
         {
             return journeyRepository.GetJourneyDetail(JourneyID);
         }
-
         public bool AddNewJourney(Guid UserID, Journey Journey)
         {
             return journeyRepository.AddNewJourney(UserID, Journey);
         }
-
         public bool UpdateJourney(Journey Journey)
         {
             return journeyRepository.UpdateJourney(Journey);
         }
-
         public bool DeleteJourney(Guid JourneyID)
         {
             return journeyRepository.DeleteJourney(JourneyID);
         }
-
         public IEnumerable<Journey> GetJourneyList()
         {
             return journeyRepository.GetJourneyList();
@@ -78,7 +65,6 @@ namespace Footprints.Service
         {
             return journeyRepository.GetJourneyListBelongToUser(UserID);
         }
-
         public void LikeJourney(Guid UserID, Guid JourneyID)
         {
             journeyRepository.LikeJourney(UserID, JourneyID);
@@ -87,7 +73,6 @@ namespace Footprints.Service
         {
             journeyRepository.UnlikeJourney(UserID, JourneyID);
         }
-
         public IEnumerable<User> GetAllUserLiked(Guid JourneyID)
         {
             return journeyRepository.GetAllUserLiked(JourneyID);
@@ -96,15 +81,9 @@ namespace Footprints.Service
         {
             journeyRepository.ShareJourney(UserID, JourneyID, Content);
         }
-
         public IEnumerable<User> GetAllUserShared(Guid JourneyID)
         {
             return journeyRepository.GetAllUserShared(JourneyID);
-        }
-
-        public int GetNumberOfShare(Guid JourneyID)
-        {
-            return journeyRepository.GetNumberOfShare(JourneyID);
         }
     }
 }
