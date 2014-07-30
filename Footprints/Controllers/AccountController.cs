@@ -70,7 +70,8 @@ namespace Footprints.Controllers
 
         [ChildActionOnly]
         [AllowAnonymous]
-        public ActionResult RegisterPartial() {
+        public ActionResult RegisterPartial()
+        {
             return PartialView();
         }
         //
@@ -361,8 +362,9 @@ namespace Footprints.Controllers
                 }
                 return false;
             }
-            catch (Exception) {
-                return false;
+            catch (Exception)
+            {
+                throw new Exception();
             }
         }
 
@@ -388,7 +390,8 @@ namespace Footprints.Controllers
 
         private class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri) : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
             {
             }
 

@@ -16,7 +16,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -2463,6 +2463,7 @@
     <Content Include="Areas\Personal\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Personal\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Personal\Views\Shared\CoverWidget.cshtml" />
+    <None Include="Properties\PublishProfiles\Footprints.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2598,7 +2599,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>56695</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
