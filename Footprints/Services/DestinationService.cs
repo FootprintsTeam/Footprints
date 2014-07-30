@@ -11,7 +11,7 @@ namespace Footprints.Service
         Destination GetDestination(Guid destinationID);
         Destination GetDestinationDetail(Guid DestinationID);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
-        bool UpdateDestination(Destination Destination);
+        bool UpdateDestination(Guid UserID, Destination Destination);
         void DeleteDestination(Guid UserID, Guid DestinationID);
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Content Content);
@@ -42,9 +42,9 @@ namespace Footprints.Service
         {
             return _destinationRepo.AddNewDestination(UserID, Destination, Place, JourneyID);
         }
-        public bool UpdateDestination(Destination Destination)
+        public bool UpdateDestination(Guid UserID, Destination Destination)
         {
-            return _destinationRepo.UpdateDestination(Destination);
+            return _destinationRepo.UpdateDestination(UserID, Destination);
         }
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {

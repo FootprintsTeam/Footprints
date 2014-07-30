@@ -57,7 +57,7 @@ namespace Footprints.DAL.Concrete
                                                 " WITH Destination " +
                                                 " MATCH (User:User {UserID : {UserID}}) " +
                                                 " MATCH (Journey:Journey {JourneyID : {JourneyID}}) " +
-                                                " MATCH (Place:Place {PlaceID : {PlaceID}}) " +
+                                                " MERGE (Place:Place {Place}) " +
                                                 " CREATE (Destination)-[:AT]->(Place) " +
                                                 " CREATE (Journey)-[:HAS]->(Destination) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
@@ -81,28 +81,20 @@ namespace Footprints.DAL.Concrete
                                                 " WITH fr, previousUser, nextUser " +
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ",
-                                                new Dictionary<String, Object> { { "Destination", Destination }, { "UserID", UserID }, { "JourneyID", JourneyID }, { "Activity", Activity }, { "PlaceID", PlaceID } }, CypherResultMode.Projection);
+                                                new Dictionary<String, Object> { { "Destination", Destination }, { "UserID", UserID }, { "JourneyID", JourneyID }, { "Activity", Activity }, { "Place", Place } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
             return true;
         }
-        public bool UpdateDestination(Destination Destination)
+        public bool UpdateDestination(Guid UserID, Destination Destination)
         {
-            var query = Db.Cypher.Match("(destinationTaken:Destination)").Where((Destination destinationTaken) => destinationTaken.DestinationID == Destination.DestinationID).
-                Set("destinationTaken = {destination}").WithParams(new { destination = Destination }).Return(destinationReturned => destinationReturned.As<Destination>()).Results;
+            var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).AndWhere((User user)=>user.UserID == UserID).
+                Set("Destination = {destination}").WithParams(new { destination = Destination }).Return(destinationReturned => destinationReturned.As<Destination>()).Results;
             return (query.First<Destination>() != null);
         }
-
-
-        //TODO
-        //public void DeleteDestination(Guid DestinationID)
-        //{
-        //    Db.Cypher.Match("(destinationTaken:Destination)-[r]-()").Where((Destination destinationTaken) => destinationTaken.DestinationID == DestinationID).
-        //        Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("destinationTaken, r").ExecuteWithoutResults();
-
-        //}
-        //TODO
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
+            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]-()").Where((Destination destination) => destination.DestinationID == DestinationID).AndWhere((User user) => user.UserID == UserID).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("Destination, r").ExecuteWithoutResults();
 
         }
         public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
@@ -251,7 +243,7 @@ namespace Footprints.DAL.Concrete
         Destination GetDestination(Guid DestinationID);
         Destination GetDestinationDetail(Guid DestinationID);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
-        bool UpdateDestination(Destination Destination);
+        bool UpdateDestination(Guid UserID, Destination Destination);
         void DeleteDestination(Guid UserID, Guid DestinationID);
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Content Content);
