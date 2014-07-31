@@ -23,6 +23,9 @@ namespace Footprints.Service
         bool GrantAdminPrivilege(Guid UserID);
         void DeleteAnActivity(Guid ActivityID);
         IEnumerable<User> GetFriendList(Guid UserID);
+        long GetNumberOfJourney(Guid UserID);
+        long GetNumberOfDestination(Guid UserID);
+        long GetNumberOfFriend(Guid UserID);
     }
     public class UserService : IUserService
     {
@@ -88,6 +91,18 @@ namespace Footprints.Service
         public IEnumerable<User> GetFriendList(Guid UserID)
         {
             return _userRepo.GetFriendList(UserID);
+        }
+        public long GetNumberOfJourney(Guid UserID)
+        {
+            return _userRepo.GetNumberOfJourney(UserID);
+        }
+        public long GetNumberOfDestination(Guid UserID)
+        {
+            return _userRepo.GetNumberOfDestination(UserID);
+        }
+        public long GetNumberOfFriend(Guid UserID)
+        {
+            return _userRepo.GetNumberOfFriend(UserID);
         }
     }
 }

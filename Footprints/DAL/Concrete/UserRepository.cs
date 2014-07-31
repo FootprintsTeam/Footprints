@@ -165,6 +165,46 @@ namespace Footprints.DAL.Concrete
         {
             Db.Cypher.Match("(Activity:Activity)").Where((Activity Activity) => Activity.ActivityID == ActivityID).Delete("Activity").ExecuteWithoutResults();
         }
+        public long GetNumberOfJourney(Guid UserID)
+        {
+            var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)").Where((User User) => User.UserID == UserID).
+                        Return((Journey) => new
+                        {
+                            NumberOfJourney = Journey.Count()
+                        }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfJourney;
+            }
+            return 0;
+        }
+        public long GetNumberOfDestination(Guid UserID)
+        {
+            var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)").
+                        Where((User User) => User.UserID == UserID).
+                        Return((Destination) => new
+                        {
+                            NumberOfDestination = Destination.Count()
+                        }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfDestination;
+            }
+            return 0; 
+        }
+        public long GetNumberOfFriend(Guid UserID)
+        {
+            var query = Db.Cypher.Match("(User:User)-[:FRIEND]->(Friend:User)").Where((User User) => User.UserID == UserID).
+                        Return((Friend) => new
+                        {
+                            NumberOfFriend = Friend.Count()
+                        }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfFriend;
+            }
+            return 0;
+        }
     }
 
     public interface IUserRepository : IRepository<User>
@@ -183,5 +223,8 @@ namespace Footprints.DAL.Concrete
         bool GrantAdminPrivilege(Guid UserID);
         void DeleteAnActivity(Guid ActivityID);
         IEnumerable<User> GetFriendList(Guid UserID);
+        int GetNumberOfJourney(Guid UserID);
+        int GetNumberOfDestination(Guid UserID);
+        int GetNumberOfFriend(Guid UserID);
     }
 }

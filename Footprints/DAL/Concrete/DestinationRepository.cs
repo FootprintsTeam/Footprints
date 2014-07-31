@@ -103,7 +103,8 @@ namespace Footprints.DAL.Concrete
             {
                 ActivityID = new Guid(Guid.NewGuid().ToString("N")),
                 Type = "ADD_NEW_CONTENT",
-                DestinationID = DestinationID
+                DestinationID = DestinationID,
+                ContentID = Content.ContentID
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination) WHERE (User.UserID = {UserID}) AND (Destination.DestinationID = {DestinationID}) " +
                                                 " WITH User, Destination " +
