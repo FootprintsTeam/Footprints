@@ -9,7 +9,7 @@ using Footprints.DAL.Abstract;
 using Footprints.DAL.Infrastructure;
 using Footprints.DAL.Concrete;
 using System.Web.Mvc;
-using Footprints.Service;
+using Footprints.Services;
 using System.Reflection;
 
 namespace Footprints.App_Start

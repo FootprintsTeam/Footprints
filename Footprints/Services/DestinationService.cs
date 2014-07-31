@@ -5,7 +5,7 @@ using System.Web;
 using Footprints.DAL.Concrete;
 using Footprints.Models;
 using Neo4jClient;
-namespace Footprints.Service
+namespace Footprints.Services
 {
     public interface IDestinationService {
         Destination GetDestination(Guid destinationID);

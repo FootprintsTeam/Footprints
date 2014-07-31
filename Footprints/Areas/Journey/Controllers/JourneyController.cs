@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Footprints.Service;
+using Footprints.Services;
 
 namespace Footprints.Areas.Journey.Controllers
 {

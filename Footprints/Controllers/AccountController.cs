@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Footprints.Models;
-using Footprints.Service;
+using Footprints.Services;
 
 namespace Footprints.Controllers
 {
@@ -93,7 +93,7 @@ namespace Footprints.Controllers
                     await SignInAsync(user, isPersistent: false);                    
 
                     //add neo4j user here
-                    userService.AddNewUser(new User { UserID = new Guid(user.Id), Email = user.Email, Status = Footprints.Models.User.StatusEnum.Active });
+                    userService.AddNewUser(new User { UserID = new Guid(user.Id), Email = user.Email, Status = Footprints.Models.StatusEnum.Active });
 
                     return RedirectToAction("Index", "Home");
                 }
