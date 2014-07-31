@@ -223,8 +223,8 @@ namespace Footprints.DAL.Concrete
         bool GrantAdminPrivilege(Guid UserID);
         void DeleteAnActivity(Guid ActivityID);
         IEnumerable<User> GetFriendList(Guid UserID);
-        int GetNumberOfJourney(Guid UserID);
-        int GetNumberOfDestination(Guid UserID);
-        int GetNumberOfFriend(Guid UserID);
+        long GetNumberOfJourney(Guid UserID);
+        long GetNumberOfDestination(Guid UserID);
+        long GetNumberOfFriend(Guid UserID);
     }
 }
