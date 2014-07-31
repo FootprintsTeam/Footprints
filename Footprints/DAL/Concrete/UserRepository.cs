@@ -117,7 +117,7 @@ namespace Footprints.DAL.Concrete
                                      ExecuteWithoutResults();
             return true;
         }
-
+        //TODO
         public bool DeleteFriendRelationship(Guid UserID_A, Guid UserID_B)
         {
             Db.Cypher.Match("(UserA:User)-[rel:FRIEND]-(UserB:User)").Where((User userA) => userA.UserID == UserID_A).
