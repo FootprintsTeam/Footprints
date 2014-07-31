@@ -33,7 +33,7 @@ namespace Footprints.DAL.Concrete
                 Timestamp = DateTimeOffset.Now
             };
             Db.Cypher.Create("(User:User {User})").WithParam("User", UserPara).
-                      Create("Activity:Activity {Activity}").WithParam("Activity", activity).With("User, Activity").
+                      Create("(Activity:Activity {Activity})").WithParam("Activity", activity).With("User, Activity").
                       Match("(UserTemp:User {UserID : 'TEMP'})").
                       Create("(User)-[:EGO {UserID : User.UserID}]->(UserTemp)").Create("(User)-[:LATEST_ACTIVITY]->(Activity)")
                       .ExecuteWithoutResults();
