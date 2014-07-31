@@ -17,8 +17,7 @@ namespace Footprints.Models
         public GenreEnum Genre { get; set; }
         public String DateOfBirth { get; set; }
         public String UserName { get; set; }
-        public String Password { get; set; }
-        public enum StatusEnum { Baned, Active, Inactive, Admin}
+        public String Password { get; set; }        
         public StatusEnum Status { get; set; }
         public DateTimeOffset JoinDate { get; set; }
         public String ProfilePicURL { get; set; }
@@ -27,4 +26,6 @@ namespace Footprints.Models
             return FirstName + " " + LastName;
         }
     }
+
+    public enum StatusEnum { Baned, Active, Inactive, Admin }
 }

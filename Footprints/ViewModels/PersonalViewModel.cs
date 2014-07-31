@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Footprints.Services;
+using Footprints.Models;
 
 namespace Footprints.Models
 {
@@ -24,7 +25,7 @@ namespace Footprints.Models
 
         public String Password { get; set; }
 
-        public Status Status { get; set; }
+        public StatusEnum Status { get; set; }
 
         public DateTimeOffset JoinDate { get; set; }
 
