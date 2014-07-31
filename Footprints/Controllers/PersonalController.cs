@@ -38,8 +38,8 @@ namespace Footprints.Controllers
             return View(model);
         }
 
-        public ActionResult Update() {
-            return null;
+        public ActionResult Update() {            
+            return View();
         }
 	}
 }
