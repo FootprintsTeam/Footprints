@@ -23,7 +23,7 @@ namespace Footprints.Tests.DITest
         public static IList<Journey> journeys;
 
         public BaseTestClass() {
-            client = new GraphClient(new Uri("http://localhost:7474/db/data"));
+            client = new GraphClient(new Uri("http://54.179.157.145:7474/db/data"));
             client.Connect();
             SetupUser();
             SetupJourney();
