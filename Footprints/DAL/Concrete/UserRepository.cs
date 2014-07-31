@@ -112,8 +112,8 @@ namespace Footprints.DAL.Concrete
                                      With("userA, userB").
                                      OptionalMatch("(userB)-[egoB:EGO {UserID : {egoB}}]->(EgoNodeOfB)").WithParams(new { egoB = EgoEdgeOfUserB }).
                                      Delete("egoB").
-                                     Create("(userB)-[:{egoB}]->(userA)").WithParams(new { egoB = EgoEdgeOfUserB }).
-                                     Create("(userA)-[:{egoB}]->(EgoNodeOfB)").WithParams(new { egoB = EgoEdgeOfUserB }).               
+                                     Create("(userB)-[:EGO {UserID : {egoB}}]->(userA)").WithParams(new { egoB = EgoEdgeOfUserB }).
+                                     Create("(userA)-[:EGO {UserID : {egoB}}]->(EgoNodeOfB)").WithParams(new { egoB = EgoEdgeOfUserB }).               
                                      ExecuteWithoutResults();
             return true;
         }
