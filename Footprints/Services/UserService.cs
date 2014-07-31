@@ -9,18 +9,18 @@ namespace Footprints.Service
 {
     public interface IUserService {
         IEnumerable<User> GetUser();
-        User RetrieveUser(Guid userID);
+        User RetrieveUser(Guid UserID);
         //bool addNewUser(User user);
-        void AddNewUser(User user);
-        bool AddFriendRelationship(Guid userID_A, Guid userID_B);
-        bool DeleteFriendRelationship(Guid userID_A, Guid userID_B);
-        bool UpdateUser(User user);
-        bool BanUser(Guid userID);
+        void AddNewUser(User User);
+        bool AddFriendRelationship(Guid UserID_A, Guid UserID_B);
+        bool DeleteFriendRelationship(Guid UserID_A, Guid UserID_B);
+        bool UpdateUser(User User);
+        bool BanUser(Guid UserID);
         bool ReportUser(Report Report);
         IEnumerable<Report> GetReport();
-        bool UnbanUser(Guid userID);
-        bool UnactiveUser(Guid userID);
-        bool GrantAdminPrivilege(Guid userID);
+        bool UnbanUser(Guid UserID);
+        bool UnactiveUser(Guid UserID);
+        bool GrantAdminPrivilege(Guid UserID);
         void DeleteAnActivity(Guid ActivityID);
         IEnumerable<User> GetFriendList(Guid UserID);
     }

@@ -77,7 +77,7 @@ namespace Footprints.DAL.Concrete
                 DestinationID = Comment.DestinationID,
                 Timestamp = DateTimeOffset.Now
             };
-            CypherQuery query = new CypherQuery("CREATE (Comment:Comment {Comment}) " +
+            CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (Destination:Destination) " +

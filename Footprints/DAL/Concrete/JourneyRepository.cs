@@ -167,7 +167,7 @@ namespace Footprints.DAL.Concrete
                 JourneyID = JourneyID,
                 Timestamp = DateTimeOffset.Now
             };
-            CypherQuery query = new CypherQuery("MATCH (User:User), (Journey:Journey) " +
+            CypherQuery query = new CypherQuery(" MATCH (User:User), (Journey:Journey) " +
                                                 " WHERE (User.UserID = {UserID} ) AND (Journey.JourneyID = {JourneyID} ) " +
                                                 " CREATE (Journey)-[:LIKED_BY]->(User) " +
                                                 " SET Journey.NumberOfLike = Journey.NumberOfLike + 1 " +
