@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Footprints.DAL.Concrete;
 using Footprints.Models;
-namespace Footprints.Service
+namespace Footprints.Services
 {
     public interface ICommentService {
         IEnumerable<Comment> RetrieveDestinationComment(Guid DestinationID);

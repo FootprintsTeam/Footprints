@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Footprints.Models;
-using Footprints.Service;
+using Footprints.Services;
 
 namespace Footprints.Controllers
 {

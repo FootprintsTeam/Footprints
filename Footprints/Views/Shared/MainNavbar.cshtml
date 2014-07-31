@@ -59,9 +59,9 @@
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-stats innerR"><i class=""></i></span>Configuration</a></li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-question-sign innerR"></span> Q&A</a></li>
                                 <li role="presentation">
-                                    <form action="@Url.Action("LogOff","Account")" method="post">
-                                        @Html.AntiForgeryToken()
-                                        <a role="menuitem" tabindex="-1" href="#" onclick="this.parentNode.submit()"><span class="glyphicon glyphicon-off innerR"></span>Exit</a>
+                                    <a role="menuitem" tabindex="-1" href="#" onclick="document.getElementById('log-out-form').submit()"><span class="glyphicon glyphicon-off innerR"></span>Log Out</a>
+                                    <form id="log-out-form" action="@Url.Action("LogOff","Account")" method="post"> 
+                                        @Html.AntiForgeryToken()                                                                               
                                     </form>
                                 </li>
                             </ul>

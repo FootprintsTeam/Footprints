@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Footprints.DAL.Abstract;
 using Footprints.DAL.Concrete;
 using Footprints.Models;
-using Footprints.Service;
+using Footprints.Services;
 using Neo4jClient;
 
 namespace Footprints.Tests.DITest

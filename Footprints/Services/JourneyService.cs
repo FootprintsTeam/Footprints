@@ -6,7 +6,7 @@ using Footprints.DAL.Concrete;
 using Footprints.Models;
 using Footprints.ViewModels;
 using AutoMapper;
-namespace Footprints.Service
+namespace Footprints.Services
 {
     public interface IJourneyService
     {

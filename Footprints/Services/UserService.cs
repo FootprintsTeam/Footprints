@@ -5,7 +5,7 @@ using System.Web;
 using Footprints.DAL.Concrete;
 using Footprints.Models;
 
-namespace Footprints.Service
+namespace Footprints.Services
 {
     public interface IUserService {
         IEnumerable<User> GetUser();
