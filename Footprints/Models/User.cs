@@ -13,11 +13,13 @@ namespace Footprints.Models
         public String Email { get; set; }
         public String Address { get; set; }
         public String PhoneNumber { get; set; }
-        public enum Genre { Male, Female, Others}
+        public enum GenreEnum { Male, Female, Others}
+        public GenreEnum Genre { get; set; }
         public String DateOfBirth { get; set; }
         public String UserName { get; set; }
         public String Password { get; set; }
-        public enum Status { Baned, Active, Inactive, Admin}
+        public enum StatusEnum { Baned, Active, Inactive, Admin}
+        public StatusEnum Status { get; set; }
         public DateTimeOffset JoinDate { get; set; }
         public String ProfilePicURL { get; set; }
         public String DisplayName()
