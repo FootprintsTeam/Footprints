@@ -20,7 +20,7 @@ namespace Footprints.DAL.Concrete
         public NewsFeedRepository(IGraphClient client) : base(client) { }
         public void LoadEgoNetwork(Guid UserID)
         {
-            String egoEdges = UserID.ToString("N");
+            String egoEdges = UserID.ToString();
             //SQL-Injection-prone
             var query = Db.Cypher.Match("(user:User {UserID : {UserID} })-[ego:EGO* {UserID : {UserID} }]->(friend:User)-[:LATEST_ACTIVITY]->(latest_activity:Activity)-[:NEXT*]->(next_activity:Activity)").WithParams(new { UserID = egoEdges }).
                     Return((friend, latest_activity, next_activity) => new

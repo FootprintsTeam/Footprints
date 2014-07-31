@@ -9,6 +9,7 @@ namespace Footprints.Models
     {
         public Guid ActivityID { get; set; } 
         public String Type { get; set; }
+        public enum Status { Deleted}
         public Guid UserID { get; set; }
         public Guid JourneyID { get; set; }
         public Guid CommentID { get; set; }
