@@ -35,7 +35,7 @@ namespace Footprints.DAL.Concrete
             Db.Cypher.Create("(User:User {User})").WithParam("User", UserPara).
                       Create("Activity:Activity {Activity}").WithParam("Activity", activity).With("User, Activity").
                       Match("(UserTemp:User {UserID : 'TEMP'})").
-                      Create("(User)-[:EGO {UserID : User.UserID}]->(UserTemp)").Create("CREATE (User)-[:LATEST_ACTIVITY]->(Activity)")
+                      Create("(User)-[:EGO {UserID : User.UserID}]->(UserTemp)").Create("(User)-[:LATEST_ACTIVITY]->(Activity)")
                       .ExecuteWithoutResults();
         }
         public bool UpdateUser(User User)
