@@ -208,6 +208,7 @@
     <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
+    <Compile Include="Common\UserMigrator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />

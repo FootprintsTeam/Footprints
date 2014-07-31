@@ -24,7 +24,7 @@ namespace Footprints.Models
 
         public String Password { get; set; }
 
-        public enum Status { Baned, Active, Inactive, Admin}
+        public Status Status { get; set; }        
 
         public DateTimeOffset JoinDate { get; set; }
 
@@ -35,4 +35,6 @@ namespace Footprints.Models
             return FirstName + " " + LastName;
         }
     }
+
+    public enum Status { Baned, Active, Inactive, Admin }
 }

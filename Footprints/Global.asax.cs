@@ -14,7 +14,7 @@ using Autofac.Util;
 using Autofac.Features;
 using AutoMapper;
 using Footprints.Mappings;
-
+using Footprints.Common;
 namespace Footprints
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -28,7 +28,7 @@ namespace Footprints
             //Autofac setup
             DependencyResolver.SetResolver(new AutofacDependencyResolver(Bootstrapper.SetAutofacContainer()));
             //Mapper setup
-            AutoMapperConfiguration.Configure();
+            AutoMapperConfiguration.Configure();            
         }
     }
 }
