@@ -63,15 +63,12 @@
     <!-- Main Container Fluid -->
     <div class="container-fluid menu-hidden ">
         <!-- Content START -->
-        <div id="content">
+        @* Change id to generate form modal *@
+        <div id="content-new">
             @{Html.RenderPartial("MainNavbar");}
-
             @*Render BODY*@
             @RenderBody()
-
-
         </div>
-        @{Html.RenderPartial("NewJourneyFormModal",new Footprints.ViewModels.AddNewJourneyViewModel());}
     </div>
     <!-- // Content END -->
 

@@ -1,27 +1,35 @@
-﻿<div class="widget">
+﻿@model Footprints.ViewModels.DestinationViewModel
+
+<div class="widget">
     <div class="widget-body">
         @*<button class="pull-right btn btn-default btn-sm"><i class="fa fa-fw fa-edit"></i> Edit</button>*@
         <div class="pull-right media-body innerLR">
             <h3 class="media-heading strong">
-                Chuyến đi đến Đà Nẵng
+                @*Chuyến đi đến Đà Nẵng*@@Model.Name
             </h3>
             <p>
-                <h5 class="text-muted" style="margin-bottom:0px !important">2 ngày trước</h5><br />
-                <button class="btn btn-default no-margin">
-                    <i class="glyphicon glyphicon-pencil"></i> Edit
-                </button>
+                <h5 class="text-muted" style="margin-bottom:0px !important">@*2 ngày trước*@@Model.TimeAgo</h5><br />
+                <a data-toggle="modal" href="#edit-destination-modal">
+                    <span class="btn btn-default no-margin">
+                        <i class="glyphicon glyphicon-pencil"></i> Edit
+                    </span>
+                </a>
+                <a href="#delete-destination-modal" data-toggle="modal">
+                    <span class="btn btn-default no-margin">
+                        <i class="glyphicon glyphicon-remove"></i> Delete
+                    </span>
+                </a>
             </p>
         </div>
 
         <img src="../assets/images/people/250/2.jpg" class="thumb pull-left" alt="" width="100">
         <div class="media-body innerLR innerT">
-            <h3 class="media-heading strong">Trịnh Thành Nhân</h3>
+            <h3 class="media-heading strong">@*Trịnh Thành Nhân*@@Model.AuthorName</h3>
             <p>
-                <span class="label label-info">22 Journeys</span><br />
-                <span class="label label-danger">120 Destinations</span><br />
-                <span class="label label-success">200 Friends</span>
+                <span class="label label-info">@Model.NumberOfJourneys Journeys</span><br />
+                <span class="label label-danger">@Model.NumberOfDestinations Destinations</span><br />
+                <span class="label label-success">@Model.NumberOfFriends Friends</span>
             </p>
-            @*<p>22 Journeys<br />120 Destinations<br /> 200 Friends</p>*@
         </div>
 
         <div class="row innerT">
@@ -33,12 +41,11 @@
                         </div>
                         <div id="collapse-1-1" class="panel-collapse collapse">
                             <div class="panel-body" style="border:none !important">
-                                <p class="innerT">This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content</p>
+                                <p class="innerT">@Model.Description</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                @*<p class="innerT">This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content</p>*@
             </div>
         </div>
     </div>

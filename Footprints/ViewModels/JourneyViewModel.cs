@@ -19,20 +19,21 @@ namespace Footprints.ViewModels
         public int NumberOfDestinations { get; set; }
         public int NumberOfPhotos { get; set; }
         public CoverPhoto CoverPhoto { get; set; }
-        public IEnumerable<Destination> Destinations { get; set; }
+        public IEnumerable<Footprints.Models.Destination> Destinations { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
         public string TimeAgo
         {
             get { return DateTimeFormat.TimeAgo(this.TakenDate); }
             private set { }
         }
-        public static JourneyViewModel GetSampleObject()
+        public AddNewDestinationFormViewModel AddNewDestinationFormViewModel { get; set; }
+        public static JourneyViewModel GetSampleObject(Guid JourneyID)
         {
             return new JourneyViewModel
             {
-                AuthorId = new Guid(Guid.NewGuid().ToString("N")),
+                AuthorId = new Guid(),
                 AuthorName = "Author Name",
-                JourneyId = new Guid(),
+                JourneyId = JourneyID,
                 Name = "Journey Name",
                 Description = "Journey Description",
                 TakenDate = DateTime.Now,
@@ -42,10 +43,11 @@ namespace Footprints.ViewModels
                 NumberOfPhotos = 200,
                 CoverPhoto = new CoverPhoto
                 {
-                    PhotoId = new Guid(Guid.NewGuid().ToString("N")),
+                    PhotoId = new Guid(),
                     PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
                 },
-                Comments = CommentViewModel.GetSampleObject()
+                Comments = CommentViewModel.GetSampleObject(),
+                AddNewDestinationFormViewModel = AddNewDestinationFormViewModel.GetEmptyObject(JourneyID)
             };
         }
     }
@@ -60,7 +62,7 @@ namespace Footprints.ViewModels
         public String Description { get; set; }
 
         [Display(Name = "Time")]
-        public DateTimeOffset TakenDate { get; set; }    
+        public DateTimeOffset TakenDate { get; set; }
 
         public DateTimeOffset Timestamp { get; set; }
 
@@ -72,9 +74,4 @@ namespace Footprints.ViewModels
         public String PhotoUrl { get; set; }
     }
 
-    public class Destination
-    {
-        public Guid DestinationId { get; set; }
-        //More Destination information
-    }
 }

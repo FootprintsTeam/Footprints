@@ -1,8 +1,8 @@
-﻿@model Footprints.ViewModels.JourneyViewModel
-@{
+﻿@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @Styles.Render("~/css/journey")
 
 <div class="container">
@@ -61,27 +61,14 @@
                         </a>
                     </li>
                     <li class="list-group-item border-bottom-none">
-                        <a href="#"><span class="badge pull-right badge-primary hidden-md">2</span><i class="fa fa-share-square-o"></i> Shared</a>
+                        <span class="badge pull-right badge-primary hidden-md">2</span>
+                        <a href="#"><i class="fa fa-share-square-o"></i> Shared</a>
                     </li>
                 </ul>
                 @*End Stats and Detail*@
             </div>
 
             <div class="pull-right col-lg-8 col-md-8">
-
-                <div class="row innerAll">
-                    <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
-                    <div id="google-map-container" style="height: 400px; width: 100%">
-                        <div id="map-canvas"></div>
-                        <div id="sp-container">
-                            <div id="sp-close-button" class="close-button"><span>×</span></div>
-                            <div id="sp-list"></div>
-                        </div>
-                    </div>
-                </div>
-
-                @{Html.RenderPartial("AddNewDestinationForm", @Model.AddNewDestinationFormViewModel);}
-
                 @*Time Line*@
                 <div class="media">
                     <a href="" class="btn btn-default pull-left">Today</a>
@@ -275,5 +262,5 @@
     </div>
 </div>
 @Scripts.Render("~/script/journey")
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-<script src="/assets/plugins/google_map/js/google.map.init.js"></script>
+
+

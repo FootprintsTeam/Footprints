@@ -1,18 +1,29 @@
-﻿using System;
+﻿using AutoMapper;
+using Footprints.Services;
+using Footprints.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
 namespace Footprints.Controllers
 {
     public class DestinationController : Controller
     {
+        IDestinationService destinationService;
+        public DestinationController(IDestinationService destinationService)
+        {
+            this.destinationService = destinationService;
+        }
+
         //
         // GET: /Destination/
         public ActionResult Index()
         {
-            return View();
+            var model = Footprints.ViewModels.DestinationViewModel.GetSampleObject();
+            return View(model);
         }
 
         //
@@ -23,75 +34,40 @@ namespace Footprints.Controllers
         }
 
         //
-        // GET: /Destination/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //
         // POST: /Destination/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(AddNewDestinationFormViewModel model)
         {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Destination/Edit/5
-        public ActionResult Edit(int id)
-        {
+            //Get UserId
+            var place = Mapper.Map<AddNewDestinationFormViewModel, Models.Place>(model);
+            System.Diagnostics.Debug.WriteLine("Place: = ["+place.ToString()+"]");
+            var destination = Mapper.Map<AddNewDestinationFormViewModel, Models.Destination>(model);
+            System.Diagnostics.Debug.WriteLine("destination: = [" + destination.ToString() + "]");
+            destinationService.AddNewDestination(new Guid(), destination, place, model.JourneyID);
             return View();
         }
+
 
         //
         // POST: /Destination/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(AddNewDestinationFormViewModel model)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /Destination/Delete/5
-        public ActionResult Delete(int id)
-        {
+            //destinationService.UpdateDestination(Mapper.Map<AddNewDestinationFormViewModel, Models.Destination>(model));
             return View();
         }
 
         //
-        // POST: /Destination/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        // GET: /Destination/Delete/5
+        [Authorize]
+        public ActionResult Delete(Guid DestinationID)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            var user = Membership.GetUser(User.Identity.Name);
+            Guid userId = (Guid)user.ProviderUserKey;
+            System.Diagnostics.Debug.WriteLine("Userid = [" + userId + "]");
+            destinationService.DeleteDestination(userId, DestinationID);
+            return View();
         }
+   
     }
 }

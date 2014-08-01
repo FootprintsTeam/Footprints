@@ -1,4 +1,5 @@
 ﻿var map;
+var mapDestinations;
 var marker;
 var tmpMarker;
 var infowindow;
@@ -7,18 +8,27 @@ var placeService;
 var psContainer;
 var nearbyPlaces;
 var placeTypes = ["accounting", "airport", "amusement_park", "aquarium", "art_gallery", "atm", "bakery", "bank", "bar", "beauty_salon", "bicycle_store", "book_store", "bowling_alley", "bus_station", "cafe", "campground", "car_dealer", "car_rental", "car_repair", "car_wash", "casino", "cemetery", "church", "city_hall", "clothing_store", "convenience_store", "courthouse", "dentist", "department_store", "doctor", "electrician", "electronics_store", "embassy", "establishment", "finance", "fire_station", "florist", "food", "funeral_home", "furniture_store", "gas_station", "general_contractor", "grocery_or_supermarket", "gym", "hair_care", "hardware_store", "health", "hindu_temple", "home_goods_store", "hospital", "insurance_agency", "jewelry_store", "laundry", "lawyer", "library", "liquor_store", "local_government_office", "locksmith", "lodging", "meal_delivery", "meal_takeaway", "mosque", "movie_rental", "movie_theater", "moving_company", "museum", "night_club", "painter", "park", "parking", "pet_store", "pharmacy", "physiotherapist", "place_of_worship", "plumber", "police", "post_office", "real_estate_agency", "restaurant", "roofing_contractor", "rv_park", "school", "shoe_store", "shopping_mall", "spa", "stadium", "storage", "store", "subway_station", "synagogue", "taxi_stand", "train_station", "travel_agency", "university", "veterinary_care", "zoo"];
-var frmNewDestination = document.forms['frmNewDestination'];
-var txtDestinationName = frmNewDestination.elements["Name"];
-var hdDestinationPlaceId = frmNewDestination.elements["PlaceId"];
-var hdDestinationLocation = frmNewDestination.elements["Location"];
+var frmDestination = document.forms['frmDestination'];
+var txtDestinationName = frmDestination.elements["Name"];
+var hdDestinationPlaceId = frmDestination.elements["PlaceID"];
+var hdDestinationLocation = frmDestination.elements["Location"];
+var hdDestinationLatitude = frmDestination.elements["Latitude"];
+var hdDestinationLongitude = frmDestination.elements["Longitude"];
+var hdDestinationReference = frmDestination.elements["Reference"];
 function initialize() {
     psContainer = document.getElementById('sp-container');
+
+    var mapOptionsDestinations = {
+        center: new google.maps.LatLng(-33.8688, 151.2195),
+        zoom: 17
+    };
+    var mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptionsDestinations);
+
     var mapOptions = {
         center: new google.maps.LatLng(-33.8688, 151.2195),
         zoom: 17
     };
-    map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
     pacinput = /** @type {HTMLInputElement} */(
         document.getElementById('pac-input'));
@@ -72,7 +82,12 @@ function initialize() {
 
         txtDestinationName.value = place.name;
         hdDestinationPlaceId.value = place.place_id;
-        hdDestinationLocation.value = place.geometry.location;
+        //hdDestinationLocation.value = place.geometry.location;
+        hdDestinationLatitude.value = place.geometry.location.lat();
+        hdDestinationLongitude.value = place.geometry.location.lng();
+        if (place.reference && place.reference != null) {
+            hdDestinationReference.value = place.reference;
+        }
 
         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
         infowindow.open(map, marker);
@@ -82,6 +97,11 @@ function initialize() {
         marker.setPosition(event.latLng);
         nearbySearch(event.latLng);
     });
+    google.maps.event.addListenerOnce(map, 'idle', function () {
+        google.maps.event.trigger(map, 'resize');
+    });
+    google.maps.event.trigger(map, "resize");
+    google.maps.event.trigger(mapDestinations, "resize");
 
     //search place when click on POI
     var fx = google.maps.InfoWindow.prototype.setPosition;
@@ -141,7 +161,7 @@ function displaySuggestionPlaces() {
         var html = '';
         for (i = 0; i < nearbyPlaces.length; i++) {
             if (nearbyPlaces[i].name) {
-                html += '<div class=\"sp-item\" location=\"' + nearbyPlaces[i].geometry.location + '\" place_id=\"' + nearbyPlaces[i].place_id + '\">' + nearbyPlaces[i].name + '</div>';
+                html += '<div class=\"sp-item\" latitude=\"' + nearbyPlaces[i].geometry.location.lat() + '\" longitude=\"' + nearbyPlaces[i].geometry.location.lng() + '\" reference=\"' + nearbyPlaces[i].reference + '\" place_id=\"' + nearbyPlaces[i].place_id + '\">' + nearbyPlaces[i].name + '</div>';
             }
         }
         document.getElementById('sp-list').innerHTML = html;
@@ -187,7 +207,10 @@ $(function () {
         moveToSuggestionPlace();
         txtDestinationName.value = this.innerHTML;
         hdDestinationPlaceId.value = $(this).attr("place_id");
-        hdDestinationLocation.value = $(this).attr("location");
+        //hdDestinationLocation.value = $(this).attr("location");
+        hdDestinationLatitude.value = $(this).attr("latitude");
+        hdDestinationLongitude.value = $(this).attr("longitude");
+        hdDestinationReference.value = $(this).attr("reference");
         $("#sp-container").hide();
     });
 });

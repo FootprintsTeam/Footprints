@@ -7,64 +7,64 @@
 <!-- <div class="layout-app">  -->
 <div class="innerAll" style="margin-top:60px">
     <div class=" row">
-        <div class="col-lg-12 col-md-12 col-lg-offset-0 col-md-offset-0">
+    <div class="col-lg-12 col-md-12 col-lg-offset-0 col-md-offset-0">
 
-            <div class="gridalicious-row" data-toggle="gridalicious" data-gridalicious-width="340" data-gridalicious-gutter="12" data-gridalicious-selector=".gridalicious-item">
-                <div class="loaded hide2">
-                    <!-- Personal Widget -->
-                    @{Html.RenderPartial("PersonalWidget");}
+        <div class="gridalicious-row" data-toggle="gridalicious" data-gridalicious-width="340" data-gridalicious-gutter="12" data-gridalicious-selector=".gridalicious-item">            
+            <div class="loaded hide2">
+                <!-- Personal Widget -->
+                @{Html.RenderPartial("PersonalWidget");}
 
-                    <!-- Widget -->
-                    @{Html.RenderPartial("ListFriendWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderPartial("JourneyWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderPartial("DestinationWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderPartial("AddPhotoWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderPartial("CommentWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderPartial("ShareWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderPartial("WidePictureWidget");}
-                    <!-- //End Widget -->
-                </div>
-                <div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
-            </div>
+                <!-- Widget -->
+                @{Html.RenderPartial("ListFriendWidget");}
+                <!-- //End Widget -->
+                <!-- Widget -->
+                @{Html.RenderPartial("JourneyWidget");}
+                <!-- //End Widget -->
+                <!-- Widget -->
+                @{Html.RenderPartial("DestinationWidget");}
+                <!-- //End Widget -->
+                <!-- Widget -->
+                @{Html.RenderPartial("AddPhotoWidget");}
+                <!-- //End Widget -->
+                <!-- Widget -->
+                @{Html.RenderPartial("CommentWidget");}
+                <!-- //End Widget -->
+                <!-- Widget -->
+                @{Html.RenderPartial("ShareWidget");}
+                <!-- //End Widget -->
+                <!-- Widget -->
+                @{Html.RenderPartial("WidePictureWidget");}
+                <!-- //End Widget -->
+            </div>            
+            <div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
         </div>
     </div>
 </div>
+</div>
 @section scripts{
-    <script type="text/javascript">
-        var BlockNumber = 2;  //Infinate Scroll starts from second block
-        var NoMoreData = false;
-        var inProgress = false;
+<script type="text/javascript">
+    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
 
-        $(window).scroll(function () {
-            if ($(window).scrollTop() == $(document).height() -
-            $(window).height() && !NoMoreData && !inProgress) {
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() -
+        $(window).height() && !NoMoreData && !inProgress) {
 
-                inProgress = true;
-                $("#loadingDiv").show();
+            inProgress = true;
+            $("#loadingDiv").show();
 
-                $.post("@Url.Action("InfiniteScroll",
+            $.post("@Url.Action("InfiniteScroll",
             "Newsfeed")", { "BlockNumber": BlockNumber },
-                        function (data) {
+                    function (data) {
 
-                            BlockNumber = BlockNumber + 1;
-                            NoMoreData = data.NoMoreData;
-                            $(".gridalicious-row").gridalicious('append', $.parseHTML(data.HTMLString));
-                            $("#loadingDiv").hide();
-                            inProgress = false;
-                        });
-            }
-        });
-    </script>
+                        BlockNumber = BlockNumber + 1;
+                        NoMoreData = data.NoMoreData;
+                        $(".gridalicious-row").gridalicious('append', $.parseHTML(data.HTMLString));
+                        $("#loadingDiv").hide();
+                        inProgress = false;
+                    });
+        }
+    });
+</script> 
 }

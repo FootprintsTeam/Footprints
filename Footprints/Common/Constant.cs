@@ -18,5 +18,6 @@ namespace Footprints.Common
         }
         public static int DefaultNumberOfLike = 0;
         public static int DefaultNumberOfShare = 0;
+        public const String GUID_REGEX = @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$";
     }
 }

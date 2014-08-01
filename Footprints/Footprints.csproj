@@ -259,6 +259,7 @@
     <Compile Include="Services\NewsfeedService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\DestinationViewModel.cs" />
     <Compile Include="ViewModels\FriendItemViewModel.cs" />
     <Compile Include="ViewModels\InfiniteScrollJsonModel.cs" />
     <Compile Include="ViewModels\JourneyViewModel.cs" />
@@ -2550,6 +2551,8 @@
     <Content Include="Areas\Journey\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Journey\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Journey\Views\Journey\Index.cshtml" />
+    <Content Include="Views\Journey\AddNewDestinationForm.cshtml" />
+    <Content Include="Views\Destination\EditDestinationForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
