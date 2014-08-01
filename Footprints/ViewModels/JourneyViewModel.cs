@@ -67,6 +67,19 @@ namespace Footprints.ViewModels
         public DateTimeOffset Timestamp { get; set; }
 
         public int NumberOfLike { get; set; }
+
+        public static AddNewJourneyViewModel GetSampleObject()
+        {
+            return new AddNewJourneyViewModel
+            {
+                JourneyID = new Guid(Guid.NewGuid().ToString("N")),
+                UserID = new Guid(Guid.NewGuid().ToString("N")),
+                Name = "",
+                Description = "",
+                TakenDate = DateTimeOffset.Now,
+                NumberOfLike = 0
+            };
+        }
     };
     public class CoverPhoto
     {

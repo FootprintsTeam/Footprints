@@ -18,11 +18,13 @@ var hdDestinationReference = frmDestination.elements["Reference"];
 function initialize() {
     psContainer = document.getElementById('sp-container');
 
-    var mapOptionsDestinations = {
-        center: new google.maps.LatLng(-33.8688, 151.2195),
-        zoom: 17
-    };
-    var mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptionsDestinations);
+    if (document.getElementById('map-canvas-destinations') != null) {
+        var mapOptionsDestinations = {
+            center: new google.maps.LatLng(-33.8688, 151.2195),
+            zoom: 17
+        };
+        var mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptionsDestinations);
+    }
 
     var mapOptions = {
         center: new google.maps.LatLng(-33.8688, 151.2195),
