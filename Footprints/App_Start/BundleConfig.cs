@@ -47,8 +47,8 @@ namespace Footprints
             bundles.Add(new ScriptBundle("~/script/plugins").Include(
                 //"~/assets/plugins/core_nicescroll/jquery.nicescroll.min.js",
                 "~/assets/plugins/core_breakpoints/breakpoints.js",
-                "~/assets/plugins/core_ajaxify_davis/davis.min.js",
-                "~/assets/plugins/core_ajaxify_lazyjaxdavis/jquery.lazyjaxdavis.min.js",
+                //"~/assets/plugins/core_ajaxify_davis/davis.min.js",
+                //"~/assets/plugins/core_ajaxify_lazyjaxdavis/jquery.lazyjaxdavis.min.js",
                 //"~/assets/plugins/core_preload/pace.min.js",
                 "~/assets/plugins/menu_sidr/jquery.sidr.js",
                 "~/assets/plugins/menu_sidr/jquery.sidr.js",
@@ -60,7 +60,7 @@ namespace Footprints
                 "~/assets/plugins/core_browser/ie/ie.prototype.polyfill.js"
                 ));
             bundles.Add(new ScriptBundle("~/script/bundle").Include(
-                "~/assets/components/core_ajaxify/ajaxify.init.js",
+                //"~/assets/components/core_ajaxify/ajaxify.init.js",
                 //"~/assets/components/core_preload/preload.pace.init.js",
                 //"~/assets/components/widget_twitter/twitter.init.js",
                 "~/assets/components/media_gridalicious/gridalicious.init.js",
@@ -73,7 +73,7 @@ namespace Footprints
             //Core css
             bundles.Add(new StyleBundle("~/css/core").Include(
                 "~/assets/css/admin/module.admin.stylesheet-complete.min.css"
-                //"~/assets/library/bootstrap/css/bootstrap.min.css"
+                //,"~/assets/library/bootstrap/css/bootstrap.min.css"
                 //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
                 //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_regular.css"
                 //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_social.css"
@@ -147,6 +147,25 @@ namespace Footprints
                 ));
 
             bundles.Add(new ScriptBundle("~/script/journey").Include(
+                "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
+                "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
+                ));
+            //Destination Page
+            bundles.Add(new StyleBundle("~/css/destination").Include(
+                "~/assets/components/admin_timeline/timeline-cover.less",
+                "~/assets/plugins/media_blueimp/css/blueimp-gallery.min.css",
+                "~/assets/components/media_blueimp/blueimp-gallery.less",
+                "~/assets/components/admin_timeline/timeline.less",
+                "~/assets/components/ui_tabs/tabs.less",
+                "~/assets/components/ui_buttons/buttons.less",
+                "~/assets/components/core/widgets.less",
+                "~/assets/components/ui_media/gallery.less",
+                "~/assets/components/widget_generic/widget-generic.less",
+                "~/assets/components/widget_lists/list-group.less",
+                "~/assets/plugins/google_map/css/google.map.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/script/destination").Include(
                 "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
                 "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
                 ));
