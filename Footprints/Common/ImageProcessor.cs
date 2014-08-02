@@ -12,12 +12,12 @@ namespace Footprints.Common
 {
     public class ImageProcessor
     {
-        public static string UploadPhotoWithThumb(Guid UserID, Guid AlbumID, Stream imageStream)
+        public static void UploadPhotoWithThumb(Guid UserID, Guid AlbumID, Guid FileName, Stream imageStream)
         {
             //Upload image to s3
-            string uniqueFileName = Guid.NewGuid().ToString().Replace('.', '_').Replace('-', '_') + ".jpg";
-            string photoPath = UserID.ToString() + "/" + AlbumID.ToString() + "/" + uniqueFileName;
-            string photoThumbPath = UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + uniqueFileName;
+            String uniqueFileName = FileName.ToString() + ".jpg";
+            String photoPath = UserID.ToString() + "/" + AlbumID.ToString() + "/" + uniqueFileName;
+            String photoThumbPath = UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + uniqueFileName;
             try
             {
                 //Generate thumbnails image
@@ -33,9 +33,8 @@ namespace Footprints.Common
             catch (ArgumentException e)
             {
                 Debug.WriteLine(e.Message);
-                return String.Empty;
+                throw;
             }
-            return uniqueFileName;
         }
 
         public static void DeletePhoto(Guid UserID, Guid AlbumID, string name)

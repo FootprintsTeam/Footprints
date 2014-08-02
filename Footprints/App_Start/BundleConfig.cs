@@ -197,6 +197,25 @@ namespace Footprints
                "~/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.js",
                "~/assets/components/forms_elements_bootstrap-datepicker/bootstrap-datepicker.init.js"
                ));
+            
+            //Jquery fileupload - blueimp
+            bundles.Add(new StyleBundle("~/css/fileupload").Include(
+                "~/assets/components/jquery_fileupload/jquery.fileupload-ui.css",
+                "~/assets/components/jquery_fileupload/jquery.fileupload.css"
+            ));
+            bundles.Add(new ScriptBundle("~/script/fileupload").Include(
+               "~/assets/plugins/jquery/vendor/jquery.ui.widget.js",
+                "~/assets/plugins/jquery/tmpl.min.js",
+                "~/assets/plugins/jquery/load-image.min.js",
+                "~/assets/plugins/jquery/canvas-to-blob.min.js",
+                "~/assets/plugins/jquery/jquery.blueimp-gallery.min.js",
+                "~/assets/plugins/jquery/jquery.fileupload.js",
+                "~/assets/plugins/jquery/jquery.fileupload-process.js",
+                "~/assets/plugins/jquery/jquery.fileupload-image.js",
+                "~/assets/plugins/jquery/jquery.fileupload-validate.js",
+                "~/assets/plugins/jquery/jquery.fileupload-ui.js",
+                "~/assets/plugins/jquery/main.js"
+               ));
         }
     }
 }

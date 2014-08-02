@@ -60,12 +60,14 @@ namespace Footprints.Controllers
         //
         // GET: /Destination/Delete/5
         //[Authorize]
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(Guid id, Guid JourneyID)
         {
             var user = Membership.GetUser(User.Identity.Name);
             Guid userId = (Guid)user.ProviderUserKey;
             System.Diagnostics.Debug.WriteLine("Userid = [" + userId + "]");
             destinationService.DeleteDestination(userId, id);
+            RedirectToAction("Index", "Journey", new { id = JourneyID });
+            //Redirect to Journey
             return View();
         }
    

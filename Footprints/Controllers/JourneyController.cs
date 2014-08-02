@@ -31,21 +31,21 @@ namespace Footprints.Controllers
 
         //
         // GET: /Journey/Create
-        public ActionResult Create()
-        {            
+        public ActionResult Create(AddNewJourneyViewModel model)
+        {
+            journeyService.AddJourney(model);
             return View();
         }
 
         //
         // POST: /Journey/Create
         [HttpPost]
-        public ActionResult Create(AddNewJourneyViewModel journey)
+        public ActionResult Create(FormCollection collection)
         {
             try
             {
                 // TODO: Add insert logic here
-                var viewModel = journey;
-                journeyService.AddJourney(viewModel);                
+
                 return RedirectToAction("Index");
             }
             catch

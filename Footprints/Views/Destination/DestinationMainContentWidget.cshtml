@@ -12,6 +12,9 @@
             <!-- // Tab content END -->
             <!-- Tab content -->
             <div class="tab-pane" id="tab2-2">
+                <div class="row innerAll">
+                    @{Html.RenderPartial("UploadPhotoForm");}
+                </div>
                 @if (Model.Contents != null && Model.Contents.Count() > 0)
                 {
                     <div class="widget widget-gallery" data-toggle="collapse-widget">
@@ -30,8 +33,8 @@
                                                     <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
                                                         <li>
                                                             @*<a href="#">Delete</a>*@
-                                                            @Html.ActionLink("Delete", "Delete", new { controller= "Media", id = @content.ContentID})
-                                                        </li>
+                                                            @*@Html.ActionLink("Delete", "Delete", new { controller= "Media", id = @content.ContentID})*@
+                                                            <a onclick="javascript:AccountSetupForm.displayPopUpWindow('@content.ContentID');">Delete</a>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -78,3 +81,21 @@
     </div>
     <!-- // Tabs Heading END -->
 </div>
+
+<script type="text/javascript">
+    var AccountSetupForm = (function () {
+        return {
+            init: function () {
+            },
+            displayPopUpWindow: function (ContentID) {
+                document.forms['frmDeletePhoto'].elements["id"].value = ContentID;
+                $('#delete-photo-modal').modal('show');
+            }
+        };
+
+    })();
+
+    $(document).ready(function () {
+        AccountSetupForm.init();
+    });
+</script>
