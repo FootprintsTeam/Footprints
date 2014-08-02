@@ -59,13 +59,13 @@ namespace Footprints.Controllers
 
         //
         // GET: /Destination/Delete/5
-        [Authorize]
-        public ActionResult Delete(Guid DestinationID)
+        //[Authorize]
+        public ActionResult Delete(Guid id)
         {
             var user = Membership.GetUser(User.Identity.Name);
             Guid userId = (Guid)user.ProviderUserKey;
             System.Diagnostics.Debug.WriteLine("Userid = [" + userId + "]");
-            destinationService.DeleteDestination(userId, DestinationID);
+            destinationService.DeleteDestination(userId, id);
             return View();
         }
    

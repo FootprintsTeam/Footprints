@@ -1,4 +1,5 @@
-﻿<div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
+﻿@model Footprints.ViewModels.DestinationViewModel
+<div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
 
     <div class="widget-body">
         <div class="tab-content">
@@ -11,8 +12,48 @@
             <!-- // Tab content END -->
             <!-- Tab content -->
             <div class="tab-pane" id="tab2-2">
-                <h4>Second tab</h4>
-                <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.</p>
+                @if (Model.Contents != null && Model.Contents.Count() > 0)
+                {
+                    <div class="widget widget-gallery" data-toggle="collapse-widget">
+                        <div class="widget-body">
+                            <div class="gallery gallery-2">
+                                <ul class="row">
+                                    @foreach (var content in @Model.Contents)
+                                    {
+                                        <li class="col-md-3" style="position:relative">
+                                            <div class="icon-edit pull-right" style="position:absolute; top:1px;right:8px; z-index:10">
+                                                <div class="dropdown">
+                                                    <a href="#" data-toggle="dropdown">
+                                                        @*<i class="fa fa-pencil fa-1x"></i>*@
+                                                        <span class="btn-default no-margin no-padding"><i class="glyphicon glyphicon-pencil"></i> </span>
+                                                    </a>
+                                                    <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
+                                                        <li>
+                                                            @*<a href="#">Delete</a>*@
+                                                            @Html.ActionLink("Delete", "Delete", new { controller= "Media", id = @content.ContentID})
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <a class="thumb no-ajaxify" data-gallery="gallery-2" href="@content.URL"><img src="@content.URL" alt="photo" class="img-responsive" /></a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Blueimp Gallery -->
+                    <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+                        <div class="slides"></div>
+                        <h3 class="title"></h3>
+                        <a class="prev no-ajaxify">‹</a>
+                        <a class="next no-ajaxify">›</a>
+                        <a class="close no-ajaxify">×</a>
+                        <a class="play-pause no-ajaxify"></a>
+                        <ol class="indicator"></ol>
+                    </div>
+                    <!-- // Blueimp Gallery END -->
+                }
             </div>
             <!-- // Tab content END -->
         </div>

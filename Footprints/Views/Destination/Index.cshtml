@@ -40,7 +40,7 @@
 
                 <!-- Tabs -->
                 <div class="relativeWrap">
-                    @{Html.RenderPartial("DestinationMainContentWidget");}
+                    @{Html.RenderPartial("DestinationMainContentWidget", Model);}
                 </div>
                 <!-- // Tabs END -->
                 @*description area*@
@@ -76,7 +76,7 @@
             <!-- Modal heading -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">DELETE DESTINATION CONFIRMATION</h3>
+                <h3 class="modal-title">Delete Destination</h3>
             </div>
             <!-- // Modal heading END -->
             <!-- Modal body -->
@@ -93,7 +93,7 @@
             </div>
             <!-- // Modal body END -->
             <div class="modal-footer">
-                <a class="btn btn-default" href="Delete?id=@Model.DestinationID">Yes</a>
+                @Html.ActionLink("Confirm", "Delete", new { controller = "Destination", id = Model.DestinationID, @class="btn btn-default"})
                 <a class="btn btn-primary" data-dismiss="modal" href=""><i class="fa fa-fw icon-crossing"></i> Cancel</a>
             </div>
 

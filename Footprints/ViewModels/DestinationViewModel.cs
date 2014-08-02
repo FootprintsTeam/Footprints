@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Footprints.Common;
+using Footprints.Models;
 
 namespace Footprints.ViewModels
 {
@@ -22,6 +23,7 @@ namespace Footprints.ViewModels
         public int NumberOfLikes { get; set; }
         public int NumberOfShares { get; set; }
         public int NumberOfPhotos { get; set; }
+        public IEnumerable<Content> Contents { get; set; }
         public DateTimeOffset TakenDate { get; set; }
         public EditDestinationFormViewModel EditDestinationForm { get; set; }
         public string TimeAgo
@@ -39,6 +41,7 @@ namespace Footprints.ViewModels
                 Latitude = 21.028529,
                 Longitude = 105.78225999999995
             };
+            
             return new DestinationViewModel
             {
                 AuthorID = new Guid(Guid.NewGuid().ToString("N")),
@@ -52,6 +55,33 @@ namespace Footprints.ViewModels
                 TakenDate = DateTimeOffset.Now,
                 NumberOfLikes = 13,
                 NumberOfShares = 2,
+                NumberOfPhotos = 20,
+                Contents = new List<Content> {
+                    new Content {
+                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        URL = "../assets/images/gallery-2/1.jpg"
+                    },
+                    new Content {
+                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        URL = "../assets/images/gallery-2/2.jpg"
+                    },
+                    new Content {
+                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        URL = "../assets/images/gallery-2/3.jpg"
+                    },
+                    new Content {
+                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        URL = "../assets/images/gallery-2/4.jpg"
+                    },
+                    new Content {
+                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        URL = "../assets/images/gallery-2/5.jpg"
+                    },
+                    new Content {
+                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        URL = "../assets/images/gallery-2/6.jpg"
+                    }
+                },
                 Description = @"This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content",
                 Place = Place,
                 EditDestinationForm = new EditDestinationFormViewModel {
