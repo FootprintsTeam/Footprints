@@ -53,9 +53,9 @@ namespace Footprints.ViewModels
         public Guid AlbumId { get; set; }
         public string AlbumName { get; set; }
         public int NumberOfPhotos { get; set; }
-        public String JourneyId { get; set; }
+        public Guid JourneyId { get; set; }
         public String JourneyName { get; set; }
-        public String DestinationId { get; set; }
+        public Guid DestinationId { get; set; }
         public String DestinationName { get; set; }
         public List<String> Photos { get; set; }
 
@@ -63,12 +63,12 @@ namespace Footprints.ViewModels
         {
             return new AlbumDetailsViewModel
             {
-                AlbumId = new Guid(Guid.NewGuid().ToString("N")),
+                AlbumId = Guid.NewGuid(),
                 AlbumName = "Tên Album...",
                 NumberOfPhotos = 23,
-                JourneyId = Guid.NewGuid().ToString("N"),
+                JourneyId = Guid.NewGuid(),
                 JourneyName = "Journey name",
-                DestinationId = Guid.NewGuid().ToString("N"),
+                DestinationId = Guid.NewGuid(),
                 DestinationName = "Destination name",
                 Photos = new List<String>()
                 {

@@ -28,7 +28,7 @@ namespace Footprints.DAL.Concrete
 
             Activity activity = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "JOIN_FOOTPRINTS",
                 Timestamp = DateTimeOffset.Now
             };
@@ -74,20 +74,20 @@ namespace Footprints.DAL.Concrete
             //    CREATE (userA)-[:EGO {UserID : '13'}]->(EgoNodeOfB)
             Activity ActivityOfA = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "ADD_NEW_FRIEND",
                 UserID = UserID_B,
                 Timestamp = DateTimeOffset.Now
             };
             Activity ActivityOfB = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "ADD_NEW_FRIEND",
                 UserID = UserID_A,
                 Timestamp = DateTimeOffset.Now
             };
-            String EgoEdgeOfUserA = UserID_A.ToString("N");
-            String EgoEdgeOfUserB = UserID_B.ToString("N");
+            String EgoEdgeOfUserA = UserID_A.ToString();
+            String EgoEdgeOfUserB = UserID_B.ToString();
             Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.UserID == UserID_A).
                                      AndWhere((User userB) => userB.UserID == UserID_B).
                                      Create("(userA)-[:FRIEND]->(userB)").

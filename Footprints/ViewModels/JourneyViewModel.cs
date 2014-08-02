@@ -72,8 +72,8 @@ namespace Footprints.ViewModels
         {
             return new AddNewJourneyViewModel
             {
-                JourneyID = new Guid(Guid.NewGuid().ToString("N")),
-                UserID = new Guid(Guid.NewGuid().ToString("N")),
+                JourneyID = Guid.NewGuid(),
+                UserID = Guid.NewGuid(),
                 Name = "",
                 Description = "",
                 TakenDate = DateTimeOffset.Now,

@@ -10,7 +10,7 @@ namespace Footprints.ViewModels
     {
         public Guid UserID { get; set; }
         public String UserName { get; set; }
-        public DateTime JoinDate { get; set; }
+        public DateTimeOffset JoinDate { get; set; }
         public String Gender { get; set; }
         public String AboutMe { get; set; }
         public String Address { get; set; }
@@ -25,7 +25,7 @@ namespace Footprints.ViewModels
         {
             return new PersonalAboutViewModel
             {
-                UserID = new Guid(Guid.NewGuid().ToString("N")),
+                UserID = Guid.NewGuid(),
                 UserName = "Hùng VN",
                 JoinDate = DateTime.Now,
                 Gender = "Male",

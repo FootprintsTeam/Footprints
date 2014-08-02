@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Footprints.Models;
 using Footprints.ViewModels;
 using Footprints.Services;
+using AutoMapper;
 
 namespace Footprints.Controllers
 {
@@ -38,8 +39,16 @@ namespace Footprints.Controllers
             return View(model);
         }
 
-        public ActionResult Update() {            
+        [HttpPost]
+        public ActionResult Update(PersonalAboutViewModel model) {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Update() {
+            var model = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            var viewModel = Mapper.Map<User, PersonalAboutViewModel>(model);
+            return View(viewModel);
         }
 	}
 }

@@ -64,7 +64,7 @@ namespace Footprints.DAL.Concrete
             //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
             Activity activity = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "ADD_NEW_JOURNEY",
                 UserID = UserID,
                 JourneyID = Journey.JourneyID,
@@ -162,7 +162,7 @@ namespace Footprints.DAL.Concrete
 
             Activity Activity = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "LIKE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Timestamp = DateTimeOffset.Now
@@ -210,7 +210,7 @@ namespace Footprints.DAL.Concrete
         {
             Activity Activity = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "SHARE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Content = Content,

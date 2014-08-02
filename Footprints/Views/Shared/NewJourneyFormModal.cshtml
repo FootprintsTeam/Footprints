@@ -21,7 +21,7 @@
                         {
                             Html.ValidationSummary();
                             Html.AntiForgeryToken();
-                            @Html.Hidden("UserID", User.Identity.GetUserId());
+                            @Html.Hidden("UserID", new Guid(User.Identity.GetUserId()));
                             @Html.Hidden("JourneyID", Guid.NewGuid());
                             @Html.Hidden("Timestamp", DateTimeOffset.Now)
                             @Html.Hidden("NumberOfLike", Footprints.Common.Constant.DefaultNumberOfLike);

@@ -34,8 +34,8 @@ namespace Footprints.ViewModels
 
         public static DestinationViewModel GetSampleObject()
         {
-            var DestinationID = new Guid(Guid.NewGuid().ToString("N"));
-            var JourneyID = new Guid(Guid.NewGuid().ToString("N"));
+            var DestinationID = Guid.NewGuid();
+            var JourneyID = Guid.NewGuid();
             var Place = new Models.Place {
                 PlaceID = "ChIJbQilLLNUNDER5Der2CkuxqM",
                 Latitude = 21.028529,
@@ -44,7 +44,7 @@ namespace Footprints.ViewModels
             
             return new DestinationViewModel
             {
-                AuthorID = new Guid(Guid.NewGuid().ToString("N")),
+                AuthorID = Guid.NewGuid(),
                 AuthorName = "Hùng Vi",
                 NumberOfJourneys = 22,
                 NumberOfDestinations = 120,
@@ -58,27 +58,27 @@ namespace Footprints.ViewModels
                 NumberOfPhotos = 20,
                 Contents = new List<Content> {
                     new Content {
-                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        ContentID = Guid.NewGuid(),
                         URL = "../assets/images/gallery-2/1.jpg"
                     },
                     new Content {
-                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        ContentID = Guid.NewGuid(),
                         URL = "../assets/images/gallery-2/2.jpg"
                     },
                     new Content {
-                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        ContentID = Guid.NewGuid(),
                         URL = "../assets/images/gallery-2/3.jpg"
                     },
                     new Content {
-                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        ContentID = Guid.NewGuid(),
                         URL = "../assets/images/gallery-2/4.jpg"
                     },
                     new Content {
-                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        ContentID = Guid.NewGuid(),
                         URL = "../assets/images/gallery-2/5.jpg"
                     },
                     new Content {
-                        ContentID = new Guid(Guid.NewGuid().ToString("N")),
+                        ContentID = Guid.NewGuid(),
                         URL = "../assets/images/gallery-2/6.jpg"
                     }
                 },

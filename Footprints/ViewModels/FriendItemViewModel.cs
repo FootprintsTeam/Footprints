@@ -15,7 +15,7 @@ namespace Footprints.ViewModels
         {
             return new FriendItemViewModel()
             {
-                UserID = new Guid(Guid.NewGuid().ToString("N")),
+                UserID = Guid.NewGuid(),
                 UserName = "Hùng Vi",
                 Time = DateTime.Now,
                 ProfilePictureUrl = "../assets//images/people/100/9.jpg"

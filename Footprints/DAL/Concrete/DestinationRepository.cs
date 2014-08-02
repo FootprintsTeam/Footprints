@@ -46,7 +46,7 @@ namespace Footprints.DAL.Concrete
         {
             Activity Activity = new Activity()
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "ADD_NEW_DESTINATION",
                 JourneyID = JourneyID,
                 DestinationID = Destination.DestinationID,
@@ -101,7 +101,7 @@ namespace Footprints.DAL.Concrete
         {
             Activity Activity = new Activity()
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "ADD_NEW_CONTENT",
                 DestinationID = DestinationID,
                 ContentID = Content.ContentID
@@ -152,7 +152,7 @@ namespace Footprints.DAL.Concrete
         {
             Activity Activity = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "LIKE_A_DESTINATION",
                 DestinationID = DestinationID,
                 Timestamp = DateTimeOffset.Now
@@ -200,7 +200,7 @@ namespace Footprints.DAL.Concrete
 
             Activity Activity = new Activity
             {
-                ActivityID = new Guid(Guid.NewGuid().ToString("N")),
+                ActivityID = Guid.NewGuid(),
                 Type = "SHARE_A_DESTINATION",
                 DestinationID = DestinationID,
                 Content = Content,

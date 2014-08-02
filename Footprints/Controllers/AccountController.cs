@@ -90,10 +90,10 @@ namespace Footprints.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);                    
+                    await SignInAsync(user, isPersistent: false);
 
                     //add neo4j user here
-                    userService.AddNewUser(new User { UserID = new Guid(user.Id), Email = user.Email, Status = Footprints.Models.StatusEnum.Active });
+                    userService.AddNewUser(new User { UserID = new Guid(user.Id), Email = user.Email, Status = Footprints.Models.StatusEnum.Active, JoinDate = DateTimeOffset.Now, UserName = user.UserName});
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -104,7 +104,7 @@ namespace Footprints.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("Login","Account");
+            return RedirectToAction("Login", "Account");
         }
 
         //

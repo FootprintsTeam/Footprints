@@ -19,15 +19,15 @@ namespace Footprints.Areas.Journey.Controllers
         }
         public ActionResult Index()
         {
-            var model = JourneyViewModel.GetSampleObject();
+            var model = JourneyViewModel.GetSampleObject(Guid.NewGuid());
             return View(model);
         }
 
         [HttpPost]
-        public string AddNewJourneyForm(AddNewJourneyViewModel journey) {
+        public ActionResult AddNewJourneyForm(AddNewJourneyViewModel journey) {
             var viewModel = journey;
             journeyService.AddJourney(viewModel);
-            return "success";
+            return View();
         }
 
         public string AddJourney() {

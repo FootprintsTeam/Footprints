@@ -2551,7 +2551,7 @@
     <Content Include="Areas\Journey\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Journey\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Journey\Views\Journey\Index.cshtml" />
-    <Content Include="Views\Journey\AddNewDestinationForm.cshtml" />
+    <Content Include="Views\Destination\AddNewDestinationForm.cshtml" />
     <Content Include="Views\Destination\EditDestinationForm.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,13 @@ namespace Footprints.Tests.DITest
         }
 
         [TestMethod]
+        public void updateJourney(){
+            var model = journeys.First();
+            model.Name = null;
+            journeyRep.Update(model);
+        }
+
+        [TestMethod]
         public void getJourneyByID() {
             var result = journeyRep.GetJourneyByID(journeys.First().UserID);
             Assert.AreEqual(result.UserID, journeys.First().UserID);
