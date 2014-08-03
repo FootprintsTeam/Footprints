@@ -71,4 +71,6 @@ namespace Footprints.ViewModels
             return list;
         }
     }
+
+    public enum CommentType { Journey, Destination}
 }

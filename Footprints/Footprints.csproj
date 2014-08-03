@@ -53,6 +53,9 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="AWSSDK">
+      <HintPath>..\packages\AWSSDK.2.2.2.0\lib\net45\AWSSDK.dll</HintPath>
+    </Reference>
     <Reference Include="C5, Version=2.3.5280.26713, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\C5.2.3.0.1\lib\net40\C5.dll</HintPath>

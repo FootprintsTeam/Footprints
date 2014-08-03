@@ -19,9 +19,9 @@
                 '<div class="media innerAll bg-gray margin-none border-top border-bottom">'
                 + '<a class="pull-left" href="#"><img src="' + comment.UserAvatarURL + '" alt="photo" class="media-object" width="35"></a>'
                 + '<div class="media-body">'
-                + '<a href="" class="strong text-inverse">' + comment.UserCommentName + '</a>' + comment.Content
+                + '<a href="" class="strong text-inverse">' + comment.UserCommentName + '</a>'+'&nbsp' + comment.Content
                 + '<div class="timeline-bottom">'
-                + '<i class="fa fa-clock-o"></i>-' + comment.TimeAgo
+                + '<i class="fa fa-clock-o"></i> - &nbsp' + comment.TimeAgo
                 + '</div></div></div>'
                 );
         }
