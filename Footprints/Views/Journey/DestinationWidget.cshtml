@@ -1,0 +1,101 @@
+﻿@model Footprints.ViewModels.DestinationViewModel
+@using Footprints.ViewModels
+@using Footprints.Models
+@{ AjaxOptions commentFormOptions = new AjaxOptions
+   {
+       HttpMethod = "Post",
+       OnSuccess = "commentAdd"
+   };
+   var destinationID = @Model.DestinationID.ToString();}
+
+<script type="text/javascript">
+    //get data from callback and insert html
+    function commentAdd(data) {
+        var target = $("@String.Format("#section-form{0}", Model.DestinationID.ToString())");
+
+        for (var i = 0; i < data.length; i++) {
+            var comment = data[i];
+            target.before(
+                '<div class="media innerAll bg-gray margin-none border-top border-bottom">'
+                + '<a class="pull-left" href="#"><img src="' + comment.UserAvatarURL + '" alt="photo" class="media-object" width="35"></a>'
+                + '<div class="media-body">'
+                + '<a href="" class="strong text-inverse">' + comment.UserCommentName + '</a>' + comment.Content
+                + '<div class="timeline-bottom">'
+                + '<i class="fa fa-clock-o"></i>-' + comment.TimeAgo
+                + '</div></div></div>'
+                );
+        }
+    }
+</script>
+
+<li>
+    <span class="marker"></span>
+    <div class="block block-inline">
+        <div class="caret"></div>
+        <div class="box-generic">
+            <div class="timeline-top-info">
+                <i class="fa fa-user"></i>
+                <a href="" class="text-inverse">@Model.AuthorName</a> visited
+                <a href="" class="text-info"><i class="fa fa-location-arrow"></i> @Model.Place.Name</a>
+            </div>
+            <div class="media margin-none">
+                <div class="row innerLR innerB">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="innerT">
+                            <p>@Model.Description<a href="#">view more</a></p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="innerT">
+                            <div class="icon-block text-center ">
+                                <span class="glyphicons tower"><i></i></span>
+                                @*picture area*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*Comment Section*@
+            @foreach (CommentViewModel comment in Model.Comments)
+            {
+                <div class="media innerAll bg-gray margin-none border-top border-bottom">
+                    <a class="pull-left" href="#"><img src="@comment.UserAvatarURL" alt="photo" class="media-object" width="35"></a>
+                    <div class="media-body">
+                        <a href="" class="strong text-inverse">@comment.UserCommentName</a> @comment.Content
+                        <div class="timeline-bottom">
+                            <i class="fa fa-clock-o"></i> @comment.TimeAgo
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="innerAll" id="@String.Format("section-form{0}", Model.DestinationID.ToString())">
+                @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, commentFormOptions, new { id = "comment-form" + Model.DestinationID.ToString() }))
+                {                    
+                    @Html.Hidden("DestinationID", Model.DestinationID)
+                    @Html.TextBox("Content", null, new { id = "comment-input" + @Model.DestinationID + "", @class = "form-control", placeholder = "Comment here ..." })
+                }
+            </div>
+        </div>
+        <div class="timeline-bottom innerT half">
+            <i class="fa fa-clock-o"></i> @Model.TimeAgo  <span class="innerL"><i class="fa fa-calendar fa-fw"></i> @Model.TakenDate</span>
+        </div>
+    </div>
+</li>
+
+<script type="text/javascript">
+    $("#comment-input" + "@destinationID").focus(function () {
+        $(this).data("hasfocus", true);
+    });
+
+    $("#comment-input"+"@destinationID").blur(function () {
+        $(this).data("hasfocus", false);
+    });
+
+    $(document.body).keyup(function (ev) {
+        // 13 is ENTER
+        if (ev.which === 13 && $("#comment-input"+"@destinationID").data("hasfocus")) {
+            $("comment-form" + "@destinationID").submit();
+        }
+    });
+</script>
+

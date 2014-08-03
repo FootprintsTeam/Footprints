@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Footprints.Models;
 namespace Footprints.ViewModels
 {
     public class JourneyViewModel
@@ -19,7 +20,7 @@ namespace Footprints.ViewModels
         public int NumberOfDestinations { get; set; }
         public int NumberOfPhotos { get; set; }
         public CoverPhoto CoverPhoto { get; set; }
-        public IEnumerable<Footprints.Models.Destination> Destinations { get; set; }
+        public IEnumerable<DestinationViewModel> Destinations { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
         public string TimeAgo
         {
@@ -27,13 +28,13 @@ namespace Footprints.ViewModels
             private set { }
         }
         public AddNewDestinationFormViewModel AddNewDestinationFormViewModel { get; set; }
-        public static JourneyViewModel GetSampleObject(Guid JourneyID)
+        public static JourneyViewModel GetSampleObject()
         {
             return new JourneyViewModel
             {
-                AuthorId = new Guid(),
+                AuthorId = Guid.NewGuid(),
                 AuthorName = "Author Name",
-                JourneyId = JourneyID,
+                JourneyId = Guid.NewGuid(),
                 Name = "Journey Name",
                 Description = "Journey Description",
                 TakenDate = DateTime.Now,
@@ -47,7 +48,10 @@ namespace Footprints.ViewModels
                     PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
                 },
                 Comments = CommentViewModel.GetSampleObject(),
-                AddNewDestinationFormViewModel = AddNewDestinationFormViewModel.GetEmptyObject(JourneyID)
+                AddNewDestinationFormViewModel = AddNewDestinationFormViewModel.GetEmptyObject(Guid.NewGuid()),
+                Destinations = new List<DestinationViewModel> { 
+                    DestinationViewModel.GetSampleObject()
+                }
             };
         }
     }

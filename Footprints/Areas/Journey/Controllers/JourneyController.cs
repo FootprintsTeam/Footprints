@@ -19,7 +19,7 @@ namespace Footprints.Areas.Journey.Controllers
         }
         public ActionResult Index()
         {
-            var model = JourneyViewModel.GetSampleObject(Guid.NewGuid());
+            var model = JourneyViewModel.GetSampleObject();
             return View(model);
         }
 

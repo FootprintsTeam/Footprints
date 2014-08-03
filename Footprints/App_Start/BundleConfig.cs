@@ -17,12 +17,6 @@ namespace Footprints
             bundles.Add(new ScriptBundle("~/bundle/jquerymig").Include(
                 "~/Scripts/jquery-migrate-{version}.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundle/nanogalleryscript").Include("~/Scripts/jquery.nanogallery.min.js", "~/Script/jquery.nanogallery.js"));
-            bundles.Add(new StyleBundle("~/Content/nanogallerycss").Include("~/Content/nanogallerycss/nanogallery.css"));
-
-            bundles.Add(new ScriptBundle("~/bundle/destinationscript").Include("~/Scripts/destinationscript.js"));
-            bundles.Add(new StyleBundle("~/Content/destinationcss").Include("~/Content/destinationcss.css"));
-
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -39,7 +33,7 @@ namespace Footprints
 
             //Template scripts            
             bundles.Add(new ScriptBundle("~/script/core").Include("~/assets/library/jquery/jquery.min.js", "~/assets/library/modernizr/modernizr.js"));
-            bundles.Add(new ScriptBundle("~/script/dependency").Include(
+            bundles.Add(new ScriptBundle("~/script/dependency").Include(                 
                 "~/assets/library/bootstrap/js/bootstrap.min.js",
                 "~/assets/library/jquery/jquery-migrate.min.js",
                 "~/assets/components/maps_google/maps-google.init.js"

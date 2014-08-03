@@ -16,9 +16,9 @@ namespace Footprints.Controllers
         }
         //
         // GET: /Journey/
-        public ActionResult Index(Guid id)
+        public ActionResult Index()
         {
-            var model = JourneyViewModel.GetSampleObject(id);
+            var model = JourneyViewModel.GetSampleObject();
             return View(model);
         }
 

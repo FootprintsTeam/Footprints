@@ -35,7 +35,7 @@ namespace Footprints.Services
         }
         public void AddJourney(AddNewJourneyViewModel journeyViewModel) {
             var model =  Mapper.Map<AddNewJourneyViewModel, Journey>(journeyViewModel);
-            journeyRepository.AddNewJourney(Guid.NewGuid(), model);
+            journeyRepository.AddNewJourney(model.UserID, model);
         }
         public Journey RetrieveJourney(Guid JourneyID)
         {

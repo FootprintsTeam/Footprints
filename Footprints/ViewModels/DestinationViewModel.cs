@@ -24,6 +24,8 @@ namespace Footprints.ViewModels
         public int NumberOfShares { get; set; }
         public int NumberOfPhotos { get; set; }
         public IEnumerable<Content> Contents { get; set; }
+
+        public IEnumerable<CommentViewModel> Comments { get; set; }
         public DateTimeOffset TakenDate { get; set; }
         public EditDestinationFormViewModel EditDestinationForm { get; set; }
         public string TimeAgo
@@ -36,12 +38,14 @@ namespace Footprints.ViewModels
         {
             var DestinationID = Guid.NewGuid();
             var JourneyID = Guid.NewGuid();
-            var Place = new Models.Place {
+            var Place = new Models.Place
+            {
                 PlaceID = "ChIJbQilLLNUNDER5Der2CkuxqM",
                 Latitude = 21.028529,
-                Longitude = 105.78225999999995
+                Longitude = 105.78225999999995,
+                Name = "Some place"
             };
-            
+
             return new DestinationViewModel
             {
                 AuthorID = Guid.NewGuid(),
@@ -82,9 +86,20 @@ namespace Footprints.ViewModels
                         URL = "../assets/images/gallery-2/6.jpg"
                     }
                 },
-                Description = @"This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content",
+                Comments = new List<CommentViewModel>{
+                    new CommentViewModel{
+                        UserCommentId = Guid.NewGuid(),
+                        NumberOfLike = 12,
+                        Content = "this is a sample content",
+                        Time = DateTimeOffset.Now,
+                        UserCommentName = "Nhân Trịnh",
+                        UserAvatarURL = "../assets/images/people/80/2.jpg"
+                    }
+                },
+                Description = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, aspernatur ut ....",
                 Place = Place,
-                EditDestinationForm = new EditDestinationFormViewModel {
+                EditDestinationForm = new EditDestinationFormViewModel
+                {
                     DestinationID = DestinationID,
                     JourneyID = JourneyID,
                     PlaceID = Place.PlaceID,

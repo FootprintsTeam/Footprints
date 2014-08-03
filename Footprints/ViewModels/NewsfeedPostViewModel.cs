@@ -53,9 +53,10 @@ namespace Footprints.ViewModels
     public class CommentViewModel
     {
         public Guid UserCommentId { get; set; }
+        public string UserAvatarURL { get; set; }
         public string UserCommentName { get; set; }
         public string Content { get; set; }
-        public DateTime Time { get; set; }
+        public DateTimeOffset Time { get; set; }
         public int NumberOfLike { get; set; }
         public string TimeAgo
         {
