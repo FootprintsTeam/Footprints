@@ -33,7 +33,7 @@ namespace Footprints
 
             //Template scripts            
             bundles.Add(new ScriptBundle("~/script/core").Include("~/assets/library/jquery/jquery.min.js", "~/assets/library/modernizr/modernizr.js"));
-            bundles.Add(new ScriptBundle("~/script/dependency").Include(                 
+            bundles.Add(new ScriptBundle("~/script/dependency").Include(
                 "~/assets/library/bootstrap/js/bootstrap.min.js",
                 "~/assets/library/jquery/jquery-migrate.min.js",
                 "~/assets/components/maps_google/maps-google.init.js"
