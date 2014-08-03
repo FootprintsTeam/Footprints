@@ -255,6 +255,7 @@
     <Compile Include="Models\Destination.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Journey.cs" />
+    <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\PersonalViewModel.cs" />
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Report.cs" />

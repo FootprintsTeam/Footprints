@@ -14,11 +14,11 @@ namespace Footprints.Areas.Media
 
         public override void RegisterArea(AreaRegistrationContext context)
         {
-            context.MapRoute(
-                "Media_default",
-                "Media/{controller}/{action}/{id}",
-                new { controller="Media1",action="Index",id=UrlParameter.Optional}
-                );
+            //context.MapRoute(
+            //    "Media_default",
+            //    "Media/{controller}/{action}/{id}",
+            //    new { controller="Media1",action="Index",id=UrlParameter.Optional}
+            //    );
         }
     }
 }

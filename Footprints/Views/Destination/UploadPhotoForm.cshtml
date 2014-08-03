@@ -1,6 +1,11 @@
-﻿@Styles.Render("~/css/fileupload")
+﻿@model Footprints.ViewModels.ImageViewModel
+
+@Styles.Render("~/css/fileupload")
 @using (Html.BeginForm("AddPhoto", "Media", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
-{
+{       
+    
+    @Html.Hidden("ReturnUrl", Model.ReturnUrl) 
+    @Html.Hidden("MasterID",Model.MasterID)
     @Html.Hidden("AlbumID", Guid.NewGuid())
     <div class="row fileupload-buttonbar">
         <span class="btn btn-success fileinput-button">

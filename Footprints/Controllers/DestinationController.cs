@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Web.Security;
-using Footprints.ViewModels;
+
 namespace Footprints.Controllers
 {
     public class DestinationController : Controller
@@ -77,7 +77,17 @@ namespace Footprints.Controllers
             var data = new List<CommentViewModel>();
             data.Add(comment);
              return Json(data, JsonRequestBehavior.DenyGet);
-        } 
-   
+        }
+
+        public ActionResult AddNewPhoto() {
+            var photoContent = TempData["FileInfoList"];
+            var destinationId = TempData["MasterID"];
+            //add Content here
+
+            //delete temporary data
+            TempData.Remove("FileInfoList");
+            TempData.Remove("MasterID");
+            return View();
+        }
     }
 }

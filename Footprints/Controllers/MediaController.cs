@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-
+using Footprints.ViewModels;
 namespace Footprints.Controllers
 {
     public class MediaController : Controller
@@ -44,6 +44,7 @@ namespace Footprints.Controllers
             return View(AlbumDetailsViewModel.GetSampleObject());
         }
 
+
         public ActionResult AddPhoto()
         {
             FileInfoList fileInfoList = new FileInfoList();
@@ -78,17 +79,17 @@ namespace Footprints.Controllers
                 {
                     fileInfoItem.error = ERROR_MESSAGE;
                 }
+                // nhan added
+                TempData["FileInfoList"] = fileInfoList;
+                TempData["MasterID"] = Request.Form["MasterID"];
             }
             catch (Exception e)
             {
                 fileInfoItem.error = ERROR_MESSAGE;
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
             }
-            finally
-            {
 
-            }
-            return Json(fileInfoList);
+            return Redirect(Request.Form["ReturnUrl"]);
         }
 
 
