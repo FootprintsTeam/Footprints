@@ -45,6 +45,11 @@ namespace Footprints.Common
         /// <returns>new resized/rotated Image instance</returns>
         public static Image Resize(Image image, int width, int height)
         {
+            if (image.Size.Width <= width && image.Size.Height <= height)
+            {
+                return (Image)image.Clone();
+            }
+
             // clone the Image instance, since we don't want to resize the original Image instance
             var rotatedImage = image.Clone() as Image;
             var newSize = CalculateResizedDimensions(rotatedImage, width, height);
