@@ -209,6 +209,10 @@
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
     <Compile Include="Common\UserMigrator.cs" />
+    <Compile Include="Common\ImageProcessor.cs" />
+    <Compile Include="Common\ImageUtil.cs" />
+    <Compile Include="Common\JsonModel\FileInfoList.cs" />
+    <Compile Include="Common\MultipartParser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
@@ -822,6 +826,8 @@
     <Content Include="assets\css\docs\module.examples.page.widget-stats-5.min.css" />
     <Content Include="assets\css\docs\module.examples.page.widget-stats-6.min.css" />
     <Content Include="assets\css\docs\module.examples.page.wysihtml5.min.css" />
+    <Content Include="assets\components\jquery_fileupload\jquery.fileupload-ui.css" />
+    <Content Include="assets\components\jquery_fileupload\jquery.fileupload.css" />
     <Content Include="assets\images\avatar-2-large.jpg" />
     <Content Include="assets\images\avatar-36x36.jpg" />
     <Content Include="assets\images\avatar-51x51.jpg" />
@@ -1077,6 +1083,27 @@
     <Content Include="assets\images\social\100\3.jpg" />
     <Content Include="assets\images\survey-1.jpg" />
     <Content Include="assets\images\survey-3.jpg" />
+    <Content Include="assets\plugins\jquery\app.js" />
+    <Content Include="assets\plugins\jquery\bootstrap.js" />
+    <Content Include="assets\plugins\jquery\bootstrap.min.js" />
+    <Content Include="assets\plugins\jquery\canvas-to-blob.min.js" />
+    <Content Include="assets\plugins\jquery\cors\jquery.postmessage-transport.js" />
+    <Content Include="assets\plugins\jquery\cors\jquery.xdr-transport.js" />
+    <Content Include="assets\plugins\jquery\jquery.blueimp-gallery.min.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-angular.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-audio.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-image.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-jquery-ui.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-process.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-ui.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-validate.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload-video.js" />
+    <Content Include="assets\plugins\jquery\jquery.fileupload.js" />
+    <Content Include="assets\plugins\jquery\jquery.iframe-transport.js" />
+    <Content Include="assets\plugins\jquery\load-image.min.js" />
+    <Content Include="assets\plugins\jquery\main.js" />
+    <Content Include="assets\plugins\jquery\tmpl.min.js" />
+    <Content Include="assets\plugins\jquery\vendor\jquery.ui.widget.js" />
     <Content Include="assets\library\angular\angular-animate.js" />
     <Content Include="assets\library\angular\angular.min.js" />
     <Content Include="assets\library\animate\animate.min.css" />
@@ -2556,6 +2583,7 @@
     <Content Include="Areas\Journey\Views\Journey\Index.cshtml" />
     <Content Include="Views\Journey\AddNewDestinationForm.cshtml" />
     <Content Include="Views\Destination\EditDestinationForm.cshtml" />
+    <Content Include="Views\Destination\UploadPhotoForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
