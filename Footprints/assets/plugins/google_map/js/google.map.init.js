@@ -11,10 +11,12 @@ var placeTypes = ["accounting", "airport", "amusement_park", "aquarium", "art_ga
 var frmDestination = document.forms['frmDestination'];
 var txtDestinationName = frmDestination.elements["Name"];
 var hdDestinationPlaceId = frmDestination.elements["PlaceID"];
-var hdDestinationLocation = frmDestination.elements["Location"];
 var hdDestinationLatitude = frmDestination.elements["Latitude"];
 var hdDestinationLongitude = frmDestination.elements["Longitude"];
 var hdDestinationReference = frmDestination.elements["Reference"];
+
+var myCenter = new google.maps.LatLng(53, -1.33);
+
 function initialize() {
     psContainer = document.getElementById('sp-container');
 
@@ -23,7 +25,7 @@ function initialize() {
             center: new google.maps.LatLng(-33.8688, 151.2195),
             zoom: 17
         };
-        var mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptionsDestinations);
+        mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptionsDestinations);
     }
 
     var mapOptions = {
@@ -31,7 +33,6 @@ function initialize() {
         zoom: 17
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
     pacinput = /** @type {HTMLInputElement} */(
         document.getElementById('pac-input'));
 
@@ -84,7 +85,6 @@ function initialize() {
 
         txtDestinationName.value = place.name;
         hdDestinationPlaceId.value = place.place_id;
-        //hdDestinationLocation.value = place.geometry.location;
         hdDestinationLatitude.value = place.geometry.location.lat();
         hdDestinationLongitude.value = place.geometry.location.lng();
         if (place.reference && place.reference != null) {
@@ -96,31 +96,32 @@ function initialize() {
     });
 
     google.maps.event.addListener(map, 'click', function (event) {
+        infowindow.close();
+        hdDestinationPlaceId.value = '';
+        hdDestinationReference.value = '';
         marker.setPosition(event.latLng);
+        hdDestinationLatitude.value = marker.position.lat();
+        hdDestinationLongitude.value = marker.position.lng();
         nearbySearch(event.latLng);
     });
-    google.maps.event.addListenerOnce(map, 'idle', function () {
-        google.maps.event.trigger(map, 'resize');
-    });
-    google.maps.event.trigger(map, "resize");
-    google.maps.event.trigger(mapDestinations, "resize");
 
     //search place when click on POI
-    var fx = google.maps.InfoWindow.prototype.setPosition;
-    google.maps.InfoWindow.prototype.setPosition = function () {
-        $("#sp-container").hide();
-        if (this.logAsInternal) {
-            google.maps.event.addListenerOnce(this, 'map_changed', function () {
-                var map = this.getMap();
-                if (map) {
-                    marker.setPosition(this.getPosition());
-                    searchExactlyPlace(this.getPosition());
-                }
-            });
+    var fx = google.maps.InfoWindow.prototype.setContent;
+    //override the built-in setContent-method
+    google.maps.InfoWindow.prototype.setContent = function (content) {
+        //when argument is a node
+        if (content.querySelector) {
+            var name = content.querySelector('.gm-title');
+            if (name) {
+                document.getElementById('pac-input').blur();
+                document.getElementById('pac-input').value = name.textContent;
+                document.getElementById('pac-input').focus();
+            }
         }
+        //run the original setContent-method
         fx.apply(this, arguments);
-        infowindow.close();
-    }
+    };
+
 }
 
 function nearbySearch(location) {
@@ -139,23 +140,6 @@ function nearbySearch_callback(responses, status) {
     nearbyPlaces = responses;
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         displaySuggestionPlaces();
-    }
-}
-function searchExactlyPlace(location) {
-    map.panTo(location);
-    placeService = new google.maps.places.PlacesService(map);
-    var request = {
-        location: location,
-        radius: 5,
-        RankBy: google.maps.places.RankBy.DISTANCE,
-        types: placeTypes
-    };
-    placeService.nearbySearch(request, searchExactlyPlace_callback);
-}
-function searchExactlyPlace_callback(responses, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK && responses && responses.length > 0) {
-        marker.setPosition(responses[0].geometry.location);
-        map.panTo(responses[0].geometry.location);
     }
 }
 function displaySuggestionPlaces() {
@@ -209,10 +193,27 @@ $(function () {
         moveToSuggestionPlace();
         txtDestinationName.value = this.innerHTML;
         hdDestinationPlaceId.value = $(this).attr("place_id");
-        //hdDestinationLocation.value = $(this).attr("location");
         hdDestinationLatitude.value = $(this).attr("latitude");
         hdDestinationLongitude.value = $(this).attr("longitude");
         hdDestinationReference.value = $(this).attr("reference");
         $("#sp-container").hide();
     });
 });
+
+google.maps.event.addDomListener(window, "resize", resizingMap());
+
+$('#edit-destination-modal').on('show.bs.modal', function() {
+   resizeMap();
+})
+
+function resizeMap() {
+   if(typeof map =="undefined") return;
+   setTimeout( function(){resizingMap();} , 400);
+}
+
+function resizingMap() {
+   if(typeof map =="undefined") return;
+   var center = map.getCenter();
+   google.maps.event.trigger(map, 'resize');
+   map.setCenter(center); 
+}

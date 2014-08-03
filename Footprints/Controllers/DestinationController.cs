@@ -87,7 +87,7 @@ namespace Footprints.Controllers
             //delete temporary data
             TempData.Remove("FileInfoList");
             TempData.Remove("MasterID");
-            return View();
+            return Json(photoContent);
         }
     }
 }
