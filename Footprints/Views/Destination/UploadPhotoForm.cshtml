@@ -3,7 +3,7 @@
 @Styles.Render("~/css/fileupload")
 @using (Html.BeginForm("AddPhoto", "Media", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
 {       
-    
+    @Html.AntiForgeryToken()
     @Html.Hidden("ReturnUrl", Model.ReturnUrl) 
     @Html.Hidden("MasterID",Model.MasterID)
     @Html.Hidden("AlbumID", Guid.NewGuid())

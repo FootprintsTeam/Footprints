@@ -5,10 +5,12 @@
 <div class="container">
     <div class="innerAll">
         <div class="row">
+	    @*Timeline cover*@
+            @{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}
+        </div>
+        <div class="row">
             <div class="col-lg-9 col-md-8">
 
-                @*Timeline cover*@
-                @{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}
                 <div class="widget widget-gallery" data-toggle="collapse-widget">
                     <div class="widget-head"><h4 class="heading">Photo Gallery</h4></div>
                     <div class="widget-body">
@@ -16,22 +18,14 @@
                         <!-- Tabs -->
                         <div class="tabsbar">
                             <ul>
-                                <li class="glyphicons camera @(ViewBag.ActiveTab == "AllPhotos" ? "active" : "")"><a href=""><i></i> View all photos <strong>(@ViewBag.NumberOfPhotos)</strong></a></li>
-                                <li class="glyphicons folder_open @(ViewBag.ActiveTab == "Albums" ? "active" : "")"><a href=""><i></i> Albums <strong>(@ViewBag.NumberOfAlbums)</strong></a></li>
+                                <li class="glyphicons camera  @(ViewBag.ActiveTab == "AllPhotos" ? "active" : "")"><a href="@Url.Action("Index", "Media")"><i></i> View all photos <strong>(@ViewBag.NumberOfPhotos)</strong></a></li>
+                                <li class="glyphicons folder_open @(ViewBag.ActiveTab == "Albums" ? "active" : "")"><a href="@Url.Action("Albums", "Media")"><i></i> Albums <strong>(@ViewBag.NumberOfAlbums)</strong></a></li>
                                 <li class="glyphicons circle_plus tab-stacked @(ViewBag.ActiveTab == "AddPhotos" ? "active" : "")"><a href=""><i></i> <span>Add Photos</span></a></li>
                                 <li class="glyphicons folder_plus tab-stacked @(ViewBag.ActiveTab == "CreateAlbum" ? "active" : "")"><a href=""><i></i> <span>Create Album</span></a></li>
                             </ul>
                         </div>
                         <!-- // Tabs END -->
                         @RenderBody()
-                        <!-- Pagination -->
-                        <div class="btn-group">
-                            <a class="btn disabled btn-small btn-default glyphicons standard chevron-left"><i></i></a>
-                            <a class="btn btn-small btn-default glyphicons standard chevron-right"><i></i></a>
-                        </div>
-                        <span class="innerLR">1-6 out of @Model.NumberOfPhotos</span>
-                        <!-- // Pagination END -->
-
                     </div>
                 </div>
             </div>
@@ -107,24 +101,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Widget -->
-                <div class="widget widget-heading-simple widget-body-white">
-
-                    <!-- Widget Heading -->
-                    <div class="widget-head">
-                        <h4 class="heading glyphicons glyphicons-social twitter"><i></i>Twitter feed</h4>
-                    </div>
-                    <!-- // Widget Heading END -->
-
-                    <div class="widget-body" data-builder-exclude="element children">
-                        <div class="jstwitter" data-gridalicious="false" data-type="slide" data-images="false"><span class="label label-default">Loading .. </span></div>
-                    </div>
-                </div>
-                <!-- // Widget END -->
-
-
-
             </div>
         </div>
     </div>

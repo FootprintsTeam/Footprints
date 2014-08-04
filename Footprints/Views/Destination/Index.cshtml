@@ -2,8 +2,8 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.DestinationID = Model.DestinationID;
 }
-
 @Styles.Render("~/css/destination")
 <div class="container">
     <div class="innerAll">
@@ -47,7 +47,7 @@
                 @*description area*@
                 @{Html.RenderPartial("DestinationDescriptionWidget");}
                 @*comment area*@
-                @{Html.RenderPartial("CommentSection");}
+                @{Html.RenderPartial("CommentSection", Model.Comments);}
 
                 @*Side Area*@
                 <div class="col-lg-3 col-md-4">
@@ -96,7 +96,8 @@
             <div class="modal-footer">
                 @using (Html.BeginForm("Delete", "Destination", FormMethod.Post, new { @name = "frmDeleteDestination", @role = "form" }))
                 {
-                    <input type="hidden" name="id" value="@Model.DestinationID" />
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.DestinationID"/>
                     <input type="hidden" name="JourneyID" value="@Model.JourneyID" />
                     <button class="btn btn-primary" type="submit"> Confirm</button>
                     <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
@@ -109,7 +110,7 @@
 </div>
 <!-- // Modal END -->
 
-<div id="delete-photo-modal" class="modal fade">
+<div id="delete-photo-modal" class="modal fade" >
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -135,7 +136,8 @@
             <div class="modal-footer">
                 @using (Html.BeginForm("DeletePhoto", "Media", FormMethod.Post, new { @name = "frmDeletePhoto", @role = "form" }))
                 {
-                    <input type="hidden" name="id" />
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id"/>
                     <button class="btn btn-primary" type="submit"> Confirm</button>
                     <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 }

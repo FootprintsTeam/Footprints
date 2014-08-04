@@ -45,6 +45,7 @@ namespace Footprints.Controllers
         }
 
 
+        [ValidateAntiForgeryToken]
         public ActionResult AddPhoto()
         {
             FileInfoList fileInfoList = new FileInfoList();

@@ -1,6 +1,10 @@
 ﻿@model Footprints.ViewModels.AlbumDetailsViewModel
 <div class="widget widget-gallery" data-toggle="collapse-widget">
-    <div class="widget-head"><h4 class="heading">@Model.AlbumName - @Model.DestinationName - @Model.JourneyName</h4></div>
+    <div class="widget-head">
+        @*<h4 class="heading">@Model.AlbumName - @Model.DestinationName - @Model.JourneyName</h4>*@
+        @Html.ActionLink(@Model.AlbumName, "Index", new { controller = "Destination" }, new { @class = "pull-left text-inverse innerL" })
+        <span class="pull-right text-inverse">@Model.NumberOfPhotos <i class="fa fa-fw fa-camera"></i></span>
+    </div>
     <div class="widget-body">
         <!-- Gallery Layout -->
         <div class="gallery gallery-2">
