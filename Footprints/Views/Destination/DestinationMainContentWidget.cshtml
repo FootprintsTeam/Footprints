@@ -1,5 +1,7 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
 @using Footprints.ViewModels
+
+
 <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
 
     <div class="widget-body">
@@ -75,8 +77,8 @@
         </ul>
 
         <div class="innerAll pull-right">
-            <a href="#" class="innerLR"><i class="fa fa-2x fa-thumbs-o-up"></i> <span>Like</span></a>
-            <a href="#" class="innerLR"><i class="fa fa-2x fa-share-square-o"></i> <span>Share</span></a>
+            <a href="#" class="innerLR" id="like-btn"><i class="fa fa-2x fa-thumbs-o-up"></i> <span>Like</span></a>
+            <a href="#" class="innerLR" id="share-btn"><i class="fa fa-2x fa-share-square-o"></i> <span>Share</span></a>
             <a href="#"><i class="fa fa-2x fa-facebook-square"></i> <span>Facebook</span></a>
         </div>
     </div>
@@ -94,9 +96,5 @@
             }
         };
 
-    })();
-
-    $(document).ready(function () {
-        AccountSetupForm.init();
-    });
+    })();    
 </script>
