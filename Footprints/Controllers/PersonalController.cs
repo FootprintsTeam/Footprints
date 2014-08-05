@@ -32,7 +32,7 @@ namespace Footprints.Controllers
         {
             var model = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
-
+            
             //var model = PersonalViewModel.GetSampleObject();            
             return View(viewModel);            
         }

@@ -11,7 +11,7 @@ namespace Footprints.ViewModels
     {
         public Guid UserID { get; set; }
         public string AuthorName { get; set; }
-        public Guid JourneyId { get; set; }
+        public Guid JourneyID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTimeOffset TakenDate { get; set; }
@@ -34,7 +34,7 @@ namespace Footprints.ViewModels
             {
                 UserID = Guid.NewGuid(),
                 AuthorName = "Author Name",
-                JourneyId = Guid.NewGuid(),
+                JourneyID = Guid.NewGuid(),
                 Name = "Journey Name",
                 Description = "Journey Description",
                 TakenDate = DateTime.Now,

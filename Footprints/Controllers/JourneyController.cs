@@ -26,6 +26,7 @@ namespace Footprints.Controllers
         public ActionResult Index()
         {
             var model = JourneyViewModel.GetSampleObject();
+            model.JourneyID = new Guid("54088c27-11b8-4c3a-8919-d86c5620964b");
             return View("Index", model);
         }
         //
@@ -111,17 +112,20 @@ namespace Footprints.Controllers
         //
         // POST: /Journey/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(FormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                var jouneyID = new Guid(Request.Form["JourneyID"] as string);
+                var result = journeyService.DeleteJourney(new Guid(User.Identity.GetUserId()), jouneyID);
+                if (result) { 
+                return Content("success");
+                } else return Content ("fail");
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                return Content(e.Message);
             }
         }
     }
