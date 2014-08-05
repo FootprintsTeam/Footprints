@@ -1,7 +1,7 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
 @using Microsoft.AspNet.Identity;
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Destination";
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.DestinationID = Model.DestinationID;
 }
@@ -209,7 +209,6 @@
 
             $(this).find("i").removeClass("fa-share-square-o");
             $(this).find("i").addClass("fa-check-square-o");
-
             //send http request
         }
     });
