@@ -14,9 +14,12 @@ namespace Footprints.Controllers
     public class DestinationController : Controller
     {
         IDestinationService destinationService;
-        public DestinationController(IDestinationService destinationService)
+        ICommentService commentService;
+        IUserService userService;
+        public DestinationController(IDestinationService destinationService, ICommentService commentService)
         {
             this.destinationService = destinationService;
+            this.commentService = commentService;
         }
 
         //
@@ -25,6 +28,13 @@ namespace Footprints.Controllers
         {
             var model = Footprints.ViewModels.DestinationViewModel.GetSampleObject();
             return View(model);
+        }
+
+        public ActionResult Index(Guid destinationID) {
+            var destinationModel = destinationService.GetDestination(destinationID);
+            var comments = commentService.RetrieveDestinationComment(destinationID);
+            //implementing
+            return View();
         }
 
         //
@@ -88,6 +98,10 @@ namespace Footprints.Controllers
             TempData.Remove("FileInfoList");
             TempData.Remove("MasterID");
             return Json(photoContent, JsonRequestBehavior.AllowGet);
+        }
+
+        public string LikeUnlike(Guid userID, Guid destinationID) { 
+            return "Success";
         }
     }
 }

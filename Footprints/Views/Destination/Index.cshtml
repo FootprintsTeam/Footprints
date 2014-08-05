@@ -1,4 +1,5 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
+@using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -160,27 +161,38 @@
             $(this).find("i").removeClass('fa-thumbs-o-up');
             $(this).find("i").addClass('fa-thumbs-o-down');
 
-            var likeSpanHtml = $("#like-number");
-            var numberOfLike = parseInt(likeSpanHtml.html());
-            numberOfLike = numberOfLike + 1;
-            if (numberOfLike != "NaN")
-                likeSpanHtml.html(numberOfLike.toString());
-
             //submit http request
-
+            $.get("@Url.Action("LikeUnlike",new {controller = "Destination"})",
+                { userID: "@User.Identity.GetUserId()", destinationID: "@Model.DestinationID" },
+                function (data) {
+                    if (data == "Success") {
+                        var likeSpanHtml = $("#like-number");
+                        var numberOfLike = parseInt(likeSpanHtml.html());
+                        numberOfLike = numberOfLike + 1;
+                        if (numberOfLike != "NaN")
+                            likeSpanHtml.html(numberOfLike.toString());
+                    }
+                });
         }
         else {
             $(this).find("span").html('Like');
             $(this).find("i").removeClass('fa-thumbs-o-down');
             $(this).find("i").addClass('fa-thumbs-o-up');
 
-            var likeSpanHtml = $("#like-number");
-            var numberOfLike = parseInt(likeSpanHtml.html());
-            numberOfLike = numberOfLike - 1;
-            if (numberOfLike != "NaN")
-                likeSpanHtml.html(numberOfLike.toString());
+
+
             //submit http request
-            
+            $.get("@Url.Action("LikeUnlike",new {controller = "Destination"})",
+                { userID: "@User.Identity.GetUserId()", destinationID: "@Model.DestinationID" },
+                function (data) {
+                    if (data == "Success") {
+                        var likeSpanHtml = $("#like-number");
+                        var numberOfLike = parseInt(likeSpanHtml.html());
+                        numberOfLike = numberOfLike - 1;
+                        if (numberOfLike != "NaN")
+                            likeSpanHtml.html(numberOfLike.toString());
+                    }
+                });
         }
         return false;
     });
@@ -197,6 +209,7 @@
 
             $(this).find("i").removeClass("fa-share-square-o");
             $(this).find("i").addClass("fa-check-square-o");
+
             //send http request
         }
     });
