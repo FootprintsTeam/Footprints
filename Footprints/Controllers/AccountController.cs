@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Footprints.Models;
 using Footprints.Services;
+using Footprints.Common;
 
 namespace Footprints.Controllers
 {
@@ -90,10 +91,21 @@ namespace Footprints.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);                    
+                    await SignInAsync(user, isPersistent: false);
 
                     //add neo4j user here
-                    userService.AddNewUser(new User { UserID = new Guid(user.Id), Email = user.Email, Status = Footprints.Models.StatusEnum.Active });
+                    userService.AddNewUser(
+                        new User
+                        {
+                            UserID = new Guid(user.Id),
+                            Email = user.Email,
+                            Status = Footprints.Models.StatusEnum.Active,
+                            UserName = user.UserName,
+                            ProfilePicURL = Constant.defaultAvatarUrl,
+                            CoverPhotoUrl = Constant.defaultCoverUrl,
+                            JoinDate = DateTimeOffset.Now,
+                            
+                        });
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -104,7 +116,7 @@ namespace Footprints.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("Login","Account");
+            return RedirectToAction("Login", "Account");
         }
 
         //

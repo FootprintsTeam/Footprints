@@ -5,21 +5,31 @@ using System.Web;
 using System.Web.Mvc;
 using Footprints.ViewModels;
 using Footprints.Services;
-
+using AutoMapper;
+using Footprints.Models;
 namespace Footprints.Controllers
 {
     public class JourneyController : Controller
     {
         IJourneyService journeyService;
-        public JourneyController(IJourneyService journeyService) {
+        IDestinationService destinationService;
+        IUserService userService;
+        public JourneyController(IJourneyService journeyService,IDestinationService destinationService, IUserService userService)
+        {
             this.journeyService = journeyService;
+            this.destinationService = destinationService;
+            this.userService = userService;
         }
         //
         // GET: /Journey/
-        public ActionResult Index()
+        public ActionResult Index(Guid journeyID)
         {
-            var model = JourneyViewModel.GetSampleObject();
-            return View(model);
+            var journeyModel = journeyService.GetJourneyDetail(journeyID);
+            var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
+            foreach(Destination d in journeyModel.Destinations){
+                journeyViewModel.Destinations.Add(Mapper.Map<Destination,DestinationViewModel>(d));
+            }
+            return View(journeyViewModel);
         }
 
         //
@@ -33,8 +43,8 @@ namespace Footprints.Controllers
         // GET: /Journey/Create
         public ActionResult Create(AddNewJourneyViewModel model)
         {
-            journeyService.AddJourney(model);
-            return View();
+            journeyService.AddJourney(model);            
+            return RedirectToAction("Index", "Journey", new { model.JourneyID});
         }
 
         //

@@ -21,6 +21,7 @@ namespace Footprints.Models
         public StatusEnum Status { get; set; }
         public DateTimeOffset JoinDate { get; set; }
         public String ProfilePicURL { get; set; }
+        public String CoverPhotoUrl { get; set; }
         public String DisplayName()
         {
             return FirstName + " " + LastName;

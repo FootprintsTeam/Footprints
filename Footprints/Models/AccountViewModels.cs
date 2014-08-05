@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Footprints.Common;
 
 namespace Footprints.Models
 {
@@ -62,5 +63,8 @@ namespace Footprints.Models
 
         [DataType(DataType.EmailAddress)]        
         public string Email { get; set; }
+
+        [Required]
+        public  Genre Genre{ get; set; }
     }
 }

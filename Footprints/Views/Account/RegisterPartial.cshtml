@@ -1,4 +1,5 @@
 ﻿@model Footprints.Models.RegisterViewModel
+           @using Footprints.Common;
 
 <form action="@Url.Action("Register","Account")" style="margin:30px 30px" method="post">
 
@@ -34,6 +35,18 @@
 
         @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Your Email" })
         @Html.ValidationMessageFor(model => model.Email)
+
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-4 text-inverse">
+                @Html.RadioButtonFor(model => model.Genre, Genre.Male) <h4 style="color:#fff;display:inline">Male</h4>
+            </div>
+            <div class="col-md-4 text-inverse">
+                @Html.RadioButtonFor(model => model.Genre, Genre.Female) <h4 style="color: #fff; display: inline">Female</h4>
+            </div>
+        </div>
 
     </div>
 
