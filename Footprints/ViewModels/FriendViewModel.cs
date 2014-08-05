@@ -8,6 +8,8 @@ namespace Footprints.ViewModels
 {
     public class FriendViewModel
     {
+        public Guid UserID { get; set; }
+        public String UserName { get; set; }
         public IEnumerable<FriendItemViewModel> FriendList { get; set; }
         public static FriendViewModel GetSampleObject()
         {
@@ -18,9 +20,44 @@ namespace Footprints.ViewModels
             }
             return new FriendViewModel()
             {
+                UserID = Guid.NewGuid(),
+                UserName = "Vi Ngọc Hùng",
                 FriendList = list
             };
-
         }
     }
+    public class FriendItemViewModel
+    {
+        public Guid UserID { get; set; }
+        public String UserName { get; set; }
+        public DateTime Time { get; set; }
+        public String ProfilePictureUrl { get; set; }
+        public static FriendItemViewModel GetSampleObject()
+        {
+            return new FriendItemViewModel()
+            {
+                UserID = Guid.NewGuid(),
+                UserName = "Hùng Vi",
+                Time = DateTime.Now,
+                ProfilePictureUrl = "../assets/images/people/100/22.jpg"
+            };
+        }
+    }
+
+    public class AddFriendViewModel
+    {
+        [Required]
+        public Guid UserID { get; set; }
+        [Required]
+        public Guid FriendID { get; set; }
+    }
+
+    public class UnfriendViewModel
+    {
+        [Required]
+        public Guid UserID { get; set; }
+        [Required]
+        public Guid FriendID { get; set; }
+    }
+
 }
