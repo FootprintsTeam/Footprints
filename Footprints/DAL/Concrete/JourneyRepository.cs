@@ -42,7 +42,7 @@ namespace Footprints.DAL.Concrete
                     result = item.journey;
                     first = false;
                 }
-                if (currentDestination == null)
+                if (currentDestination.DestinationID == null)
                 {
                     currentDestination = item.destination;
                     currentDestination.Place = item.place;
