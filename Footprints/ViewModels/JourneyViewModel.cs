@@ -9,7 +9,7 @@ namespace Footprints.ViewModels
 {
     public class JourneyViewModel
     {
-        public Guid AuthorId { get; set; }
+        public Guid UserID { get; set; }
         public string AuthorName { get; set; }
         public Guid JourneyId { get; set; }
         public string Name { get; set; }
@@ -20,8 +20,8 @@ namespace Footprints.ViewModels
         public int NumberOfDestinations { get; set; }
         public int NumberOfPhotos { get; set; }
         public CoverPhoto CoverPhoto { get; set; }
-        public IEnumerable<DestinationViewModel> Destinations { get; set; }
-        public IEnumerable<CommentViewModel> Comments { get; set; }
+        public IList<DestinationViewModel> Destinations { get; set; }
+        public IList<CommentViewModel> Comments { get; set; }
         public string TimeAgo
         {
             get { return DateTimeFormat.TimeAgo(this.TakenDate); }
@@ -32,7 +32,7 @@ namespace Footprints.ViewModels
         {
             return new JourneyViewModel
             {
-                AuthorId = Guid.NewGuid(),
+                UserID = Guid.NewGuid(),
                 AuthorName = "Author Name",
                 JourneyId = Guid.NewGuid(),
                 Name = "Journey Name",

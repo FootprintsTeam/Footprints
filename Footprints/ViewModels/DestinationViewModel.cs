@@ -10,8 +10,8 @@ namespace Footprints.ViewModels
 {
     public class DestinationViewModel
     {
-        public Guid AuthorID { get; set; }
-        public String AuthorName { get; set; }
+        public Guid UserID { get; set; }
+        public String UserName { get; set; }
         public int NumberOfJourneys { get; set; }
         public int NumberOfDestinations { get; set; }
         public int NumberOfFriends { get; set; }
@@ -48,8 +48,8 @@ namespace Footprints.ViewModels
 
             return new DestinationViewModel
             {
-                AuthorID = Guid.NewGuid(),
-                AuthorName = "Hùng Vi",
+                UserID = Guid.NewGuid(),
+                UserName = "Hùng Vi",
                 NumberOfJourneys = 22,
                 NumberOfDestinations = 120,
                 NumberOfFriends = 200,

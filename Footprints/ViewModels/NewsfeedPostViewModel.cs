@@ -63,7 +63,7 @@ namespace Footprints.ViewModels
             get { return DateTimeFormat.TimeAgo(this.Time); }
             private set { }
         }
-        public static IEnumerable<CommentViewModel> GetSampleObject()
+        public static IList<CommentViewModel> GetSampleObject()
         {
             var sample = new CommentViewModel { UserCommentId = Guid.NewGuid(), Content = "đây là một comment", Time = DateTime.Now, NumberOfLike = 10, UserCommentName = "Chiến Thắng" };
             var list = new List<CommentViewModel>();
