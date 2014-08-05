@@ -39,25 +39,25 @@ namespace Footprints.DAL.Concrete
             {
                 if (first) 
                 {
-                    result = item.journey;
+                    if (!item.journey.Equals(null)) result = item.journey;
                     first = false;
                 }
                 if (currentDestination.DestinationID == null)
                 {
-                    currentDestination = item.destination;
-                    currentDestination.Place = item.place;
-                    currentDestination.Contents.Add(item.content);
+                    if (!(item.destination == null)) currentDestination = item.destination;
+                    if (!(item.place == null)) currentDestination.Place = item.place;
+                    if (!(item.content == null)) currentDestination.Contents.Add(item.content);
                 }
                 else if (currentDestination.DestinationID == item.destination.DestinationID)
                 {
-                    currentDestination.Contents.Add(item.content);
+                    if (!(item.content == null)) currentDestination.Contents.Add(item.content);
                 }
                 else
                 {
-                    result.Destinations.Add(currentDestination);
-                    currentDestination = item.destination;
-                    currentDestination.Place = item.place;
-                    currentDestination.Contents.Add(item.content);
+                    if (!(currentDestination.DestinationID == null)) result.Destinations.Add(currentDestination);
+                    if (!(item.destination == null)) currentDestination = item.destination;
+                    if (!(item.place == null)) currentDestination.Place = item.place;
+                    if (!(item.content == null)) currentDestination.Contents.Add(item.content);
                 }
             }
             return result;
