@@ -94,7 +94,6 @@ namespace Footprints.Controllers
         }
 
 
-
         public ActionResult CreateAlbum()
         {
             return View();

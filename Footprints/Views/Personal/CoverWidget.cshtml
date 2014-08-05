@@ -3,20 +3,20 @@
 <div class="timeline-cover">
     <div class="cover image ">
         <div class="top">
-            <img src="@Model.CoverPhotoUrl" class="img-responsive" style="width:100px;height:100px"/>
+            <img src="@Model.CoverPhotoUrl" class="img-responsive" style="width:1130px;height:250px"/>
         </div>
         <ul class="list-unstyled">
             <li><a href="@Url.Action("Index","Personal")"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
-            <li><a href="about_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
-            <li><a href="@Url.Action("","")"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(102)</small></a></li>
-            <li><a href="contacts_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-group"></i> <span>Friends</span> <small>(19)</small></a></li>
-            <li><a href="messages.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-envelope-fill-1"></i> <span>Messages</span> <small>(2 new)</small></a></li>
+            <li><a href="@Url.Action("About","Personal")"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+            <li><a href="@Url.Action("Index","Media")"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(@Model.NumberOfFriend)</small></a></li>
+            <li><a href="@Url.Action("Index","Friend")"><i class="icon-group"></i> <span>Friends</span> <small>(19)</small></a></li>
+            @*<li><a href="messages.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-envelope-fill-1"></i> <span>Messages</span> <small>(2 new)</small></a></li>*@
         </ul>
     </div>
     <div class="widget cover image">
         <div class="widget-body padding-none margin-none">
             <div class="photo">
-                <img src="../assets/images/people/100/22.jpg" class="img-circle" />
+                <img src="@Model.ProfilePicURL" class="img-circle" style="width:100px;height:100px"/>
             </div>
             <div class="innerAll border-right pull-left">
                 <h3 class="margin-none">@Model.UserName</h3>
