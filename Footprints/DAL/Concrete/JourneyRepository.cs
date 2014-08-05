@@ -34,6 +34,7 @@ namespace Footprints.DAL.Concrete
                                   }
                                   ).Results;
             Destination currentDestination = new Destination();
+            Guid defaultGuid = new Guid();
             bool first = true;
             foreach (var item in query)
             {
@@ -42,7 +43,7 @@ namespace Footprints.DAL.Concrete
                     if (!item.journey.Equals(null)) result = item.journey;
                     first = false;
                 }
-                if (currentDestination.DestinationID == null)
+                if (currentDestination.DestinationID.Equals(defaultGuid))
                 {
                     if (!(item.destination == null)) currentDestination = item.destination;
                     if (!(item.place == null)) currentDestination.Place = item.place;
