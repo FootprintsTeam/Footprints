@@ -159,7 +159,7 @@ namespace Footprints.DAL.Concrete
         }
         public IEnumerable<User> GetFriendList(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:FRIEND]->(Friend:User)").Where((User user) => user.UserID == UserID).Return(Friend => Friend.As<User>()).Results;
+            return Db.Cypher.Match("(User:User)-[:FRIEND]-(Friend:User)").Where((User user) => user.UserID == UserID).Return(Friend => Friend.As<User>()).Results;
         }
         public void DeleteAnActivity(Guid ActivityID)
         {
@@ -194,7 +194,7 @@ namespace Footprints.DAL.Concrete
         }
         public long GetNumberOfFriend(Guid UserID)
         {
-            var query = Db.Cypher.Match("(User:User)-[:FRIEND]->(Friend:User)").Where((User User) => User.UserID == UserID).
+            var query = Db.Cypher.Match("(User:User)-[:FRIEND]-(Friend:User)").Where((User User) => User.UserID == UserID).
                         Return((Friend) => new
                         {
                             NumberOfFriend = Friend.Count()
