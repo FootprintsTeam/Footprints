@@ -22,16 +22,43 @@ namespace Footprints.DAL.Concrete
         public Journey GetJourneyDetail(Guid JourneyID)
         {
             Journey result = new Journey();
-            var query = Db.Cypher.Match("(Journey:Journey)-[:HAS*]->(Destination:Destination)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
-                Return((Journey, Destination) => new 
-                {
-                    journey = Journey.As<Journey>(),
-                    destination = Destination.As<Destination>()
-                }).OrderBy("Destination.OrderNumber").Results;
+            var query = Db.Cypher.OptionalMatch("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                                  OptionalMatch("(Journey)-[:HAS*]->(Destination:Destination)").
+                                  OptionalMatch("(Destination)-[:AT]->(Place:Place)").
+                                  OptionalMatch("(Destination)-[:HAS*]->(Content:Content)").Return((Journey, Destination, Place, Content) => new
+                                  {
+                                      journey = Journey.As<Journey>(),
+                                      destination = Destination.As<Destination>(),
+                                      place = Place.As<Place>(),
+                                      content = Content.As<Content>()
+                                  }
+                                  ).Results;
+            Destination currentDestination = new Destination();
+            bool first = true;
             foreach (var item in query)
             {
-                result = item.journey;
-                result.Destinations.Add(item.destination);
+                if (first) 
+                {
+                    result = item.journey;
+                    first = false;
+                }
+                if (currentDestination == null)
+                {
+                    currentDestination = item.destination;
+                    currentDestination.Place = item.place;
+                    currentDestination.Contents.Add(item.content);
+                }
+                else if (currentDestination.DestinationID == item.destination.DestinationID)
+                {
+                    currentDestination.Contents.Add(item.content);
+                }
+                else
+                {
+                    result.Destinations.Add(currentDestination);
+                    currentDestination = item.destination;
+                    currentDestination.Place = item.place;
+                    currentDestination.Contents.Add(item.content);
+                }
             }
             return result;
         }
