@@ -23,10 +23,10 @@ namespace Footprints.DAL.Concrete
         {
             Journey result = new Journey();
             var query = Db.Cypher.Match("(Journey:Journey)-[:HAS*]->(Destination:Destination)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
-                Return((journey, destination) => new 
+                Return((Journey, Destination) => new 
                 {
-                    journey = journey.As<Journey>(),
-                    destination = destination.As<Destination>()
+                    journey = Journey.As<Journey>(),
+                    destination = Destination.As<Destination>()
                 }).OrderBy("Destination.OrderNumber").Results;
             foreach (var item in query)
             {
