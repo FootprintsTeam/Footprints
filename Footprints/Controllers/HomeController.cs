@@ -22,6 +22,13 @@ namespace Footprints.Controllers
             return View();
         }
 
+        public ActionResult QuestionAndAnswer() {
+            return View();
+        }
+
+        public ActionResult Configuration() {
+            return View();  
+        }
         //public ActionResult Contact()
         //{
         //    ViewBag.Message = "Your contact page.";

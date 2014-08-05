@@ -1,12 +1,12 @@
-﻿@*@model Footprints.ViewModels.PersonalViewModel*@
-
+﻿@model Footprints.ViewModels.PersonalViewModel
+@using Footprints.Common;
 @{
     ViewBag.Title = "Personal Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @Styles.Render("~/css/personal")
-<div class="container">
+<div class="container" style="margin-top:60px">
     <div class="innerAll">
         @*Main content*@
         <div class="row">
@@ -15,7 +15,7 @@
                 @{Html.RenderPartial("CoverWidget");}
 
                 @*Timeline mirror*@
-                <h5 class="strong innerAll margin-none">Mirror Timeline</h5>
+                <h5 class="strong innerAll margin-none">Footprints Timeline</h5>
                 <div class="relativeWrap overflow-hidden">
                     <div class="row row-merge border-bottom border-top layout-timeline layout-timeline-mirror">
                         <div class="col-md-6"></div>
@@ -99,30 +99,26 @@
                     <div class="widget-head height-auto">
                         <div class="media innerAll">
                             <a href="" class="pull-right"><i class="fa icon-comment-fill-2"></i></a>
-                            <a href="" class="pull-left"><img src="../assets/images/people/50/8.jpg" alt="" class="img-circle"></a>
+                            <a href="" class="pull-left"><img src="@Model.ProfilePicURL" alt="" class="img-circle" style="width:50px;height:50px"></a>
                             <div class="media-body">
-                                <h4>Emanuel L.</h4>
+                                <h4>@Model.UserName</h4>
                                 <p class="margin-none">Project Manager</p>
                             </div>
                         </div>
                     </div>
                     <ul class="list-unstyled">
                         <li class="innerAll border-bottom">
-                            <span class="badge badge-default pull-right">4</span>
-                            <i class="fa fa-fw icon-user-1"></i> Team Members
+                            <span class="badge badge-default pull-right">@Model.NumberOfJourney</span>
+                            <i class="fa fa-fw icon-user-1"></i> Journeys
                         </li>
                         <li class="innerAll border-bottom">
-                            <span class="badge badge-default pull-right">4</span>
-                            <i class="fa fa-fw fa-dashboard"></i> Active Projects
+                            <span class="badge badge-default pull-right">@Model.NumberOfDestination</span>
+                            <i class="fa fa-fw fa-dashboard"></i> Destinations
                         </li>
                         <li class="innerAll border-bottom">
-                            <span class="badge badge-default bg-primary pull-right">59</span>
-                            <i class="fa fa-fw icon-browser-check"></i> Completed Tasks
-                        </li>
-                        <li class="innerAll border-bottom">
-                            <span class="badge badge-default pull-right">3</span>
-                            <i class="fa fa-fw fa-file-text-o"></i> Files under review
-                        </li>
+                            <span class="badge badge-default bg-primary pull-right">@Model.NumberOfFriend</span>
+                            <i class="fa fa-fw icon-browser-check"></i> Friends
+                        </li>                        
                         <li class="innerAll bg-white text-center">
                             <a href="" class="btn btn-primary btn-sm">View Profile</a>
                         </li>
@@ -144,19 +140,19 @@
                         <div class="row">
                             <div class="col-sm-6">User:</div>
                             <div class="col-sm-6 text-right">
-                                <span class="label label-default">mosaicpro</span>
+                                <span class="label label-default">@Model.UserName</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">Friends:</div>
                             <div class="col-sm-6 text-right">
-                                <span class="label label-default">219</span>
+                                <span class="label label-default">@Model.NumberOfFriend</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">Joined:</div>
                             <div class="col-sm-6 text-right">
-                                <span class="label label-default">2 months ago</span>
+                                <span class="label label-default">@(DateTimeFormat.TimeAgo(Model.JoinDate))</span>
                             </div>
                         </div>
                     </div>
@@ -180,7 +176,7 @@
                     </div>
                     <div class="widget-body padding-none">
                         <div class="innerAll">
-                            <p class=" margin-none"><i class="fa fa-phone fa-fw text-muted"></i> 01 21198478</p>
+                            <p class=" margin-none"><i class="fa fa-phone fa-fw text-muted"></i> @(Model.PhoneNumber != null ? Model.PhoneNumber : "Not Updated Yet")</p>
                         </div>
                         <div class="border-top innerAll">
                             <p class=" margin-none"><i class="fa fa-envelope fa-fw text-muted"></i> Email us</p>

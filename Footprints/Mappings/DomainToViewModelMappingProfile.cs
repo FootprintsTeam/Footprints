@@ -17,6 +17,8 @@ namespace Footprints.Mappings
         protected override void Configure()
         {
             Mapper.CreateMap<User, PersonalAboutViewModel>();
+            Mapper.CreateMap<Journey, JourneyViewModel>();
+            Mapper.CreateMap<User, PersonalViewModel>();
         }
     }
 }

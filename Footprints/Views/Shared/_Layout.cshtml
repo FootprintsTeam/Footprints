@@ -65,7 +65,7 @@
         <!-- Content START -->
         @* Change id to generate form modal *@
         <div id="content-new">
-            @{Html.RenderPartial("MainNavbar");}
+            @{Html.RenderAction("MainNavBar", "Newsfeed");}
             @*Render BODY*@
             @RenderBody()
         </div>

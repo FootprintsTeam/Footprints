@@ -14,11 +14,11 @@ namespace Footprints.ViewModels
         public Guid JourneyId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime TakenDate { get; set; }
-        public int NumberOfLikes { get; set; }
-        public int NumberOfShares { get; set; }
-        public int NumberOfDestinations { get; set; }
-        public int NumberOfPhotos { get; set; }
+        public DateTimeOffset TakenDate { get; set; }
+        public int NumberOfLike { get; set; }
+        public int NumberOfShare { get; set; }
+        public int NumberOfDestination { get; set; }
+        public int NumberOfPhoto { get; set; }
         public CoverPhoto CoverPhoto { get; set; }
         public IList<DestinationViewModel> Destinations { get; set; }
         public IList<CommentViewModel> Comments { get; set; }
@@ -38,10 +38,10 @@ namespace Footprints.ViewModels
                 Name = "Journey Name",
                 Description = "Journey Description",
                 TakenDate = DateTime.Now,
-                NumberOfLikes = 21,
-                NumberOfShares = 4,
-                NumberOfDestinations = 10,
-                NumberOfPhotos = 200,
+                NumberOfLike = 21,
+                NumberOfShare = 4,
+                NumberOfDestination = 10,
+                NumberOfPhoto = 200,
                 CoverPhoto = new CoverPhoto
                 {
                     PhotoId = new Guid(),

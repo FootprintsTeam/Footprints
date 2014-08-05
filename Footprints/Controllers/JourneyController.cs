@@ -7,6 +7,7 @@ using Footprints.ViewModels;
 using Footprints.Services;
 using AutoMapper;
 using Footprints.Models;
+using Microsoft.AspNet.Identity;
 namespace Footprints.Controllers
 {
     public class JourneyController : Controller
@@ -14,20 +15,31 @@ namespace Footprints.Controllers
         IJourneyService journeyService;
         IDestinationService destinationService;
         IUserService userService;
-        public JourneyController(IJourneyService journeyService,IDestinationService destinationService, IUserService userService)
+        public JourneyController(IJourneyService journeyService, IDestinationService destinationService, IUserService userService)
         {
             this.journeyService = journeyService;
             this.destinationService = destinationService;
             this.userService = userService;
         }
+
+        [ActionName("JourneySample")]
+        public ActionResult Index()
+        {
+            var model = JourneyViewModel.GetSampleObject();
+            return View("Index", model);
+        }
         //
         // GET: /Journey/
-        public ActionResult Index(Guid journeyID)
+        public ActionResult Index(string username, Guid journeyID)
         {
             var journeyModel = journeyService.GetJourneyDetail(journeyID);
             var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
-            foreach(Destination d in journeyModel.Destinations){
-                journeyViewModel.Destinations.Add(Mapper.Map<Destination,DestinationViewModel>(d));
+            if (journeyModel.Destinations != null)
+            {
+                foreach (Destination d in journeyModel.Destinations)
+                {
+                    journeyViewModel.Destinations.Add(Mapper.Map<Destination, DestinationViewModel>(d));
+                }
             }
             return View(journeyViewModel);
         }
@@ -41,15 +53,16 @@ namespace Footprints.Controllers
 
         //
         // GET: /Journey/Create
+        [HttpPost]
         public ActionResult Create(AddNewJourneyViewModel model)
         {
-            journeyService.AddJourney(model);            
-            return RedirectToAction("Index", "Journey", new { model.JourneyID});
+            journeyService.AddJourney(model);
+            return RedirectToAction("Index", "Journey", new { journeyID = model.JourneyID, username = User.Identity.GetUserName() });
         }
 
         //
         // POST: /Journey/Create
-        [HttpPost]
+
         public ActionResult Create(FormCollection collection)
         {
             try

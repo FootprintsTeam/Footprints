@@ -1,4 +1,6 @@
 ﻿@*Nav Bar*@
+@model Footprints.Models.User
+
 <nav class="navbar navbar-default top-nav navbar-fixed-top" role="navigation">
 
     <div class="container">
@@ -7,7 +9,7 @@
             <button type="button" class="navbar-toggle btn btn-default" data-toggle="collapse" data-target="#navbar-fixed-layout-collapse">
                 <i class="fa fa-indent"></i>
             </button>
-            <a class="navbar-brand" href="#"><img src="../assets//images/logo/logo.jpg" alt=""></a>
+            <a class="navbar-brand" href="@Url.Action("Newsfeed","Index")"><img src="../assets//images/logo/logo.jpg" alt=""></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-fixed-layout-collapse">
@@ -26,8 +28,8 @@
                         <li style="">
                             <a href="#">
                                 <b>
-                                    <span class="pull-left innerR"><img src="../assets/images/people/35/16.jpg" alt="user" class="img-circle"><img /></span>
-                                    Nhân
+                                    <span class="pull-left innerR"><img src="@Model.ProfilePicURL" alt="user" class="img-circle" style="width:35px;height:35px"><img /></span>
+                                    @Model.UserName
                                 </b>
                             </a>
                         </li>
@@ -40,10 +42,10 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="@Url.Action("Index","Friend")">
                                 <b>
                                     <span class="pull-left innerR"><i class="fa fa-envelope-square"></i></span>
-                                    Notifications
+                                    Friends
                                 </b>
                             </a>
                         </li>
@@ -56,8 +58,8 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu" aria-labelledby="setting-dropdown">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-stats innerR"><i class=""></i></span>Configuration</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><span class="glyphicon glyphicon-question-sign innerR"></span> Q&A</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Configuration","Home")"><span class="glyphicon glyphicon-stats innerR"><i class=""></i></span>Configuration</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("QuestionAndAnswer","Home")"><span class="glyphicon glyphicon-question-sign innerR"></span> Q&A</a></li>
                                 <li role="presentation">
                                     <a role="menuitem" tabindex="-1" href="#" onclick="document.getElementById('log-out-form').submit()"><span class="glyphicon glyphicon-off innerR"></span>Log Out</a>
                                     <form id="log-out-form" action="@Url.Action("LogOff","Account")" method="post"> 

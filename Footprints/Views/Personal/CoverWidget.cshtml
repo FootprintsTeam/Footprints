@@ -1,12 +1,14 @@
-﻿<div class="timeline-cover">
+﻿@model Footprints.ViewModels.PersonalViewModel
+
+<div class="timeline-cover">
     <div class="cover image ">
         <div class="top">
-            <img src="../assets//images/photodune-2755655-party-time-s.jpg" class="img-responsive" />
+            <img src="@Model.CoverPhotoUrl" class="img-responsive" style="width:100px;height:100px"/>
         </div>
         <ul class="list-unstyled">
-            <li><a href="index.html?component=timeline&amp;v=v2.0.1-rc1"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
+            <li><a href="@Url.Action("Index","Personal")"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
             <li><a href="about_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
-            <li><a href="media_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(102)</small></a></li>
+            <li><a href="@Url.Action("","")"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(102)</small></a></li>
             <li><a href="contacts_2.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-group"></i> <span>Friends</span> <small>(19)</small></a></li>
             <li><a href="messages.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-envelope-fill-1"></i> <span>Messages</span> <small>(2 new)</small></a></li>
         </ul>
@@ -17,8 +19,8 @@
                 <img src="../assets/images/people/100/22.jpg" class="img-circle" />
             </div>
             <div class="innerAll border-right pull-left">
-                <h3 class="margin-none">Adrian Demian</h3>
-                <span>Works at MOSAICPRO</span>
+                <h3 class="margin-none">@Model.UserName</h3>
+                <span>Joined since @Model.JoinDate.Date</span>
             </div>
             <div class="innerAll pull-left">
                 <p class="lead margin-none "> <i class="fa fa-quote-left text-muted fa-fw"></i> What a fun Partyyy</p>

@@ -6,13 +6,15 @@ using Footprints.Services;
 using Footprints.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-namespace Footprints.Models
+namespace Footprints.ViewModels
 {
     public class PersonalViewModel
     {
         [HiddenInput(DisplayValue = false)]
         public Guid UserID { get; set; }
-        
+
+        public String CoverPhotoUrl { get; set; }
+
         public String FirstName { get; set; }
 
         public String LastName { get; set; }

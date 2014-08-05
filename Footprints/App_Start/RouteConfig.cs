@@ -19,6 +19,13 @@ namespace Footprints
                 defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional },
                 namespaces: new []{"Footprints.Controllers"}
             );
+
+            routes.MapRoute(
+                name: "Journey",
+                url: "{controller}/{action}/{username}",
+                defaults: new { controller = "Journey", action = "Index", username = UrlParameter.Optional},
+                namespaces: new[] { "Footprints.Controllers" }
+            );
         }
     }
 }

@@ -10,11 +10,16 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Footprints.Models;
 using Footprints.ViewModels;
+using Footprints.Services;
 using System.IO;
 namespace Footprints.Controllers
 {
     public class NewsfeedController : Controller
     {
+        IUserService userService;
+        public NewsfeedController(IUserService userService) {
+            this.userService = userService;
+        }
         //
         // GET: /Newsfeed/Newsfeed/
         public ActionResult Index()
@@ -63,6 +68,12 @@ namespace Footprints.Controllers
             //jsonModel.NoMoreData = books.Count < BlockSize;
             jsonModel.HTMLString = RenderPartialViewToString("PersonalWidget", null);
             return Json(jsonModel);
-        } 
+        }
+
+        [ChildActionOnly]
+        public ActionResult MainNavBar() {
+            var userModel = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            return PartialView("MainNavBar", userModel);
+        }
 	}
 }
