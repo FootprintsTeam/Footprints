@@ -1,4 +1,5 @@
-﻿using Footprints.ViewModels;
+﻿using Footprints.Services;
+using Footprints.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -32,10 +33,7 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddFriendViewModel model)
         {
-            System.Diagnostics.Debug.WriteLine("Friend Add");
-            System.Diagnostics.Debug.WriteLine("UserID = [" + model.ToString() + "]");
-            System.Diagnostics.Debug.WriteLine("FriendID = [" + model.ToString() + "]");
-            userService.AddFriendRelationship(UserID, FriendID);
+            userService.AddFriendRelationship(model.UserID, model.FriendID);
             var data = new List<AddFriendViewModel>();
             data.Add(model);
             return Json(data, JsonRequestBehavior.DenyGet);
@@ -45,9 +43,6 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Unfriend(AddFriendViewModel model)
         {
-            System.Diagnostics.Debug.WriteLine("Friend Unfriend");
-            System.Diagnostics.Debug.WriteLine("UserID = [" + model.ToString() + "]");
-            System.Diagnostics.Debug.WriteLine("FriendID = [" + model.ToString() + "]");
             userService.DeleteFriendRelationship(model.UserID, model.FriendID);
             var data = new List<AddFriendViewModel>();
             data.Add(model);
