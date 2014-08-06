@@ -40,7 +40,7 @@ namespace Footprints.DAL.Concrete
             {
                 if (first) 
                 {
-                    if (!item.journey.Equals(null)) result = item.journey;
+                    if (!(item.journey == null)) result = item.journey;
                     first = false;
                 }
                 if (currentDestination.DestinationID.Equals(defaultGuid))
