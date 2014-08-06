@@ -116,7 +116,7 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery("CREATE (journey:Journey {journey}) " +
                                                 " WITH journey " +
                                                 " MATCH (user:User {UserID : {UserID}}) " +
-                                                " CREATE (user)-[:HAS_JOURNEY]->(journey) " +
+                                                " CREATE (user)-[:HAS]->(journey) " +
                                                 " CREATE (activity:Activity {activity}) " +
                                                 " WITH user, journey, activity " +
                                                 " MATCH (user)-[f:LATEST_ACTIVITY]->(nextActivity) " +
@@ -148,8 +148,12 @@ namespace Footprints.DAL.Concrete
         }
         public bool DeleteJourney(Guid UserID, Guid JourneyID)
         {
-            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[r]-()").Where((Journey journey) => journey.JourneyID == JourneyID).AndWhere((User user) => user.UserID == UserID).
-                Match("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).Set("Activity.Status = 'DELETED'").Delete("Journey, r").ExecuteWithoutResults();
+            Db.Cypher.OptionalMatch("(User:User)").Where((User User) => User.UserID == UserID).
+                      OptionalMatch("(User)-[rel:HAS]->(Journey:Journey)-[r]-()").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                      OptionalMatch("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).
+                      Set("Activity.Status = 'DELETED'").
+                      With("User, rel, r, Journey").
+                      Where("rel IS NOT NULL").Delete("rel, r, Journey").ExecuteWithoutResults();
             return true;
         }
         public IEnumerable<Journey> GetJourneyList()
