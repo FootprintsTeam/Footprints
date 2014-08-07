@@ -66,8 +66,6 @@ namespace Footprints.DAL.Concrete
                                                 " DELETE f " +
                                                 " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
                                                 " CREATE (Activity)-[:NEXT]->(nextActivity) " +
-                                                " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " +
-                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
                                                 " WITH User " +
                                                 " MATCH (User)-[:FRIEND]->(friend) " +
                                                 " WITH User, COLLECT(friend) AS friends " +
