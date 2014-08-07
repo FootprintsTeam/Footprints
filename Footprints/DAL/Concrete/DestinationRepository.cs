@@ -53,11 +53,11 @@ namespace Footprints.DAL.Concrete
                 UserID = UserID,
                 PlaceID = Place.PlaceID
             };
-            CypherQuery query = new CypherQuery("MATCH (User:User)-[:HAS]->(Journey:Journey) WHERE (User.UserID = {UserID}) AND (Journey.JourneyID = {JourneyID})" +
+            CypherQuery query = new CypherQuery(" MATCH (User:User)-[:HAS]->(Journey:Journey) WHERE (User.UserID = {UserID}) AND (Journey.JourneyID = {JourneyID})" +
                                                 " WITH User, Journey " +
                                                 " WHERE (Journey IS NOT NULL) AND (User IS NOT NULL) " +
                                                 " CREATE (Destination:Destination {Destination}) " +
-                                                " MERGE (Place:Place {Place}) " +
+                                                " MERGE (Place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference } ) " +
                                                 " CREATE (Destination)-[:AT]->(Place) " +
                                                 " CREATE (Journey)-[:HAS]->(Destination) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
