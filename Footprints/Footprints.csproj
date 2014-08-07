@@ -275,6 +275,7 @@
     <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
     <Compile Include="ViewModels\PersonalAboutViewModel.cs" />
+    <Compile Include="ViewModels\NewsfeedViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\components\admin_courses\courses-featured-1.init.js" />

@@ -42,6 +42,7 @@ namespace Footprints.Controllers
                     journeyViewModel.Destinations.Add(Mapper.Map<Destination, DestinationViewModel>(d));
                 }
             }
+            journeyViewModel.AddNewDestinationFormViewModel = new AddNewDestinationFormViewModel { JourneyID = journeyID, TakenDate = DateTimeOffset.Now };
             return View(journeyViewModel);
         }
 

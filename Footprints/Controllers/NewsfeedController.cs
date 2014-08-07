@@ -75,5 +75,11 @@ namespace Footprints.Controllers
             var userModel = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
             return PartialView("MainNavBar", userModel);
         }
+
+        [ChildActionOnly]
+        public ActionResult AddPhotoWidget() {
+            var sample = AddPhotoWidgetViewModel.GetSampleObject();
+            return PartialView(sample);
+        }
 	}
 }

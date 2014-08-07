@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Web.Security;
+using Footprints.Models;
 
 namespace Footprints.Controllers
 {
@@ -50,9 +51,10 @@ namespace Footprints.Controllers
         public ActionResult Create(AddNewDestinationFormViewModel model)
         {
             //Get UserId
-            var place = Mapper.Map<AddNewDestinationFormViewModel, Models.Place>(model);
+            model.DestinationID = Guid.NewGuid();            
+            var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
             System.Diagnostics.Debug.WriteLine("Place: = ["+place.ToString()+"]");
-            var destination = Mapper.Map<AddNewDestinationFormViewModel, Models.Destination>(model);
+            var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             System.Diagnostics.Debug.WriteLine("destination: = [" + destination.ToString() + "]");
             destinationService.AddNewDestination(new Guid(), destination, place, model.JourneyID);
             return View();

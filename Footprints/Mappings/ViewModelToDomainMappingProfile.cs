@@ -18,6 +18,8 @@ namespace Footprints.Mappings
         protected override void Configure()
         {
             Mapper.CreateMap<AddNewJourneyViewModel, Journey>();
+            Mapper.CreateMap<AddNewDestinationFormViewModel, Place>();
+            Mapper.CreateMap<AddNewDestinationFormViewModel, Destination>();
         }
     }
 }
