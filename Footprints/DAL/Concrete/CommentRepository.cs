@@ -80,9 +80,6 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
                                                 " WITH Comment, Activity " +
-                                                " MATCH (Destination:Destination) " +
-                                                " WHERE (Destination.DestinationID = {DestinationID}) " +
-                                                " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
                                                 " CREATE (Comment)-[:COMMENT_BY]->(User) " +
@@ -121,9 +118,6 @@ namespace Footprints.DAL.Concrete
 
             CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
-                                                " WITH Comment, Activity " +
-                                                " MATCH (Journey:Journey) " +
-                                                " WHERE (Journey.JourneyID = {JourneyID}) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
