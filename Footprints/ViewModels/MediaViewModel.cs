@@ -31,7 +31,7 @@ namespace Footprints.ViewModels
     {
         public int NumberOfPhotos { get; set; }
         public int NumberOfAlbums { get; set; }
-        public IList<AlbumDetailsViewModel> AlbumList { get; set; }
+        public IEnumerable<AlbumDetailsViewModel> AlbumList { get; set; }
 
         public static AlbumsViewModel GetSampleObject()
         {

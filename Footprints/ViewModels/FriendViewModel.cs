@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using Footprints.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Footprints.ViewModels
 {
@@ -11,7 +11,7 @@ namespace Footprints.ViewModels
     {
         public Guid UserID { get; set; }
         public String UserName { get; set; }
-        public IList<FriendItemViewModel> FriendList { get; set; }
+        public IEnumerable<FriendItemViewModel> FriendList { get; set; }
         public static FriendViewModel GetSampleObject()
         {
             var list = new List<FriendItemViewModel>();
@@ -26,24 +26,7 @@ namespace Footprints.ViewModels
                 FriendList = list
             };
         }
-    }
-    public class FriendItemViewModel
-    {
-        public Guid UserID { get; set; }
-        public String UserName { get; set; }
-        public DateTime Time { get; set; }
-        public String ProfilePictureUrl { get; set; }
-        public static FriendItemViewModel GetSampleObject()
-        {
-            return new FriendItemViewModel()
-            {
-                UserID = Guid.NewGuid(),
-                UserName = "Hùng Vi",
-                Time = DateTime.Now,
-                ProfilePictureUrl = "../assets/images/people/100/22.jpg"
-            };
-        }
-    }
+    }    
 
     public class AddFriendViewModel
     {

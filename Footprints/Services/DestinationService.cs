@@ -16,12 +16,12 @@ namespace Footprints.Services
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Guid UserID, Content Content);
         void DeleteContent(Guid UserID, Guid ContentID);
-        IList<Content> GetAllContent(Guid DestinationID);
+        IEnumerable<Content> GetAllContent(Guid DestinationID);
         void LikeDestination(Guid UserID, Guid DestinationID);
         void UnlikeDestination(Guid UserID, Guid DestinationID);
-        IList<User> GetAllUserLiked(Guid DestinationID);
+        IEnumerable<User> GetAllUserLiked(Guid DestinationID);
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
-        IList<User> GetAllUserShared(Guid DestinationID);
+        IEnumerable<User> GetAllUserShared(Guid DestinationID);
     }
     public class DestinationService : IDestinationService
     {
@@ -62,7 +62,7 @@ namespace Footprints.Services
         {
             _destinationRepo.DeleteContent(UserID, ContentID);
         }
-        public IList<Content> GetAllContent(Guid DestinationID)
+        public IEnumerable<Content> GetAllContent(Guid DestinationID)
         {
             return _destinationRepo.GetAllContent(DestinationID);
         }
@@ -74,7 +74,7 @@ namespace Footprints.Services
         {
             _destinationRepo.UnlikeDestination(UserID, DestinationID);
         }
-        public IList<User> GetAllUserLiked(Guid DestinationID)
+        public IEnumerable<User> GetAllUserLiked(Guid DestinationID)
         {
             return _destinationRepo.GetAllUserLiked(DestinationID);
         }
@@ -82,7 +82,7 @@ namespace Footprints.Services
         {
             _destinationRepo.ShareDestination(UserID, DestinationID, Content);
         }
-        public IList<User> GetAllUserShared(Guid DestinationID)
+        public IEnumerable<User> GetAllUserShared(Guid DestinationID)
         {
             return _destinationRepo.GetAllUserShared(DestinationID);
         }

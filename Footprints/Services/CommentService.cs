@@ -7,15 +7,15 @@ using Footprints.Models;
 namespace Footprints.Services
 {
     public interface ICommentService {
-        IList<Comment> RetrieveDestinationComment(Guid DestinationID);
-        IList<Comment> RetrieveJourneyComment(Guid JourneyID);
+        IEnumerable<Comment> RetrieveDestinationComment(Guid DestinationID);
+        IEnumerable<Comment> RetrieveJourneyComment(Guid JourneyID);
         bool AddDestinationComment(Guid UserID, Comment Comment);
         bool AddJourneyComment(Guid UserID, Comment Comment);
         Comment RetrieveComment(Guid CommentID);
         bool UpdateComment(Comment Comment);
         void LikeAComment(Guid UserID, Guid CommentID);
         void UnlikeAComment(Guid UserID, Guid CommentID);
-        IList<User> GetAllUserLikeComment(Guid CommentID);
+        IEnumerable<User> GetAllUserLikeComment(Guid CommentID);
         void DeleteAComment(Guid CommentID);
     }
     public class CommentService : ICommentService
@@ -26,12 +26,12 @@ namespace Footprints.Services
             _commentRepo = commentRepo;
         }
 
-        public IList<Comment> RetrieveDestinationComment(Guid DestinationID)
+        public IEnumerable<Comment> RetrieveDestinationComment(Guid DestinationID)
         {
             return _commentRepo.GetAllCommentOnDestination(DestinationID);
         }
 
-        public IList<Comment> RetrieveJourneyComment(Guid JourneyID)
+        public IEnumerable<Comment> RetrieveJourneyComment(Guid JourneyID)
         {
             return _commentRepo.GetAllCommentOnJourney(JourneyID);
         }
@@ -61,7 +61,7 @@ namespace Footprints.Services
         {
             _commentRepo.UnlikeAComment(UserID, CommentID);
         }
-        public IList<User> GetAllUserLikeComment(Guid CommentID)
+        public IEnumerable<User> GetAllUserLikeComment(Guid CommentID)
         {
             return _commentRepo.GetAllUserLikeComment(CommentID);
         }

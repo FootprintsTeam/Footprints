@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Footprints.Common;
-using System.ComponentModel.DataAnnotations;
 
 namespace Footprints.ViewModels
 {
@@ -22,13 +21,13 @@ namespace Footprints.ViewModels
         public int NumberOfLikes { get; set; }
         public int NumberOfComments { get; set; }
         public int NumberOfImages { get; set; }
-        public IList<CommentViewModel> Comments { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
         public string TimeAgo
         {
             get { return DateTimeFormat.TimeAgo(this.Time); }
             private set{}
         }
-        public static IList<NewsfeedPostViewModel> GetSampleObject()
+        public static IEnumerable<NewsfeedPostViewModel> GetSampleObject()
         {
             var sample = new NewsfeedPostViewModel
             {
@@ -53,14 +52,9 @@ namespace Footprints.ViewModels
 
     public class CommentViewModel
     {
-        [Required]
-        public Guid DestinationID { get; set; }
-        [Required]
-        public Guid CommentID { get; set; }
         public Guid UserCommentId { get; set; }
         public string UserAvatarURL { get; set; }
         public string UserCommentName { get; set; }
-        [Required]
         public string Content { get; set; }
         public DateTimeOffset Time { get; set; }
         public int NumberOfLike { get; set; }
@@ -71,16 +65,7 @@ namespace Footprints.ViewModels
         }
         public static IList<CommentViewModel> GetSampleObject()
         {
-            var sample = new CommentViewModel { 
-                DestinationID = Guid.NewGuid(), 
-                CommentID = Guid.NewGuid(), 
-                UserCommentId = Guid.NewGuid(), 
-                Content = "đây là một comment",
-                UserAvatarURL = "../assets/images/people/80/2.jpg", 
-                Time = DateTime.Now, 
-                NumberOfLike = 10, 
-                UserCommentName = "Chiến Thắng"
-            };
+            var sample = new CommentViewModel { UserCommentId = Guid.NewGuid(), Content = "đây là một comment", Time = DateTime.Now, NumberOfLike = 10, UserCommentName = "Chiến Thắng" };
             var list = new List<CommentViewModel>();
             list.Add(sample);
             return list;

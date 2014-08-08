@@ -14,14 +14,14 @@ namespace Footprints.DAL.Concrete
 
         //TODO
 
-        public IList<Comment> GetAllCommentOnJourney(Guid JourneyID)
+        public IEnumerable<Comment> GetAllCommentOnJourney(Guid JourneyID)
         {
-            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.JourneyID == JourneyID).Return(comment => comment.As<Comment>()).Results.ToList<Comment>();
+            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.JourneyID == JourneyID).Return(comment => comment.As<Comment>()).Results;
         }
 
-        public IList<Comment> GetAllCommentOnDestination(Guid DestinationID)
+        public IEnumerable<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
-            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.DestinationID == DestinationID).Return(comment => comment.As<Comment>()).Results.ToList<Comment>();
+            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.DestinationID == DestinationID).Return(comment => comment.As<Comment>()).Results;
         }
 
         public Comment GetAComment(Guid CommentID)
@@ -80,6 +80,11 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
                                                 " WITH Comment, Activity " +
+                                                " MATCH (Destination:Destination) " +
+                                                " WHERE (Destination.DestinationID = {DestinationID}) " +
+                                                " CREATE (Comment)-[:COMMENT_ON_DESTINATION]->(Destination) " +
+                                                " CREATE (Activity)-[:COMMENT_ON_DESTINATION]->(Destination) " +
+                                                " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
                                                 " CREATE (Comment)-[:COMMENT_BY]->(User) " +
@@ -118,6 +123,11 @@ namespace Footprints.DAL.Concrete
 
             CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH Comment, Activity " +
+                                                " MATCH (Journey:Journey) " +
+                                                " WHERE (Journey.JourneyID = {JourneyID}) " +
+                                                " CREATE (Comment)-[:COMMENT_ON_JOURNEY]->(Journey) " +
+                                                " CREATE (Activity)-[:COMMENT_ON_JOURNEY]->(Journey) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
@@ -158,9 +168,9 @@ namespace Footprints.DAL.Concrete
                 .ExecuteWithoutResults();
         }
 
-        public IList<User> GetAllUserLikeComment(Guid CommentID)
+        public IEnumerable<User> GetAllUserLikeComment(Guid CommentID)
         {
-            return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(User:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results.ToList<User>();
+            return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(User:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results;
         }
         //TODO
         public void DeleteAComment(Guid CommentID)
@@ -172,15 +182,15 @@ namespace Footprints.DAL.Concrete
 
     public interface ICommentRepository : IRepository<CommentRepository>
     {
-        IList<Comment> GetAllCommentOnDestination(Guid DestinationID);
-        IList<Comment> GetAllCommentOnJourney(Guid JounreyID);
+        IEnumerable<Comment> GetAllCommentOnDestination(Guid DestinationID);
+        IEnumerable<Comment> GetAllCommentOnJourney(Guid JounreyID);
         bool AddDestinationComment(Guid UserID, Comment Comment);
         bool AddJourneyComment(Guid UserID, Comment Comment);
         Comment GetAComment(Guid CommentID);
         bool UpdateComment(Comment Comment);
         void LikeAComment(Guid UserID, Guid CommentID);
         void UnlikeAComment(Guid UserID, Guid CommentID);
-        IList<User> GetAllUserLikeComment(Guid CommentID);
+        IEnumerable<User> GetAllUserLikeComment(Guid CommentID);
         void DeleteAComment(Guid CommentID);
     }
 }

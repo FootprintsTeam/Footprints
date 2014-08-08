@@ -12,20 +12,20 @@ namespace Footprints.ViewModels
     {
         public Guid UserID { get; set; }
         public String UserName { get; set; }
-        public int NumberOfJourney { get; set; }
-        public int NumberOfDestination { get; set; }
-        public int NumberOfFriend { get; set; }
+        public int NumberOfJourneys { get; set; }
+        public int NumberOfDestinations { get; set; }
+        public int NumberOfFriends { get; set; }
         public Guid DestinationID { get; set; }
         public Guid JourneyID { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }
         public Footprints.Models.Place Place { get; set; }
-        public int NumberOfLike { get; set; }
-        public int NumberOfShare { get; set; }
-        public int NumberOfPhoto { get; set; }
-        public IList<Content> Contents { get; set; }
+        public int NumberOfLikes { get; set; }
+        public int NumberOfShares { get; set; }
+        public int NumberOfPhotos { get; set; }
+        public IEnumerable<Content> Contents { get; set; }
 
-        public IList<CommentViewModel> Comments { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
         public DateTimeOffset TakenDate { get; set; }
         public EditDestinationFormViewModel EditDestinationForm { get; set; }
         public string TimeAgo
@@ -50,16 +50,16 @@ namespace Footprints.ViewModels
             {
                 UserID = Guid.NewGuid(),
                 UserName = "Hùng Vi",
-                NumberOfJourney = 22,
-                NumberOfDestination = 120,
-                NumberOfFriend = 200,
+                NumberOfJourneys = 22,
+                NumberOfDestinations = 120,
+                NumberOfFriends = 200,
                 DestinationID = DestinationID,
                 JourneyID = JourneyID,
                 Name = "Trường đại học FPT",
                 TakenDate = DateTimeOffset.Now,
-                NumberOfLike = 13,
-                NumberOfShare = 2,
-                NumberOfPhoto = 20,
+                NumberOfLikes = 13,
+                NumberOfShares = 2,
+                NumberOfPhotos = 20,
                 Contents = new List<Content> {
                     new Content {
                         ContentID = Guid.NewGuid(),
@@ -87,10 +87,14 @@ namespace Footprints.ViewModels
                     }
                 },
                 Comments = new List<CommentViewModel>{
-                    CommentViewModel.GetSampleObject().First(),
-                    CommentViewModel.GetSampleObject().First(),
-                    CommentViewModel.GetSampleObject().First(),
-                    CommentViewModel.GetSampleObject().First()
+                    new CommentViewModel{
+                        UserCommentId = Guid.NewGuid(),
+                        NumberOfLike = 12,
+                        Content = "this is a sample content",
+                        Time = DateTimeOffset.Now,
+                        UserCommentName = "Nhân Trịnh",
+                        UserAvatarURL = "../assets/images/people/80/2.jpg"
+                    }
                 },
                 Description = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, aspernatur ut ....",
                 Place = Place,

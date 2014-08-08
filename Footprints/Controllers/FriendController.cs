@@ -23,6 +23,12 @@ namespace Footprints.Controllers
             return View(model);
         }
 
+        [ChildActionOnly]
+        public PartialViewResult FriendItem()
+        {
+            return new PartialViewResult();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(AddFriendViewModel model)

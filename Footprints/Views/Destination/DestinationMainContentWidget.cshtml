@@ -33,8 +33,9 @@
                                                     </a>
                                                     <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
                                                         <li>
-                                                            <a onclick="javascript:SetupDeleteDestinationForm.displayPopUpWindow('@content.ContentID');">Delete</a>
-                                                        </li>
+                                                            @*<a href="#">Delete</a>*@
+                                                            @*@Html.ActionLink("Delete", "Delete", new { controller= "Media", id = @content.ContentID})*@
+                                                            <a onclick="javascript:AccountSetupForm.displayPopUpWindow('@content.ContentID');">Delete</a>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -83,7 +84,7 @@
 </div>
 
 <script type="text/javascript">
-    var SetupDeleteDestinationForm = (function () {
+    var AccountSetupForm = (function () {
         return {
             init: function () {
             },
@@ -96,6 +97,6 @@
     })();
 
     $(document).ready(function () {
-        SetupDeleteDestinationForm.init();
+        AccountSetupForm.init();
     });
 </script>
