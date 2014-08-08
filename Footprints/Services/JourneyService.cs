@@ -17,14 +17,14 @@ namespace Footprints.Services
         bool UpdateJourney(Guid UserID, Journey Journey);
         bool DeleteJourney(Guid UserID, Guid JourneyID);
         //For Admin Page
-        IEnumerable<Journey> GetJourneyList();
+        IList<Journey> GetJourneyList();
         //For Personal Page
-        IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID);
+        IList<Journey> GetJourneyListBelongToUser(Guid UserID);
         void LikeJourney(Guid UserID, Guid JourneyID);
         void UnlikeJourney(Guid UserID, Guid JourneyID);
-        IEnumerable<User> GetAllUserLiked(Guid JourneyID);
+        IList<User> GetAllUserLiked(Guid JourneyID);
         void ShareJourney(Guid UserID, Guid JourneyID, String Content);
-        IEnumerable<User> GetAllUserShared(Guid JourneyID);
+        IList<User> GetAllUserShared(Guid JourneyID);
     }
     public class JourneyService : IJourneyService
     {
@@ -57,11 +57,11 @@ namespace Footprints.Services
         {
             return journeyRepository.DeleteJourney(UserID, JourneyID);
         }
-        public IEnumerable<Journey> GetJourneyList()
+        public IList<Journey> GetJourneyList()
         {
             return journeyRepository.GetJourneyList();
         }
-        public IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID)
+        public IList<Journey> GetJourneyListBelongToUser(Guid UserID)
         {
             return journeyRepository.GetJourneyListBelongToUser(UserID);
         }
@@ -73,7 +73,7 @@ namespace Footprints.Services
         {
             journeyRepository.UnlikeJourney(UserID, JourneyID);
         }
-        public IEnumerable<User> GetAllUserLiked(Guid JourneyID)
+        public IList<User> GetAllUserLiked(Guid JourneyID)
         {
             return journeyRepository.GetAllUserLiked(JourneyID);
         }
@@ -81,7 +81,7 @@ namespace Footprints.Services
         {
             journeyRepository.ShareJourney(UserID, JourneyID, Content);
         }
-        public IEnumerable<User> GetAllUserShared(Guid JourneyID)
+        public IList<User> GetAllUserShared(Guid JourneyID)
         {
             return journeyRepository.GetAllUserShared(JourneyID);
         }

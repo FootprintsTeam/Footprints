@@ -19,6 +19,8 @@ namespace Footprints.Mappings
             Mapper.CreateMap<User, PersonalAboutViewModel>();
             Mapper.CreateMap<Journey, JourneyViewModel>();
             Mapper.CreateMap<User, PersonalViewModel>();
+            Mapper.CreateMap<Destination, DestinationViewModel>();
+            Mapper.CreateMap<Comment, CommentViewModel>();
         }
     }
 }

@@ -134,9 +134,9 @@ namespace Footprints.DAL.Concrete
             Db.Cypher.Create("(report:Report {report})").WithParams(new { report = Report}).ExecuteWithoutResults();
             return true;
         }
-        public IEnumerable<Report> GetReport()
+        public IList<Report> GetReport()
         {
-            return Db.Cypher.Match("report:Report").Return(report => report.As<Report>()).Results;
+            return Db.Cypher.Match("report:Report").Return(report => report.As<Report>()).Results.ToList<Report>();
         }
         public bool UnbanUser(Guid UserID)
         {
@@ -153,13 +153,13 @@ namespace Footprints.DAL.Concrete
             Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Admin'");
             return true;
         }
-        public IEnumerable<User> GetUser()
+        public IList<User> GetUser()
         {
-            return Db.Cypher.Match("User:User").Return(user => user.As<User>()).Results;
+            return Db.Cypher.Match("User:User").Return(user => user.As<User>()).Results.ToList<User>();
         }
-        public IEnumerable<User> GetFriendList(Guid UserID)
+        public IList<User> GetFriendList(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:FRIEND]-(Friend:User)").Where((User user) => user.UserID == UserID).Return(Friend => Friend.As<User>()).Results;
+            return Db.Cypher.Match("(User:User)-[:FRIEND]-(Friend:User)").Where((User user) => user.UserID == UserID).Return(Friend => Friend.As<User>()).Results.ToList<User>();
         }
         public void DeleteAnActivity(Guid ActivityID)
         {
@@ -209,7 +209,7 @@ namespace Footprints.DAL.Concrete
 
     public interface IUserRepository : IRepository<User>
     {
-        IEnumerable<User> GetUser();
+        IList<User> GetUser();
         User GetUserByUserID(Guid UserID);
         void AddNewUser(User User);
         bool AddFriendRelationship(Guid UserID_A, Guid UserID_B);
@@ -217,12 +217,12 @@ namespace Footprints.DAL.Concrete
         bool UpdateUser(User User);
         bool BanUser(Guid UserID);
         bool ReportUser(Report Report);
-        IEnumerable<Report> GetReport();
+        IList<Report> GetReport();
         bool UnbanUser(Guid UserID);
         bool UnactiveUser(Guid UserID);
         bool GrantAdminPrivilege(Guid UserID);
         void DeleteAnActivity(Guid ActivityID);
-        IEnumerable<User> GetFriendList(Guid UserID);
+        IList<User> GetFriendList(Guid UserID);
         long GetNumberOfJourney(Guid UserID);
         long GetNumberOfDestination(Guid UserID);
         long GetNumberOfFriend(Guid UserID);

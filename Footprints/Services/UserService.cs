@@ -8,7 +8,7 @@ using Footprints.Models;
 namespace Footprints.Services
 {
     public interface IUserService {
-        IEnumerable<User> GetUser();
+        IList<User> GetUser();
         User RetrieveUser(Guid UserID);
         //bool addNewUser(User user);
         void AddNewUser(User User);
@@ -17,12 +17,12 @@ namespace Footprints.Services
         bool UpdateUser(User User);
         bool BanUser(Guid UserID);
         bool ReportUser(Report Report);
-        IEnumerable<Report> GetReport();
+        IList<Report> GetReport();
         bool UnbanUser(Guid UserID);
         bool UnactiveUser(Guid UserID);
         bool GrantAdminPrivilege(Guid UserID);
         void DeleteAnActivity(Guid ActivityID);
-        IEnumerable<User> GetFriendList(Guid UserID);
+        IList<User> GetFriendList(Guid UserID);
         long GetNumberOfJourney(Guid UserID);
         long GetNumberOfDestination(Guid UserID);
         long GetNumberOfFriend(Guid UserID);
@@ -35,7 +35,7 @@ namespace Footprints.Services
             _userRepo = userRepo;
         }
 
-        public IEnumerable<User> GetUser()
+        public IList<User> GetUser()
         {
             return _userRepo.GetUser();
         }
@@ -68,7 +68,7 @@ namespace Footprints.Services
         {
             return _userRepo.ReportUser(Report);
         }
-        public IEnumerable<Report> GetReport()
+        public IList<Report> GetReport()
         {
             return _userRepo.GetReport();
         }
@@ -88,7 +88,7 @@ namespace Footprints.Services
         {
             _userRepo.DeleteAnActivity(ActivityID);
         }
-        public IEnumerable<User> GetFriendList(Guid UserID)
+        public IList<User> GetFriendList(Guid UserID)
         {
             return _userRepo.GetFriendList(UserID);
         }
