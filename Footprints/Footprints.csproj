@@ -217,6 +217,7 @@
     <Compile Include="Common\JsonModel\FileInfoList.cs" />
     <Compile Include="Common\MultipartParser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
     <Compile Include="ViewModels\PersonalAboutViewModel.cs" />
+    <Compile Include="ViewModels\NewsfeedViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\components\admin_courses\courses-featured-1.init.js" />
@@ -2574,6 +2576,8 @@
     <Content Include="Views\Account\LoginPartial.cshtml" />
     <Content Include="Views\Personal\Update.cshtml" />
     <Content Include="Views\Journey\DestinationWidget.cshtml" />
+    <Content Include="Views\Destination\CommentEditForm.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

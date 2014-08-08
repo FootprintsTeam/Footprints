@@ -1,14 +1,16 @@
-﻿<div class="widget gridalicious-item not-responsive">
+﻿@model Footprints.ViewModels.AddPhotoWidgetViewModel
 
+@using Footprints.ViewModels
+<div class="widget gridalicious-item not-responsive">
     <!-- Info -->
     <div class="bg-primary">
         <div class="media">
-            <a href="" class="pull-left"><img src="../assets/images/people/50/13.jpg" width="50" class="media-object"></a>
+            <a href="" class="pull-left"><img src="@Model.ProfilePicURL" style="width:50px !important;height:50px" class="media-object"></a>
             <div class="media-body innerTB half">
                 <a href="#" class="pull-right innerT innerR text-white">
                     <i class="icon-reply-all-fill fa fa-2x "></i>
                 </a>
-                <a href="" class="text-white strong display-block">Joanne Smith</a>
+                <a href="" class="text-white strong display-block">@Model.UserName</a>
                 <span>added <a href="" class="text-white strong">Photos</a> on 15th January, 2014</span>
             </div>
         </div>
@@ -16,36 +18,49 @@
 
     <!-- Content -->
     <div class="innerAll">
-        <p class="lead">Late Night Show Photos</p>
+        <a href="@Url.Action("Index", "Destionation", new { destinationID = Model.DestinationID })"><p class="lead">@Model.DestinationName</p></a>
         <a href=""><img src="../assets/images/social/100/1.jpg" alt="" class="img-post display-block-inline" /></a>
         <a href=""><img src="../assets/images/social/100/2.jpg" alt="" class="img-post display-block-inline" /></a>
         <a href=""><img src="../assets/images/social/100/3.jpg" alt="" class="img-post display-block-inline" /></a>
     </div>
 
     <!-- Comment -->
-    <div class="bg-gray innerAll border-top border-bottom text-small ">
-        <span>View all <a href="" class="text-primary">2 Comments</a></span>
+    <div class="bg-gray innerAll border-top border-bottom text-small">
+        <span>View all <a href="" class="text-primary">@Model.Comments.Count() Comments</a></span>
     </div>
 
+    @{
+        if (Model.Comments.Count() > 0)
+        {
+            foreach (CommentViewModel comment in Model.Comments)
+            {
+                <div class="media border-bottom margin-none bg-gray">
+                    <a href="@Url.Action("Index", "Personal", new { userID = comment.UserCommentId})"
+                       class="pull-left innerAll">
+                        <img src="@comment.UserAvatarURL"
+                             width="50" class="media-object">
+                    </a>
+                    <div class="media-body innerTB">
+                        <a href="#" class="pull-right innerT innerR text-muted">
+                            <i class="icon-reply-all-fill fa fa-2x "></i>
+                        </a>
+                        <a href="@Url.Action("Index", "Personal", new { userID = comment.UserCommentId})" class="strong text-inverse">@comment.UserCommentName</a>
+                        <small class="text-muted ">wrote on @comment.TimeAgo</small>
+                        <a href="" class="text-small">mark it</a>
+                        <div>- @comment.Content</div>
+                    </div>
+                </div>
+            }
+        }
+
+    }
     <!-- First Comment -->
-    <div class="media border-bottom margin-none bg-gray">
-        <a href="" class="pull-left innerAll"><img src="../assets/images/people/50/2.jpg" width="50" class="media-object"></a>
-        <div class="media-body innerTB">
-            <a href="#" class="pull-right innerT innerR text-muted">
-                <i class="icon-reply-all-fill fa fa-2x "></i>
-            </a>
-            <a href="" class="strong text-inverse">Adrian Demian</a> 	<small class="text-muted ">wrote on Jan 15th, 2014</small> <a href="" class="text-small">mark it</a>
-            <div>- Happy B-Day!</div>
-
-        </div>
-    </div>
-
     <!-- Second Comment -->
     <div class="media margin-none bg-gray">
         <a href="" class="pull-left innerAll"><img src="../assets/images/people/50/11.jpg" width="50" class="media-object"></a>
         <div class="media-body innerTB">
             <a href="#" class="pull-right innerT innerR"><i class="icon-reply-all-fill fa fa-2x text-muted "></i></a>
-            <a href="" class="strong text-inverse">Jenny Adams</a> 	<small class="text-muted ">wrote on Jan 15th, 2014</small> <a href="" class="text-small">mark it</a>
+            <a href="" class="strong text-inverse">Jenny Adams</a><small class="text-muted ">wrote on Jan 15th, 2014</small><a href="" class="text-small">mark it</a>
             <div>- Happy Birthday Hun...</div>
         </div>
     </div>

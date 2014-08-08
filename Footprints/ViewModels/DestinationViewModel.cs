@@ -87,14 +87,10 @@ namespace Footprints.ViewModels
                     }
                 },
                 Comments = new List<CommentViewModel>{
-                    new CommentViewModel{
-                        UserCommentId = Guid.NewGuid(),
-                        NumberOfLike = 12,
-                        Content = "this is a sample content",
-                        Time = DateTimeOffset.Now,
-                        UserCommentName = "Nhân Trịnh",
-                        UserAvatarURL = "../assets/images/people/80/2.jpg"
-                    }
+                    CommentViewModel.GetSampleObject().First(),
+                    CommentViewModel.GetSampleObject().First(),
+                    CommentViewModel.GetSampleObject().First(),
+                    CommentViewModel.GetSampleObject().First()
                 },
                 Description = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, aspernatur ut ....",
                 Place = Place,

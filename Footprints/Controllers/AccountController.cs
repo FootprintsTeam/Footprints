@@ -88,7 +88,9 @@ namespace Footprints.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     await SignInAsync(user, isPersistent: false);
@@ -104,7 +106,7 @@ namespace Footprints.Controllers
                             ProfilePicURL = Constant.defaultAvatarUrl,
                             CoverPhotoUrl = Constant.defaultCoverUrl,
                             JoinDate = DateTimeOffset.Now,
-                            
+                            Genre = model.Genre.ToString()
                         });
 
                     return RedirectToAction("Index", "Home");
@@ -314,7 +316,7 @@ namespace Footprints.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

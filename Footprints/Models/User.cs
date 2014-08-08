@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using Footprints.Common;
 namespace Footprints.Models
 {
     public class User
@@ -13,9 +13,8 @@ namespace Footprints.Models
         public String LastName { get; set; }
         public String Email { get; set; }
         public String Address { get; set; }
-        public String PhoneNumber { get; set; }
-        public enum GenreEnum { Male, Female, Others}
-        public GenreEnum Genre { get; set; }
+        public String PhoneNumber { get; set; }        
+        public Genre Genre { get; set; }
         public String DateOfBirth { get; set; }
         public String UserName { get; set; }
         public String Password { get; set; }        
