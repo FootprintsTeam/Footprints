@@ -55,9 +55,10 @@ namespace Footprints.Controllers
             var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
             System.Diagnostics.Debug.WriteLine("Place: = ["+place.ToString()+"]");
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
+            destination.UserID = new Guid(User.Identity.GetUserId());
             System.Diagnostics.Debug.WriteLine("destination: = [" + destination.ToString() + "]");
-            destinationService.AddNewDestination(new Guid(), destination, place, model.JourneyID);
-            return View();
+            destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
+            return RedirectToAction("Index","Destination",destination.DestinationID);
         }
 
 
