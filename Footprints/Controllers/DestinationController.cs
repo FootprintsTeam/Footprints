@@ -53,10 +53,8 @@ namespace Footprints.Controllers
             //Get UserId
             model.DestinationID = Guid.NewGuid();            
             var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
-            System.Diagnostics.Debug.WriteLine("Place: = ["+place.ToString()+"]");
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             destination.UserID = new Guid(User.Identity.GetUserId());
-            System.Diagnostics.Debug.WriteLine("destination: = [" + destination.ToString() + "]");
             destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
             return RedirectToAction("Index","Destination",destination.DestinationID);
         }
@@ -78,7 +76,6 @@ namespace Footprints.Controllers
         {
             var user = Membership.GetUser(User.Identity.Name);
             Guid userId = (Guid)user.ProviderUserKey;
-            System.Diagnostics.Debug.WriteLine("Userid = [" + userId + "]");
             destinationService.DeleteDestination(userId, id);
             RedirectToAction("Index", "Journey", new { id = JourneyID });
             //Redirect to Journey
@@ -90,6 +87,20 @@ namespace Footprints.Controllers
             var data = new List<CommentViewModel>();
             data.Add(comment);
              return Json(data, JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditComment(CommentViewModel comment)
+        {
+            var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
+            ////reset timestamp to current
+            //commentObj.Timestamp = DateTimeOffset.Now;
+            //commentService.UpdateComment(commentObj);
+            ////return Json(comment, JsonRequestBehavior.DenyGet);
+            var data = new List<CommentViewModel>();
+            data.Add(comment);
+            return Json(data, JsonRequestBehavior.DenyGet);
         }
 
         public ActionResult AddNewPhoto() {
@@ -105,6 +116,12 @@ namespace Footprints.Controllers
 
         public string LikeUnlike(Guid userID, Guid destinationID) { 
             return "Success";
+        }
+
+        [ChildActionOnly]
+        public ActionResult EditCommentForm()
+        {
+            return View();
         }
     }
 }
