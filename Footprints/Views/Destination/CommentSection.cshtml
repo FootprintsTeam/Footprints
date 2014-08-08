@@ -1,10 +1,13 @@
-﻿@model IEnumerable<Footprints.ViewModels.CommentViewModel>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<Footprints.ViewModels.CommentViewModel>
 @{ AjaxOptions commentFormOptions = new AjaxOptions
    {
        HttpMethod = "Post",
        OnSuccess = "commentAdd"
    };
-   var destinationID = @ViewBag.DestinationID;}
+   var destinationID = @ViewBag.DestinationID;
+}
+
 <script type="text/javascript">
     //get data from callback and insert html
     function commentAdd(data) {
@@ -29,6 +32,20 @@
                 );
         }
     }
+    //Edit comment callback function
+    function editComment(data) {
+        if (data != null && data.length > 0) {
+            var commentObj = data[0];
+            var commentContent = $("#comment-content-" + commentObj.CommentID);
+            commentContent.find('span').text(commentObj.Content);
+            commentContent.show();
+            var commentEdit = $("#comment-edit-" + commentObj.CommentID);
+            var commentEditTextarea = commentEdit.find('form').find('textarea[name="Content"]');
+            commentEditTextarea.text(commentObj.Content);
+            commentEditTextarea.val(commentObj.Content);
+            commentEdit.hide();
+        }
+    }
 </script>
 <div class="row">
     <div class="col-md-12 col-sm-8">
@@ -36,6 +53,15 @@
             @foreach (var comment in Model)
             {
                 <li class="list-group-item">
+                    <div class="icon-edit pull-right" style="position:absolute; top:8px;right:8px; z-index:1">
+                        <div class="dropdown">
+                            <a href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu" style="white-space:nowrap">
+                                <li><a onclick="javascript:SetupEditCommentForm.showEditCommentArea('@comment.CommentID');">Edit...</a></li>
+                                <li><a onclick="javascript:SetupDeleteCommentForm.displayPopUpWindow('@comment.CommentID');">Delete...</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <img src="@comment.UserAvatarURL" alt="Avatar" class="pull-left" width="36" height="36" />
                     <div class="user-info">
                         <div class="row">
@@ -43,9 +69,11 @@
                                 <a href="">@comment.UserCommentName</a>
                                 <abbr>@comment.TimeAgo</abbr>
                             </div>
-                            <div class="col-md-9">
-                                <span> @comment.Content</span>
+                            <div class="col-md-9" id="comment-content-@comment.CommentID">
+                                <span>@comment.Content</span>
                             </div>
+                            @* Authenticate to display edit comment menu *@
+                            @{Html.RenderPartial("CommentEditForm", comment);}
                         </div>
                     </div>
                 </li>
@@ -74,5 +102,62 @@
         if (ev.which === 13 && $("#comment-input"+"@destinationID").data("hasfocus")) {
             $("comment-form" + "@destinationID").submit();
         }
+
+    });
+
+    var SetupDeleteCommentForm = (function () {
+        return {
+            init: function () {
+            },
+            displayPopUpWindow: function (CommentID) {
+                document.forms['frmDeleteComment'].elements["id"].value = CommentID;
+                $('#delete-comment-modal').modal('show');
+            }
+        };
+    })();
+
+    //Check for keyup Esc on edit comment field
+    $('[id^="comment-edit-"]').keyup(function (ev) {
+        if (ev.which == 27) {
+            $(this).hide();
+            var commentContent = $("#comment-content-" + $(this).attr('id').replace('comment-edit-', ''));
+            commentContent.show();
+            $(this).find('form textarea').text(commentContent.find('span').text());
+            $(this).find('textarea').val($(this).find('textarea').text());
+        }
+    });
+
+    var SetupEditCommentForm = (function () {
+        return {
+            init: function () {
+            },
+            showEditCommentArea: function (CommentID) {
+                var commentContentList = $('div[id^="comment-content-"]');
+                commentContentList.each(function () {
+                    $(this).show();
+                });
+                var commentEditList = $('div[id^="comment-edit-"]');
+                commentEditList.each(function () {
+                    $(this).hide();
+                });
+                var commentContent = $('#comment-content-' + CommentID)
+                commentContent.hide();
+                var commentEdit = $('#comment-edit-' + CommentID);
+                commentEdit.show();
+            }
+        };
+    })();
+
+    //Check unchanged comment content
+    $('form[name="frmEditComment"]').submit(function () {
+        var txtComment = $(this).find('textarea');
+        if (txtComment.val() == txtComment.text().trim()) {
+            return false;
+        }
+    });
+
+    $(document).ready(function () {
+        SetupDeleteCommentForm.init();
+        SetupEditCommentForm.init();
     });
 </script>

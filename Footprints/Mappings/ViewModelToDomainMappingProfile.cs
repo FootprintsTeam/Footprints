@@ -20,6 +20,7 @@ namespace Footprints.Mappings
             Mapper.CreateMap<AddNewJourneyViewModel, Journey>();
             Mapper.CreateMap<AddNewDestinationFormViewModel, Place>();
             Mapper.CreateMap<AddNewDestinationFormViewModel, Destination>();
+			Mapper.CreateMap<CommentViewModel, Comment>();
         }
     }
 }

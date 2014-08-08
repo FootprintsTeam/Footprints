@@ -2575,6 +2575,7 @@
     <Content Include="Views\Account\LoginPartial.cshtml" />
     <Content Include="Views\Personal\Update.cshtml" />
     <Content Include="Views\Journey\DestinationWidget.cshtml" />
+    <Content Include="Views\Destination\CommentEditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
