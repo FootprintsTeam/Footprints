@@ -12,11 +12,11 @@ namespace Footprints.Services
         bool AddDestinationComment(Guid UserID, Comment Comment);
         bool AddJourneyComment(Guid UserID, Comment Comment);
         Comment RetrieveComment(Guid CommentID);
-        bool UpdateComment(Comment Comment);
+        bool UpdateComment(Guid UserID, Comment Comment);
         void LikeAComment(Guid UserID, Guid CommentID);
         void UnlikeAComment(Guid UserID, Guid CommentID);
         IList<User> GetAllUserLikeComment(Guid CommentID);
-        void DeleteAComment(Guid CommentID);
+        void DeleteAComment(Guid UserID, Guid CommentID);
     }
     public class CommentService : ICommentService
     {
@@ -49,9 +49,9 @@ namespace Footprints.Services
         {
             return _commentRepo.GetAComment(CommentID);
         }
-        public bool UpdateComment(Comment Comment)
+        public bool UpdateComment(Guid UserID, Comment Comment)
         {
-            return _commentRepo.UpdateComment(Comment);
+            return _commentRepo.UpdateComment(UserID, Comment);
         }
         public void LikeAComment(Guid UserID, Guid CommentID)
         {
@@ -65,9 +65,9 @@ namespace Footprints.Services
         {
             return _commentRepo.GetAllUserLikeComment(CommentID);
         }
-        public void DeleteAComment(Guid CommentID)
+        public void DeleteAComment(Guid UserID, Guid CommentID)
         {
-            _commentRepo.DeleteAComment(CommentID);
+            _commentRepo.DeleteAComment(UserID, CommentID);
         }
     }
 }

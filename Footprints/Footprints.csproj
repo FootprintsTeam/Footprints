@@ -211,6 +211,7 @@
     <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
+    <Compile Include="Common\Search.cs" />
     <Compile Include="Common\UserMigrator.cs" />
     <Compile Include="Common\ImageProcessor.cs" />
     <Compile Include="Common\ImageUtil.cs" />

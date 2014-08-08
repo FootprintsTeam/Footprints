@@ -235,6 +235,30 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Destination:Destination)-[:SHARED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(user => user.As<User>()).Results.ToList<User>();
         }
+        //For Admin
+        public IList<Destination> GetAllDestination() 
+        {
+            var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Match("(Destination)-[:HAS*]->(Content)")
+                        .Return((Destination, Place, Contents) => new
+                        {
+                            Destination = Destination.As<Destination>(),
+                            Place = Place.As<Place>(),
+                            Contents = Contents.CollectAs<Content>()
+                        }).Results;
+            IList<Destination> result = null;       
+            Destination currentDestination = new Destination();
+            foreach (var item in query)
+            {
+                currentDestination = item.Destination;
+                currentDestination.Place = item.Place;
+                foreach (var content in item.Contents)
+                {
+                    currentDestination.Contents.Add(content.Data);
+                }
+                result.Add(currentDestination);
+            }
+            return result;
+        }
     }
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
@@ -253,6 +277,7 @@ namespace Footprints.DAL.Concrete
         IList<User> GetAllUserLiked(Guid DestinationID);
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
         IList<User> GetAllUserShared(Guid DestinationID);
+        IList<Destination> GetAllDestination();
     }
 
 }

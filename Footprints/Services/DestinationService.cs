@@ -22,6 +22,7 @@ namespace Footprints.Services
         IList<User> GetAllUserLiked(Guid DestinationID);
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
         IList<User> GetAllUserShared(Guid DestinationID);
+        IList<Destination> GetAllDestination();
     }
     public class DestinationService : IDestinationService
     {
@@ -85,6 +86,10 @@ namespace Footprints.Services
         public IList<User> GetAllUserShared(Guid DestinationID)
         {
             return _destinationRepo.GetAllUserShared(DestinationID);
+        }
+        public IList<Destination> GetAllDestination()
+        {
+            return _destinationRepo.GetAllDestination();
         }
     }
 }

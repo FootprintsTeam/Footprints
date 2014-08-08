@@ -30,11 +30,11 @@ namespace Footprints.DAL.Concrete
             return query.FirstOrDefault<Comment>();
         }
 
-        public bool UpdateComment(Comment Comment)
+        public bool UpdateComment(Guid UserID, Comment Comment)
         {
-            var query = Db.Cypher.Match("(commentTaken:Comment)").Where((Comment commentTaken) => commentTaken.CommentID == Comment.CommentID).
-                                    Set("commentTaken = {comment}").WithParams(new { comment = Comment }).Return(commentReturned => commentReturned.As<Comment>()).Results;
-            return (query.First<Comment>() != null);
+            Db.Cypher.OptionalMatch("(Comment:Comment)-[rel:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.CommentID == Comment.CommentID).
+                        AndWhere((User User) => User.UserID == UserID).With("Comment, rel").Where("rel IS NOT NULL").Set("Comment = {Comment}").WithParam("Comment", Comment).ExecuteWithoutResults();
+            return true;
         }
 
         public bool AddDestinationComment(Guid UserID, Comment Comment)
@@ -163,10 +163,18 @@ namespace Footprints.DAL.Concrete
             return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(User:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results.ToList<User>();
         }
         //TODO
-        public void DeleteAComment(Guid CommentID)
+        public void DeleteAComment(Guid UserID,Guid CommentID)
         {
-            Db.Cypher.Match("(CommentTaken:Comment)-[r]-()").Where((Comment CommentTaken) => CommentTaken.CommentID == CommentID).
-                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.CommentID == CommentID).Set("Activity.Status = 'DELETED'").Delete("CommentTaken, r").ExecuteWithoutResults();
+            Db.Cypher.OptionalMatch("(Comment:Comment)-[rel:COMMENT_BY]->(User:User)").
+                        Where((Comment comment) => comment.CommentID == CommentID).
+                        AndWhere((User User) => User.UserID == UserID).
+                        With("Comment, rel").Where("rel IS NOT NULL").
+                        Match("(Comment)-[r]-()").
+                        Match("(Activity:Activity)").
+                        Where((Activity Activity) => Activity.CommentID == CommentID).
+                        Set("Activity.Status = 'DELETED'").
+                        Delete("Comment, r").
+                        ExecuteWithoutResults();
         }
     }
 
@@ -177,10 +185,10 @@ namespace Footprints.DAL.Concrete
         bool AddDestinationComment(Guid UserID, Comment Comment);
         bool AddJourneyComment(Guid UserID, Comment Comment);
         Comment GetAComment(Guid CommentID);
-        bool UpdateComment(Comment Comment);
+        bool UpdateComment(Guid UserID, Comment Comment);
         void LikeAComment(Guid UserID, Guid CommentID);
         void UnlikeAComment(Guid UserID, Guid CommentID);
         IList<User> GetAllUserLikeComment(Guid CommentID);
-        void DeleteAComment(Guid CommentID);
+        void DeleteAComment(Guid UserID, Guid CommentID);
     }
 }

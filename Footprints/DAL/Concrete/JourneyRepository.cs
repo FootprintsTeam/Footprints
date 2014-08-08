@@ -278,6 +278,11 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results.ToList<User>();
         }
+        //For Admin
+        public IList<Journey> GetAllJourney()
+        {
+            return Db.Cypher.Match("(Journey:Journey)").Return(Journey => Journey.As<Journey>()).Results.ToList<Journey>();
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -293,5 +298,6 @@ namespace Footprints.DAL.Concrete
         IList<User> GetAllUserLiked(Guid JourneyID);
         void ShareJourney(Guid UserID, Guid JourneyID, String Content);
         IList<User> GetAllUserShared(Guid JourneyID);
+        IList<Journey> GetAllJourney();
     }
 }

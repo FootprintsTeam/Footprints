@@ -12,7 +12,6 @@ namespace Footprints.DAL.Concrete
     {
         private C5.IntervalHeap<Activity> priorityQueue;
         private System.Collections.Generic.HashSet<Activity> result;
-
         private LinkedList<User> friendList = new LinkedList<User>();
         private LinkedList<LinkedList<Activity>> activities = new LinkedList<LinkedList<Activity>>();
         private Activity latestActivity = new Activity(), mostRecentActivity = new Activity();
@@ -52,7 +51,6 @@ namespace Footprints.DAL.Concrete
             }
             activities.AddLast(activity);
         }
-
         public void RetrieveNewsFeed(Guid UserID, int k)
         {
             //If necessary
@@ -107,7 +105,6 @@ namespace Footprints.DAL.Concrete
                 }
             }
         }
-
         public void LoadMoreNewsfeed(Guid UserID, int l)
         {
             int cnt = 0;
@@ -143,9 +140,7 @@ namespace Footprints.DAL.Concrete
                 }
             }
         }
-
     }
-
     public class ActivityComparer : Comparer<Activity>
     {
         public override int Compare(Activity x, Activity y)
@@ -153,7 +148,6 @@ namespace Footprints.DAL.Concrete
             return x.Timestamp.CompareTo(y.Timestamp);
         }
     }
-
     public interface INewsFeedRepository
     {
         void LoadEgoNetwork(Guid UserID);
