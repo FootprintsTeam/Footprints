@@ -49,12 +49,12 @@ namespace Footprints.DAL.Abstract
         public virtual T Get(Expression<Func<T, bool>> where){
             return null;
         }
-        public virtual IEnumerable<T> GetAll()
+        public virtual IList<T> GetAll()
         {
             return null;
         }
 
-        public virtual IEnumerable<T> GetMany(Expression<Func<T, bool>> where)
+        public virtual IList<T> GetMany(Expression<Func<T, bool>> where)
         {
             return null;
         }

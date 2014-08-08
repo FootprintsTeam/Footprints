@@ -106,7 +106,7 @@ namespace Footprints.Controllers
                             ProfilePicURL = Constant.defaultAvatarUrl,
                             CoverPhotoUrl = Constant.defaultCoverUrl,
                             JoinDate = DateTimeOffset.Now,
-                            Genre = model.Genre.ToString()
+                            Genre = model.Genre
                         });
 
                     return RedirectToAction("Index", "Home");

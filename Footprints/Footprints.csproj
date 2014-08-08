@@ -218,6 +218,7 @@
     <Compile Include="Common\MultipartParser.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DestinationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JourneyController.cs" />
@@ -2568,6 +2569,7 @@
     <Content Include="Views\Media\GalleryWidget.cshtml" />
     <Content Include="Views\Destination\DestinationMainContentWidget.cshtml" />
     <Content Include="Views\Destination\DestinationDescriptionWidget.cshtml" />
+    <Content Include="Views\Destination\CommentSection.cshtml" />
     <Content Include="Views\Journey\Index.cshtml" />
     <Content Include="Views\Shared\NewJourneyFormModal.cshtml" />
     <Content Include="Views\Account\RegisterPartial.cshtml" />

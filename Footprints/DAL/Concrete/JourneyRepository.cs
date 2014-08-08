@@ -155,13 +155,13 @@ namespace Footprints.DAL.Concrete
                       Where("rel IS NOT NULL").Delete("rel, r, Journey").ExecuteWithoutResults();
             return true;
         }
-        public IEnumerable<Journey> GetJourneyList()
+        public IList<Journey> GetJourneyList()
         {
-            return Db.Cypher.Match("(journey:Journey)").Return(journey => journey.As<Journey>()).Results;
+            return Db.Cypher.Match("(journey:Journey)").Return(journey => journey.As<Journey>()).Results.ToList<Journey>();
         }
-        public IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID)
+        public IList<Journey> GetJourneyListBelongToUser(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:HAS]->(journey:Journey)").Where((User User) => User.UserID == UserID).Return(journey => journey.As<Journey>()).Results;
+            return Db.Cypher.Match("(User:User)-[:HAS]->(journey:Journey)").Where((User User) => User.UserID == UserID).Return(journey => journey.As<Journey>()).Results.ToList<Journey>();
         }
         public void LikeJourney(Guid UserID, Guid JourneyID)
         {
@@ -233,9 +233,9 @@ namespace Footprints.DAL.Concrete
                  Set("Journey.NumberOfLike = Journey.NumberOfLike - 1").Delete("rel")
                 .ExecuteWithoutResults();
         }
-        public IEnumerable<User> GetAllUserLiked(Guid JourneyID)
+        public IList<User> GetAllUserLiked(Guid JourneyID)
         {
-            return Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
+            return Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results.ToList<User>();
         }
         public void ShareJourney(Guid UserID, Guid JourneyID, String Content)
         {
@@ -274,9 +274,9 @@ namespace Footprints.DAL.Concrete
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "JoureyID", JourneyID }, { "Activity", Activity } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
         }
-        public IEnumerable<User> GetAllUserShared(Guid JourneyID)
+        public IList<User> GetAllUserShared(Guid JourneyID)
         {
-            return Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
+            return Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results.ToList<User>();
         }
     }
     public interface IJourneyRepository : IRepository<Journey>
@@ -286,12 +286,12 @@ namespace Footprints.DAL.Concrete
         Journey GetJourneyDetail(Guid JourneyID);
         bool UpdateJourney(Guid UserID, Journey Journey);
         bool DeleteJourney(Guid UserID, Guid JourneyID);
-        IEnumerable<Journey> GetJourneyList();
-        IEnumerable<Journey> GetJourneyListBelongToUser(Guid UserID);
+        IList<Journey> GetJourneyList();
+        IList<Journey> GetJourneyListBelongToUser(Guid UserID);
         void LikeJourney(Guid UserID, Guid JourneyID);
         void UnlikeJourney(Guid UserID, Guid JourneyID);
-        IEnumerable<User> GetAllUserLiked(Guid JourneyID);
+        IList<User> GetAllUserLiked(Guid JourneyID);
         void ShareJourney(Guid UserID, Guid JourneyID, String Content);
-        IEnumerable<User> GetAllUserShared(Guid JourneyID);
+        IList<User> GetAllUserShared(Guid JourneyID);
     }
 }
