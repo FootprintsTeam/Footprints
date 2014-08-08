@@ -17,25 +17,42 @@ namespace Footprints.Controllers
         IDestinationService destinationService;
         ICommentService commentService;
         IUserService userService;
-        public DestinationController(IDestinationService destinationService, ICommentService commentService)
+        public DestinationController(IDestinationService destinationService, ICommentService commentService, IUserService userService)
         {
             this.destinationService = destinationService;
             this.commentService = commentService;
+            this.userService = userService;
         }
 
         //
         // GET: /Destination/
+        [ActionName("IndexSample")]
         public ActionResult Index()
         {
             var model = Footprints.ViewModels.DestinationViewModel.GetSampleObject();
             return View(model);
         }
 
-        public ActionResult Index(Guid destinationID) {
+        public ActionResult Index(Guid destinationID)
+        {
             var destinationModel = destinationService.GetDestination(destinationID);
+            var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
             var comments = commentService.RetrieveDestinationComment(destinationID);
+            if (comments.Count > 0)
+            {
+                foreach (Comment comment in comments)
+                {
+                    destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
+                }
+            }
+
+            //destinationViewModel.Place = 
+            destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
+
             //implementing
-            return View();
+
+
+            return View(destinationViewModel);
         }
 
         //
@@ -51,12 +68,12 @@ namespace Footprints.Controllers
         public ActionResult Create(AddNewDestinationFormViewModel model)
         {
             //Get UserId
-            model.DestinationID = Guid.NewGuid();            
+            model.DestinationID = Guid.NewGuid();
             var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             destination.UserID = new Guid(User.Identity.GetUserId());
             destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
-            return RedirectToAction("Index","Destination",destination.DestinationID);
+            return RedirectToAction("Index", "Destination", new { destinationID = destination.DestinationID });
         }
 
 
@@ -83,10 +100,11 @@ namespace Footprints.Controllers
         }
 
         [HttpPost]
-        public ActionResult Comment(CommentViewModel comment){
+        public ActionResult Comment(CommentViewModel comment)
+        {
             var data = new List<CommentViewModel>();
             data.Add(comment);
-             return Json(data, JsonRequestBehavior.DenyGet);
+            return Json(data, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
@@ -103,7 +121,8 @@ namespace Footprints.Controllers
             return Json(data, JsonRequestBehavior.DenyGet);
         }
 
-        public ActionResult AddNewPhoto() {
+        public ActionResult AddNewPhoto()
+        {
             var photoContent = TempData["FileInfoList"];
             var destinationId = TempData["MasterID"];
             //add Content here
@@ -114,7 +133,8 @@ namespace Footprints.Controllers
             return Json(photoContent, JsonRequestBehavior.AllowGet);
         }
 
-        public string LikeUnlike(Guid userID, Guid destinationID) { 
+        public string LikeUnlike(Guid userID, Guid destinationID)
+        {
             return "Success";
         }
 
@@ -122,6 +142,18 @@ namespace Footprints.Controllers
         public ActionResult EditCommentForm()
         {
             return View();
+        }
+
+        [ChildActionOnly]
+        public ActionResult CommentSection(List<CommentViewModel> viewModel)
+        {
+            return PartialView("CommentSection", viewModel);
+        }
+
+        [ChildActionOnly]
+        public ActionResult EditDestinationForm(EditDestinationFormViewModel viewModel)
+        {
+            return PartialView("EditDestinationForm", viewModel);
         }
     }
 }

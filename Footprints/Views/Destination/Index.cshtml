@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-@{Html.RenderAction("EditDestinationForm", Model.EditDestinationForm);}
+@{Html.RenderAction("EditDestinationForm", new { viewModel = Model.EditDestinationForm });}
 @* Delete destination confirmation modal*@
 <div class="modal fade" id="delete-destination-modal">
     <div class="modal-dialog">
