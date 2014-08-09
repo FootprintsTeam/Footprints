@@ -2578,7 +2578,10 @@
     <Content Include="Views\Personal\Update.cshtml" />
     <Content Include="Views\Journey\DestinationWidget.cshtml" />
     <Content Include="Views\Destination\CommentEditForm.cshtml" />
+    <Content Include="Views\Admin\ViewJourney.cshtml" />
+    <Content Include="Views\Shared\AdminLayout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\ViewDestination.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
