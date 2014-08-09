@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Footprints.Services;
 using Footprints.Models;
 using System.Net;
+using Microsoft.AspNet.Identity;
 
 namespace Footprints.Controllers
 {
@@ -26,30 +27,33 @@ namespace Footprints.Controllers
         {
             return View();
         }
-
-        public ActionResult ViewJourney()
+        
+        public ActionResult Journey()
         {
             IList<Journey> list = journeySer.GetAllJourney();
             return View(list);
         }
 
-        public ActionResult ViewDestination() {
+        public ActionResult Destination() {
             IList<Destination> list = destinationSer.GetAllDestination();
             return View(list);
         }
         
-        public ActionResult DeleteJourney(Guid UserID, Guid JourneyID) {
-            System.Diagnostics.Debug.WriteLine("Start Delete");
-           
-            if ((UserID == null) && (JourneyID ==null))
+        public ActionResult DeleteJourney(Guid UserID, Guid JourneyID) {            
+            if (UserID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);                
+            }
+            else if (JourneyID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             else {
                 journeySer.DeleteJourney(UserID, JourneyID);
                 System.Diagnostics.Debug.WriteLine("Deleted");
                 return RedirectToAction("ViewJourney");
-            }                       
+            }
+            
         }
     }
 }
