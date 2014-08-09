@@ -69,12 +69,12 @@ namespace Footprints.Controllers
         public ActionResult Create(AddNewDestinationFormViewModel model)
         {
             //Get UserId
-            model.DestinationID = Guid.NewGuid();
+            model.DestinationID = Guid.NewGuid();            
             var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             destination.UserID = new Guid(User.Identity.GetUserId());
             destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
-            return RedirectToAction("Index", "Destination", new { destinationID = destination.DestinationID });
+            return RedirectToAction("Index","Destination",destination.DestinationID);
         }
 
 
@@ -87,9 +87,9 @@ namespace Footprints.Controllers
             return View();
         }
 
-        //
-        // GET: /Destination/Delete/5
-        //[Authorize]
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(Guid id, Guid JourneyID)
         {
             var user = Membership.GetUser(User.Identity.Name);
@@ -100,29 +100,58 @@ namespace Footprints.Controllers
         }
 
         [HttpPost]
-        public ActionResult Comment(CommentViewModel comment)
-        {
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Comment(CommentViewModel comment){
             var data = new List<CommentViewModel>();
+            var userId = new Guid(User.Identity.GetUserId());
+            if (comment.UserCommentId == userId) {
+                var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
+                //reset timestamp to current
+                commentObj.Timestamp = DateTimeOffset.Now;
+                commentObj.NumberOfLike = 0;
+                if (commentService.AddDestinationComment(userId, commentObj))
+                {
+                    data.Add(comment);
+                }
+            }
+            //Add comment to test
             data.Add(comment);
             return Json(data, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult EditComment(CommentViewModel comment)
         {
+            var userId = new Guid(User.Identity.GetUserId());
             var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
-            ////reset timestamp to current
-            //commentObj.Timestamp = DateTimeOffset.Now;
-            //commentService.UpdateComment(commentObj);
-            ////return Json(comment, JsonRequestBehavior.DenyGet);
+            //reset timestamp to current
+            commentObj.Timestamp = DateTimeOffset.Now;
+            //reset number of like
+            IEnumerable<User> userLikedList = destinationService.GetAllUserLiked(comment.DestinationID);
+            commentObj.NumberOfLike = userLikedList.Count();
             var data = new List<CommentViewModel>();
-            data.Add(comment);
+            if (commentService.UpdateComment(userId, commentObj))
+            {
+                data.Add(comment);
+            }
             return Json(data, JsonRequestBehavior.DenyGet);
         }
-
-        public ActionResult AddNewPhoto()
+        [HttpPost]
+        [Authorize]
+        public Guid DeleteComment(Guid CommentID)
         {
+            if (CommentID != null)
+            {
+                
+            }
+            //RedirectToAction("Index", "Home");
+            return CommentID;
+        }
+
+        public ActionResult AddNewPhoto() {
             var photoContent = TempData["FileInfoList"];
             var destinationId = TempData["MasterID"];
             //add Content here

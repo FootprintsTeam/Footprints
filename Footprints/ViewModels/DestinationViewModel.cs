@@ -30,6 +30,7 @@ namespace Footprints.ViewModels
         public IList<CommentViewModel> Comments { get; set; }
         public DateTimeOffset TakenDate { get; set; }
         public EditDestinationFormViewModel EditDestinationForm { get; set; }
+        public AddCommentFormViewModel AddCommentForm { get; set; }
         public string TimeAgo
         {
             get { return DateTimeFormat.TimeAgo(this.TakenDate); }
@@ -106,6 +107,11 @@ namespace Footprints.ViewModels
                     Name = "Trường đại học FPT",
                     Description = @"This is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is contentThis is content",
                     TakenDate = DateTimeOffset.Now
+                },
+                AddCommentForm = new AddCommentFormViewModel
+                {
+                    DestinationID = DestinationID,
+                    Content = ""
                 }
             };
         }
@@ -187,5 +193,13 @@ namespace Footprints.ViewModels
                 TakenDate = DateTimeOffset.Now
             };
         }
+    }
+
+    public class AddCommentFormViewModel
+    {
+        [Required]
+        public Guid DestinationID { get; set; }
+        [Required]
+        public String Content { get; set; }
     }
 }

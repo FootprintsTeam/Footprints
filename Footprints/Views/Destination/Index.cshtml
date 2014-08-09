@@ -42,7 +42,7 @@
         </div>
     </div>
 </div>
-@{Html.RenderAction("EditDestinationForm", new { viewModel = Model.EditDestinationForm });}
+@{Html.RenderPartial("EditDestinationForm", Model.EditDestinationForm);}
 @* Delete destination confirmation modal*@
 <div class="modal fade" id="delete-destination-modal">
     <div class="modal-dialog">
@@ -72,7 +72,7 @@
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="id" value="@Model.DestinationID" />
                     <input type="hidden" name="JourneyID" value="@Model.JourneyID" />
-                    <button class="btn btn-primary" type="submit"> Confirm</button>
+                    <button class="btn btn-primary" type="submit">Confirm</button>
                     <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 }
             </div>
@@ -81,85 +81,9 @@
 </div>
 <!-- // Modal END -->
 
-<div id="delete-photo-modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal heading -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">Delete Photo</h3>
-            </div>
-            <!-- // Modal heading END -->
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="innerAll">
-                    <div class="innerLR">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <label class="control-label">Are you sure want to delete this photo?</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- // Modal body END -->
-            <div class="modal-footer">
-                @using (Html.BeginForm("DeletePhoto", "Media", FormMethod.Post, new { @name = "frmDeletePhoto", @role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" />
-                    <button class="btn btn-primary" type="submit"> Confirm</button>
-                    <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                }
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div id="delete-comment-modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal heading -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">Delete comment</h3>
-            </div>
-            <!-- // Modal heading END -->
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="innerAll">
-                    <div class="innerLR">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <label class="control-label">Are you sure want to delete this comment?</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- // Modal body END -->
-            <div class="modal-footer">
-                @using (Html.BeginForm("DeleteComment", "Destination", FormMethod.Post, new { @name = "frmDeleteComment", @role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" />
-                    <button class="btn btn-primary" type="submit"> Confirm</button>
-                    <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                }
-            </div>
-
-        </div>
-    </div>
-</div>
+@{Html.RenderPartial("DeleteCommentModal");}
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        SetupDeleteDestinationForm.init();
-    });
-
-
     //liking
     $("#like-btn").click(function (e) {
         if ($(this).find("span").html() == "Like") {

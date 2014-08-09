@@ -211,6 +211,7 @@
     <Compile Include="Areas\Personal\PersonalAreaRegistration.cs" />
     <Compile Include="Common\Constant.cs" />
     <Compile Include="Common\DateTimeFormat.cs" />
+    <Compile Include="Common\StringUtil.cs" />
     <Compile Include="Common\Search.cs" />
     <Compile Include="Common\UserMigrator.cs" />
     <Compile Include="Common\ImageProcessor.cs" />
@@ -270,7 +271,6 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\DestinationViewModel.cs" />
-    <Compile Include="ViewModels\FriendItemViewModel.cs" />
     <Compile Include="ViewModels\InfiniteScrollJsonModel.cs" />
     <Compile Include="ViewModels\JourneyViewModel.cs" />
     <Compile Include="ViewModels\MediaViewModel.cs" />
@@ -1090,6 +1090,7 @@
     <Content Include="assets\images\social\100\3.jpg" />
     <Content Include="assets\images\survey-1.jpg" />
     <Content Include="assets\images\survey-3.jpg" />
+    <Content Include="assets\plugins\forms_elements_textarea\jquery.elastic.js" />
     <Content Include="assets\plugins\jquery\app.js" />
     <Content Include="assets\plugins\jquery\bootstrap.js" />
     <Content Include="assets\plugins\jquery\bootstrap.min.js" />
@@ -2577,11 +2578,14 @@
     <Content Include="Views\Account\LoginPartial.cshtml" />
     <Content Include="Views\Personal\Update.cshtml" />
     <Content Include="Views\Journey\DestinationWidget.cshtml" />
+    <Content Include="Views\Friend\Index.cshtml" />
     <Content Include="Views\Destination\CommentEditForm.cshtml" />
+    <Content Include="Views\Destination\DeleteCommentModal.cshtml" />
     <Content Include="Views\Admin\Journey.cshtml" />
     <Content Include="Views\Shared\AdminLayout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Destination.cshtml" />
+    <Content Include="Views\Destination\AddCommentForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
