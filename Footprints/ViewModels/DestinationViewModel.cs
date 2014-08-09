@@ -11,6 +11,8 @@ namespace Footprints.ViewModels
     public class DestinationViewModel
     {
         public Guid UserID { get; set; }
+        public string ProfilePicURL { get; set; }
+        public String CoverPhotoUrl { get; set; }        
         public String UserName { get; set; }
         public int NumberOfJourney { get; set; }
         public int NumberOfDestination { get; set; }

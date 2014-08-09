@@ -1,14 +1,16 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
-
+@{
+    Footprints.Models.User user = ViewBag.User as Footprints.Models.User;
+}
 <div class="widget">
     <div class="widget-body">
         @*<button class="pull-right btn btn-default btn-sm"><i class="fa fa-fw fa-edit"></i> Edit</button>*@
         <div class="pull-right media-body innerLR">
             <h3 class="media-heading strong">
-                @*Chuyến đi đến Đà Nẵng*@@Model.Name
+                @*Chuyến đi đến Đà Nẵng*@ @Model.Name
             </h3>
             <p>
-                <h5 class="text-muted" style="margin-bottom:0px !important">@*2 ngày trước*@@Model.TimeAgo</h5><br />
+                <h5 class="text-muted" style="margin-bottom:0px !important">@*2 ngày trước*@ @Model.TimeAgo</h5><br />
                 <a data-toggle="modal" href="#edit-destination-modal">
                     <span class="btn btn-default no-margin">
                         <i class="glyphicon glyphicon-pencil"></i> Edit
@@ -22,9 +24,9 @@
             </p>
         </div>
 
-        <img src="../assets/images/people/250/2.jpg" class="thumb pull-left" alt="" width="100">
+        <img src="@Model.ProfilePicURL" class="thumb pull-left" alt="" width="100">
         <div class="media-body innerLR innerT">
-            <h3 class="media-heading strong">@*Trịnh Thành Nhân*@@Model.UserName</h3>
+            <h3 class="media-heading strong">@*Trịnh Thành Nhân*@ @Model.UserName</h3>
             <p>
                 <span class="label label-info">@Model.NumberOfJourney Journeys</span><br />
                 <span class="label label-danger">@Model.NumberOfDestination Destinations</span><br />

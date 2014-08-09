@@ -20,10 +20,20 @@ namespace Footprints.DAL.Concrete
             return query.Results.First<Destination>();
         }
 
+        public Place GetDestinationPlace(Guid DestinationID) {
+            var result = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(place => place.As<Place>()).Results.First();
+            return result;   
+        }
+
+        public bool UserAlreadyLike(Guid userID, Guid destinationID) {
+            var result = Db.Cypher.Match("(destination:Destination {DestinationID:{destinationID}}),(user:User {UserID:{userID})").Where("destination-[:LIKED_BY]->user").WithParams(new { destinationID = destinationID, userID = userID}).Return(destination => destination.As<Destination>()).Results.ToList<Destination>();
+            return result.Count > 0 ? true : false;
+        }
+
         public Destination GetDestinationDetail(Guid DestinationID)
         {
-            var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
-                Match("(Destination)-[:HAS*]->(Content:Content)").
+            var query = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).
+                Match("(destination)-[:HAS*]->(contents:Content)").
                 Return((destination, place, contents) => new
                 {
                     destination = destination.As<Destination>(),
@@ -263,6 +273,8 @@ namespace Footprints.DAL.Concrete
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
+        public bool UserAlreadyLike(Guid userID, Guid destinationID);
+        Place GetDestinationPlace(Guid DestinationID);
         Destination GetDestination(Guid DestinationID);
         Destination GetDestinationDetail(Guid DestinationID);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);

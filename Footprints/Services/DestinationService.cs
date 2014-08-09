@@ -7,7 +7,8 @@ using Footprints.Models;
 using Neo4jClient;
 namespace Footprints.Services
 {
-    public interface IDestinationService {
+    public interface IDestinationService
+    {
         Destination GetDestination(Guid destinationID);
         Destination GetDestinationDetail(Guid DestinationID);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
@@ -23,10 +24,15 @@ namespace Footprints.Services
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
         IList<User> GetAllUserShared(Guid DestinationID);
         IList<Destination> GetAllDestination();
+        Place GetDestinationPlace(Guid DestinationID);
+        public bool UserAlreadyLike(Guid userID, Guid destinationID);
     }
     public class DestinationService : IDestinationService
     {
         IDestinationRepository _destinationRepo;
+        public bool UserAlreadyLike(Guid userID, Guid destinationID) {
+            return _destinationRepo.UserAlreadyLike(userID, destinationID);
+        }
         public DestinationService(IDestinationRepository destinationRepo)
         {
             this._destinationRepo = destinationRepo;
@@ -34,6 +40,10 @@ namespace Footprints.Services
         public Destination GetDestination(Guid DestinationID)
         {
             return _destinationRepo.GetDestination(DestinationID);
+        }
+        public Place GetDestinationPlace(Guid DestinationID)
+        {
+            return _destinationRepo.GetDestinationPlace(DestinationID);
         }
         public Destination GetDestinationDetail(Guid DestinationID)
         {
@@ -69,7 +79,7 @@ namespace Footprints.Services
         }
         public void LikeDestination(Guid UserID, Guid DestinationID)
         {
-             _destinationRepo.LikeDestination(UserID, DestinationID);
+            _destinationRepo.LikeDestination(UserID, DestinationID);
         }
         public void UnlikeDestination(Guid UserID, Guid DestinationID)
         {

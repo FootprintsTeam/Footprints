@@ -21,6 +21,7 @@ namespace Footprints.Mappings
             Mapper.CreateMap<User, PersonalViewModel>();
             Mapper.CreateMap<Destination, DestinationViewModel>();
             Mapper.CreateMap<Comment, CommentViewModel>();
+            Mapper.CreateMap<User, DestinationViewModel>();
         }
     }
 }

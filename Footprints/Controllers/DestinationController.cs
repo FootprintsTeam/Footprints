@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using Footprints.Models;
-
+using Footprints.Common;
 namespace Footprints.Controllers
 {
     public class DestinationController : Controller
@@ -37,6 +37,7 @@ namespace Footprints.Controllers
         {
             var destinationModel = destinationService.GetDestination(destinationID);
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
+            destinationViewModel.Place = destinationService.GetDestinationPlace(destinationID);
             var comments = commentService.RetrieveDestinationComment(destinationID);
             if (comments.Count > 0)
             {
@@ -46,11 +47,9 @@ namespace Footprints.Controllers
                 }
             }
 
-            //destinationViewModel.Place = 
+            //destinationViewModel.Place
             destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
-
-            //implementing
-
+            Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID),destinationViewModel);       
 
             return View(destinationViewModel);
         }
@@ -94,9 +93,8 @@ namespace Footprints.Controllers
             var user = Membership.GetUser(User.Identity.Name);
             Guid userId = (Guid)user.ProviderUserKey;
             destinationService.DeleteDestination(userId, id);
-            RedirectToAction("Index", "Journey", new { id = JourneyID });
             //Redirect to Journey
-            return View();
+            return RedirectToAction("Index", "Journey", new { id = JourneyID });
         }
 
         [HttpPost]
@@ -133,9 +131,19 @@ namespace Footprints.Controllers
             return Json(photoContent, JsonRequestBehavior.AllowGet);
         }
 
-        public string LikeUnlike(Guid userID, Guid destinationID)
+        public ActionResult LikeUnlike(Guid userID, Guid destinationID)
         {
-            return "Success";
+            string result;
+
+            try
+            {
+                destinationService.LikeDestination(userID, destinationID);
+                 result = FunctionResult.success.ToString();
+            } catch(Exception e){
+                result = e.Message;
+            }
+
+            return Json(new { Result = result});
         }
 
         [ChildActionOnly]
@@ -154,6 +162,11 @@ namespace Footprints.Controllers
         public ActionResult EditDestinationForm(EditDestinationFormViewModel viewModel)
         {
             return PartialView("EditDestinationForm", viewModel);
+        }
+
+        [ChildActionOnly]
+        public ActionResult DestinationMainContentWidget(DestinationViewModel viewModel) {            
+            return PartialView("DestinationMainContentWidget", viewModel);
         }
     }
 }

@@ -18,7 +18,7 @@
 
                 <!-- Tabs -->
                 <div class="relativeWrap">
-                    @{Html.RenderPartial("DestinationMainContentWidget", Model);}
+                    @{Html.RenderAction("DestinationMainContentWidget", Model);}
                 </div>
                 <!-- // Tabs END -->
                 @*description area*@
@@ -36,9 +36,9 @@
             <div class="pull-right col-lg-3 col-md-4">
                 <ul class="list-group list-group-1 margin-none">
                     <li class="list-group-item active bg-info"><a href="#"><i class="fa fa-user"></i> Stats</a></li>
-                    <li class="list-group-item"><a href="#"><span class="badge pull-right badge-info hidden-md" id="like-number">13</span><i class="fa fa-thumbs-up"></i> Liked</a></li>
-                    <li class="list-group-item"><a href="#"><span class="badge pull-right badge-info hidden-md" id="share-number">2</span><i class="fa fa-share"></i> Shared</a></li>
-                    <li class="list-group-item"><a href="#"><i class="fa fa-map-marker"></i> Số 14 ngõ 139 Khương Nam Đống Đa Hà Nội</a></li>
+                    <li class="list-group-item"><a href="#"><span class="badge pull-right badge-info hidden-md" id="like-number">@Model.NumberOfLike</span><i class="fa fa-thumbs-up"></i> Liked</a></li>
+                    <li class="list-group-item"><a href="#"><span class="badge pull-right badge-info hidden-md" id="share-number">@Model.NumberOfShare</span><i class="fa fa-share"></i> Shared</a></li>
+                    <li class="list-group-item"><a href="#"><i class="fa fa-map-marker"></i>@Model.Place.Name</a></li>
                 </ul>
             </div>
         </div>
@@ -173,7 +173,7 @@
             $.get("@Url.Action("LikeUnlike",new {controller = "Destination"})",
                 { userID: "@User.Identity.GetUserId()", destinationID: "@Model.DestinationID" },
                 function (data) {
-                    if (data == "Success") {
+                    if (data.Result == "Success") {
                         var likeSpanHtml = $("#like-number");
                         var numberOfLike = parseInt(likeSpanHtml.html());
                         numberOfLike = numberOfLike + 1;
