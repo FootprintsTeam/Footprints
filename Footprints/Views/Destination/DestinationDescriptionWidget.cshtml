@@ -24,9 +24,11 @@
             </p>
         </div>
 
-        <img src="@Model.ProfilePicURL" class="thumb pull-left" alt="" width="100">
+        <a href="@Url.Action("Index", "Personal", new { userID = Model.UserID})"><img src="@Model.ProfilePicURL" class="thumb pull-left" alt="" width="100"></a>
         <div class="media-body innerLR innerT">
-            <h3 class="media-heading strong">@*Trịnh Thành Nhân*@ @Model.UserName</h3>
+            <a href="@Url.Action("Index", "Personal", new { userID = Model.UserID})">
+                <h3 class="media-heading strong">@*Trịnh Thành Nhân*@ @Model.UserName</h3>
+            </a>
             <p>
                 <span class="label label-info">@Model.NumberOfJourney Journeys</span><br />
                 <span class="label label-danger">@Model.NumberOfDestination Destinations</span><br />

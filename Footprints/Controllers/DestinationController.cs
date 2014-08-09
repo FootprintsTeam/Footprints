@@ -46,11 +46,13 @@ namespace Footprints.Controllers
                     destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
                 }
             }
-
+                
             //destinationViewModel.Place
             destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID),destinationViewModel);       
 
+            //check if user already like or share
+            ViewBag.AlreadyLike = destinationService.UserAlreadyLike(new Guid(User.Identity.GetUserId()), destinationID);
             return View(destinationViewModel);
         }
 
