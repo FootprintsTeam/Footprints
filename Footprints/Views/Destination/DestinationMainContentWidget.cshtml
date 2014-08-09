@@ -14,7 +14,7 @@
             <!-- Tab content -->
             <div class="tab-pane" id="tab2-2">
                 <div class="row innerAll">
-                    @{Html.RenderPartial("UploadPhotoForm", new ImageViewModel { ReturnUrl = @Url.Action("AddNewPhoto","Destination"), MasterID = Model.DestinationID});}
+                    @{Html.RenderPartial("UploadPhotoForm", new ImageViewModel { ReturnUrl = @Url.Action("AddNewPhoto", "Destination"), MasterID = Model.DestinationID });}
                 </div>
                 @if (Model.Contents != null && Model.Contents.Count() > 0)
                 {
@@ -74,7 +74,18 @@
         </ul>
 
         <div class="innerAll pull-right">
-            <a href="#" class="innerLR" id="like-btn"><i class="fa fa-2x fa-thumbs-o-up"></i> <span>Like</span></a>
+            <a href="#" class="innerLR" id="like-btn">
+                @{
+                    if (!(bool)TempData["AlreadyLike"])
+                    {
+                        <i class="fa fa-2x fa-thumbs-o-up"></i> <span>Like</span>
+                    }
+                    else { 
+                        <i class="fa fa-2x fa-thumbs-o-down"></i> <span>Unlike</span>
+                    }
+                    TempData.Remove("AlreadyLike");
+                }                
+            </a>
             <a href="#" class="innerLR" id="share-btn"><i class="fa fa-2x fa-share-square-o"></i> <span>Share</span></a>
             <a href="#"><i class="fa fa-2x fa-facebook-square"></i> <span>Facebook</span></a>
         </div>
@@ -96,5 +107,5 @@
 
     $(document).ready(function () {
         SetupDeleteDestinationForm.init();
-    });    
+    });
 </script>

@@ -25,7 +25,7 @@ namespace Footprints.Services
         IList<User> GetAllUserShared(Guid DestinationID);
         IList<Destination> GetAllDestination();
         Place GetDestinationPlace(Guid DestinationID);
-        public bool UserAlreadyLike(Guid userID, Guid destinationID);
+        bool UserAlreadyLike(Guid userID, Guid destinationID);
     }
     public class DestinationService : IDestinationService
     {

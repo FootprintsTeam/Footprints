@@ -26,7 +26,11 @@ namespace Footprints.DAL.Concrete
         }
 
         public bool UserAlreadyLike(Guid userID, Guid destinationID) {
-            var result = Db.Cypher.Match("(destination:Destination {DestinationID:{destinationID}}),(user:User {UserID:{userID})").Where("destination-[:LIKED_BY]->user").WithParams(new { destinationID = destinationID, userID = userID}).Return(destination => destination.As<Destination>()).Results.ToList<Destination>();
+            var result = Db.Cypher.Match("(destination:Destination)").
+                Match("(user:User)").Where("destination-[:LIKED_BY]->user").
+                AndWhere((User user) => user.UserID == userID).
+                AndWhere((Destination destination) => destination.DestinationID == destinationID).
+                Return(destination => destination.As<Destination>()).Results.ToList<Destination>();
             return result.Count > 0 ? true : false;
         }
 
@@ -273,7 +277,7 @@ namespace Footprints.DAL.Concrete
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
-        public bool UserAlreadyLike(Guid userID, Guid destinationID);
+        bool UserAlreadyLike(Guid userID, Guid destinationID);
         Place GetDestinationPlace(Guid DestinationID);
         Destination GetDestination(Guid DestinationID);
         Destination GetDestinationDetail(Guid DestinationID);

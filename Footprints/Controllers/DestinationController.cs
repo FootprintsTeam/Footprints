@@ -52,7 +52,7 @@ namespace Footprints.Controllers
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID),destinationViewModel);       
 
             //check if user already like or share
-            ViewBag.AlreadyLike = destinationService.UserAlreadyLike(new Guid(User.Identity.GetUserId()), destinationID);
+            TempData["AlreadyLike"] = destinationService.UserAlreadyLike(new Guid(User.Identity.GetUserId()), destinationID);
             return View(destinationViewModel);
         }
 
