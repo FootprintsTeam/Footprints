@@ -1,15 +1,14 @@
 ﻿@model IList<Footprints.Models.Journey>
 @using Footprints.Models
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
     ViewBag.Title = "Journey Management";
 }
 
 @Styles.Render("~/css/core");
 
 <!-- <div class="layout-app">  -->
-<div class="innerLR">
-
+<div class="innerLR" style="padding-top: 70px;">
     <h3 class="margin-none pull-left">Journey Management</h3>
     <div class="btn-group btn-group-sm pull-right">
         <a href="" class="btn btn-primary">Add Journey</a>
@@ -40,23 +39,23 @@
             </div>
             <!-- // To END -->
             @*<!-- Min -->
-            <div class="form-group col-md-2 padding-none">
-                <label>Min:</label>
-                <div class="input-group">
-                    <input type="text" name="from" class="form-control" value="100" />
-                    <span class="input-group-addon"><i class="fa fa-euro"></i></span>
+                <div class="form-group col-md-2 padding-none">
+                    <label>Min:</label>
+                    <div class="input-group">
+                        <input type="text" name="from" class="form-control" value="100" />
+                        <span class="input-group-addon"><i class="fa fa-euro"></i></span>
+                    </div>
                 </div>
-            </div>
-            <!-- // Min END -->
-            <!-- Max -->
-            <div class="form-group col-md-2 padding-none">
-                <label>Max:</label>
-                <div class="input-group">
-                    <input type="text" name="from" class="form-control" value="500" />
-                    <span class="input-group-addon"><i class="fa fa-euro"></i></span>
+                <!-- // Min END -->
+                <!-- Max -->
+                <div class="form-group col-md-2 padding-none">
+                    <label>Max:</label>
+                    <div class="input-group">
+                        <input type="text" name="from" class="form-control" value="500" />
+                        <span class="input-group-addon"><i class="fa fa-euro"></i></span>
+                    </div>
                 </div>
-            </div>
-            <!-- // Max END -->*@
+                <!-- // Max END -->*@
             <!-- Select -->
             <div class="form-group col-md-3 padding-none">
                 <label class="label-control">Select:</label>
@@ -87,7 +86,7 @@
 
             <!-- Total journey & sort by options -->
             <div class="separator bottom">
-                Total journey: 
+                Total journey:
                 <span class="pull-right">
                     <label class="strong">Sort by:</label>
                     <select class="selectpicker margin-none" data-style="btn-default btn-xs">
@@ -106,17 +105,17 @@
                         <th style="width: 1%;" class="uniformjs"><input type="checkbox" /></th>
                         <th class="center">Name</th>
                         <th class="center">Description</th>
-                        <th class="center">TakenDate</th>
-                        <th class="center">Timestamp</th>
-                        <th class="center">NumberOfLike</th>
-                        <th class="center">NumberOfShare</th>                        
+                        <th class="center">Taken Date</th>
+                        <th class="center">Time stamp</th>
+                        <th class="center">Number Of Like</th>
+                        <th class="center">Number Of Share</th>
                         <th class="center" style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Item -->                    
+                    <!-- Item -->
                     @foreach (var journey in @Model)
-                    {                                                
+                    {
                         <tr class="selectable">
                             <td class="center uniformjs"><input type="checkbox" /></td>
                             <td class="center">@journey.Name</td>
@@ -124,18 +123,19 @@
                             <td class="center">@journey.TakenDate</td>
                             <td class="center">@journey.Timestamp</td>
                             <td class="center">@journey.NumberOfLike</td>
-                            <td class="center">@journey.NumberOfShare</td>                            
+                            <td class="center">@journey.NumberOfShare</td>
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
                                     @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
-                                    <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
-                                    <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
-                                    @Html.ActionLink("Del", "DeleteJourney", "Admin", new{UserID = journey.UserID, JourneyID = journey.JourneyID} , new { @class = "btn btn-default" })
+                                        <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
+                                    @Html.ActionLink("Edit", "EditJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Del", "DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID }, new { @class = "btn btn-danger" })
                                 </div>
                             </td>
                         </tr>
                     }
-                    
+
                     <!-- // Item END -->
 
                 </tbody>

@@ -49,11 +49,29 @@ namespace Footprints.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             else {
-                journeySer.DeleteJourney(UserID, JourneyID);
+                journeySer.DeleteJourney(UserID, JourneyID);                
                 System.Diagnostics.Debug.WriteLine("Deleted");
-                return RedirectToAction("ViewJourney");
+                return RedirectToAction("Journey");
             }
             
+        }
+
+        public ActionResult EditJourney(Journey Journey) {
+            if (Journey.JourneyID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Journey JourneyRetrieved = journeySer.RetrieveJourney(Journey.JourneyID);
+            return View(JourneyRetrieved);            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditJourney(Guid UserID, Journey Journey) {
+            if (ModelState.IsValid) {
+                journeySer.UpdateJourney(UserID, Journey);
+            }
+            return RedirectToAction("Journey");
         }
     }
 }
