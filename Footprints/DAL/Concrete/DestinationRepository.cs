@@ -172,7 +172,7 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" MATCH (User:User), (Destination:Destination) " +
                                                 " WHERE (User.UserID = {UserID} ) AND (Destination.DestinationID = {DestinationID} ) " +
                                                 " CREATE (Destination)-[:LIKED_BY]->(User) " +
-                                                " SET Destinatino.NumberOfLike = Destination.NumberOfLike + 1 " +
+                                                " SET Destination.NumberOfLike = Destination.NumberOfLike + 1 " +
                                                 " CREATE (Activity:Activity {Activity}) " +
                                                 " WITH User, Destination, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
