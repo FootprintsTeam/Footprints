@@ -90,5 +90,16 @@ namespace Footprints.ViewModels
         public Guid PhotoId { get; set; }
         public String PhotoUrl { get; set; }
     }
-
+    public class EditJourneyViewModel
+    {
+        [Required]
+        public Guid JourneyID { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public string Description { get; set; }
+        [Required]
+        public DateTimeOffset TakenDate { get; set; }
+        public String SortedDestination { get; set; }
+    }
 }

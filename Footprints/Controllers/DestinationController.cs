@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using Footprints.Models;
 using Footprints.Common;
+using System.IO;
 namespace Footprints.Controllers
 {
     public class DestinationController : Controller
@@ -17,24 +18,28 @@ namespace Footprints.Controllers
         IDestinationService destinationService;
         ICommentService commentService;
         IUserService userService;
-        public DestinationController(IDestinationService destinationService, ICommentService commentService, IUserService userService)
+        IJourneyService journeyService;
+        public DestinationController(IDestinationService destinationService, ICommentService commentService, IUserService userService, IJourneyService journeyService)
         {
             this.destinationService = destinationService;
             this.commentService = commentService;
             this.userService = userService;
+            this.journeyService = journeyService;
         }
 
         //
         // GET: /Destination/
-        [ActionName("IndexSample")]
+        [ActionName("DestinationSample")]
         public ActionResult Index()
         {
+            TempData["AlreadyLike"] = destinationService.UserAlreadyLike(new Guid(User.Identity.GetUserId()), Guid.NewGuid());
             var model = Footprints.ViewModels.DestinationViewModel.GetSampleObject();
-            return View(model);
+            return View("Index", model);
         }
 
         public ActionResult Index(Guid destinationID)
         {
+            var userId = new Guid(User.Identity.GetUserId());
             var destinationModel = destinationService.GetDestination(destinationID);
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
             destinationViewModel.Place = destinationService.GetDestinationPlace(destinationID);
@@ -46,7 +51,11 @@ namespace Footprints.Controllers
                     destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
                 }
             }
-                
+            destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(userId).Count;
+            destinationViewModel.NumberOfDestination = destinationService.GetAllDestination().Count();
+            destinationViewModel.NumberOfFriend = 0;
+            destinationViewModel.NumberOfLike = destinationService.GetAllUserLiked(destinationID).Count();
+            destinationViewModel.NumberOfShare = destinationService.GetAllUserShared(destinationID).Count();
             //destinationViewModel.Place
             destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID),destinationViewModel);       
@@ -74,7 +83,7 @@ namespace Footprints.Controllers
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             destination.UserID = new Guid(User.Identity.GetUserId());
             destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
-            return RedirectToAction("Index","Destination",destination.DestinationID);
+            return RedirectToAction("Index", "Destination", new { destinationID = destination.DestinationID });
         }
 
 
@@ -99,25 +108,48 @@ namespace Footprints.Controllers
             return RedirectToAction("Index", "Journey", new { id = JourneyID });
         }
 
+        protected String RenderPartialViewToString(String viewName, object model)
+        {
+            if (String.IsNullOrEmpty(viewName))
+                viewName = ControllerContext.RouteData.GetRequiredString("action");
+            ViewData.Model = model;
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewEngineResult viewResult =
+                ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                ViewContext viewContext = new ViewContext
+                (ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Comment(CommentViewModel comment){
-            var data = new List<CommentViewModel>();
+        public ActionResult Comment(CommentViewModel comment)
+        {
+            var commentId = Guid.NewGuid();
             var userId = new Guid(User.Identity.GetUserId());
-            if (comment.UserCommentId == userId) {
-                var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
-                //reset timestamp to current
-                commentObj.Timestamp = DateTimeOffset.Now;
-                commentObj.NumberOfLike = 0;
-                if (commentService.AddDestinationComment(userId, commentObj))
-                {
-                    data.Add(comment);
-                }
+            comment.CommentID = commentId;
+            comment.UserCommentName = User.Identity.GetUserName();
+            comment.Time = DateTimeOffset.Now;
+            comment.NumberOfLike = 0;
+            var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
+            //reset timestamp to current
+            commentObj.Timestamp = DateTimeOffset.Now;
+            commentObj.NumberOfLike = 0;
+            InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
+            if (commentService.AddDestinationComment(userId, commentObj))
+            {
+                jsonModel.HTMLString = RenderPartialViewToString("CommentItem", comment);
             }
-            //Add comment to test
-            data.Add(comment);
-            return Json(data, JsonRequestBehavior.DenyGet);
+            else
+            {
+                jsonModel.HTMLString = "";
+            }
+            return Json(jsonModel);
         }
 
         [HttpPost]

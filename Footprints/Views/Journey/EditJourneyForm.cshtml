@@ -1,0 +1,91 @@
+﻿@using Microsoft.AspNet.Identity
+@model Footprints.ViewModels.JourneyViewModel
+
+<div class="modal fade" id="edit-journey-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Edit Journey Information</h3>
+            </div>
+            <div class="modal-body">
+                <div class="innerAll">
+                    <div class="innerLR">
+                        @using (Html.BeginForm("Edit", "Journey", FormMethod.Post, new { name="frmEditJourney", @class = "form-horizontal", role = "form"}))
+                        {
+                            Html.ValidationSummary(true);
+                            Html.AntiForgeryToken();
+                            @Html.Hidden("UserID", new Guid(User.Identity.GetUserId()));
+                            @Html.Hidden("JourneyID", Guid.NewGuid());
+                            @*<form class="form-horizontal" role="form">*@
+                            <div class="form-group">
+                                <label for="journeyname" class="col-sm-2 control-label">Name</label>
+                                <div class="col-sm-10">
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder = "Enter journey name..." })
+                                    @Html.ValidationMessageFor(x => x.Name)
+                                    @*<input type="text" placeholder="Enter journey name..." class="form-control" id="journeyname" name="journeyname" />*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="journey-description" class="col-sm-2 control-label">Description</label>
+                                <div class="col-sm-10">
+                                    @Html.TextAreaFor(x => x.Description, new { @class = "notebook border-none form-control padding-none", placeholder = "Write your description here...", rows = "4" })
+                                    @Html.ValidationMessageFor(x => x.Description)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Start Date</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group date datepicker2">
+                                        @Html.TextBoxFor(x => x.TakenDate, "{0:dd MMMM yyyy}", new { @class = "form-control", value = "14 February 2013" })
+                                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                        @Html.ValidationMessageFor(x => x.TakenDate)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Destination List</label>
+                                <div class="col-sm-10">
+                                    <ul id="sortable-destinations">
+                                        @foreach (var destination in Model.Destinations.Select((value, i) => new { i, value }))
+                                        {
+                                            <li id="destination-@destination.value.DestinationID" data-destinationid="@destination.value.DestinationID" data-position="@destination.i">
+                                                <i class="fa fa-map-marker"></i>@destination.value.Name
+                                            </li>
+                                        }
+                                        @foreach (var destination in Model.Destinations.Select((value, i) => new { i, value }))
+                                        {
+                                            <li id="destination-@destination.value.DestinationID" data-destinationid="@destination.value.DestinationID" data-position="@destination.i">
+                                                <i class="fa fa-map-marker"></i>@destination.value.Name
+                                            </li>
+                                        }
+                                    </ul>
+                                    <input type="hidden" name="SortedDestination" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/library/jquery-ui/js/jquery-ui.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#sortable-destinations").sortable({
+            change: function (event, ui) {
+                console.log('start_pos = [' + ui.item.data('start_pos') + '] -- index = [' + ui.placeholder.index() + ']');
+            }
+        });
+        $("#sortable-destinations").disableSelection();
+    });
+    
+</script>

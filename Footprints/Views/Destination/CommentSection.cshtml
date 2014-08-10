@@ -1,29 +1,11 @@
-﻿@using Microsoft.AspNet.Identity
-@using Footprints.Common
-@model IEnumerable<Footprints.ViewModels.CommentViewModel>
+﻿@model IList<Footprints.ViewModels.CommentViewModel>
 <script type="text/javascript">
     //get data from callback and insert html
     function addComment(data) {
-        var target = $("#comment-section-container");
-        for (var i = 0; i < data.length; i++) {
-            var comment = data[i];
-            target.before(
-                '<li class="list-group-item">'
-                + '	<img src="' + comment.UserAvatarURL + '" alt="Avatar" class="pull-left" width="36" height="36" />'
-                + '	<div class="user-info">'
-                + '		<div class="row">'
-                + '			<div class="col-md-3">'
-                + '				<a href="">' + comment.UserCommentName + '</a>'
-                + '				<abbr>' + comment.TimeAgo + '</abbr>'
-                + '			</div>'
-                + '			<div class="col-md-9">'
-                + '				<span> ' + comment.Content + '</span>'
-                + '			</div>'
-                + '		</div>'
-                + '	</div>'
-                + '</li>'
-                );
-        }
+        $('#comment-section-container').before(
+            data.HTMLString
+        );
+        $('#comment-input-@ViewBag.DestinationID').val('');
     }
     //Edit comment callback function
     function editComment(data) {
@@ -55,56 +37,26 @@
 <div class="row">
     <div class="col-md-12 col-sm-8">
         <ul class="list-group social-comments margin-none">
-            @foreach (var comment in Model)
+            @if (Model != null && Model.Count > 0)
             {
-                <li class="list-group-item" id="comment-item-@comment.CommentID">
-                    @if (StringUtil.compareGuidToString(comment.UserCommentId, User.Identity.GetUserId()))
-                    {
-                        <div class="icon-edit pull-right" style="position:absolute; top:8px;right:8px; z-index:1">
-                            <div class="dropdown">
-                                <a href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-pencil"></i></a>
-                                <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu" style="white-space:nowrap">
-                                    <li><a onclick="javascript:SetupEditCommentForm.showEditCommentArea('@comment.CommentID');">Edit...</a></li>
-                                    <li><a onclick="javascript:SetupDeleteCommentForm.displayPopUpWindow('@comment.CommentID');">Delete...</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    }
+                foreach (var comment in Model)
+                {
+                    Html.RenderPartial("CommentItem", comment);
+                }
+            }
 
-                    <img src="@comment.UserAvatarURL" alt="Avatar" class="pull-left" width="36" height="36" />
-                    <div class="user-info">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <a href="">@comment.UserCommentName</a>
-                                <abbr>@comment.TimeAgo</abbr>
-                            </div>
-                            <div class="col-md-9" id="comment-content-@comment.CommentID">
-                                <span>@comment.Content</span>
-                            </div>
-                            @* Authenticate to display edit comment menu *@
-                            @if (StringUtil.compareGuidToString(comment.UserCommentId, User.Identity.GetUserId()))
-                            {
-                                Html.RenderPartial("EditCommentForm", comment);
-                            }
-                        </div>
+            <li class="list-group-item innerAll" id="comment-section-container">
+                @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnBegin = "return validateAddCommentForm('" + @ViewBag.DestinationID + "');" }, new { id = "add-comment-form-" + ViewBag.DestinationID }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("DestinationID", (object)ViewBag.DestinationID)
+
+                    <div class="form-group">
+                        @Html.TextArea("Content", null, new { name = "message", id = "comment-input-" + @ViewBag.DestinationID, @class = "form-control input-sm autoheight", placeholder = "Comment here ...", rows = "1", style = "resize:none;" })
+                        <input type="submit" class="btn btn-xs btn-primary pull-right" value="Done" />
                     </div>
-                </li>
-            }
-            @if (@User.Identity.IsAuthenticated)
-            {
-                <li class="list-group-item innerAll" id="comment-section-container">
-                    @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnBegin = "return validateAddCommentForm('" + @ViewBag.DestinationID + "');" }, new { id = "add-comment-form-" + ViewBag.DestinationID }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("DestinationID", (object)ViewBag.DestinationID)
-
-                        <div class="form-group">
-                            @Html.TextArea("Content", null, new { name = "message", id = "comment-input-" + @ViewBag.DestinationID, @class = "form-control input-sm autoheight", placeholder = "Comment here ...", rows = "1", style = "resize:none;" })
-                            <input type="submit" class="btn btn-xs btn-primary pull-right" value="Done" />
-                        </div>
-                    }
-                </li>
-            }
+                }
+            </li>
         </ul>
     </div>
 </div>

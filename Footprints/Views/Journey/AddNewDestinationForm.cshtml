@@ -9,10 +9,19 @@
             @*<form name="frmNewDestination" role="form" class="form-horizontal">*@
             @using (Html.BeginForm("Create", "Destination", FormMethod.Post, new { @name = "frmDestination", @class = "form-horizontal", @role = "form" }))
             {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        @Html.ValidationMessageFor(x => x.PlaceID)
+                    </div>
+                </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Name</label>
                     <div class="col-sm-10">
                         @Html.TextBoxFor(x => x.Name, new { @placeholder = "Destination name", @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Name)
                         @*<input type="text" placeholder="Destination name" name="Name" class="form-control">*@
                     </div>
                 </div>
@@ -21,6 +30,7 @@
                     <label class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10">
                         @Html.TextAreaFor(x => x.Description, new { @placeholder = "Write your description here...", @class = "notebook border-none form-control padding-none", cols = "20", rows = "4" })
+                        @Html.ValidationMessageFor(x => x.Description)
                         @*<textarea class="notebook border-none form-control padding-none" cols="20" name="Description" placeholder="Write your description here..." rows="4"></textarea>*@
                     </div>
                 </div>
@@ -29,6 +39,7 @@
                     <div class="col-sm-10">
                         <div class="input-group date datepicker2">
                             @Html.TextBoxFor(x => x.TakenDate, "{0:dd MMMM yyyy}", new { @class = "form-control", id = "TakenDate", data_val = "true" })
+                            @Html.ValidationMessageFor(x => x.TakenDate)
                             @*<input class="form-control" data-val="true" data-val-required="The Time field is required." id="TakenDate" name="TakenDate" type="text" value="" />*@
                             <span class="input-group-addon"><i class="fa fa-th"></i></span>
                         </div>
@@ -50,7 +61,7 @@
                     </div>
                 </div>
             }
-            
+
             @*</form>*@
 
         </div>
