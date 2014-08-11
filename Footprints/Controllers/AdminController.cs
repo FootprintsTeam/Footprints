@@ -56,18 +56,18 @@ namespace Footprints.Controllers
             
         }
 
-        public ActionResult EditJourney(Journey Journey) {
-            if (Journey.JourneyID == null)
+        public ActionResult EditJourney(Guid JourneyID) {
+            if (JourneyID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Journey JourneyRetrieved = journeySer.RetrieveJourney(Journey.JourneyID);
+            Journey JourneyRetrieved = journeySer.RetrieveJourney(JourneyID);
             return View(JourneyRetrieved);            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditJourney(Guid UserID, Journey Journey) {
+        public ActionResult EditJourney(Journey Journey) {
             if (ModelState.IsValid) {
                 journeySer.UpdateJourneyForAdmin(Journey);
             }
