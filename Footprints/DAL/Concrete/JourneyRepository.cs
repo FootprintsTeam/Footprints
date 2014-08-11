@@ -283,6 +283,20 @@ namespace Footprints.DAL.Concrete
         {
             return Db.Cypher.Match("(Journey:Journey)").Return(Journey => Journey.As<Journey>()).Results.ToList<Journey>();
         }
+        public int GetNumberOfJourney()
+        {
+            return Db.Cypher.Match("(Journey:Journey)").Return<int>("Count(Journey)").Results.FirstOrDefault();
+        }
+        public int GetNumberOfLike(Guid JourneyID)
+        {
+            return Db.Cypher.Match("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                Return<int>("Journey.NumberOfLike").Results.FirstOrDefault();
+        }
+        public int GetNumberOfShare(Guid JourneyID)
+        {
+            return Db.Cypher.Match("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+               Return<int>("Journey.NumberOfShare").Results.FirstOrDefault();
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -299,5 +313,8 @@ namespace Footprints.DAL.Concrete
         void ShareJourney(Guid UserID, Guid JourneyID, String Content);
         IList<User> GetAllUserShared(Guid JourneyID);
         IList<Journey> GetAllJourney();
+        int GetNumberOfJourney();
+        int GetNumberOfLike(Guid JourneyID);
+        int GetNumberOfShare(Guid JourneyID);
     }
 }

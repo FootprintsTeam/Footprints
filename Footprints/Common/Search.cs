@@ -5,10 +5,12 @@ using System.Web;
 using Footprints.DAL.Abstract;
 using Footprints.Models;
 using Neo4jClient.Cypher;
+using Neo4jClient;
 namespace Footprints.Common
 {
     public class Search : RepositoryBase<Search>, ISearch
     {
+        public Search(IGraphClient client) : base(client) { }
         public IList<User> SearchUser(String textEntered)
         {
             String[] split = textEntered.Split(new char[] {' '});

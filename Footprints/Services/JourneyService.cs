@@ -26,6 +26,9 @@ namespace Footprints.Services
         void ShareJourney(Guid UserID, Guid JourneyID, String Content);
         IList<User> GetAllUserShared(Guid JourneyID);
         IList<Journey> GetAllJourney();
+        int GetNumberOfJourney();
+        int GetNumberOfLike(Guid JourneyID);
+        int GetNumberOfShare(Guid JourneyID);
     }
     public class JourneyService : IJourneyService
     {
@@ -89,6 +92,18 @@ namespace Footprints.Services
         public IList<Journey> GetAllJourney()
         {
             return journeyRepository.GetAllJourney();
+        }
+        public int GetNumberOfJourney()
+        {
+            return journeyRepository.GetNumberOfJourney();
+        }
+        public int GetNumberOfLike(Guid JourneyID)
+        {
+            return journeyRepository.GetNumberOfLike(JourneyID);
+        }
+        public int GetNumberOfShare(Guid JourneyID)
+        {
+            return journeyRepository.GetNumberOfShare(JourneyID);
         }
     }
 }

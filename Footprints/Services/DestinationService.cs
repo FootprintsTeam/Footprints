@@ -25,7 +25,10 @@ namespace Footprints.Services
         IList<User> GetAllUserShared(Guid DestinationID);
         IList<Destination> GetAllDestination();
         Place GetDestinationPlace(Guid DestinationID);
-        bool UserAlreadyLike(Guid userID, Guid destinationID);
+        bool UserAlreadyLike(Guid UserID, Guid DestinationID);
+        int GetNumberOfDestination();
+        int GetNumberOfLike(Guid DestinationID);
+        int GetNumberOfShare(Guid DestinationID);
     }
     public class DestinationService : IDestinationService
     {
@@ -100,6 +103,18 @@ namespace Footprints.Services
         public IList<Destination> GetAllDestination()
         {
             return _destinationRepo.GetAllDestination();
+        }
+        public int GetNumberOfDestination()
+        {
+            return _destinationRepo.GetNumberOfDestination();
+        }
+        public int GetNumberOfLike(Guid DestinationID)
+        {
+            return _destinationRepo.GetNumberOfLike(DestinationID);
+        }
+        public int GetNumberOfShare(Guid DestinationID)
+        {
+            return _destinationRepo.GetNumberOfShare(DestinationID);
         }
     }
 }

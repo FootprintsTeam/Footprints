@@ -273,6 +273,20 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
+        public int GetNumberOfDestination()
+        {
+            return Db.Cypher.Match("(Destination:Destination)").Return<int>("Count(Destination)").Results.FirstOrDefault();
+        }
+        public int GetNumberOfLike(Guid DestinationID)
+        {
+            return Db.Cypher.Match("(Destination:Destination)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                Return<int>("Destination.NumberOfLike").Results.FirstOrDefault();
+        }
+        public int GetNumberOfShare(Guid DestinationID)
+        {
+            return Db.Cypher.Match("(Destination:Destination)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                Return<int>("Destination.NumberOfShare").Results.FirstOrDefault();
+        }
     }
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
@@ -294,6 +308,9 @@ namespace Footprints.DAL.Concrete
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
         IList<User> GetAllUserShared(Guid DestinationID);
         IList<Destination> GetAllDestination();
+        int GetNumberOfDestination();
+        int GetNumberOfLike(Guid DestinationID);
+        int GetNumberOfShare(Guid DestinationID);
     }
 
 }
