@@ -16,18 +16,58 @@ namespace Footprints.DAL.Concrete
 
         public IList<Comment> GetAllCommentOnJourney(Guid JourneyID)
         {
-            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.JourneyID == JourneyID).Return(comment => comment.As<Comment>()).Results.ToList<Comment>();
+            var query = Db.Cypher.Match("(Comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.JourneyID == JourneyID).
+                Return((comment, user) => new
+                {
+                    comment = comment.As<Comment>(),
+                    user = user.As<User>()
+                }).OrderBy("Comment.Timestamp").Results;
+            IList<Comment> result = null;
+            Comment currentComment = new Comment();
+            foreach (var item in query)
+            {
+                currentComment = item.comment;
+                currentComment.User = item.user;
+                result.Add(currentComment);
+            }
+            return result;
         }
 
         public IList<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
-            return Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.DestinationID == DestinationID).Return(comment => comment.As<Comment>()).Results.ToList<Comment>();
+
+            var query = Db.Cypher.Match("(Comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.DestinationID == DestinationID).
+                Return((comment, user) => new
+                {
+                    comment = comment.As<Comment>(),
+                    user = user.As<User>()
+                }).OrderBy("Comment.Timestamp").Results;
+            IList<Comment> result = null;
+            Comment currentComment = new Comment();
+            foreach (var item in query)
+            {
+                currentComment = item.comment;
+                currentComment.User = item.user;
+                result.Add(currentComment);
+            }
+            return result;
         }
 
         public Comment GetAComment(Guid CommentID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)").Where((Comment comment) => comment.CommentID == CommentID).Return(comment => comment.As<Comment>()).Results;
-            return query.FirstOrDefault<Comment>();
+            var query = Db.Cypher.Match("(Comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.CommentID == CommentID).
+                        Return( (comment, user) => new {
+                            comment = comment.As<Comment>(),
+                            user = user.As<User>()
+                            }).Results;
+            Comment result = new Comment();
+            foreach (var item in query)
+            {
+                result = item.comment;
+                result.User = item.user;
+                return result;
+            }
+            return null;
         }
 
         public bool UpdateComment(Guid UserID, Comment Comment)
