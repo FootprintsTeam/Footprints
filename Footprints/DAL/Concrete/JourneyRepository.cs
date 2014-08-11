@@ -119,7 +119,7 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(user:User)-[:HAS]->(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).AndWhere((User user) => user.UserID == UserID).
                          Set("journey.Name = {Journey}.Name, journey.Description = {Journey}.Description, journey.TakenDate = {Journey}.TakenDate, journey.Timestamp = {Journey}.Timestamp, journey.NumberOfLike = {Journey}.NumberOfLike, journey.NumberOfShare = {Journey}.NumberOfShare").
                          WithParam("Journey", Journey).Return<Journey>("journey").Results;
-            return query.First<Journey>() == null ? true : false;
+            return query.Count<Journey>() > 0 ? true : false;
         }
 
         //ForAdmin
@@ -128,7 +128,7 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).
                         Set("journey.Name = {Journey}.Name, journey.Description = {Journey}.Description, journey.TakenDate = {Journey}.TakenDate, journey.Timestamp = {Journey}.Timestamp, journey.NumberOfLike = {Journey}.NumberOfLike, journey.NumberOfShare = {Journey}.NumberOfShare").
                         WithParam("Journey", Journey).Return<Journey>("journey").Results.First<Journey>();
-            return (query != null);
+            return query.Count<Journey>() > 0 ? true : false;
         }
         public bool DeleteJourney(Guid UserID, Guid JourneyID)
         {

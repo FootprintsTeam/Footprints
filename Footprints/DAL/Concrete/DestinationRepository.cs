@@ -96,15 +96,22 @@ namespace Footprints.DAL.Concrete
         }
         public bool UpdateDestination(Guid UserID, Destination Destination)
         {
-            var query = Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).AndWhere((User user)=>user.UserID == UserID).
-                Set("Destination = {destination}").WithParams(new { destination = Destination }).Return(destination => destination.As<Destination>()).Results;
-            return (query.First<Destination>() != null);
+            var query = Db.Cypher.OptionalMatch("(user:User)-[:HAS]->(Journey:Journey)-[:HAS]->(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).AndWhere((User user)=>user.UserID == UserID).
+                Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
+                WithParam("Destination", Destination).Return(destination => destination.As<Destination>()).Results;
+            return query.Count<Destination>() > 0 ? true : false;
+        }
+        public bool UpdateDestinationForAdmin(Destination Destination)
+        {
+            var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).
+                Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
+                WithParam("Destination", Destination).Return(destination => destination.As<Destination>()).Results;
+            return query.Count<Destination>() > 0 ? true : false;
         }
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
             Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]-()").Where((Destination Destination) => Destination.DestinationID == DestinationID).AndWhere((User User) => User.UserID == UserID).
                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("Destination, r").ExecuteWithoutResults();
-
         }
         public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
         {
