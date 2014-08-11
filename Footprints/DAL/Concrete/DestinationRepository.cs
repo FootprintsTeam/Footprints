@@ -308,7 +308,7 @@ namespace Footprints.DAL.Concrete
         void ShareDestination(Guid UserID, Guid DestinationID, String Content);
         IList<User> GetAllUserShared(Guid DestinationID);
         IList<Destination> GetAllDestination();
-        int GetNumberOfDestination();
+        int GetNumberOfDestination(Guid UserID);
         int GetNumberOfLike(Guid DestinationID);
         int GetNumberOfShare(Guid DestinationID);
     }
