@@ -89,18 +89,16 @@ namespace Footprints.Controllers
         //
         // POST: /Journey/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult Edit(EditJourneyViewModel model)
         {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+           var userId = new Guid(User.Identity.GetUserId());
+            var journey = Mapper.Map<EditJourneyViewModel, Journey>(model);
+            journey.Timestamp = DateTimeOffset.Now;
+            journey.UserID = userId;
+            journeyService.UpdateJourney(userId, journey);
+            return RedirectToAction("Index", "Journey", new { journeyID = model.JourneyID, username = User.Identity.GetUserName() });
         }
 
         //

@@ -22,7 +22,10 @@
                 @*description area*@
                 @{Html.RenderPartial("DestinationDescriptionWidget");}
                 @*comment area*@
-                @{Html.RenderAction("CommentSection", "Destination", new { viewModel = Model.Comments });}
+                @{
+                    Html.ViewData.Add(new KeyValuePair<string, object>("DestinationID", Model.DestinationID));
+                }
+                @{Html.RenderPartial("CommentSection", new ViewDataDictionary(Model.Comments));}
 
                 @*Side Area*@
                 <div class="col-lg-3 col-md-4">

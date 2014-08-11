@@ -1,0 +1,36 @@
+﻿@using Microsoft.AspNet.Identity
+@using Footprints.Common
+@model Footprints.ViewModels.CommentViewModel
+<li class="list-group-item" id="comment-item-@Model.CommentID">
+    @if (StringUtil.compareGuidToString(Model.UserCommentId, User.Identity.GetUserId()))
+    {
+        <div class="icon-edit pull-right" style="position:absolute; top:8px;right:8px; z-index:1">
+            <div class="dropdown">
+                <a href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-pencil"></i></a>
+                <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu" style="white-space:nowrap">
+                    <li><a onclick="javascript:SetupEditCommentForm.showEditCommentArea('@Model.CommentID');">Edit...</a></li>
+                    <li><a onclick="javascript:SetupDeleteCommentForm.displayPopUpWindow('@Model.CommentID');">Delete...</a></li>
+                </ul>
+            </div>
+        </div>
+    }
+    <a href="@Url.Action("Index", "Personal", new { userID = Model.UserCommentId })">
+        <img src="@Model.UserAvatarURL" alt="Avatar" class="pull-left" width="36" height="36" />
+    </a>
+    <div class="user-info">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="@Url.Action("Index", "Personal", new { userID = Model.UserCommentId })">@Model.UserCommentName</a>
+                <abbr><i class="fa fa-clock-o"></i> @Model.TimeAgo</abbr>
+            </div>
+            <div class="col-md-9" id="comment-content-@Model.CommentID">
+                <span>@Model.Content</span>
+            </div>
+            @* Authenticate to display edit comment menu *@
+            @if (StringUtil.compareGuidToString(Model.UserCommentId, User.Identity.GetUserId()))
+            {
+                Html.RenderPartial("EditCommentForm", Model);
+            }
+        </div>
+    </div>
+</li>
