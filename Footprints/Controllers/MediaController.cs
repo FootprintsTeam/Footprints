@@ -79,16 +79,17 @@ namespace Footprints.Controllers
                 else
                 {
                     fileInfoItem.error = ERROR_MESSAGE;
-                }
-                // nhan added
-                TempData["FileInfoList"] = fileInfoList;
-                TempData["MasterID"] = Request.Form["MasterID"];
+                }                
             }
             catch (Exception e)
             {
                 fileInfoItem.error = ERROR_MESSAGE;
                 System.Diagnostics.Debug.WriteLine(e.StackTrace);
             }
+
+            // nhan added
+            TempData["FileInfoList"] = fileInfoList;
+            TempData["MasterID"] = Request.Form["MasterID"];
 
             return Redirect(Request.Form["ReturnUrl"]);
         }

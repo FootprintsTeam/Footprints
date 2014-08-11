@@ -23,10 +23,10 @@
                 @{Html.RenderPartial("DestinationDescriptionWidget");}
                 @*comment area*@
                 @{
-                    Html.ViewData.Add(new KeyValuePair<string, object>("DestinationID", Model.DestinationID));
+                    var commentSectionViewData = new ViewDataDictionary { 
+                        { "DestinationID", Model.DestinationID }};
                 }
-                @{Html.RenderPartial("CommentSection", new ViewDataDictionary(Model.Comments));}
-
+                @{Html.RenderPartial("CommentSection", Model.Comments, commentSectionViewData);}
                 @*Side Area*@
                 <div class="col-lg-3 col-md-4">
 
@@ -123,6 +123,10 @@
                         if (numberOfLike != "NaN")
                             likeSpanHtml.html(numberOfLike.toString());
 
+                        $.post("@Url.Action("Share")"
+                        
+                        )
+
                         //change icon
                         $("#like-btn").find("span").html('Like');
                         $("#like-btn").find("i").removeClass('fa-thumbs-o-down');
@@ -139,13 +143,23 @@
             var shareSpanHtml = $("#share-number");
             var numberOfShare = parseInt(shareSpanHtml.html());
             numberOfShare = numberOfShare + 1;
+
             if (numberOfShare != "NaN")
                 shareSpanHtml.html(numberOfShare.toString());
+
             $(this).find("span").html("Shared");
 
             $(this).find("i").removeClass("fa-share-square-o");
             $(this).find("i").addClass("fa-check-square-o");
+
             //send http request
+            $.get("@Url.Action("ShareDestination","Destination")", new {
+                userID: "@User.Identity.GetUserId()",
+                destinationID: "@Model.DestinationID",
+                content: "something"
+            }, function (data) {
+
+            });
         }
     });
 </script>

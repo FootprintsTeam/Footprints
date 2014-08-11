@@ -203,14 +203,15 @@ namespace Footprints.Controllers
 
             if (destinationService.UserAlreadyLike(userID, destinationID))
             {
-                destinationService.UnlikeDestination(userID, destinationID);    
+                destinationService.UnlikeDestination(userID, destinationID);
             }
-            else {
-                destinationService.LikeDestination(userID, destinationID);   
-            }  
+            else
+            {
+                destinationService.LikeDestination(userID, destinationID);
+            }
 
             result = "Success";
-            return Json(new { Result = result },JsonRequestBehavior.AllowGet);
+            return Json(new { Result = result }, JsonRequestBehavior.AllowGet);
         }
 
         [ChildActionOnly]
@@ -235,6 +236,15 @@ namespace Footprints.Controllers
         public ActionResult DestinationMainContentWidget(DestinationViewModel viewModel)
         {
             return PartialView("DestinationMainContentWidget", viewModel);
+        }
+
+             
+        public ActionResult ShareDestination(Guid userID, Guid destinationID, string content)
+        {
+            var result = "Fail";
+            destinationService.ShareDestination(userID, destinationID, content);
+
+            return Json(new { Result = result }, JsonRequestBehavior.AllowGet);
         }
     }
 }
