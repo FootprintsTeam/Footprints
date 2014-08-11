@@ -149,10 +149,9 @@ namespace Footprints.DAL.Concrete
         {
             Db.Cypher.OptionalMatch("(User:User)").Where((User User) => User.UserID == UserID).
                       OptionalMatch("(User)-[rel:HAS]->(Journey:Journey)-[r]-()").Where((Journey Journey) => Journey.JourneyID == JourneyID).
-                      OptionalMatch("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).
-                      Set("Activity.Status = 'DELETED'").
+                      OptionalMatch("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).                      
                       With("User, rel, r, Journey").
-                      Where("rel IS NOT NULL").Delete("rel, r, Journey").ExecuteWithoutResults();
+                      Where("rel IS NOT NULL").Set("Activity.Status = 'DELETED'").Delete("rel, r, Journey").ExecuteWithoutResults();
             return true;
         }
         public IList<Journey> GetJourneyList()
