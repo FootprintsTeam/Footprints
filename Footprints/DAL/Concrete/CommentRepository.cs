@@ -11,9 +11,6 @@ namespace Footprints.DAL.Concrete
     public class CommentRepository : RepositoryBase<CommentRepository>, ICommentRepository
     {
         public CommentRepository(IGraphClient client) : base(client) { }
-
-        //TODO
-
         public IList<Comment> GetAllCommentOnJourney(Guid JourneyID)
         {
             var query = Db.Cypher.Match("(Comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.JourneyID == JourneyID).

@@ -69,7 +69,7 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditJourney(Guid UserID, Journey Journey) {
             if (ModelState.IsValid) {
-                journeySer.UpdateJourney(UserID, Journey);
+                journeySer.UpdateJourneyForAdmin(Journey);
             }
             return RedirectToAction("Journey");
         }

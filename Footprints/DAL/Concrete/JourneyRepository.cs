@@ -141,16 +141,16 @@ namespace Footprints.DAL.Concrete
         }
         public bool UpdateJourney(Guid UserID, Journey Journey)
         {
-            var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).AndWhere((User user) => user.UserID == UserID).
-                         Set("Journey = {journey}").WithParam("journey", Journey).Return(journey => journey.As<Journey>()).Results;
-            return (query.First<Journey>() != null);
+            var query = Db.Cypher.Match("(user:User)-[:HAS]->(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).AndWhere((User user) => user.UserID == UserID).
+                         Set("journey = {Journey}").WithParam("Journey", Journey).Return<Journey>("journey").Results;
+            return query.First<Journey>() == null ? true : false;
         }
 
         //ForAdmin
         public bool UpdateJourneyForAdmin(Journey Journey)
         {
-            var query = Db.Cypher.Match("(Journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).
-                        Set("Journey = {Journey}").WithParam("Journey", Journey).Return<Journey>("Journey").Results.First<Journey>();
+            var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).
+                        Set("journey = {Journey}").WithParam("Journey", Journey).Return<Journey>("journey").Results.First<Journey>();
             return (query != null);
         }
         public bool DeleteJourney(Guid UserID, Guid JourneyID)
