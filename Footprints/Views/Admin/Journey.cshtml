@@ -129,7 +129,7 @@
                                     @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
                                         <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
-                                    @Html.ActionLink("Edit", "EditJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Edit", "EditJourney", "Admin", new { JourneyID = journey.JourneyID }, new { @class = "btn btn-success" })
                                     @Html.ActionLink("Del", "DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID }, new { @class = "btn btn-danger" })
                                 </div>
                             </td>

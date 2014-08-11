@@ -15,6 +15,7 @@
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.JourneyID)
         @Html.HiddenFor(model => model.UserID)
+        @Html.HiddenFor(model => model.Destinations)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
