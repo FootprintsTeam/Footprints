@@ -94,7 +94,7 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ",
                                                 new Dictionary<String, Object> { { "Destination", Destination }, { "UserID", UserID }, { "JourneyID", JourneyID }, { "Activity", Activity }, { "Place", Place } }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }
         public bool UpdateDestination(Guid UserID, Destination Destination)
