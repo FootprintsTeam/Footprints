@@ -134,6 +134,9 @@ namespace Footprints.Controllers
         {
             var commentId = Guid.NewGuid();
             var userId = new Guid(User.Identity.GetUserId());
+            var user = userService.RetrieveUser(userId);
+            comment.UserAvatarURL = user.ProfilePicURL;
+            comment.UserCommentId = user.UserID;
             comment.CommentID = commentId;
             comment.UserCommentName = User.Identity.GetUserName();
             comment.Time = DateTimeOffset.Now;

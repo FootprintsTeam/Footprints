@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace Footprints.Controllers
 {
@@ -44,7 +45,8 @@ namespace Footprints.Controllers
             return View(AlbumDetailsViewModel.GetSampleObject());
         }
 
-
+        [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult AddPhoto()
         {
@@ -53,8 +55,8 @@ namespace Footprints.Controllers
             fileInfoList.files.Add(fileInfoItem);
 
             String AlbumID = Request.Form["AlbumID"];
-            var UserID = new Guid(Guid.NewGuid().ToString("N"));
-            var ImageID = new Guid(Guid.NewGuid().ToString("N"));
+            var UserID = new Guid(User.Identity.GetUserId());
+            var ImageID = Guid.NewGuid();
             var regexGuid = new Regex(Common.Constant.GUID_REGEX);
             if (AlbumID == null || !regexGuid.IsMatch(AlbumID) || Request.Files.Count != 1)
             {
