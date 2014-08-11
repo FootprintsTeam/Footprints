@@ -48,7 +48,8 @@ namespace Footprints.Controllers
             var comments = commentService.RetrieveDestinationComment(destinationID);
             if (comments.Count > 0)
             {
-                foreach (Comment comment in comments)
+                destinationViewModel.Comments = new List<CommentViewModel>();
+                foreach (var comment in comments)
                 {
                     destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
                 }
@@ -56,9 +57,6 @@ namespace Footprints.Controllers
             destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(destinationModel.UserID).Count;
             destinationViewModel.NumberOfDestination = destinationService.GetNumberOfDestination(destinationModel.UserID);
             destinationViewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(destinationModel.UserID);
-            //destinationViewModel.NumberOfLike = destinationService.GetAllUserLiked(destinationID).Count();
-            //destinationViewModel.NumberOfShare = destinationService.GetAllUserShared(destinationID).Count();
-            //destinationViewModel.Place
             destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID), destinationViewModel);
 
@@ -77,14 +75,23 @@ namespace Footprints.Controllers
         //
         // POST: /Destination/Create
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(AddNewDestinationFormViewModel model)
         {
-            //Get UserId
-            model.DestinationID = Guid.NewGuid();
             var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             destination.UserID = new Guid(User.Identity.GetUserId());
-            destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
+            destination.AlbumID = Guid.NewGuid();
+            destination.DestinationID = Guid.NewGuid();
+            try
+            {
+                destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
+            }
+            catch
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
             return RedirectToAction("Index", "Destination", new { destinationID = destination.DestinationID });
         }
 

@@ -8,11 +8,18 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Footprints.Services;
+using Footprints.Models;
 
 namespace Footprints.Controllers
 {
     public class MediaController : Controller
     {
+        IDestinationService destinationService;
+        public MediaController(IDestinationService destinationService)
+        {
+            this.destinationService = destinationService;
+        }
 
         //
         // GET: /Media/
@@ -50,18 +57,35 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddPhoto()
         {
-            FileInfoList fileInfoList = new FileInfoList();
-            FileInfoItem fileInfoItem = new FileInfoItem();
-            fileInfoList.files.Add(fileInfoItem);
-
-            String AlbumID = Request.Form["AlbumID"];
-            var UserID = new Guid(User.Identity.GetUserId());
-            var ImageID = Guid.NewGuid();
+            String strAlbumID = Request.Form["AlbumID"];
+            String ReturnUrl = Request.Form["ReturnUrl"];
+            String MasterID = Request.Form["MasterID"];
             var regexGuid = new Regex(Common.Constant.GUID_REGEX);
-            if (AlbumID == null || !regexGuid.IsMatch(AlbumID) || Request.Files.Count != 1)
+            if (strAlbumID == null || !regexGuid.IsMatch(strAlbumID) || Request.Files.Count != 1)
             {
                 return null;
             }
+            //Authorize
+            var UserID = new Guid(User.Identity.GetUserId());
+            var AlbumID = new Guid(strAlbumID);
+            if (Url.Action("AddNewPhoto", "Destination").Equals(ReturnUrl))
+            {
+                if (MasterID == null || !regexGuid.IsMatch(MasterID))
+                {
+                    return null;
+                }
+                var destination = destinationService.GetDestination(new Guid(MasterID));
+                if (UserID != destination.UserID || AlbumID != destination.AlbumID)
+                {
+                    return null;
+                }
+            }
+
+            FileInfoList fileInfoList = new FileInfoList();
+            FileInfoItem fileInfoItem = new FileInfoItem();
+            fileInfoList.files.Add(fileInfoItem);
+            
+            var ImageID = Guid.NewGuid();
             string s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
             string bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
 
@@ -72,7 +96,7 @@ namespace Footprints.Controllers
                 if (ImageUtil.IsValidImage(Request.Files.Get(0).InputStream))
                 {
                     fileInfoItem.size = Request.Files.Get(0).InputStream.Length;
-                    ImageProcessor.UploadPhotoWithThumb(UserID, new Guid(AlbumID), ImageID, Request.Files.Get(0).InputStream);
+                    ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ImageID, Request.Files.Get(0).InputStream);
                     fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ImageID.ToString() + ".jpg";
                     fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ImageID.ToString() + ".jpg";
                     fileInfoItem.deleteUrl = this.Url.Action("DeletePhoto", "Media", new { id = ImageID }, this.Request.Url.Scheme);
