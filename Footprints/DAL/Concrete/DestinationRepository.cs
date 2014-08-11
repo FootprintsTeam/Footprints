@@ -253,11 +253,11 @@ namespace Footprints.DAL.Concrete
         public IList<Destination> GetAllDestination() 
         {
             var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Match("(Destination)-[:HAS*]->(Content)")
-                        .Return((Destination, Place, Contents) => new
+                        .Return((Destination, Place, Content) => new
                         {
                             Destination = Destination.As<Destination>(),
                             Place = Place.As<Place>(),
-                            Contents = Contents.CollectAs<Content>()
+                            Contents = Content.CollectAs<Content>()
                         }).Results;
             IList<Destination> result = null;       
             Destination currentDestination = new Destination();

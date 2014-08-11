@@ -27,6 +27,5 @@ namespace Footprints.Models
             return FirstName + " " + LastName;
         }
     }
-
     public enum StatusEnum { Baned, Active, Inactive, Admin }
 }
