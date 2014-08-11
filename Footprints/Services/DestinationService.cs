@@ -29,6 +29,7 @@ namespace Footprints.Services
         int GetNumberOfDestination(Guid UserID);
         int GetNumberOfLike(Guid DestinationID);
         int GetNumberOfShare(Guid DestinationID);
+        bool UserAlreadyShared(Guid UserID, Guid DestinationID);
     }
     public class DestinationService : IDestinationService
     {
@@ -115,6 +116,10 @@ namespace Footprints.Services
         public int GetNumberOfShare(Guid DestinationID)
         {
             return _destinationRepo.GetNumberOfShare(DestinationID);
+        }
+        public bool UserAlreadyShared(Guid UserID, Guid DestinationID)
+        {
+            return _destinationRepo.UserAlreadyShared(UserID, DestinationID);
         }
     }
 }

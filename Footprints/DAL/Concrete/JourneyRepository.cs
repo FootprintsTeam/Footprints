@@ -297,6 +297,20 @@ namespace Footprints.DAL.Concrete
             return Db.Cypher.Match("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
                Return<int>("Journey.NumberOfShare").Results.FirstOrDefault();
         }
+        public bool UserAlreadyLiked(Guid UserID, Guid JourneyID)
+        {
+            var query = Db.Cypher.OptionalMatch("(Journey:Journey)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
+                .AndWhere((Journey Journey) => Journey.JourneyID == JourneyID).Return(Journey => Journey.As<Journey>())
+                .Results.ToList<Journey>();
+            return query.Count > 0 ? true : false;
+        }
+        public bool UserAlreadyShared(Guid UserID, Guid JourneyID)
+        {
+            var query = Db.Cypher.OptionalMatch("(Journey:Journey)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
+                .AndWhere((Journey Journey) => Journey.JourneyID == JourneyID).Return(Journey => Journey.As<Journey>())
+                .Results.ToList<Journey>();
+            return query.Count > 0 ? true : false;
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -316,5 +330,7 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfJourney();
         int GetNumberOfLike(Guid JourneyID);
         int GetNumberOfShare(Guid JourneyID);
+        bool UserAlreadyLiked(Guid UserID, Guid JourneyID);
+        bool UserAlreadyShared(Guid UserID, Guid JourneyID);
     }
 }

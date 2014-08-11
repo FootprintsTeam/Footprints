@@ -19,12 +19,10 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
             return query.Results.First<Destination>();
         }
-
         public Place GetDestinationPlace(Guid DestinationID) {
             var result = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(place => place.As<Place>()).Results.First();
             return result;   
         }
-
         public bool UserAlreadyLike(Guid userID, Guid destinationID) {
             var result = Db.Cypher.Match("(destination:Destination)").
                 Match("(user:User)").Where("destination-[:LIKED_BY]->user").
@@ -33,7 +31,6 @@ namespace Footprints.DAL.Concrete
                 Return(destination => destination.As<Destination>()).Results.ToList<Destination>();
             return result.Count > 0 ? true : false;
         }
-
         public Destination GetDestinationDetail(Guid DestinationID)
         {
             var query = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).
@@ -218,7 +215,7 @@ namespace Footprints.DAL.Concrete
                 Content = Content,
                 Timestamp = DateTimeOffset.Now
             };
-            CypherQuery query = new CypherQuery("MATCH (User:User), (Destination:Destination) " +
+            CypherQuery query = new CypherQuery(" MATCH (User:User), (Destination:Destination) " +
                                                 " WHERE (User.UserID = {UserID} ) AND (Destination.DestinationID = {DestinationID} ) " +
                                                 " CREATE (Destination)-[:SHARED_BY]->(User) " +
                                                 " SET Destination.NumberOfShare = Destination.NumberOfShare + 1 " +
@@ -287,6 +284,13 @@ namespace Footprints.DAL.Concrete
             return Db.Cypher.Match("(Destination:Destination)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
                 Return<int>("Destination.NumberOfShare").Results.FirstOrDefault();
         }
+        public bool UserAlreadyShared(Guid UserID, Guid DestinationID)
+        {
+            var query = Db.Cypher.OptionalMatch("(Destination:Destination)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
+                .AndWhere((Destination Destination) => Destination.DestinationID == DestinationID).Return(Destination => Destination.As<Destination>())
+                .Results.ToList<Destination>();
+            return query.Count > 0 ? true : false;
+        }
     }
 
     public interface IDestinationRepository : IRepository<DestinationRepository>
@@ -311,6 +315,7 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfDestination(Guid UserID);
         int GetNumberOfLike(Guid DestinationID);
         int GetNumberOfShare(Guid DestinationID);
+        bool UserAlreadyShared(Guid UserID, Guid DestinationID);
     }
 
 }
