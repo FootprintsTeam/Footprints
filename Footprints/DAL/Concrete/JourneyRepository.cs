@@ -136,7 +136,7 @@ namespace Footprints.DAL.Concrete
                                                 " WITH fr, previousUser, nextUser " +
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", new Dictionary<String, Object> { { "journey", Journey }, { "activity", activity }, {"UserID", UserID} }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteGetCypherResults<User>(query);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }
         public bool UpdateJourney(Guid UserID, Journey Journey)
@@ -223,7 +223,7 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "JoureyID", JourneyID }, { "Activity", Activity } }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
             // return true;
         }
 
@@ -272,7 +272,7 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "JoureyID", JourneyID }, { "Activity", Activity } }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
         }
         public IList<User> GetAllUserShared(Guid JourneyID)
         {

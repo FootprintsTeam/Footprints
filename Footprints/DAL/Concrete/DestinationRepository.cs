@@ -144,7 +144,7 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ",
                                                 new Dictionary<String, Object> { { "DestinationID", DestinationID }, { "UserID", UserID }, { "Content", Content }, { "Activity", Activity } }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);            
+            ((IRawGraphClient)Db).ExecuteCypher(query);            
         }
         public void UpdateContent(Guid UserID, Content Content)
         {
@@ -194,7 +194,7 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "DestinationID", DestinationID }, { "Activity", Activity } }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
         }
         public void UnlikeDestination(Guid UserID, Guid DestinationID)
         {
@@ -243,7 +243,7 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
                                                 " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "DestinationID", DestinationID }, { "Activity", Activity } }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteGetCypherResults<Journey>(query);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
         }
         public IList<User> GetAllUserShared(Guid DestinationID)
         {
