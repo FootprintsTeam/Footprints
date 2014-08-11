@@ -292,7 +292,6 @@ namespace Footprints.DAL.Concrete
             return query.Count > 0 ? true : false;
         }
     }
-
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
         bool UserAlreadyLike(Guid userID, Guid destinationID);
