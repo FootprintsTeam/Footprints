@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IList<Footprints.ViewModels.CommentViewModel>
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -24,7 +26,7 @@
                 @{Html.RenderAction("AddPhotoWidget");}
                 <!-- //End Widget -->
                 <!-- Widget -->
-                @{Html.RenderPartial("CommentWidget");}
+                @{Html.RenderAction("CommentWidget");}
                 <!-- //End Widget -->
                 <!-- Widget -->
                 @{Html.RenderPartial("ShareWidget");}

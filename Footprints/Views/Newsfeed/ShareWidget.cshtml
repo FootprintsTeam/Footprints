@@ -1,11 +1,14 @@
-﻿<div class="widget gridalicious-item not-responsive">
+﻿@model Footprints.ViewModels.ShareWidgetViewModel
+@using Footprints.ViewModels
+
+<div class="widget gridalicious-item not-responsive">
 
     <div class="media">
-        <a href="" class="pull-left"><img src="../assets/images/people/50/3.jpg" width="50" class="media-object"></a>
+        <a href="" class="pull-left"><img src="@Model.ProfilePicURL" style="width:50px" class="media-object"></a>
         <div class="media-body innerTB half">
             <a href="#" class="pull-right innerT innerR text-muted"><i class="icon-reply-all-fill fa fa-2x "></i></a>
-            <a href="" class="strong display-block">Just Mary</a>
-            <span>on 15th January, 2014</span>
+            <a href="" class="strong display-block">@Model.UserName</a>
+            <span>shared a @Model.Type on @Model.Timestamp</span>
         </div>
     </div>
 
@@ -14,19 +17,27 @@
 
     <!-- Comment -->
     <div class="bg-primary innerAll text-small ">
-        <span>View all <a href="" class="strong text-white">1 Comment</a></span>
+        <span>View all <a href="" class="strong text-white">@Model.Comments.Count Comment</a></span>
     </div>
 
     <!-- First Comment -->
-    <div class="media margin-none">
-        <a href="" class="pull-left innerAll"><img src="../assets/images/people/50/5.jpg" width="50" class="media-object"></a>
-        <div class="media-body innerTB">
-            <a href="#" class="pull-right innerT innerR text-muted"><i class="icon-reply-all-fill fa fa-2x "></i></a>
-            <a href="" class="strong text-inverse">Adrian Demian</a>
-            <small class="text-muted display-block ">on Jan 15th, 2014</small>
-            <div>- Happy B-Day!</div>
-            <a href="" class="text-small">mark it</a>
-        </div>
+    <!-- First Comment -->
+    <div class="media margin-none bg-gray">
+        @{
+            if (Model.Comments != null)
+            {
+                foreach (CommentViewModel comment in Model.Comments)
+                {
+                    <a href="" class="pull-left innerAll"><img src="@comment.UserAvatarURL" width="50" class="media-object"></a>
+                    <div class="media-body innerTB">
+                        <a href="#" class="pull-right innerT innerR text-muted"><i class="icon-reply-all-fill fa fa-2x "></i></a>
+                        <a href="" class="strong text-inverse">@comment.UserCommentName</a><small class="text-muted display-block ">on @comment.Time</small>
+                        <a href="" class="text-small">mark it</a>
+                        <div>- @comment.Content</div>
+                    </div>
+                }
+            }
+        }
     </div>
 
     <div class="input-group comment">
