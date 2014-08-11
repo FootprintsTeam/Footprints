@@ -31,6 +31,7 @@ namespace Footprints.Services
         int GetNumberOfShare(Guid JourneyID);
         bool UserAlreadyLiked(Guid UserID, Guid JourneyID);
         bool UserAlreadyShared(Guid UserID, Guid JourneyID);
+        bool UpdateJourneyForAdmin(Journey Journey);
     }
     public class JourneyService : IJourneyService
     {
@@ -114,6 +115,10 @@ namespace Footprints.Services
         public bool UserAlreadyShared(Guid UserID, Guid JourneyID)
         {
             return journeyRepository.UserAlreadyShared(UserID, JourneyID);
+        }
+        public bool UpdateJourneyForAdmin(Journey Journey)
+        {
+            return journeyRepository.UpdateJourneyForAdmin(Journey);
         }
     }
 }

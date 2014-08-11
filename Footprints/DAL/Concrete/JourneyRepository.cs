@@ -145,6 +145,14 @@ namespace Footprints.DAL.Concrete
                          Set("Journey = {journey}").WithParam("journey", Journey).Return(journey => journey.As<Journey>()).Results;
             return (query.First<Journey>() != null);
         }
+
+        //ForAdmin
+        public bool UpdateJourneyForAdmin(Journey Journey)
+        {
+            var query = Db.Cypher.Match("(Journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).
+                        Set("Journey = {Journey}").WithParam("Journey", Journey).Return<Journey>("Journey").Results.First<Journey>();
+            return (query != null);
+        }
         public bool DeleteJourney(Guid UserID, Guid JourneyID)
         {
             Db.Cypher.OptionalMatch("(User:User)").Where((User User) => User.UserID == UserID).
@@ -331,5 +339,6 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfShare(Guid JourneyID);
         bool UserAlreadyLiked(Guid UserID, Guid JourneyID);
         bool UserAlreadyShared(Guid UserID, Guid JourneyID);
+        bool UpdateJourneyForAdmin(Journey Journey);
     }
 }
