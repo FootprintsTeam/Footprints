@@ -273,9 +273,9 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
-        public int GetNumberOfDestination()
+        public int GetNumberOfDestination(Guid UserID)
         {
-            return Db.Cypher.Match("(Destination:Destination)").Return<int>("Count(Destination)").Results.FirstOrDefault();
+            return Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)").Where((User User) => User.UserID == UserID).Return<int>("Count(Destination)").Results.FirstOrDefault();
         }
         public int GetNumberOfLike(Guid DestinationID)
         {
