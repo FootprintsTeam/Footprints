@@ -39,7 +39,9 @@ namespace Footprints.Controllers
 
         public ActionResult Index(Guid destinationID)
         {
+            //current user
             var userId = new Guid(User.Identity.GetUserId());
+            //destination model
             var destinationModel = destinationService.GetDestination(destinationID);
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
             destinationViewModel.Place = destinationService.GetDestinationPlace(destinationID);
@@ -51,14 +53,14 @@ namespace Footprints.Controllers
                     destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
                 }
             }
-            destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(userId).Count;
-            destinationViewModel.NumberOfDestination = destinationService.GetAllDestination().Count();
-            destinationViewModel.NumberOfFriend = 0;
-            destinationViewModel.NumberOfLike = destinationService.GetAllUserLiked(destinationID).Count();
-            destinationViewModel.NumberOfShare = destinationService.GetAllUserShared(destinationID).Count();
+            destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(destinationModel.UserID).Count;
+            destinationViewModel.NumberOfDestination = destinationService.GetNumberOfDestination(destinationModel.UserID);
+            destinationViewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(destinationModel.UserID);
+            //destinationViewModel.NumberOfLike = destinationService.GetAllUserLiked(destinationID).Count();
+            //destinationViewModel.NumberOfShare = destinationService.GetAllUserShared(destinationID).Count();
             //destinationViewModel.Place
             destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
-            Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID),destinationViewModel);       
+            Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID), destinationViewModel);
 
             //check if user already like or share
             TempData["AlreadyLike"] = destinationService.UserAlreadyLike(new Guid(User.Identity.GetUserId()), destinationID);
@@ -78,7 +80,7 @@ namespace Footprints.Controllers
         public ActionResult Create(AddNewDestinationFormViewModel model)
         {
             //Get UserId
-            model.DestinationID = Guid.NewGuid();            
+            model.DestinationID = Guid.NewGuid();
             var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             destination.UserID = new Guid(User.Identity.GetUserId());
@@ -177,13 +179,14 @@ namespace Footprints.Controllers
         {
             if (CommentID != null)
             {
-                
+
             }
             //RedirectToAction("Index", "Home");
             return CommentID;
         }
 
-        public ActionResult AddNewPhoto() {
+        public ActionResult AddNewPhoto()
+        {
             var photoContent = TempData["FileInfoList"];
             var destinationId = TempData["MasterID"];
             //add Content here
@@ -198,15 +201,16 @@ namespace Footprints.Controllers
         {
             string result;
 
-            try
+            if (destinationService.UserAlreadyLike(userID, destinationID))
             {
-                destinationService.LikeDestination(userID, destinationID);
-                 result = FunctionResult.success.ToString();
-            } catch(Exception e){
-                result = e.Message;
+                destinationService.UnlikeDestination(userID, destinationID);    
             }
+            else {
+                destinationService.LikeDestination(userID, destinationID);   
+            }  
 
-            return Json(new { Result = result});
+            result = "Success";
+            return Json(new { Result = result },JsonRequestBehavior.AllowGet);
         }
 
         [ChildActionOnly]
@@ -228,7 +232,8 @@ namespace Footprints.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult DestinationMainContentWidget(DestinationViewModel viewModel) {            
+        public ActionResult DestinationMainContentWidget(DestinationViewModel viewModel)
+        {
             return PartialView("DestinationMainContentWidget", viewModel);
         }
     }

@@ -81,5 +81,17 @@ namespace Footprints.Controllers
             var sample = AddPhotoWidgetViewModel.GetSampleObject();
             return PartialView(sample);
         }
+
+        [ChildActionOnly]
+        public ActionResult CommentWidget() {
+            var sample = CommentWidgetViewModel.GetSampleObject();
+            return PartialView(sample);
+        }
+
+        [ChildActionOnly]
+        public ActionResult ShareWidget() {
+            var sample = ShareWidgetViewModel.GetSampleObject();
+            return PartialView(sample);
+        }
 	}
 }
