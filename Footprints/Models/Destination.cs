@@ -8,6 +8,7 @@ namespace Footprints.Models
     public class Destination
     {
         public Guid DestinationID { get; set; }
+        public Guid AlbumID { get; set; }
         public Guid UserID { get; set; }
         public Guid JourneyID { get; set; }
         public String Name { get; set; }
