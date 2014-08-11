@@ -64,32 +64,7 @@ namespace Footprints.DAL.Concrete
             return result;
         }
         public bool AddNewJourney(Guid UserID, Journey Journey)
-        {
-            //Cypher Query 
-            //CREATE (journey:Journey {journeyID : '10', name : 'Hanoi', description : 'Hanoi', takenDate : '17/07/2014', timestamp : '17/07/2014', numberOfLikes : '0'})
-            //WITH journey
-            //MATCH (user:User {UserID : '1'})
-            //CREATE (user)-[:HAS_JOURNEY]->(journey)
-            //CREATE (activity:Activity { type : 'CREATE_NEW_JOURNEY', journeyID : '2', timestamp : '03/07/2014'})
-            //WITH user, journey, activity
-            //MATCH (user)-[f:LATEST_ACTIVITY]->(nextActivity)
-            //DELETE f
-            //CREATE (user)-[:LATEST_ACTIVITY]->(activity)
-            //CREATE (activity)-[:NEXT]->(nextActivity)
-            //CREATE (activity)-[:ACT_ON_JOURNEY]->(journey)
-            //WITH user
-            //MATCH (user)-[:FRIEND]->(friend)
-            //WITH user, COLLECT(friend) AS friends
-            //UNWIND friends AS fr
-            //MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
-            //OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(user)-[r2:EGO {UserID : fr.UserID}]->(nextUser)
-            //WITH fr, user, rel, previousUser, r1, r2, nextUser, NextFriendInEgo
-            //WHERE NextFriendInEgo <>  user
-            //CREATE (fr)-[:EGO {UserID : fr.UserID }]->(user)
-            //CREATE (user)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
-            //WITH fr, previousUser, nextUser
-            //WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL
-            //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
+        {            
             Activity activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
@@ -142,7 +117,8 @@ namespace Footprints.DAL.Concrete
         public bool UpdateJourney(Guid UserID, Journey Journey)
         {
             var query = Db.Cypher.Match("(user:User)-[:HAS]->(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).AndWhere((User user) => user.UserID == UserID).
-                         Set("journey = {Journey}").WithParam("Journey", Journey).Return<Journey>("journey").Results;
+                         Set("journey.Name = {Journey}.Name, journey.Description = {Journey}.Description, journey.TakenDate = {Journey}.TakenDate, journey.Timestamp = {Journey}.Timestamp, journey.NumberOfLike = {Journey}.NumberOfLike, journey.NumberOfShare = {Journey}.NumberOfShare").
+                         WithParam("Journey", Journey).Return<Journey>("journey").Results;
             return query.First<Journey>() == null ? true : false;
         }
 
@@ -150,7 +126,8 @@ namespace Footprints.DAL.Concrete
         public bool UpdateJourneyForAdmin(Journey Journey)
         {
             var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).
-                        Set("journey = {Journey}").WithParam("Journey", Journey).Return<Journey>("journey").Results.First<Journey>();
+                        Set("journey.Name = {Journey}.Name, journey.Description = {Journey}.Description, journey.TakenDate = {Journey}.TakenDate, journey.Timestamp = {Journey}.Timestamp, journey.NumberOfLike = {Journey}.NumberOfLike, journey.NumberOfShare = {Journey}.NumberOfShare").
+                        WithParam("Journey", Journey).Return<Journey>("journey").Results.First<Journey>();
             return (query != null);
         }
         public bool DeleteJourney(Guid UserID, Guid JourneyID)
