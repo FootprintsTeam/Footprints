@@ -13,7 +13,7 @@ namespace Footprints.DAL.Concrete
         public CommentRepository(IGraphClient client) : base(client) { }
         public IList<Comment> GetAllCommentOnJourney(Guid JourneyID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.JourneyID == JourneyID).
+            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(user:User)").Where((Comment comment) => comment.JourneyID == JourneyID).
                 Return((comment, user) => new
                 {
                     comment = comment.As<Comment>(),
@@ -33,7 +33,7 @@ namespace Footprints.DAL.Concrete
         public IList<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
 
-            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.DestinationID == DestinationID).
+            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(user:User)").Where((Comment comment) => comment.DestinationID == DestinationID).
                 Return((comment, user) => new
                 {
                     comment = comment.As<Comment>(),
