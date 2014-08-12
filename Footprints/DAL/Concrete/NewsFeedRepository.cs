@@ -62,7 +62,10 @@ namespace Footprints.DAL.Concrete
 
             numberOfFriends = friendList.Count;
             // Add latest activity of closest friend in ego
-            result.Add(activities.ElementAt(0).ElementAt(0));
+            if (activities.ElementAt(0).ElementAt(0).Status != Activity.StatusEnum.Deleted)
+            {
+                result.Add(activities.ElementAt(0).ElementAt(0));
+            }            
             // Add next activity of the activity above to priority queue           
             priorityQueue.Add(activities.ElementAt(0).ElementAt(1));
             //Add the latest activity of next friend in ego graph to priority queue
@@ -79,7 +82,10 @@ namespace Footprints.DAL.Concrete
             {
                 mostRecentActivity = priorityQueue.FindMax();
                 priorityQueue.DeleteMax();
-                result.Add(mostRecentActivity);
+                if (mostRecentActivity.Status != Activity.StatusEnum.Deleted)
+                {
+                    result.Add(mostRecentActivity);
+                }
                 var tempActivity = activities.ElementAt(currentFriendPosition).Find(mostRecentActivity);
                 if (tempActivity != null && tempActivity.Next != null)
                 {

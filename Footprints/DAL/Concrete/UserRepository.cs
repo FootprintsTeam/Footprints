@@ -122,8 +122,33 @@ namespace Footprints.DAL.Concrete
         //TODO
         public bool DeleteFriendRelationship(Guid UserID_A, Guid UserID_B)
         {
-            Db.Cypher.Match("(UserA:User)-[rel:FRIEND]-(UserB:User)").Where((User userA) => userA.UserID == UserID_A).
-                                     AndWhere((User userB) => userB.UserID == UserID_B).Delete("rel").ExecuteWithoutResults();
+            CypherQuery query = new CypherQuery(" MATCH (UserA:User)-[rel:FRIEND]-(UserB:User) " +
+                                            " WHERE (UserA.UserID = {UserID_A}) AND (UserB.UserID = {UserID_B}) " +
+                                            " MATCH (previousB)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)-[relNB:EGO {UserID : UserA.UserID}]->(nextB) " +
+                                            " MATCH (previousA)-[relPA:EGO {UserID : UserB.UserID}]->(UserB)-[relNA:EGO {UserID : UserB.UserID}]->(nextA) " +
+                                            " DElETE rel, relPA, relPB, relNA, relNB " +
+                                            " CREATE (previousA)-[:EGO {UserID : UserB.UserID}]->(nextA) " +
+                                            " CREATE (previousB)-[:EGO {UserID : UserA.UserID}]->(nextB) " +
+                                            " WITH UserA, UserB " +
+                                            " OPTIONAL MATCH (UserA)-[:LATEST_ACTIVITY]->(LatestActivityA) " +
+                                            " OPTIONAL MATCH (LatestActivityA)-[:NEXT*]->(NextActivityA) " +
+                                            " WITH UserA, UserB, LatestActivityA, NextActivityA " +
+                                            " WHERE (LatestActivityA.UserID = UserB.UserID) " +
+                                            " SET LatestActivityA.Status = 'DELETED' " +
+                                            " WITH UserA, UserB, NextActivityA " +
+                                            " WHERE (NextActivityA.UserID = UserB.UserID) " +
+                                            " SET NextActivityA.Status = 'DELETED' " +
+                                            " WITH UserA, UserB " +
+                                            " OPTIONAL MATCH (UserB)-[:LATEST_ACTIVITY]->(LatestActivityB) " +
+                                            " OPTIONAL MATCH (LatestActivityB)-[:NEXT*]->(NextActivityB) " +
+                                            " WITH UserA, LatestActivityB, NextActivityB " +
+                                            " WHERE (LatestActivityB.UserID = UserA.UserID) " +
+                                            " SET LatestActivityB.Status = 'DELETED' " +
+                                            " WITH UserA, NextActivityB " +
+                                            " WHERE (NextActivityB.UserID = UserA.UserID) " +
+                                            " SET NextActivityB.Status = 'DELETED'", 
+                new Dictionary<String, Object> { {"UserID_A", UserID_A}, {"UserID_B", UserID_B} }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }
         public bool BanUser(Guid UserID)
