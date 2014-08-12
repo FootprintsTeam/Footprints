@@ -13,12 +13,12 @@ namespace Footprints.DAL.Concrete
         public CommentRepository(IGraphClient client) : base(client) { }
         public IList<Comment> GetAllCommentOnJourney(Guid JourneyID)
         {
-            var query = Db.Cypher.Match("(Comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.JourneyID == JourneyID).
+            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.JourneyID == JourneyID).
                 Return((comment, user) => new
                 {
                     comment = comment.As<Comment>(),
                     user = user.As<User>()
-                }).OrderBy("Comment.Timestamp").Results;
+                }).OrderBy("comment.Timestamp").Results;
             IList<Comment> result = null;
             Comment currentComment = new Comment();
             foreach (var item in query)
@@ -33,12 +33,12 @@ namespace Footprints.DAL.Concrete
         public IList<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
 
-            var query = Db.Cypher.Match("(Comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.DestinationID == DestinationID).
+            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.DestinationID == DestinationID).
                 Return((comment, user) => new
                 {
                     comment = comment.As<Comment>(),
                     user = user.As<User>()
-                }).OrderBy("Comment.Timestamp").Results;
+                }).OrderBy("comment.Timestamp").Results;
             IList<Comment> result = null;
             Comment currentComment = new Comment();
             foreach (var item in query)
@@ -49,7 +49,6 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
-
         public Comment GetAComment(Guid CommentID)
         {
             var query = Db.Cypher.Match("(Comment:Comment)-[:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.CommentID == CommentID).
