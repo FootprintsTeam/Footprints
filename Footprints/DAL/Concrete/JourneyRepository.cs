@@ -127,7 +127,7 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).
                         Set("journey.Name = {Journey}.Name, journey.Description = {Journey}.Description, journey.TakenDate = {Journey}.TakenDate, journey.Timestamp = {Journey}.Timestamp, journey.NumberOfLike = {Journey}.NumberOfLike, journey.NumberOfShare = {Journey}.NumberOfShare").
-                        WithParam("Journey", Journey).Return<Journey>("journey").Results.First<Journey>();
+                        WithParam("Journey", Journey).Return<Journey>("journey").Results;
             return query.Count<Journey>() > 0 ? true : false;
         }
         public bool DeleteJourney(Guid UserID, Guid JourneyID)
