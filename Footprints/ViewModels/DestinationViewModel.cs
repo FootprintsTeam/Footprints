@@ -12,12 +12,13 @@ namespace Footprints.ViewModels
     {
         public Guid UserID { get; set; }
         public string ProfilePicURL { get; set; }
-        public String CoverPhotoUrl { get; set; }        
+        public String CoverPhotoUrl { get; set; }
         public String UserName { get; set; }
         public int NumberOfJourney { get; set; }
         public int NumberOfDestination { get; set; }
         public int NumberOfFriend { get; set; }
         public Guid DestinationID { get; set; }
+        public Guid AlbumID { get; set; }
         public Guid JourneyID { get; set; }
         public String Name { get; set; }
         public String Description { get; set; }
@@ -119,10 +120,7 @@ namespace Footprints.ViewModels
 
     public class AddNewDestinationFormViewModel
     {
-        [RegularExpression(Common.Constant.GUID_REGEX)]
-        public Guid DestinationID { get; set; }
         [Required]
-        [RegularExpression(Common.Constant.GUID_REGEX)]
         public String PlaceID { get; set; }
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
@@ -135,8 +133,7 @@ namespace Footprints.ViewModels
         public String Name { get; set; }
         [DataType(DataType.MultilineText)]
         public String Description { get; set; }
-        [Display(Name = "Date")]
-
+        [Display(Name = "Start Date")]
         [Required]
         [DataType(DataType.Date)]
         public DateTimeOffset TakenDate { get; set; }
@@ -198,8 +195,18 @@ namespace Footprints.ViewModels
     public class AddCommentFormViewModel
     {
         [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid DestinationID { get; set; }
         [Required]
         public String Content { get; set; }
+
+        public static AddCommentFormViewModel GetEmptyModel(Guid DestinationID)
+        {
+            return new AddCommentFormViewModel
+            {
+                DestinationID = DestinationID,
+                Content = ""
+            };
+        }
     }
 }

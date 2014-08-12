@@ -1,10 +1,12 @@
-﻿@*@model Footprints.ViewModels.AddCommentFormViewModel
-@using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnBegin = "validateAddCommentForm" }, new { id = "add-comment-form-" + ViewBag.DestinationID }))
+﻿@model Footprints.ViewModels.AddCommentFormViewModel
+@using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + @Model.DestinationID }))
 {
     @Html.AntiForgeryToken()
-    @Html.Hidden("DestinationID", (object)ViewBag.DestinationID)
+    @Html.ValidationSummary(true)
+    @Html.Hidden("DestinationID", @Model.DestinationID)
     <div class="form-group">
-        @Html.TextArea("Content", null, new { name = "message", id = "comment-input-" + @ViewBag.DestinationID, @class = "form-control input-sm autoheight", placeholder = "Comment here ...", rows = "1", style = "resize:none;" })
+        @Html.TextAreaFor(x => x.Content, new { name = "message", id = "comment-input-" + @ViewBag.DestinationID, @class = "form-control autoheight", placeholder = "Comment here ...", rows = "1", style = "resize:none;" })
+        @Html.ValidationMessageFor(x => x.Content)
         <input type="submit" class="btn btn-xs btn-primary pull-right" value="Done" />
     </div>
-}*@
+}
