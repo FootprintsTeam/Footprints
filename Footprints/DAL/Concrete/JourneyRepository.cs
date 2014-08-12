@@ -61,7 +61,8 @@ namespace Footprints.DAL.Concrete
                     if (!(item.content == null)) currentDestination.Contents.Add(item.content);
                 }
             }
-            return result;
+            if (result.JourneyID.Equals(defaultGuid)) return null;
+            else return result;
         }
         public bool AddNewJourney(Guid UserID, Journey Journey)
         {            

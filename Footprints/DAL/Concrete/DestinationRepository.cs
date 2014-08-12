@@ -263,7 +263,7 @@ namespace Footprints.DAL.Concrete
                             Place = Place.As<Place>(),
                             Contents = Content.CollectAs<Content>()
                         }).Results;
-            IList<Destination> result = null;       
+            List<Destination> result = new List<Destination>();       
             Destination currentDestination = new Destination();
             foreach (var item in query)
             {
