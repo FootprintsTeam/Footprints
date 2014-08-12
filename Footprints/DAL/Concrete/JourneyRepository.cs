@@ -10,7 +10,7 @@ namespace Footprints.DAL.Concrete
 {
     public class JourneyRepository : RepositoryBase<Journey>, IJourneyRepository
     {
-        public JourneyRepository(IGraphClient client) : base(client) { }        
+        public JourneyRepository(IGraphClient client) : base(client) { }
         public Journey GetJourneyByID(Guid JourneyID)
         {
             var query = Db.Cypher.Match("(journey:Journey)").
@@ -21,7 +21,7 @@ namespace Footprints.DAL.Concrete
         //TODO
         public Journey GetJourneyDetail(Guid JourneyID)
         {
-            Journey result = new Journey();
+            Journey journey = null;
             var query = Db.Cypher.OptionalMatch("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
                                   OptionalMatch("(Journey)-[:HAS*]->(Destination:Destination)").
                                   OptionalMatch("(Destination)-[:AT]->(Place:Place)").
@@ -33,39 +33,35 @@ namespace Footprints.DAL.Concrete
                                       content = Content.As<Content>()
                                   }
                                   ).Results;
-            Destination currentDestination = new Destination();
+            Destination currentDestination = null;
             Guid defaultGuid = new Guid();
             bool first = true;
             foreach (var item in query)
             {
-                if (first) 
+                if (first)
                 {
-                    if (!(item.journey == null)) result = item.journey;
+                    if (item.journey == null || item.journey.JourneyID == defaultGuid) return null;
+                    journey = item.journey;
+                    journey.Destinations = new List<Destination>();
+                    if (item.destination == null || item.destination.DestinationID == defaultGuid) break;
                     first = false;
                 }
-                if (currentDestination.DestinationID.Equals(defaultGuid))
+                if (currentDestination == null || currentDestination.DestinationID != item.destination.DestinationID)
                 {
-                    if (!(item.destination == null)) currentDestination = item.destination;
-                    if (!(item.place == null)) currentDestination.Place = item.place;
-                    if (!(item.content == null)) currentDestination.Contents.Add(item.content);
+                    currentDestination = item.destination;
+                    currentDestination.Place = item.place;
+                    currentDestination.Contents = new List<Content>();
+                    journey.Destinations.Add(currentDestination);
                 }
-                else if (currentDestination.DestinationID == item.destination.DestinationID)
+                if (!currentDestination.Contents.Contains(item.content))
                 {
-                    if (!(item.content == null)) currentDestination.Contents.Add(item.content);
-                }
-                else
-                {
-                    if (!(currentDestination.DestinationID == null)) result.Destinations.Add(currentDestination);
-                    if (!(item.destination == null)) currentDestination = item.destination;
-                    if (!(item.place == null)) currentDestination.Place = item.place;
-                    if (!(item.content == null)) currentDestination.Contents.Add(item.content);
+                    currentDestination.Contents.Add(item.content);
                 }
             }
-            if (result.JourneyID.Equals(defaultGuid)) return null;
-            else return result;
+            return journey;
         }
         public bool AddNewJourney(Guid UserID, Journey Journey)
-        {            
+        {
             Activity activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
@@ -111,7 +107,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (user)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
                                                 " WITH fr, previousUser, nextUser " +
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", new Dictionary<String, Object> { { "journey", Journey }, { "activity", activity }, {"UserID", UserID} }, CypherResultMode.Projection);
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", new Dictionary<String, Object> { { "journey", Journey }, { "activity", activity }, { "UserID", UserID } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }
@@ -135,7 +131,7 @@ namespace Footprints.DAL.Concrete
         {
             Db.Cypher.OptionalMatch("(User:User)").Where((User User) => User.UserID == UserID).
                       OptionalMatch("(User)-[rel:HAS]->(Journey:Journey)-[r]-()").Where((Journey Journey) => Journey.JourneyID == JourneyID).
-                      OptionalMatch("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).                      
+                      OptionalMatch("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).
                       With("User, rel, r, Journey").
                       Where("rel IS NOT NULL").Set("Activity.Status = 'DELETED'").Delete("rel, r, Journey").ExecuteWithoutResults();
             return true;
@@ -299,7 +295,7 @@ namespace Footprints.DAL.Concrete
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
-        bool AddNewJourney(Guid UserID, Journey Journey);        
+        bool AddNewJourney(Guid UserID, Journey Journey);
         Journey GetJourneyByID(Guid JourneyID);
         Journey GetJourneyDetail(Guid JourneyID);
         bool UpdateJourney(Guid UserID, Journey Journey);

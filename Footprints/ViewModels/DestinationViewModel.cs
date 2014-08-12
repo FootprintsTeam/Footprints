@@ -120,13 +120,14 @@ namespace Footprints.ViewModels
 
     public class AddNewDestinationFormViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public String PlaceID { get; set; }
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid JourneyID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Longitude { get; set; }
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Latitude { get; set; }
         public String Reference { get; set; }
         [Required]
@@ -137,9 +138,6 @@ namespace Footprints.ViewModels
         [Required]
         [DataType(DataType.Date)]
         public DateTimeOffset TakenDate { get; set; }
-        public DateTimeOffset Timestamp { get; set; }
-        public int NumberOfLikes { get; set; }
-
         public static AddNewDestinationFormViewModel GetEmptyObject(Guid JourneyID)
         {
             return new AddNewDestinationFormViewModel
@@ -166,7 +164,7 @@ namespace Footprints.ViewModels
         [Required]
         public Double Latitude { get; set; }
         public String Reference { get; set; }
-        [Required(ErrorMessage = "You must enter destination name")]
+        [Required]
         public String Name { get; set; }
         [DataType(DataType.MultilineText)]
         public String Description { get; set; }

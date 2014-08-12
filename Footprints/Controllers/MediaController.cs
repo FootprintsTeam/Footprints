@@ -89,7 +89,7 @@ namespace Footprints.Controllers
                         fileInfoItem.error = ERROR_MESSAGE;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     fileInfoItem.error = ERROR_MESSAGE;
                 }

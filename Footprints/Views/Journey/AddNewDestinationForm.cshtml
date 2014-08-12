@@ -15,6 +15,8 @@
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-10">
                         @Html.ValidationMessageFor(x => x.PlaceID)
+                        @Html.ValidationMessageFor(x => x.Longitude)
+                        @Html.ValidationMessageFor(x => x.Latitude)
                     </div>
                 </div>
                 <div class="form-group">
@@ -45,16 +47,11 @@
                         </div>
                     </div>
                 </div>
-                @Html.Hidden("PlaceID")
-                @*<input type="hidden" name="PlaceID" />*@
-                @Html.Hidden("Latitude")
-                @*<input type="hidden" name="Latitude" />*@
-                @Html.Hidden("Longitude")
-                @*<input type="hidden" name="Longitude" />*@
-                @Html.Hidden("JourneyID", @Model.JourneyID)
-                @*<input type="hidden" name="JourneyID" />*@
-                @Html.Hidden("Reference")
-                @*<input type="hidden" name="Reference" />*@
+                @Html.HiddenFor(x => x.PlaceID)
+                @Html.HiddenFor(x => x.Latitude)
+                @Html.HiddenFor(x => x.Longitude)
+                @Html.HiddenFor(x => x.JourneyID)
+                @Html.HiddenFor(x => x.Reference)
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button class="btn btn-primary" type="submit">Add</button>

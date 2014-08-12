@@ -61,7 +61,7 @@ namespace Footprints.Controllers
         public ActionResult InfiniteScroll(int BlockNumber)
         {
             ////////////////// THis line of code only for demo. Needs to be removed ////
-            System.Threading.Thread.Sleep(3000);
+            //System.Threading.Thread.Sleep(3000);
             ////////////////////////////////////////////////////////////////////////////
             //int BlockSize = 5;
             //var books = DataManager.GetBooks(BlockNumber, BlockSize);

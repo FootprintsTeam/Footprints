@@ -84,6 +84,7 @@ namespace Footprints.Controllers
             destination.UserID = new Guid(User.Identity.GetUserId());
             destination.AlbumID = Guid.NewGuid();
             destination.DestinationID = Guid.NewGuid();
+            destination.Timestamp = DateTimeOffset.Now;
             try
             {
                 destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
@@ -146,12 +147,9 @@ namespace Footprints.Controllers
             comment.UserCommentId = user.UserID;
             comment.CommentID = commentId;
             comment.UserCommentName = User.Identity.GetUserName();
-            comment.Time = DateTimeOffset.Now;
+            comment.Timestamp = DateTimeOffset.Now;
             comment.NumberOfLike = 0;
-            var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
-            //reset timestamp to current
-            commentObj.Timestamp = DateTimeOffset.Now;
-            commentObj.NumberOfLike = 0;
+            var commentObj = Mapper.Map<CommentViewModel, Models.Comment>(comment);
             InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
             if (commentService.AddDestinationComment(userId, commentObj))
             {
