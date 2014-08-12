@@ -8,6 +8,6 @@ namespace Footprints.ViewModels
     public class ImageViewModel
     {
         public Guid MasterID;
-        public string ReturnUrl;        
+        public string ReturnUrl;
     }
 }

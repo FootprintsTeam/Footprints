@@ -1,4 +1,22 @@
-﻿@model IList<Footprints.ViewModels.CommentViewModel>
+﻿@using Footprints.ViewModels
+@model IList<Footprints.ViewModels.CommentViewModel>
+<div class="row">
+    <div class="col-md-12 col-sm-8">
+        <ul class="list-group social-comments margin-none">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var comment in Model)
+                {
+                    Html.RenderPartial("CommentItem", comment);
+                }
+            }
+            <li class="list-group-item innerAll" id="comment-section-container">
+                @{Html.RenderPartial("AddCommentForm", AddCommentFormViewModel.GetEmptyModel((Guid)ViewBag.DestinationID));}
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="~/assets/plugins/forms_elements_textarea/jquery.autosize.js"></script>
 <script type="text/javascript">
     //get data from callback and insert html
     function addComment(data) {
@@ -33,34 +51,6 @@
                 return true;
         }
     }
-</script>
-<div class="row">
-    <div class="col-md-12 col-sm-8">
-        <ul class="list-group social-comments margin-none">
-            @if (Model != null && Model.Count > 0)
-            {
-                foreach (var comment in Model)
-                {
-                    Html.RenderPartial("CommentItem", comment);
-                }
-            }
-
-            <li class="list-group-item innerAll" id="comment-section-container">
-                @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnBegin = "return validateAddCommentForm('" + @ViewBag.DestinationID + "');" }, new { id = "add-comment-form-" + ViewBag.DestinationID }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("DestinationID", (object)ViewBag.DestinationID)
-                    <div class="form-group">
-                        @Html.TextArea("Content", null, new { name = "message", id = "comment-input-" + @ViewBag.DestinationID, @class = "form-control input-sm autoheight", placeholder = "Comment here ...", rows = "1", style = "resize:none;" })
-                        <input type="submit" class="btn btn-xs btn-primary pull-right" value="Done" />
-                    </div>
-                }
-            </li>
-        </ul>
-    </div>
-</div>
-<script src="~/assets/plugins/forms_elements_textarea/jquery.elastic.js"></script>
-<script type="text/javascript">
     //Check for keyup Esc on edit comment field
     $('[id^="comment-edit-"]').keyup(function (ev) {
         if (ev.which == 27) {
@@ -100,6 +90,6 @@
     });
     $(function () {
         SetupEditCommentForm.init();
-        $('.autoheight').elastic();
+        $('.autoheight').autosize();
     });
 </script>

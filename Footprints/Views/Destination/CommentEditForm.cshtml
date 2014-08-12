@@ -6,7 +6,7 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(x => x.DestinationID);
         @Html.HiddenFor(x => x.CommentID);
-        @Html.TextAreaFor(x => x.Content, new { rows = "3", style = "resize:none;", @class="form-control"})
+        @Html.TextAreaFor(x => x.Content, new { rows = "3", style = "resize:none;", @class = "form-control autoheight" })
         @Html.ValidationMessageFor(x => x.Content)
         <input type="submit" class="btn btn-xs btn-primary pull-right" value="Done" />
     }
