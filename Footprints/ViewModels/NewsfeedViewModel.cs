@@ -92,4 +92,25 @@ namespace Footprints.ViewModels
             return sample;
         }
     }
+
+    public class PersonalWidgetViewModel : NewsfeedViewModel {
+        public int NumberOfJourney { get; set; }
+        public int NumberOfDestination { get; set; }
+        public int NumberOfFriend { get; set; }
+        public DateTimeOffset JoinDate { get; set; }
+        public static PersonalWidgetViewModel GetSampleObject() {
+            var sample = new PersonalWidgetViewModel {
+                ActivityID = new Guid(),
+                UserName = "Nhân Trịnh",
+                ProfilePicURL = Constant.defaultAvatarUrl,
+                Timestamp = DateTimeOffset.Now,
+                NumberOfJourney  = 10,
+                NumberOfDestination = 10,
+                NumberOfFriend = 100,
+                JoinDate = DateTimeOffset.Now
+            };
+
+            return sample;
+        }
+    }
 }

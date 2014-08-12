@@ -28,23 +28,7 @@
     </div>
 
     <!-- First Comment -->
-    <div class="media margin-none bg-gray">
-        @{
-            if (Model.Comments != null)
-            {
-                foreach (CommentViewModel comment in Model.Comments)
-                {
-                    <a href="" class="pull-left innerAll"><img src="@comment.UserAvatarURL" width="50" class="media-object"></a>
-                    <div class="media-body innerTB">
-                        <a href="#" class="pull-right innerT innerR text-muted"><i class="icon-reply-all-fill fa fa-2x "></i></a>
-                        <a href="" class="strong text-inverse">@comment.UserCommentName</a><small class="text-muted display-block ">on @comment.Time</small>
-                        <a href="" class="text-small">mark it</a>
-                        <div>- @comment.Content</div>
-                    </div>
-                }
-            }
-        }
-    </div>
+    @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
 
     <div class="input-group comment">
         <input type="text" class="form-control" placeholder="Your comment here...">

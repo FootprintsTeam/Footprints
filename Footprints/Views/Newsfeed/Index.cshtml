@@ -12,7 +12,7 @@
         <div class="gridalicious-row" data-toggle="gridalicious" data-gridalicious-width="340" data-gridalicious-gutter="12" data-gridalicious-selector=".gridalicious-item">            
             <div class="loaded hide2">
                 <!-- Personal Widget -->
-                @{Html.RenderPartial("PersonalWidget");}
+                @{Html.RenderAction("PersonalWidget");}
                 <!-- Widget -->
                 @{Html.RenderPartial("ListFriendWidget");}
                 <!-- //End Widget -->
@@ -29,7 +29,7 @@
                 @{Html.RenderAction("CommentWidget");}
                 <!-- //End Widget -->
                 <!-- Widget -->
-                @{Html.RenderPartial("ShareWidget");}
+                @{Html.RenderAction("ShareWidget");}
                 <!-- //End Widget -->
                 <!-- Widget -->
                 @{Html.RenderPartial("WidePictureWidget");}

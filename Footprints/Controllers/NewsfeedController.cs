@@ -51,6 +51,7 @@ namespace Footprints.Controllers
         //}
 
         [ChildActionOnly]
+        [ActionName("PersonalWidget1")]
         public ActionResult PersonalWidget(object model)
         {            
             return PartialView(model);
@@ -66,7 +67,7 @@ namespace Footprints.Controllers
             //var books = DataManager.GetBooks(BlockNumber, BlockSize);
             InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
             //jsonModel.NoMoreData = books.Count < BlockSize;
-            jsonModel.HTMLString = RenderPartialViewToString("PersonalWidget", null);
+            jsonModel.HTMLString = RenderPartialViewToString("PersonalWidgetViewModel", null);
             return Json(jsonModel);
         }
 
@@ -92,6 +93,12 @@ namespace Footprints.Controllers
         public ActionResult ShareWidget() {
             var sample = ShareWidgetViewModel.GetSampleObject();
             return PartialView(sample);
+        }
+
+        [ChildActionOnly]
+        public ActionResult PersonalWidget() {
+            var sample = PersonalWidgetViewModel.GetSampleObject();
+            return PartialView(sample); 
         }
 	}
 }

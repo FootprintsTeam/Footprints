@@ -29,41 +29,7 @@
         <span>View all <a href="" class="text-primary">@Model.Comments.Count() Comments</a></span>
     </div>
 
-    @{
-        if (Model.Comments.Count() > 0)
-        {
-            foreach (CommentViewModel comment in Model.Comments)
-            {
-                <div class="media border-bottom margin-none bg-gray">
-                    <a href="@Url.Action("Index", "Personal", new { userID = comment.UserCommentId})"
-                       class="pull-left innerAll">
-                        <img src="@comment.UserAvatarURL"
-                             width="50" class="media-object">
-                    </a>
-                    <div class="media-body innerTB">
-                        <a href="#" class="pull-right innerT innerR text-muted">
-                            <i class="icon-reply-all-fill fa fa-2x "></i>
-                        </a>
-                        <a href="@Url.Action("Index", "Personal", new { userID = comment.UserCommentId})" class="strong text-inverse">@comment.UserCommentName</a>
-                        <small class="text-muted ">wrote on @comment.TimeAgo</small>
-                        <a href="" class="text-small">mark it</a>
-                        <div>- @comment.Content</div>
-                    </div>
-                </div>
-            }
-        }
-
-    }
-
-    <!-- Second Comment -->
-    <div class="media margin-none bg-gray">
-        <a href="" class="pull-left innerAll"><img src="../assets/images/people/50/11.jpg" width="50" class="media-object"></a>
-        <div class="media-body innerTB">
-            <a href="#" class="pull-right innerT innerR"><i class="icon-reply-all-fill fa fa-2x text-muted "></i></a>
-            <a href="" class="strong text-inverse">Jenny Adams</a><small class="text-muted ">wrote on Jan 15th, 2014</small><a href="" class="text-small">mark it</a>
-            <div>- Happy Birthday Hun...</div>
-        </div>
-    </div>
+    @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
 
     <div class="input-group comment">
         <input type="text" class="form-control" placeholder="Your comment here...">
