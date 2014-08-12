@@ -42,6 +42,10 @@ namespace Footprints.Controllers
                 return RedirectToAction("Index", "Newsfeed");
             }
             var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
+            if (journeyViewModel.Comments == null)
+            {
+                journeyViewModel.Comments = new List<CommentViewModel>();
+            }
             journeyViewModel.AddNewDestinationFormViewModel = new AddNewDestinationFormViewModel { JourneyID = journeyID, TakenDate = DateTimeOffset.Now };
             return View(journeyViewModel);
         }

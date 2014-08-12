@@ -1,5 +1,8 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
 @using Footprints.ViewModels
+@{
+    ViewBag.IsDestinationAuthor = Boolean.Parse(TempData["IsDestinationAuthor"].ToString());
+}
 <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
 
     <div class="widget-body">
@@ -13,9 +16,12 @@
             <!-- // Tab content END -->
             <!-- Tab content -->
             <div class="tab-pane" id="tab2-2">
-                <div class="row innerAll">
-                    @{Html.RenderPartial("UploadPhotoForm", new ImageViewModel { ReturnUrl = @Url.Action("AddNewPhoto", "Destination"), MasterID = Model.DestinationID });}
-                </div>
+                @if (ViewBag.IsDestinationAuthor)
+                {
+                    <div class="row innerAll">
+                        @{Html.RenderPartial("UploadPhotoForm", new ImageViewModel { ReturnUrl = @Url.Action("AddNewPhoto", "Destination"), MasterID = Model.DestinationID });}
+                    </div>
+                }
                 @if (Model.Contents != null && Model.Contents.Count() > 0)
                 {
                     <div class="widget widget-gallery" data-toggle="collapse-widget">

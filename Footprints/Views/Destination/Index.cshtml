@@ -73,8 +73,9 @@
                 @using (Html.BeginForm("Delete", "Destination", FormMethod.Post, new { @name = "frmDeleteDestination", @role = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    <input type="hidden" name="id" value="@Model.DestinationID" />
-                    <input type="hidden" name="JourneyID" value="@Model.JourneyID" />
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x => @Model.DestinationID)
+                    @Html.HiddenFor(x => @Model.JourneyID)
                     <button class="btn btn-primary" type="submit">Confirm</button>
                     <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
                 }

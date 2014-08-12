@@ -1090,7 +1090,7 @@
     <Content Include="assets\images\social\100\3.jpg" />
     <Content Include="assets\images\survey-1.jpg" />
     <Content Include="assets\images\survey-3.jpg" />
-    <Content Include="assets\plugins\forms_elements_textarea\jquery.elastic.js" />
+    <Content Include="assets\plugins\forms_elements_textarea\jquery.autosize.js" />
     <Content Include="assets\plugins\jquery\app.js" />
     <Content Include="assets\plugins\jquery\bootstrap.js" />
     <Content Include="assets\plugins\jquery\bootstrap.min.js" />

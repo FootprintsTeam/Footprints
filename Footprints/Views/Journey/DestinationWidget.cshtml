@@ -56,17 +56,20 @@
                 </div>
             </div>
             @*Comment Section*@
-            @foreach (CommentViewModel comment in Model.Comments)
+            @if (Model.Comments != null && Model.Comments.Count > 0)
             {
-                <div class="media innerAll bg-gray margin-none border-top border-bottom">
-                    <a class="pull-left" href="#"><img src="@comment.UserAvatarURL" alt="photo" class="media-object" width="35"></a>
-                    <div class="media-body">
-                        <a href="" class="strong text-inverse">@comment.UserCommentName</a> @comment.Content
-                        <div class="timeline-bottom">
-                            <i class="fa fa-clock-o"></i> @comment.TimeAgo
+                foreach (CommentViewModel comment in Model.Comments)
+                {
+                    <div class="media innerAll bg-gray margin-none border-top border-bottom">
+                        <a class="pull-left" href="#"><img src="@comment.UserAvatarURL" alt="photo" class="media-object" width="35"></a>
+                        <div class="media-body">
+                            <a href="" class="strong text-inverse">@comment.UserCommentName</a> @comment.Content
+                            <div class="timeline-bottom">
+                                <i class="fa fa-clock-o"></i> @comment.TimeAgo
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             }
             <div class="innerAll" id="@String.Format("section-form{0}", Model.DestinationID.ToString())">
                 @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, commentFormOptions, new { id = "comment-form" + Model.DestinationID.ToString() }))

@@ -1,17 +1,11 @@
 ﻿@model Footprints.ViewModels.EditDestinationFormViewModel
-
 <div class="modal fade" id="edit-destination-modal">
-
     <div class="modal-dialog">
         <div class="modal-content">
-
-            <!-- Modal heading -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">EDIT YOUR DESTINATION</h3>
+                <h3 class="modal-title">Edit Your Destination</h3>
             </div>
-            <!-- // Modal heading END -->
-            <!-- Modal body -->
             <div class="modal-body">
                 <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
                 <div id="google-map-container" style="height: 200px; width: 100%">
@@ -21,16 +15,26 @@
                         <div id="sp-list"></div>
                     </div>
                 </div>
-
                 <div class="innerAll">
                     <div class="innerLR">
                         @using (Html.BeginForm("Edit", "Destination", FormMethod.Post, new { @class = "form-horizontal", role = "form", name = "frmDestination" }))
                         {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    @Html.ValidationMessageFor(x => x.PlaceID)
+                                    @Html.ValidationMessageFor(x => x.PlaceName)
+                                    @Html.ValidationMessageFor(x => x.Longitude)
+                                    @Html.ValidationMessageFor(x => x.Latitude)
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Name</label>
                                 <div class="col-sm-10">
                                     @Html.TextBoxFor(x => x.Name, new { @placeholder = "Destination name", @class = "form-control" })
-                                    @*<input type="text" placeholder="Destination name" name="Name" class="form-control">*@
+                                    @Html.ValidationMessageFor(x => x.Name)
                                 </div>
                             </div>
 
@@ -38,7 +42,7 @@
                                 <label class="col-sm-2 control-label">Description</label>
                                 <div class="col-sm-10">
                                     @Html.TextAreaFor(x => x.Description, new { @placeholder = "Write your description here...", @class = "notebook border-none form-control padding-none", cols = "20", rows = "4" })
-                                    @*<textarea class="notebook border-none form-control padding-none" cols="20" name="Description" placeholder="Write your description here..." rows="4"></textarea>*@
+                                    @Html.ValidationMessageFor(x => x.Description)
                                 </div>
                             </div>
                             <div class="form-group">
@@ -46,35 +50,28 @@
                                 <div class="col-sm-10">
                                     <div class="input-group date datepicker2">
                                         @Html.TextBoxFor(x => x.TakenDate, "{0:dd MMMM yyyy}", new { @class = "form-control", id = "TakenDate" })
-                                        @*<input class="form-control" data-val="true" data-val-required="The Time field is required." id="TakenDate" name="TakenDate" type="text" value="" />*@
                                         <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                                        @Html.ValidationMessageFor(x => x.TakenDate)
                                     </div>
                                 </div>
                             </div>
-                            @Html.Hidden("PlaceID")
-                            @*<input type="hidden" name="PlaceID" />*@
-                            @Html.Hidden("Latitude")
-                            @*<input type="hidden" name="Latitude" />*@
-                            @Html.Hidden("Longitude")
-                            @*<input type="hidden" name="Longitude" />*@
-                            @Html.Hidden("JourneyID", @Model.JourneyID)
-                            @*<input type="hidden" name="JourneyID" />*@
-                            @Html.Hidden("Reference")
-                            @*<input type="hidden" name="Reference" />*@
+                            @Html.HiddenFor(x => x.JourneyID)
+                            @Html.HiddenFor(x => x.DestinationID)
+                            @Html.HiddenFor(x => x.PlaceID)
+                            @Html.HiddenFor(x => x.PlaceName)
+                            @Html.HiddenFor(x => x.Latitude)
+                            @Html.HiddenFor(x => x.Longitude)
+                            @Html.HiddenFor(x => x.Reference)
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button class="btn btn-primary" type="submit">Submit</button>
                                 </div>
                             </div>
-                            @*</form>*@
                         }
                     </div>
                 </div>
             </div>
-            <!-- // Modal body END -->
-
         </div>
     </div>
 
 </div>
-<!-- // Modal END -->

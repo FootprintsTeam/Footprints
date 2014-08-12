@@ -61,25 +61,27 @@ namespace Footprints.Controllers
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID), destinationViewModel);
 
             //check if user already like or share
-            TempData["AlreadyLike"] = destinationService.UserAlreadyLike(new Guid(User.Identity.GetUserId()), destinationID);
+            TempData["AlreadyLike"] = destinationService.UserAlreadyLike(userId, destinationID);
+            TempData["IsDestinationAuthor"] = userId == destinationModel.UserID ? true : false;
             return View(destinationViewModel);
         }
 
-        //
-        // GET: /Destination/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /Destination/Create
+        /// <summary>
+        /// Create a new Destination
+        /// </summary>
+        /// <param name="model">Contains Destination information</param>
+        /// <returns>success: redirect to the new Destination; fail: redirect to the referrer</returns>
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AddNewDestinationFormViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
             var place = Mapper.Map<AddNewDestinationFormViewModel, Place>(model);
+            place.Name = model.PlaceName;
             var destination = Mapper.Map<AddNewDestinationFormViewModel, Destination>(model);
             destination.UserID = new Guid(User.Identity.GetUserId());
             destination.AlbumID = Guid.NewGuid();
@@ -87,35 +89,78 @@ namespace Footprints.Controllers
             destination.Timestamp = DateTimeOffset.Now;
             try
             {
-                destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID);
+                if (destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID))
+                {
+                    return RedirectToAction("Index", "Destination", new { destinationID = destination.DestinationID });
+                }
+                else
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
             }
             catch
             {
                 return Redirect(Request.UrlReferrer.ToString());
             }
-            return RedirectToAction("Index", "Destination", new { destinationID = destination.DestinationID });
+            
         }
 
-
-        //
-        // POST: /Destination/Edit/5
-        [HttpPost]
-        public ActionResult Edit(AddNewDestinationFormViewModel model)
-        {
-            //destinationService.UpdateDestination(Mapper.Map<AddNewDestinationFormViewModel, Models.Destination>(model));
-            return View();
-        }
-
+        /// <summary>
+        /// Edit information of Destination
+        /// </summary>
+        /// <param name="model">Contains Destination information</param>
+        /// <returns>success: reload the current destination page; fail: redirect to the referrer</returns>
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Guid id, Guid JourneyID)
+        public ActionResult Edit(EditDestinationFormViewModel model)
         {
-            var user = Membership.GetUser(User.Identity.Name);
-            Guid userId = (Guid)user.ProviderUserKey;
-            destinationService.DeleteDestination(userId, id);
-            //Redirect to Journey
-            return RedirectToAction("Index", "Journey", new { id = JourneyID });
+            if (!ModelState.IsValid)
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            var userId = new Guid(User.Identity.GetUserId());
+            var place = Mapper.Map<EditDestinationFormViewModel, Place>(model);
+            place.Name = model.PlaceName;
+            var destination = Mapper.Map<EditDestinationFormViewModel, Destination>(model);
+            destination.AlbumID = Guid.NewGuid();
+            destination.Timestamp = DateTimeOffset.Now;
+            destination.UserID = userId;
+            destination.Place = place;
+            try
+            {
+                if (destinationService.UpdateDestination(userId, destination))
+                {
+                    return RedirectToAction("Index", "Destination", new { destinationID = destination.DestinationID });
+                }
+                else
+                {
+                    return Redirect(Request.UrlReferrer.ToString());
+                }
+            }
+            catch
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Delete a Destination
+        /// </summary>
+        /// <param name="model">Contains Destination information</param>
+        /// <returns>success: redirect to the Journey which the current Destination belongs to; fail: return to the referrer page</returns>
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(DeleteDestinationFormViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Redirect(Request.UrlReferrer.ToString());
+            }
+            var userId = new Guid(User.Identity.GetUserId());
+            destinationService.DeleteDestination(userId, model.DestinationID);
+            return RedirectToAction("Index", "Journey", new { id = model.JourneyID });
         }
 
         protected String RenderPartialViewToString(String viewName, object model)
@@ -135,6 +180,11 @@ namespace Footprints.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a Comment to the current Destination
+        /// </summary>
+        /// <param name="comment">Contains information of comment</param>
+        /// <returns>success: returns json which contains information of comment; fail: return empty json</returns>
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -147,9 +197,10 @@ namespace Footprints.Controllers
             comment.UserCommentId = user.UserID;
             comment.CommentID = commentId;
             comment.UserCommentName = User.Identity.GetUserName();
-            comment.Timestamp = DateTimeOffset.Now;
+            comment.Time = DateTimeOffset.Now;
             comment.NumberOfLike = 0;
-            var commentObj = Mapper.Map<CommentViewModel, Models.Comment>(comment);
+            var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
+            commentObj.Timestamp = DateTimeOffset.Now;
             InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
             if (commentService.AddDestinationComment(userId, commentObj))
             {
@@ -162,6 +213,11 @@ namespace Footprints.Controllers
             return Json(jsonModel);
         }
 
+        /// <summary>
+        /// Edit a comment of the current Destination
+        /// </summary>
+        /// <param name="comment">Contains information of the comment</param>
+        /// <returns>success: returns json which contains information of comment; fail: return empty json</returns>
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -181,27 +237,31 @@ namespace Footprints.Controllers
             }
             return Json(data, JsonRequestBehavior.DenyGet);
         }
+        
         [HttpPost]
         [Authorize]
         public Guid DeleteComment(Guid CommentID)
         {
             if (CommentID != null)
             {
-
+                var userId = new Guid(User.Identity.GetUserId());
+                commentService.DeleteAComment(userId, CommentID);
             }
-            //RedirectToAction("Index", "Home");
             return CommentID;
         }
 
         public ActionResult AddNewPhoto()
         {
             var photoContent = TempData["FileInfoList"];
-            var destinationId = TempData["MasterID"];
+            var destinationId = new Guid(TempData["MasterID"].ToString());
+            var photoInfo = (Content) TempData["MediaContent"];
             //add Content here
-
+            var userId = new Guid(User.Identity.GetUserId());
+            destinationService.AddNewContent(photoInfo, destinationId, userId);
             //delete temporary data
             TempData.Remove("FileInfoList");
             TempData.Remove("MasterID");
+            TempData.Remove("MediaContent");
             return Json(photoContent, JsonRequestBehavior.AllowGet);
         }
 
