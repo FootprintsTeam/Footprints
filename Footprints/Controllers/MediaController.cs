@@ -20,7 +20,6 @@ namespace Footprints.Controllers
         {
             this.destinationService = destinationService;
         }
-
         //
         // GET: /Media/
         public ActionResult Index()
@@ -28,7 +27,6 @@ namespace Footprints.Controllers
             var model = MediaViewModel.GetSampleObject();
             return View(model);
         }
-
         public ActionResult AllPhotos()
         {
             try
@@ -40,86 +38,71 @@ namespace Footprints.Controllers
                 return View();
             }
         }
-
         public ActionResult Albums()
         {
             var model = AlbumsViewModel.GetSampleObject();
             return View(model);
         }
-
         public ActionResult AlbumDetails(String albumid)
         {
             return View(AlbumDetailsViewModel.GetSampleObject());
         }
-
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AddPhoto()
+        public ActionResult AddPhoto(ImageViewModel model)
         {
-            String strAlbumID = Request.Form["AlbumID"];
-            String ReturnUrl = Request.Form["ReturnUrl"];
-            String MasterID = Request.Form["MasterID"];
+            String ReturnUrl = model.ReturnUrl;
+            Guid MasterID = model.MasterID;
             var regexGuid = new Regex(Common.Constant.GUID_REGEX);
-            if (strAlbumID == null || !regexGuid.IsMatch(strAlbumID) || Request.Files.Count != 1)
-            {
-                return null;
-            }
             //Authorize
             var UserID = new Guid(User.Identity.GetUserId());
-            var AlbumID = new Guid(strAlbumID);
-            if (Url.Action("AddNewPhoto", "Destination").Equals(ReturnUrl))
-            {
-                if (MasterID == null || !regexGuid.IsMatch(MasterID))
-                {
-                    return null;
-                }
-                var destination = destinationService.GetDestination(new Guid(MasterID));
-                if (UserID != destination.UserID || AlbumID != destination.AlbumID)
-                {
-                    return null;
-                }
-            }
-
             FileInfoList fileInfoList = new FileInfoList();
             FileInfoItem fileInfoItem = new FileInfoItem();
             fileInfoList.files.Add(fileInfoItem);
-            
-            var ImageID = Guid.NewGuid();
-            string s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
-            string bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
-
             const string ERROR_MESSAGE = "An error occurred while processing your request";
-
-            try
+            if (Url.Action("AddNewPhoto", "Destination").Equals(ReturnUrl))
             {
-                if (ImageUtil.IsValidImage(Request.Files.Get(0).InputStream))
-                {
-                    fileInfoItem.size = Request.Files.Get(0).InputStream.Length;
-                    ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ImageID, Request.Files.Get(0).InputStream);
-                    fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ImageID.ToString() + ".jpg";
-                    fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ImageID.ToString() + ".jpg";
-                    fileInfoItem.deleteUrl = this.Url.Action("DeletePhoto", "Media", new { id = ImageID }, this.Request.Url.Scheme);
-                    fileInfoItem.deleteType = "DELETE";
-                }
-                else
+                var destination = destinationService.GetDestination(MasterID);
+                if (destination == null || UserID != destination.UserID)
                 {
                     fileInfoItem.error = ERROR_MESSAGE;
-                }                
+                    return Json(fileInfoList, JsonRequestBehavior.AllowGet);
+                }
+                var AlbumID = destination.AlbumID;
+                var ImageID = Guid.NewGuid();
+                string s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
+                string bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
+                try
+                {
+                    if (ImageUtil.IsValidImage(Request.Files.Get(0).InputStream))
+                    {
+                        fileInfoItem.size = Request.Files.Get(0).InputStream.Length;
+                        ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ImageID, Request.Files.Get(0).InputStream);
+                        fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ImageID.ToString() + ".jpg";
+                        fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ImageID.ToString() + ".jpg";
+                        fileInfoItem.deleteUrl = this.Url.Action("DeletePhoto", "Media", new { id = ImageID }, this.Request.Url.Scheme);
+                        fileInfoItem.deleteType = "DELETE";
+                    }
+                    else
+                    {
+                        fileInfoItem.error = ERROR_MESSAGE;
+                    }
+                }
+                catch (Exception e)
+                {
+                    fileInfoItem.error = ERROR_MESSAGE;
+                }
+                TempData["FileInfoList"] = fileInfoList;
+                TempData["MasterID"] = Request.Form["MasterID"];
+                return Redirect(Request.Form["ReturnUrl"]);
             }
-            catch (Exception e)
+            else
             {
-                fileInfoItem.error = ERROR_MESSAGE;
-                System.Diagnostics.Debug.WriteLine(e.StackTrace);
+                fileInfoItem.error = "ERROR";
+                return Json(fileInfoList, JsonRequestBehavior.AllowGet);
             }
-
-            // nhan added
-            TempData["FileInfoList"] = fileInfoList;
-            TempData["MasterID"] = Request.Form["MasterID"];
-
-            return Redirect(Request.Form["ReturnUrl"]);
         }
-
 
         public ActionResult CreateAlbum()
         {

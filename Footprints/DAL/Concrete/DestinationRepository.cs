@@ -17,7 +17,7 @@ namespace Footprints.DAL.Concrete
         public Destination GetDestination(Guid DestinationID)
         {
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(destination => destination.As<Destination>());
-            return query.Results.First<Destination>();
+            return query.Results.Count() == 0 ? null : query.Results.First<Destination>();
         }
         public Place GetDestinationPlace(Guid DestinationID) {
             var result = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(place => place.As<Place>()).Results.First();
