@@ -19,7 +19,7 @@ namespace Footprints.DAL.Concrete
                     comment = comment.As<Comment>(),
                     user = user.As<User>()
                 }).OrderBy("comment.Timestamp").Results;
-            IList<Comment> result = null;
+            List<Comment> result = new List<Comment>();
             Comment currentComment = new Comment();
             foreach (var item in query)
             {
@@ -39,7 +39,7 @@ namespace Footprints.DAL.Concrete
                     comment = comment.As<Comment>(),
                     user = user.As<User>()
                 }).OrderBy("comment.Timestamp").Results;
-            IList<Comment> result = null;
+            List<Comment> result = new List<Comment>();
             Comment currentComment = new Comment();
             foreach (var item in query)
             {
