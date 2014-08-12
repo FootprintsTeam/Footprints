@@ -38,6 +38,11 @@ namespace Footprints.Controllers
             IList<Destination> list = destinationSer.GetAllDestination();
             return View(list);
         }
+
+        public ActionResult User() {
+            IList<User> list = userSer.GetUser();
+            return View(list);
+        }
         
         public ActionResult DeleteJourney(Guid UserID, Guid JourneyID) {            
             if (UserID == null)
@@ -68,10 +73,12 @@ namespace Footprints.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditJourney(Journey Journey) {
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 journeySer.UpdateJourneyForAdmin(Journey);
+                return RedirectToAction("Journey");
             }
-            return RedirectToAction("Journey");
+            return View(Journey);            
         }
     }
 }

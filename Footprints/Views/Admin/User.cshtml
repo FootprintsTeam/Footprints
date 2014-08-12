@@ -1,0 +1,169 @@
+﻿@model IList<Footprints.Models.User>
+@{
+    ViewBag.Title = "User";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@Styles.Render("~/css/core");
+
+<!-- <div class="layout-app">  -->
+<div class="innerLR" style="padding-top: 70px;">
+    <h3 class="margin-none pull-left">Journey Management</h3>
+    <div class="btn-group btn-group-sm pull-right">
+        <a href="" class="btn btn-primary">Add Journey</a>
+    </div>
+    <div class="clearfix"></div>
+    <div class="separator-h"></div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+        <form class="margin-none form-inline">
+
+            <!-- From -->
+            <div class="form-group col-md-2 padding-none">
+                <label>From:</label>
+                <div class="input-group">
+                    <input type="text" name="from" id="dateRangeFrom" class="form-control" value="08/05/13" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <!-- // From END -->
+            <!-- To -->
+            <div class="form-group col-md-2 padding-none">
+                <label>To:</label>
+                <div class="input-group">
+                    <input type="text" name="to" id="dateRangeTo" class="form-control" value="08/18/13" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <!-- // To END -->
+            @*<!-- Min -->
+                <div class="form-group col-md-2 padding-none">
+                    <label>Min:</label>
+                    <div class="input-group">
+                        <input type="text" name="from" class="form-control" value="100" />
+                        <span class="input-group-addon"><i class="fa fa-euro"></i></span>
+                    </div>
+                </div>
+                <!-- // Min END -->
+                <!-- Max -->
+                <div class="form-group col-md-2 padding-none">
+                    <label>Max:</label>
+                    <div class="input-group">
+                        <input type="text" name="from" class="form-control" value="500" />
+                        <span class="input-group-addon"><i class="fa fa-euro"></i></span>
+                    </div>
+                </div>
+                <!-- // Max END -->*@
+            <!-- Select -->
+            <div class="form-group col-md-3 padding-none">
+                <label class="label-control">Select:</label>
+                <div class="col-md-8 padding-none">
+                    <select name="from" class="form-control">
+                        <option>Some option</option>
+                        <option>Other option</option>
+                        <option>Some other option</option>
+                    </select>
+                </div>
+            </div>
+            <!-- // Select END -->
+
+            <div class="clearfix"></div>
+        </form>
+    </div>
+    <!-- // Filters END -->
+    <!-- Widget -->
+    <div class="widget widget-body-white">
+
+        <!-- Widget heading -->
+        <div class="widget-head">
+            <h4 class="heading glyphicons calendar"><i></i>@DateTime.Now</h4>
+        </div>
+        <!-- // Widget heading END -->
+
+        <div class="widget-body">
+
+            <!-- Total journey & sort by options -->
+            <div class="separator bottom">
+                Total journey:
+                <span class="pull-right">
+                    <label class="strong">Sort by:</label>
+                    <select class="selectpicker margin-none" data-style="btn-default btn-xs">
+                        <option>Option</option>
+                        <option>Option</option>
+                        <option>Option</option>
+                    </select>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+            <!-- // Total journey & sort by options END -->
+            <!-- Table -->
+            <table class="table table-condensed table-striped table-primary table-vertical-center checkboxs">
+                <thead>
+                    <tr>
+                        <th style="width: 1%;" class="uniformjs"><input type="checkbox" /></th>
+                        <th class="center">Name</th>
+                        <th class="center">Description</th>
+                        @*<th class="center">Taken Date</th>
+                        <th class="center">Time stamp</th>
+                        <th class="center">Number Of Like</th>
+                        <th class="center">Number Of Share</th>*@
+                        <th class="center" style="width: 150px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Item -->
+                    @foreach (var user in @Model)
+                    {
+                        <tr class="selectable">
+                            <td class="center uniformjs"><input type="checkbox" /></td>
+                            <td class="center">@user.Email</td>
+                            <td class="center">@user.UserName</td>
+                            @*<td class="center">@journey.TakenDate</td>
+                            <td class="center">@journey.Timestamp</td>
+                            <td class="center">@journey.NumberOfLike</td>
+                            <td class="center">@journey.NumberOfShare</td>*@
+                            <td class="center">
+                                <div class="btn-group btn-group-sm">
+                                    @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
+                                        <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
+                                        <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
+                                    @Html.ActionLink("Edit", "EditUser", "Admin", new { UserID = user.UserID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Del", "DeleteUser", "Admin", new { UserID = user.UserID  }, new { @class = "btn btn-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    <!-- // Item END -->
+
+                </tbody>
+            </table>
+            <!-- // Table END -->
+            <!-- With selected actions -->
+            <div class="pull-left checkboxs_actions hide-2">
+                <label class="strong">
+                    With selected:
+                    <select class="selectpicker margin-none" data-style="btn-default btn-small">
+                        <option>Delete</option>
+                        <option>Action</option>
+                        <option>Action</option>
+                    </select>
+                </label>
+            </div>
+            <!-- // With selected actions END -->
+            <!-- Pagination -->
+            <ul class="pagination pull-right margin-none">
+                <li class="disabled"><a href="#">&laquo;</a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">&raquo;</a></li>
+            </ul>
+            <div class="clearfix"></div>
+            <!-- // Pagination END -->
+
+        </div>
+    </div>
+    <!-- // Widget -->
+    @Scripts.Render("~/script/core")
+</div>

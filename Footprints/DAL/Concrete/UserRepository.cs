@@ -156,7 +156,7 @@ namespace Footprints.DAL.Concrete
         public IList<User> GetUser()
         {
 
-            return Db.Cypher.Match("(user:User)").Where("user.UserID != 'TEMP'").Return(user => user.As<User>()).Results.ToList<User>();
+            return Db.Cypher.Match("(user:User)").Where("user.UserID <> 'TEMP'").Return(user => user.As<User>()).Results.ToList<User>();
         }
         public IList<User> GetFriendList(Guid UserID)
         {
