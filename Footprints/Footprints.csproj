@@ -2587,6 +2587,7 @@
     <Content Include="Views\Admin\Destination.cshtml" />
     <Content Include="Views\Destination\AddCommentForm.cshtml" />
     <Content Include="Views\Admin\EditJourney.cshtml" />
+    <Content Include="Views\Admin\User.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
