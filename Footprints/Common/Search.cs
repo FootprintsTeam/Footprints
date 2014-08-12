@@ -13,7 +13,8 @@ namespace Footprints.Common
         public Search(IGraphClient client) : base(client) { }
         public IList<User> SearchUser(String textEntered)
         {
-
+            String query = "+Name:Chie~+Name:Than~";
+            var result = Db.QueryIndex<User>("node_auto_index", IndexFor.Node, query);
             return Db.Cypher.Start(new
             {
                 UserName = Node.ByIndexQuery("node_auto_index", "UserName:\"" + textEntered + "\""),

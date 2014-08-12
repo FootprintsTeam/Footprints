@@ -35,7 +35,9 @@ namespace Footprints.DAL.Concrete
             Db.Cypher.Create("(User:User {User})").WithParam("User", UserPara).
                       Create("(Activity:Activity {Activity})").WithParam("Activity", activity).With("User, Activity").
                       Match("(UserTemp:User {UserID : 'TEMP'})").
-                      Create("(User)-[:EGO {UserID : User.UserID}]->(UserTemp)").Create("(User)-[:LATEST_ACTIVITY]->(Activity)")
+                      Create("(User)-[:EGO {UserID : User.UserID}]->(UserTemp)").
+                      Create("(User)-[:LATEST_ACTIVITY]->(Activity)").
+                      Create("(User)-[:FRIEND]->(UserTemp)")
                       .ExecuteWithoutResults();
         }
         public bool UpdateUser(User User)
@@ -156,7 +158,7 @@ namespace Footprints.DAL.Concrete
         public IList<User> GetUser()
         {
 
-            return Db.Cypher.Match("(user:User)").Where("user.UserID != 'TEMP'").Return(user => user.As<User>()).Results.ToList<User>();
+            return Db.Cypher.Match("(user:User)").Where("user.UserID <> 'TEMP'").Return(user => user.As<User>()).Results.ToList<User>();
         }
         public IList<User> GetFriendList(Guid UserID)
         {
@@ -206,6 +208,25 @@ namespace Footprints.DAL.Concrete
             }
             return 0;
         }
+        //For Admin
+        public bool DeleteUser(Guid UserID)
+        {
+            CypherQuery query = new CypherQuery(" OPTIONAL MATCH (User:User)-[r]-() WHERE (User.UserID = {UserID}) AND (User.Status <> 'Admin') " +
+                                                " OPTIONAL MATCH (User)-[:LATEST_ACTIVITY]->(LatestActivity:Activity) " +
+                                                " OPTIONAL MATCH (LatestActivity)-[:NEXT*]->(NextActivity:Activity) " +
+                                                " OPTIONAL MATCH (User)-[:FRIEND]-(friend:User) " +
+                                                " WITH User, r, LatestActivity, NextActivity, Collect(friend) AS friends " +
+                                                " UNWIND friends AS fr " +
+                                                " OPTIONAL MATCH (previous)-[:EGO {UserID : fr.UserID}]->(User) " +
+                                                " OPTIONAL MATCH (User)-[:EGO {UserID : fr.UserID}]->(next) " +
+                                                " DELETE User, r, LatestActivity, NextActivity " +
+                                                " WITH previous, next, fr " +
+                                                " WHERE (previous IS NOT NULL) AND (next IS NOT NULL) " +
+                                                " CREATE (previous)-[:EGO {UserID : fr.UserID}]->(next) ",
+                                                new Dictionary<String, Object> { {"UserID", UserID} }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteCypher(query);
+            return true;
+        }             
     }
 
     public interface IUserRepository : IRepository<User>
@@ -227,5 +248,6 @@ namespace Footprints.DAL.Concrete
         long GetNumberOfJourney(Guid UserID);
         long GetNumberOfDestination(Guid UserID);
         long GetNumberOfFriend(Guid UserID);
+        bool DeleteUser(Guid UserID);
     }
 }

@@ -26,6 +26,7 @@ namespace Footprints.Services
         long GetNumberOfJourney(Guid UserID);
         long GetNumberOfDestination(Guid UserID);
         long GetNumberOfFriend(Guid UserID);
+        bool DeleteUser(Guid UserID);
     }
     public class UserService : IUserService
     {
@@ -103,6 +104,10 @@ namespace Footprints.Services
         public long GetNumberOfFriend(Guid UserID)
         {
             return _userRepo.GetNumberOfFriend(UserID);
+        }
+        public bool DeleteUser(Guid UserID)
+        {
+            return _userRepo.DeleteUser(UserID);
         }
     }
 }
