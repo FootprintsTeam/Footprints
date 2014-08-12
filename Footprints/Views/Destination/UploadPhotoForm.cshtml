@@ -4,9 +4,9 @@
 @using (Html.BeginForm("AddPhoto", "Media", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
 {       
     @Html.AntiForgeryToken()
-    @Html.Hidden("ReturnUrl", Model.ReturnUrl) 
-    @Html.Hidden("MasterID",Model.MasterID)
-    @Html.Hidden("AlbumID", Guid.NewGuid())
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(x => x.ReturnUrl)
+    @Html.HiddenFor(x => x.MasterID)
     <div class="row fileupload-buttonbar">
         <span class="btn btn-success fileinput-button">
             <i class="glyphicon glyphicon-plus"></i>
