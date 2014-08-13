@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Footprints.Common;
+using Footprints.Models;
+
 namespace Footprints.ViewModels
 {
-    public class NewsfeedViewModel
+    public class NewsfeedBaseWidgetViewModel
     {
         public Guid UserID { get; set; }
         public string UserName { get; set; }
@@ -17,7 +19,7 @@ namespace Footprints.ViewModels
         public IList<CommentViewModel> Comments { get; set; }
     }
 
-    public class AddPhotoWidgetViewModel : NewsfeedViewModel
+    public class AddPhotoWidgetViewModel : NewsfeedBaseWidgetViewModel
     {
         public int NumberOfPhoto { get; set; }
         public Guid DestinationID { get; set; }
@@ -43,7 +45,7 @@ namespace Footprints.ViewModels
         }
     }
 
-    public class CommentWidgetViewModel : NewsfeedViewModel
+    public class CommentWidgetViewModel : NewsfeedBaseWidgetViewModel
     {
         public Guid DestinationID { get; set; }
         public string DestinationName { get; set; }
@@ -67,7 +69,7 @@ namespace Footprints.ViewModels
         }
     }
 
-    public class ShareWidgetViewModel : NewsfeedViewModel
+    public class ShareWidgetViewModel : NewsfeedBaseWidgetViewModel
     {
         public Guid DestinationID { get; set; }
         public string DestinationName { get; set; }
@@ -93,7 +95,8 @@ namespace Footprints.ViewModels
         }
     }
 
-    public class PersonalWidgetViewModel : NewsfeedViewModel {
+    public class PersonalWidgetViewModel : NewsfeedBaseWidgetViewModel
+    {
         public int NumberOfJourney { get; set; }
         public int NumberOfDestination { get; set; }
         public int NumberOfFriend { get; set; }
@@ -108,6 +111,37 @@ namespace Footprints.ViewModels
                 NumberOfDestination = 10,
                 NumberOfFriend = 100,
                 JoinDate = DateTimeOffset.Now
+            };
+
+            return sample;
+        }
+    }
+
+    public class DestinationWidgetViewModel : NewsfeedBaseWidgetViewModel
+    {
+        public Place Place { get; set; }
+        public string DestinationName { get; set; }
+        public string Description { get; set; }
+        public Guid DestinationID { get; set; }
+        public static DestinationWidgetViewModel GetSampleObject() {
+            var sample = new DestinationWidgetViewModel
+            {
+                ActivityID = new Guid(),
+                UserName = "Nhân Trịnh",
+                ProfilePicURL = Constant.defaultAvatarUrl,
+                Timestamp = DateTimeOffset.Now,
+                DestinationID = Guid.NewGuid(),
+                DestinationName = "Phố cổ Hà Nội",
+                Comments = CommentViewModel.GetSampleObject(),
+                NumberOfLike = Constant.DefaultNumberOfShare,
+                NumberOfShare = Constant.DefaultNumberOfLike,
+                Place = new Place {
+                    Latitude = -15.800513,
+                    Longitude = -47.91378,
+                    PlaceID = Guid.NewGuid().ToString(),
+                    Name = "something"
+                },
+                Description = "Some description"
             };
 
             return sample;

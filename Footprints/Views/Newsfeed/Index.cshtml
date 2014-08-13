@@ -17,7 +17,7 @@
                     @{Html.RenderPartial("JourneyWidget");}
                     <!-- //End Widget -->
                     <!-- Widget -->
-                    @{Html.RenderPartial("DestinationWidget");}
+                    @{Html.RenderAction("DestinationWidget");}
                     <!-- //End Widget -->
                     <!-- Widget -->
                     @{Html.RenderAction("AddPhotoWidget");}
@@ -66,43 +66,17 @@
             }
         });
 
-
-        function initialize() {
-            var mapOptions = {
-                center: new google.maps.LatLng(-34.397, 150.644),
-                zoom: 10,
-                disableDefaultUI: true               
-            };
-            var map = new google.maps.Map($("#google-map-json")[0],
-                mapOptions);
+        $(document).ready(
+        function () {
+            $.ajax({
+                type: "GET",
+                url: '',
+                dataType: "image/jpg",
+                success: function (data) {
+                    $('#google-map-json').attr('src', data);
+                }
+            });
         }
-
-        google.maps.event.addDomListener(window, 'load', initialize);
-
-        //$('#google-map-json').gmap({
-        //    'zoomControl': true,
-        //    'zoomControlOpt': {
-        //        'style': 'SMALL',
-        //        'position': 'TOP_LEFT'
-        //    },
-        //    'panControl': false,
-        //    'streetViewControl': false,
-        //    'mapTypeControl': false,
-        //    'overviewMapControl': false,
-        //    'scrollwheel': false,
-        //    'mapTypeId': google.maps.MapTypeId.ROADMAP
-        //}).bind('init', function () {
-        //    $.getJSON(componentsPath + '../plugins/maps_google/jquery-ui-map/data/demo.json', function (data) {
-        //        $.each(data.markers, function (i, marker) {
-        //            $('#google-map-json').gmap('addMarker', {
-        //                'position': new google.maps.LatLng(marker.latitude, marker.longitude)
-        //            }).click(function () {
-        //                $('#google-map-json').gmap('openInfoWindow', { 'content': marker.content }, this);
-        //            });
-        //        });
-        //        $('#google-map-json').gmap('option', 'center', new google.maps.LatLng(data.markers[1].latitude, data.markers[1].longitude));
-        //        $('#google-map-json').gmap('option', 'zoom', 16);
-        //    });
-        //});
+        );
     </script>
 }
