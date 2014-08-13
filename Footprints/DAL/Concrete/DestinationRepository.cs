@@ -256,22 +256,25 @@ namespace Footprints.DAL.Concrete
         //For Admin
         public IList<Destination> GetAllDestination() 
         {
-            var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Match("(Destination)-[:HAS*]->(Content)")
-                        .Return((Destination, Place, Content) => new
+            var query = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Match("(destination)-[:HAS*]->(content:Content)")
+                        .Return((destination, place, content) => new
                         {
-                            Destination = Destination.As<Destination>(),
-                            Place = Place.As<Place>(),
-                            Contents = Content.CollectAs<Content>()
+                            destination = destination.As<Destination>(),
+                            place = place.As<Place>(),
+                            content = content.CollectAs<Content>()
                         }).Results;
             List<Destination> result = new List<Destination>();       
-            Destination currentDestination = new Destination();
+            Destination currentDestination = new Destination();           
             foreach (var item in query)
             {
-                currentDestination = item.Destination;
-                currentDestination.Place = item.Place;
-                foreach (var content in item.Contents)
+                currentDestination = new Destination();
+                if (!item.destination.Equals(null)) currentDestination = item.destination;
+                currentDestination.Contents = new List<Content>();
+                currentDestination.Place = new Place();
+                if (!item.place.Equals(null)) currentDestination.Place = item.place;
+                foreach (var content in item.content)
                 {
-                    currentDestination.Contents.Add(content.Data);
+                    if (!content.Equals(null)) currentDestination.Contents.Add(content.Data);
                 }
                 result.Add(currentDestination);
             }
