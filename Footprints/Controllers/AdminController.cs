@@ -28,22 +28,44 @@ namespace Footprints.Controllers
             return View();
         }
         
+        public ActionResult Destination() {
+            IList<Destination> list = destinationSer.GetAllDestination();
+            return View(list);
+        }
+
+        public ActionResult UserList() {
+            IList<User> list = userSer.GetUser();
+            return View(list);
+        }
+
+
+        public ActionResult DeleteUser(Guid UserID)
+        {
+
+            //Guid CurrentAdminID = new Guid(User.Identity.GetUserId());
+            Guid CurrentAdminID = new Guid("5BBE3A24-99A2-4DE5-85B9-FF8599CF26CD");
+            if (UserID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else if (UserID == CurrentAdminID)
+            {
+                ModelState.AddModelError("", "Cannot delete your Admin account");
+                return RedirectToAction("UserList");
+            }
+            else
+            {
+                userSer.DeleteUser(UserID);
+                return RedirectToAction("UserList");
+            }
+        }
+
         public ActionResult Journey()
         {
             IList<Journey> list = journeySer.GetAllJourney();
             return View(list);
         }
 
-        public ActionResult Destination() {
-            IList<Destination> list = destinationSer.GetAllDestination();
-            return View(list);
-        }
-
-        public ActionResult User() {
-            IList<User> list = userSer.GetUser();
-            return View(list);
-        }
-        
         public ActionResult DeleteJourney(Guid UserID, Guid JourneyID) {            
             if (UserID == null)
             {
@@ -61,7 +83,7 @@ namespace Footprints.Controllers
             
         }
 
-        public ActionResult EditJourney(Guid JourneyID) {
+        public ActionResult EditJourney(Guid JourneyID) {            
             if (JourneyID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

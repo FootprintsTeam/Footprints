@@ -78,6 +78,11 @@ namespace Footprints
                 //, "~/assets/components/core/helpers.less"
                 ));
 
+            //Admin css
+            bundles.Add(new StyleBundle("~/css/admin").Include(
+                "~/assets/css/admin/admin.css"
+                ));
+
             //Timeline page css
             bundles.Add(new StyleBundle("~/css/timeline").Include(
                 "~/assets/components/ui_buttons/buttons.less",
