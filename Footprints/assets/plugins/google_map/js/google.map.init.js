@@ -15,23 +15,24 @@ var hdDestinationLatitude = frmDestination.elements["Latitude"];
 var hdDestinationLongitude = frmDestination.elements["Longitude"];
 var hdDestinationReference = frmDestination.elements["Reference"];
 var hdDestinationPlaceName = frmDestination.elements["PlaceName"];
-
-var myCenter = new google.maps.LatLng(53, -1.33);
-
+var centerLatLng = new google.maps.LatLng(21.0226967, 105.8369637);
+if (hdDestinationLatitude.value.length > 0 && hdDestinationLongitude.value.length > 0) {
+    centerLatLng = new google.maps.LatLng(hdDestinationLatitude.value, hdDestinationLongitude.value);
+    console.log(hdDestinationLatitude.value + ' ---- ' + hdDestinationLongitude.value)
+}
 function initialize() {
     psContainer = document.getElementById('sp-container');
-
     if (document.getElementById('map-canvas-destinations') != null) {
         var mapOptionsDestinations = {
-            center: new google.maps.LatLng(-33.8688, 151.2195),
-            zoom: 17
+            center: new google.maps.LatLng(21.0226967, 105.8369637),
+            zoom: 15
         };
         mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptionsDestinations);
     }
 
     var mapOptions = {
-        center: new google.maps.LatLng(-33.8688, 151.2195),
-        zoom: 17
+        center: centerLatLng,
+        zoom: 15
     };
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     pacinput = /** @type {HTMLInputElement} */(
@@ -86,7 +87,7 @@ function initialize() {
 
         txtDestinationName.value = place.name;
         hdDestinationPlaceId.value = place.place_id;
-        hdDestinationPlaceName.value = place.Name
+        hdDestinationPlaceName.value = place.name
         hdDestinationLatitude.value = place.geometry.location.lat();
         hdDestinationLongitude.value = place.geometry.location.lng();
         if (place.reference && place.reference != null) {
