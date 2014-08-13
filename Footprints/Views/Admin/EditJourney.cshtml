@@ -5,12 +5,11 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-<h2>Edit Journey</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4 style="padding-left:30px;">Journey</h4>
+        <h4 style="padding-left:30px;padding-top:70px;">Journey</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.JourneyID)
