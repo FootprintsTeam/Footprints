@@ -7,14 +7,17 @@ using Footprints.Services;
 using Footprints.Models;
 using System.Net;
 using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace Footprints.Controllers
 {
     public class AdminController : Controller
     {
+        public const int pageSize = 10;
+
         public IUserService userSer;
         public IJourneyService journeySer;
-        public IDestinationService destinationSer;
+        public IDestinationService destinationSer;        
         public AdminController(IUserService userSer ,IJourneyService journeySer, IDestinationService destinationSer)
         {
             this.userSer = userSer;
@@ -60,10 +63,11 @@ namespace Footprints.Controllers
             }
         }
 
-        public ActionResult Journey()
-        {
+        public ActionResult Journey(int? page)
+        {         
+            int pageNumber = (page ?? 1);
             IList<Journey> list = journeySer.GetAllJourney();
-            return View(list);
+            return View(list.ToPagedList(pageNumber,pageSize));
         }
 
         public ActionResult DeleteJourney(Guid UserID, Guid JourneyID) {            
