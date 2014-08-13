@@ -70,26 +70,34 @@ namespace Footprints.Controllers
                     return Json(fileInfoList, JsonRequestBehavior.AllowGet);
                 }
                 var AlbumID = destination.AlbumID;
-                var ImageID = Guid.NewGuid();
-                string s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
-                string bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
+                var ContentID = Guid.NewGuid();
+                String s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
+                String bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
                 try
                 {
                     if (ImageUtil.IsValidImage(Request.Files.Get(0).InputStream))
                     {
                         fileInfoItem.size = Request.Files.Get(0).InputStream.Length;
-                        ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ImageID, Request.Files.Get(0).InputStream);
-                        fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ImageID.ToString() + ".jpg";
-                        fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ImageID.ToString() + ".jpg";
-                        fileInfoItem.deleteUrl = this.Url.Action("DeletePhoto", "Media", new { id = ImageID }, this.Request.Url.Scheme);
+                        ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ContentID, Request.Files.Get(0).InputStream);
+                        fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ContentID.ToString() + ".jpg";
+                        fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ContentID.ToString() + ".jpg";
+                        fileInfoItem.deleteUrl = this.Url.Action("DeletePhoto", "Media", new { id = ContentID }, this.Request.Url.Scheme);
                         fileInfoItem.deleteType = "DELETE";
+                        var mediaContent = new Content
+                        {
+                            ContentID = ContentID,
+                            TakenDate = DateTimeOffset.Now,
+                            Timestamp = DateTimeOffset.Now,
+                            URL = fileInfoItem.url
+                        };
+                        TempData["MediaContent"] = mediaContent;
                     }
                     else
                     {
                         fileInfoItem.error = ERROR_MESSAGE;
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     fileInfoItem.error = ERROR_MESSAGE;
                 }

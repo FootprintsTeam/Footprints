@@ -14,6 +14,7 @@ var hdDestinationPlaceId = frmDestination.elements["PlaceID"];
 var hdDestinationLatitude = frmDestination.elements["Latitude"];
 var hdDestinationLongitude = frmDestination.elements["Longitude"];
 var hdDestinationReference = frmDestination.elements["Reference"];
+var hdDestinationPlaceName = frmDestination.elements["PlaceName"];
 
 var myCenter = new google.maps.LatLng(53, -1.33);
 
@@ -85,6 +86,7 @@ function initialize() {
 
         txtDestinationName.value = place.name;
         hdDestinationPlaceId.value = place.place_id;
+        hdDestinationPlaceName.value = place.Name
         hdDestinationLatitude.value = place.geometry.location.lat();
         hdDestinationLongitude.value = place.geometry.location.lng();
         if (place.reference && place.reference != null) {
@@ -98,6 +100,7 @@ function initialize() {
     google.maps.event.addListener(map, 'click', function (event) {
         infowindow.close();
         hdDestinationPlaceId.value = '';
+        hdDestinationPlaceName.value = '';
         hdDestinationReference.value = '';
         marker.setPosition(event.latLng);
         hdDestinationLatitude.value = marker.position.lat();
@@ -147,7 +150,7 @@ function displaySuggestionPlaces() {
         var html = '';
         for (i = 0; i < nearbyPlaces.length; i++) {
             if (nearbyPlaces[i].name) {
-                html += '<div class=\"sp-item\" latitude=\"' + nearbyPlaces[i].geometry.location.lat() + '\" longitude=\"' + nearbyPlaces[i].geometry.location.lng() + '\" reference=\"' + nearbyPlaces[i].reference + '\" place_id=\"' + nearbyPlaces[i].place_id + '\">' + nearbyPlaces[i].name + '</div>';
+                html += '<div class=\"sp-item\" latitude=\"' + nearbyPlaces[i].geometry.location.lat() + '\" longitude=\"' + nearbyPlaces[i].geometry.location.lng() + '\" reference=\"' + nearbyPlaces[i].reference + '\" place_id=\"' + nearbyPlaces[i].place_id + '\" place_name=\"' + nearbyPlaces[i].name + '\">' + nearbyPlaces[i].name + '</div>';
             }
         }
         document.getElementById('sp-list').innerHTML = html;
@@ -193,6 +196,7 @@ $(function () {
         moveToSuggestionPlace();
         txtDestinationName.value = this.innerHTML;
         hdDestinationPlaceId.value = $(this).attr("place_id");
+        hdDestinationPlaceName.value = $(this).attr("place_name");
         hdDestinationLatitude.value = $(this).attr("latitude");
         hdDestinationLongitude.value = $(this).attr("longitude");
         hdDestinationReference.value = $(this).attr("reference");

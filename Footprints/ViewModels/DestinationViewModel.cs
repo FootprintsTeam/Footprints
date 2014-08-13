@@ -120,26 +120,27 @@ namespace Footprints.ViewModels
 
     public class AddNewDestinationFormViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public String PlaceID { get; set; }
+        [Required(ErrorMessage = "Please choose a place on the map")]
+        public String PlaceName { get; set; }
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid JourneyID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Longitude { get; set; }
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Latitude { get; set; }
         public String Reference { get; set; }
         [Required]
         public String Name { get; set; }
+        [Required]
         [DataType(DataType.MultilineText)]
         public String Description { get; set; }
         [Display(Name = "Start Date")]
         [Required]
         [DataType(DataType.Date)]
         public DateTimeOffset TakenDate { get; set; }
-        public DateTimeOffset Timestamp { get; set; }
-        public int NumberOfLikes { get; set; }
-
         public static AddNewDestinationFormViewModel GetEmptyObject(Guid JourneyID)
         {
             return new AddNewDestinationFormViewModel
@@ -155,19 +156,21 @@ namespace Footprints.ViewModels
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid DestinationID { get; set; }
-        [Required]
-        [RegularExpression(Common.Constant.GUID_REGEX)]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public String PlaceID { get; set; }
+        [Required(ErrorMessage = "Please choose a place on the map")]
+        public String PlaceName { get; set; }
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid JourneyID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Longitude { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Latitude { get; set; }
         public String Reference { get; set; }
-        [Required(ErrorMessage = "You must enter destination name")]
+        [Required]
         public String Name { get; set; }
+        [Required]
         [DataType(DataType.MultilineText)]
         public String Description { get; set; }
         [Display(Name = "Time")]
@@ -175,21 +178,21 @@ namespace Footprints.ViewModels
         [DataType(DataType.Date)]
         public DateTimeOffset TakenDate { get; set; }
         public DateTimeOffset Timestamp { get; set; }
-        public int NumberOfLikes { get; set; }
 
         public string TimeAgo
         {
             get { return DateTimeFormat.TimeAgo(this.TakenDate); }
             private set { }
         }
-        public static AddNewDestinationFormViewModel GetEmptyObject(Guid JourneyID)
-        {
-            return new AddNewDestinationFormViewModel
-            {
-                JourneyID = JourneyID,
-                TakenDate = DateTimeOffset.Now
-            };
-        }
+    }
+    public class DeleteDestinationFormViewModel
+    {
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid DestinationID { get; set; }
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid JourneyID { get; set; }
     }
 
     public class AddCommentFormViewModel
@@ -198,8 +201,8 @@ namespace Footprints.ViewModels
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid DestinationID { get; set; }
         [Required]
+        [DataType(DataType.MultilineText)]
         public String Content { get; set; }
-
         public static AddCommentFormViewModel GetEmptyModel(Guid DestinationID)
         {
             return new AddCommentFormViewModel
@@ -208,5 +211,28 @@ namespace Footprints.ViewModels
                 Content = ""
             };
         }
+    }
+
+    public class EditCommentFormViewModel
+    {
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid CommentID { get; set; }
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid DestinationID { get; set; }
+        [Required]
+        [DataType(DataType.MultilineText)]
+        public String Content { get; set; }
+    }
+
+    public class DeleteCommentFormViewModel
+    {
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid CommentID { get; set; }
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid DestinationID { get; set; }
     }
 }

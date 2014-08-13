@@ -26,7 +26,7 @@ namespace Footprints.Controllers
         public ActionResult Index()
         {
             var model = JourneyViewModel.GetSampleObject();
-            model.JourneyID = new Guid("54088c27-11b8-4c3a-8919-d86c5620964b");
+            model.JourneyID = new Guid("97d44e66-bd37-4f66-80d2-f6ac15b8923f");
             return View("Index", model);
         }
         //
@@ -34,13 +34,17 @@ namespace Footprints.Controllers
         public ActionResult Index(string username, Guid journeyID)
         {
             var journeyModel = journeyService.GetJourneyDetail(journeyID);
-            var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
-            if (journeyModel.Destinations != null)
+            //Implementing
+            //Journey does not exist
+            if (journeyModel == null)
             {
-                foreach (Destination d in journeyModel.Destinations)
-                {
-                    journeyViewModel.Destinations.Add(Mapper.Map<Destination, DestinationViewModel>(d));
-                }
+                //Redirect to error page or newsfeed page
+                return RedirectToAction("Index", "Newsfeed");
+            }
+            var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
+            if (journeyViewModel.Comments == null)
+            {
+                journeyViewModel.Comments = new List<CommentViewModel>();
             }
             journeyViewModel.AddNewDestinationFormViewModel = new AddNewDestinationFormViewModel { JourneyID = journeyID, TakenDate = DateTimeOffset.Now };
             return View(journeyViewModel);
@@ -86,8 +90,6 @@ namespace Footprints.Controllers
             return View();
         }
 
-        //
-        // POST: /Journey/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
