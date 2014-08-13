@@ -33,8 +33,8 @@ namespace Footprints.DAL.Concrete
         }
         public Destination GetDestinationDetail(Guid DestinationID)
         {
-            var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).
-                Match("(Destination)-[:HAS*]->(Content:Content)").
+            var query = Db.Cypher.Match("(destination:Destination)-[:AT]->(Place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).
+                Match("(destination)-[:HAS*]->(Content:Content)").
                 Return((Destination, Place, Contents) => new
                 {
                     Destination = Destination.As<Destination>(),
