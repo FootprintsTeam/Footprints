@@ -251,7 +251,19 @@ namespace Footprints.DAL.Concrete
                                                 new Dictionary<String, Object> { {"UserID", UserID} }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
-        }             
+        }
+        public bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL)
+        {
+            var query = Db.Cypher.Match("(User:User)").Where((User User) => User.UserID == UserID).
+                        Set("User.ProfilePicURL = {ProfilePicURL}").WithParam("ProfilePicURL", ProfilePicURL).Return(User => User.As<User>()).Results;
+            return query.Count() > 0 ? true : false;
+        }
+        public bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL)
+        {
+            var query = Db.Cypher.Match("(User:User)").Where((User User) => User.UserID == UserID).
+                        Set("User.CoverPhotoURL = {CoverPhotoURL}").WithParam("CoverPhotoURL", CoverPhotoURL).Return(User => User.As<User>()).Results;
+            return query.Count() > 0 ? true : false;
+        }
     }
 
     public interface IUserRepository : IRepository<User>
@@ -274,5 +286,7 @@ namespace Footprints.DAL.Concrete
         long GetNumberOfDestination(Guid UserID);
         long GetNumberOfFriend(Guid UserID);
         bool DeleteUser(Guid UserID);
+        bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL);
+        bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
     }
 }

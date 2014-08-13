@@ -27,6 +27,8 @@ namespace Footprints.Services
         long GetNumberOfDestination(Guid UserID);
         long GetNumberOfFriend(Guid UserID);
         bool DeleteUser(Guid UserID);
+        bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL);
+        bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
     }
     public class UserService : IUserService
     {
@@ -108,6 +110,14 @@ namespace Footprints.Services
         public bool DeleteUser(Guid UserID)
         {
             return _userRepo.DeleteUser(UserID);
+        }
+        public bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL)
+        {
+            return _userRepo.UpdateProfilePicURL(UserID, ProfilePicURL);
+        }
+        public bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL)
+        {
+            return _userRepo.UpdateCoverPhotoURL(UserID, CoverPhotoURL);
         }
     }
 }

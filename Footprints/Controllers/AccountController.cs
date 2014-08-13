@@ -104,7 +104,7 @@ namespace Footprints.Controllers
                             Status = Footprints.Models.StatusEnum.Active,
                             UserName = user.UserName,
                             ProfilePicURL = Constant.defaultAvatarUrl,
-                            CoverPhotoUrl = Constant.defaultCoverUrl,
+                            CoverPhotoURL = Constant.defaultCoverUrl,
                             JoinDate = DateTimeOffset.Now,
                             Genre = model.Genre
                         });
