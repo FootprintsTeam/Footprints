@@ -224,6 +224,13 @@ namespace Footprints
                     "~/plugins/maps_google/jquery-ui-map/ui/jquery.ui.map.microformat.js",
                     "~/plugins/maps_google/jquery-ui-map/addons/markerclustererplus/markerclusterer.min.js"
                 ));
+
+            //jquery validator
+            bundles.Add(new ScriptBundle("~/script/jquery-validate").Include(
+                    "~/Scripts/jquery.unobtrusive-ajax.min.js",
+                    "~/Scripts/jquery.validate.min.js",
+                    "~/Scripts/jquery.validate.unobtrusive.min.js"
+                ));
         }
     }
 }
