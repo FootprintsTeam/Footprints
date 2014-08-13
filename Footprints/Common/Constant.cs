@@ -21,7 +21,7 @@ namespace Footprints.Common
         public const String GUID_REGEX = @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$";
         public const string defaultAvatarUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-588205328470/default_avatar.001.jpg";
         public const string defaultCoverUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-588205328470/Coverpicture.png";
-
+        public const string mapUrl = "http://maps.googleapis.com/maps/api/staticmap";
 
     }
 

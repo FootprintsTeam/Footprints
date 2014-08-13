@@ -100,5 +100,12 @@ namespace Footprints.Controllers
             var sample = PersonalWidgetViewModel.GetSampleObject();
             return PartialView(sample); 
         }
+
+        [ChildActionOnly]
+        public ActionResult DestinationWidget()
+        {
+            var sample = DestinationWidgetViewModel.GetSampleObject();
+            return PartialView(sample);
+        }
 	}
 }
