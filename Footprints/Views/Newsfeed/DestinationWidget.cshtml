@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="map_canvas" style="height: 180px">
-                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl()"/>
+                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl()" />
                 </div>
             </div>
             <div class="col-md-6">
@@ -49,7 +49,9 @@
     </div>
     <!--  Comment -->
     <div class="media border-top margin-none bg-gray">
-        <a href="" class="pull-left innerAll"><img src="../assets/images/people/50/2.jpg" width="50" class="media-object"></a>
+        <a href="" class="pull-left innerAll">
+            <img src="../assets/images/people/50/2.jpg" width="50" class="media-object">
+        </a>
         <div class="media-body innerTB">
             <a href="#" class="pull-right innerT innerR text-muted">
                 <i class="icon-reply-all-fill fa fa-2x "></i>

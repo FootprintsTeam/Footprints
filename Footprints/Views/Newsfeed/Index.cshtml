@@ -14,7 +14,7 @@
                     @{Html.RenderAction("PersonalWidget");}
                     @*End Widget*@
                     <!-- Widget -->
-                    @{Html.RenderPartial("JourneyWidget");}
+                    @{Html.RenderAction("JourneyWidget");}
                     <!-- //End Widget -->
                     <!-- Widget -->
                     @{Html.RenderAction("DestinationWidget");}
@@ -64,19 +64,6 @@
                             inProgress = false;
                         });
             }
-        });
-
-        $(document).ready(
-        function () {
-            $.ajax({
-                type: "GET",
-                url: '',
-                dataType: "image/jpg",
-                success: function (data) {
-                    $('#google-map-json').attr('src', data);
-                }
-            });
-        }
-        );
+        });        
     </script>
 }
