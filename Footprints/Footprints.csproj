@@ -2598,6 +2598,7 @@
     <Content Include="Views\Admin\EditJourney.cshtml" />
     <Content Include="Views\Admin\UserList.cshtml" />
     <Content Include="Views\Newsfeed\NewsfeedWidgetCommentSection.cshtml" />
+    <Content Include="Views\Personal\AddPictureModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
