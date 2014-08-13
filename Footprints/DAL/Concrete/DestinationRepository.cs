@@ -96,7 +96,7 @@ namespace Footprints.DAL.Concrete
         }
         public bool UpdateDestination(Guid UserID, Destination Destination)
         {
-            var query = Db.Cypher.OptionalMatch("(user:User)-[:HAS]->(Journey:Journey)-[:HAS]->(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).AndWhere((User user)=>user.UserID == UserID).WithParam("Destination", Destination).
+            var query = Db.Cypher.OptionalMatch("(user:User)-[:HAS]->(Journey:Journey)-[:HAS]->(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).AndWhere((User user)=>user.UserID == UserID).
                 Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
                 WithParam("Destination", Destination).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference } )").WithParam("Place", Destination.Place).
