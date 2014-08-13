@@ -2586,6 +2586,8 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Destination.cshtml" />
     <Content Include="Views\Destination\AddCommentForm.cshtml" />
+    <Content Include="Views\Destination\CommentItem.cshtml" />
+    <Content Include="Views\Journey\EditJourneyForm.cshtml" />
     <Content Include="Views\Admin\EditJourney.cshtml" />
     <Content Include="Views\Admin\UserList.cshtml" />
     <Content Include="Views\Newsfeed\NewsfeedWidgetCommentSection.cshtml" />
