@@ -29,6 +29,7 @@ namespace Footprints.Services
         bool DeleteUser(Guid UserID);
         bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL);
         bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
+        bool ChangePassword(Guid UserID, String Password);
     }
     public class UserService : IUserService
     {
@@ -118,6 +119,10 @@ namespace Footprints.Services
         public bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL)
         {
             return _userRepo.UpdateCoverPhotoURL(UserID, CoverPhotoURL);
+        }
+        public bool ChangePassword(Guid UserID, String Password)
+        {
+            return _userRepo.ChangePassword(UserID, Password);
         }
     }
 }

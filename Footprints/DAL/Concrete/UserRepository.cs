@@ -264,6 +264,12 @@ namespace Footprints.DAL.Concrete
                         Set("User.CoverPhotoURL = {CoverPhotoURL}").WithParam("CoverPhotoURL", CoverPhotoURL).Return(User => User.As<User>()).Results;
             return query.Count() > 0 ? true : false;
         }
+        public bool ChangePassword(Guid UserID, String Password)
+        {
+            var query = Db.Cypher.Match("(User:User)").Where((User User) => User.UserID == UserID).
+                        Set("User.Password = {Password}").WithParam("Password", Password).Return(User => User.As<User>()).Results;
+            return query.Count() > 0 ? true : false;
+        }
     }
 
     public interface IUserRepository : IRepository<User>
@@ -288,5 +294,6 @@ namespace Footprints.DAL.Concrete
         bool DeleteUser(Guid UserID);
         bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL);
         bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
+        bool ChangePassword(Guid UserID, String Password);
     }
 }
