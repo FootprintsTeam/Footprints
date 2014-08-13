@@ -101,12 +101,12 @@
                 <thead>
                     <tr>
                         <th style="width: 1%;" class="uniformjs"><input type="checkbox" /></th>
-                        <th class="center">Name</th>
-                        <th class="center">Description</th>
-                        @*<th class="center">Taken Date</th>
-                        <th class="center">Time stamp</th>
-                        <th class="center">Number Of Like</th>
-                        <th class="center">Number Of Share</th>*@
+                        <th class="center">Email</th>
+                        <th class="center">Username</th>
+                        <th class="center">FirstName</th>
+                        <th class="center">LastName</th>
+                        <th class="center">Address</th>
+                        <th class="center">About</th>
                         <th class="center" style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
@@ -118,17 +118,17 @@
                             <td class="center uniformjs"><input type="checkbox" /></td>
                             <td class="center">@user.Email</td>
                             <td class="center">@user.UserName</td>
-                            @*<td class="center">@journey.TakenDate</td>
-                            <td class="center">@journey.Timestamp</td>
-                            <td class="center">@journey.NumberOfLike</td>
-                            <td class="center">@journey.NumberOfShare</td>*@
+                            <td class="center">@user.FirstName</td>
+                            <td class="center">@user.LastName</td>
+                            <td class="center">@user.Address</td>
+                            <td class="center">@user.About</td>
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
                                     @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
                                         <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
                                         <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
                                     @Html.ActionLink("Edit", "EditUser", "Admin", new { UserID = user.UserID }, new { @class = "btn btn-success" })
-                                    @Html.ActionLink("Del", "DeleteUser", "Admin", new { UserID = user.UserID  }, new { @class = "btn btn-danger" })
+                                    @Html.ActionLink("Del", "DeleteUser", "Admin", new { UserID = user.UserID }, new { @class = "btn btn-danger" })
                                 </div>
                             </td>
                         </tr>
