@@ -1,12 +1,14 @@
-﻿
+﻿@model Footprints.ViewModels.JourneyWidgetViewModel
+
+
 <div class="widget gridalicious-item not-responsive ">
     <!-- Info -->
     <div class="bg-gray  border-bottom innerAll">
         <a href="#" class="pull-right innerT text-primary">
             <i class="icon-reply-all-fill fa fa-2x "></i>
         </a>
-        <a href="" class="lead strong display-block margin-none">Upcoming Party in "Location" </a>
-        <span>added on 15th January, 2014</span>
+        <a href="" class="lead strong display-block margin-none">New Journey - @Model.JourneyName </a>
+        <span>added on @Model.Timestamp.ToString("d")</span>
     </div>
     <!-- Content -->
     <div class="innerAll">
@@ -21,7 +23,6 @@
         <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, impedit minus non commodi facere doloribus nemo ea voluptate nesciunt deleniti.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, iste omnis fugiat porro consequuntur ratione iure error reprehenderit cum est ab similique magnam molestias aperiam voluptatibus quia aliquid! Sed, minima, totam, omnis delectus autem placeat quod velit sapiente odit error numquam neque atque quae facere laborum. Non, suscipit obcaecati nobis.</p>
         <blockquote class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, delectus!</blockquote>
-
     </div>
     <!-- Comment -->
     <div class="bg-gray innerAll border-top border-bottom text-small ">

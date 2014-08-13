@@ -147,4 +147,26 @@ namespace Footprints.ViewModels
             return sample;
         }
     }
+
+    public class JourneyWidgetViewModel : NewsfeedBaseWidgetViewModel {
+        public string JourneyName { get; set; }
+        public string Description { get; set; }
+        public Guid JourneyID { get; set; }
+        public static JourneyWidgetViewModel GetSampleObject() {
+            var sample = new JourneyWidgetViewModel
+            {
+                ActivityID = new Guid(),
+                UserName = "Nhân Trịnh",
+                ProfilePicURL = Constant.defaultAvatarUrl,
+                Timestamp = DateTimeOffset.Now,
+                JourneyID = Guid.NewGuid(),
+                JourneyName = "Phố cổ Hà Nội",                
+                NumberOfLike = Constant.DefaultNumberOfShare,
+                NumberOfShare = Constant.DefaultNumberOfLike,                
+                Description = "Some description"
+            };
+
+            return sample;
+        }
+    }
 }

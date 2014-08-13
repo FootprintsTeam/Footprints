@@ -107,5 +107,11 @@ namespace Footprints.Controllers
             var sample = DestinationWidgetViewModel.GetSampleObject();
             return PartialView(sample);
         }
+
+        [ChildActionOnly]
+        public ActionResult JourneyWidget() {
+            var sample = JourneyWidgetViewModel.GetSampleObject();
+            return PartialView(sample);
+        }
 	}
 }
