@@ -215,6 +215,15 @@ namespace Footprints
                 "~/assets/plugins/jquery/jquery.fileupload-ui.js",
                 "~/assets/plugins/jquery/main.js"
                ));
+
+            //map
+            bundles.Add(new ScriptBundle("~/script/map").Include(
+                    "~/plugins/maps_google/jquery-ui-map/ui/jquery.ui.map.js",
+                    "~/plugins/maps_google/jquery-ui-map/ui/jquery.ui.map.extensions.js",
+                    "~/plugins/maps_google/jquery-ui-map/ui/jquery.ui.map.services.js",
+                    "~/plugins/maps_google/jquery-ui-map/ui/jquery.ui.map.microformat.js",
+                    "~/plugins/maps_google/jquery-ui-map/addons/markerclustererplus/markerclusterer.min.js"
+                ));
         }
     }
 }
