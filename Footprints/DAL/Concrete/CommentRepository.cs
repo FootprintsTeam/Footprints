@@ -198,7 +198,7 @@ namespace Footprints.DAL.Concrete
 
         public IList<User> GetAllUserLikeComment(Guid CommentID)
         {
-            return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(User:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results.ToList<User>();
+            return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(user:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results.ToList<User>();
         }
         //TODO
         public void DeleteAComment(Guid UserID,Guid CommentID)

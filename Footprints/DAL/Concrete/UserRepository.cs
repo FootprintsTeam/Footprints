@@ -13,8 +13,8 @@ namespace Footprints.DAL.Concrete
         public UserRepository(IGraphClient client) : base(client) { }
         public User GetUserByUserID(Guid UserID)
         {
-            var query = Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Return(user => user.As<User>());
-            return query.Results.First<User>();
+            var query = Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Return(user => user.As<User>()).Results;
+            return query.Count() == 0 ? null : query.First();
         }
         public void AddNewUser(User UserPara)
         {
@@ -44,7 +44,7 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.Match("(userTaken:User)").Where((User userTaken) => userTaken.UserID == User.UserID).
                         Set("userTaken = {user}").WithParam("user",User).Return(userTaken => userTaken.As<User>()).Results;
-            return (query.First<User>() != null);
+            return query.Count() > 0 ? true : false;
         }
         public bool AddFriendRelationship(Guid UserID_A, Guid UserID_B)
         {

@@ -32,6 +32,7 @@ namespace Footprints.Services
         bool UserAlreadyLiked(Guid UserID, Guid JourneyID);
         bool UserAlreadyShared(Guid UserID, Guid JourneyID);
         bool UpdateJourneyForAdmin(Journey Journey);
+        bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);
     }
     public class JourneyService : IJourneyService
     {
@@ -119,6 +120,10 @@ namespace Footprints.Services
         public bool UpdateJourneyForAdmin(Journey Journey)
         {
             return journeyRepository.UpdateJourneyForAdmin(Journey);
+        }
+        public bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp)
+        {
+            return journeyRepository.UpdateJourney(UserID, JourneyID, Name, Description, TakenDate, Timestamp);
         }
     }
 }

@@ -20,8 +20,9 @@ namespace Footprints.DAL.Concrete
             return query.Results.Count() == 0 ? null : query.Results.First<Destination>();
         }
         public Place GetDestinationPlace(Guid DestinationID) {
-            var result = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(place => place.As<Place>()).Results.First();
-            return result;   
+            var result = Db.Cypher.Match("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).Return(place => place.As<Place>()).Results;
+
+            return result.Count() == 0 ? null : result.First();   
         }
         public bool UserAlreadyLike(Guid userID, Guid destinationID) {
             var result = Db.Cypher.Match("(destination:Destination)").
@@ -286,17 +287,20 @@ namespace Footprints.DAL.Concrete
         }
         public int GetNumberOfDestination(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)").Where((User User) => User.UserID == UserID).Return<int>("Count(Destination)").Results.FirstOrDefault();
+            var query = Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)").Where((User User) => User.UserID == UserID).Return<int>("Count(Destination)").Results;
+            return query.Count() == 0 ? 0 : query.First();
         }
         public int GetNumberOfLike(Guid DestinationID)
         {
-            return Db.Cypher.Match("(Destination:Destination)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
-                Return<int>("Destination.NumberOfLike").Results.FirstOrDefault();
+            var query = Db.Cypher.Match("(Destination:Destination)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                Return<int>("Destination.NumberOfLike").Results;
+            return query.Count() == 0 ? 0 : query.First();
         }
         public int GetNumberOfShare(Guid DestinationID)
         {
-            return Db.Cypher.Match("(Destination:Destination)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
-                Return<int>("Destination.NumberOfShare").Results.FirstOrDefault();
+            var query = Db.Cypher.Match("(Destination:Destination)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                Return<int>("Destination.NumberOfShare").Results;
+            return query.Count() == 0 ? 0 : query.First();
         }
         public bool UserAlreadyShared(Guid UserID, Guid DestinationID)
         {
@@ -305,6 +309,12 @@ namespace Footprints.DAL.Concrete
                 .Results.ToList<Destination>();
             return query.Count > 0 ? true : false;
         }
+        public int GetNumberOfContent(Guid UserID)
+        {
+            var query = Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)").Where((User User) => User.UserID == UserID).Return<int>("Count(Content)").Results;
+            return query.Count() == 0 ? 0 : query.First();
+        }
+
     }
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
@@ -329,6 +339,7 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfLike(Guid DestinationID);
         int GetNumberOfShare(Guid DestinationID);
         bool UserAlreadyShared(Guid UserID, Guid DestinationID);
+        int GetNumberOfContent(Guid UserID);
     }
 
 }

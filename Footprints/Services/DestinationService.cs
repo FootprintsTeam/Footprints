@@ -30,6 +30,7 @@ namespace Footprints.Services
         int GetNumberOfLike(Guid DestinationID);
         int GetNumberOfShare(Guid DestinationID);
         bool UserAlreadyShared(Guid UserID, Guid DestinationID);
+        int GetNumberOfContent(Guid UserID);
     }
     public class DestinationService : IDestinationService
     {
@@ -120,6 +121,10 @@ namespace Footprints.Services
         public bool UserAlreadyShared(Guid UserID, Guid DestinationID)
         {
             return _destinationRepo.UserAlreadyShared(UserID, DestinationID);
+        }
+        public int GetNumberOfContent(Guid UserID)
+        {
+            return _destinationRepo.GetNumberOfContent(UserID);
         }
     }
 }

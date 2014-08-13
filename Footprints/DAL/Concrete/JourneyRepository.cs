@@ -15,8 +15,8 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.Match("(journey:Journey)").
                 Where((Journey journey) => journey.JourneyID == JourneyID).
-                Return(journey => journey.As<Journey>());
-            return query.Results.First<Journey>();
+                Return(journey => journey.As<Journey>()).Results;
+            return  query.Count() == 0 ? null : query.First<Journey>();
         }        
         public Journey GetJourneyDetail(Guid JourneyID)
         {
@@ -291,6 +291,14 @@ namespace Footprints.DAL.Concrete
                 .Results.ToList<Journey>();
             return query.Count > 0 ? true : false;
         }
+        public bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp)
+        {
+            var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).AndWhere((User User) => User.UserID == UserID).
+                        Set("Journey.Name = {Name}, Journey.Description = {Description}, Journey.TakenDate = {TakenDate}, Journey.Timestamp = {Timestamp}").
+                        WithParams(new Dictionary<String, Object> { {"Name", Name}, {"Description", Description}, {"TakenDate", TakenDate}, {"Timestamp", Timestamp} }).
+                        Return<Journey>("Journey").Results;
+            return query.Count<Journey>() > 0 ? true : false;
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -313,5 +321,6 @@ namespace Footprints.DAL.Concrete
         bool UserAlreadyLiked(Guid UserID, Guid JourneyID);
         bool UserAlreadyShared(Guid UserID, Guid JourneyID);
         bool UpdateJourneyForAdmin(Journey Journey);
+        bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);
     }
 }
