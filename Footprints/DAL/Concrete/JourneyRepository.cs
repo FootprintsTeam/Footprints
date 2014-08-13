@@ -17,8 +17,7 @@ namespace Footprints.DAL.Concrete
                 Where((Journey journey) => journey.JourneyID == JourneyID).
                 Return(journey => journey.As<Journey>());
             return query.Results.First<Journey>();
-        }
-        //TODO
+        }        
         public Journey GetJourneyDetail(Guid JourneyID)
         {
             Journey result = new Journey();
