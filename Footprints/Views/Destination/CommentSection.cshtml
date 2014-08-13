@@ -25,6 +25,18 @@
         );
         $('#comment-input-@ViewBag.DestinationID').val('');
     }
+    function validateAddCommentForm(destinationId) {
+        var form = $('#add-comment-form-' + destinationId);
+        if (form == null)
+            return false;
+        else {
+            var txtContent = form.find('textarea');
+            if (txtContent == null || txtContent.val() == null || txtContent.val().trim().length == 0)
+                return false;
+            else
+                return true;
+        }
+    }
     //Edit comment callback function
     function editComment(data) {
         if (data != null && data.length > 0) {

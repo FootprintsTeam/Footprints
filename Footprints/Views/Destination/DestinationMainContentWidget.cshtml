@@ -1,10 +1,9 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
 @using Footprints.ViewModels
 @{
-    ViewBag.IsDestinationAuthor = Boolean.Parse(TempData["IsDestinationAuthor"].ToString());
+    ViewBag.IsAuthor = (bool)TempData["IsAuthor"];
 }
 <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
-
     <div class="widget-body">
         <div class="tab-content">
             <!-- Tab content -->
@@ -16,7 +15,7 @@
             <!-- // Tab content END -->
             <!-- Tab content -->
             <div class="tab-pane" id="tab2-2">
-                @if (ViewBag.IsDestinationAuthor)
+                @if (ViewBag.IsAuthor)
                 {
                     <div class="row innerAll">
                         @{Html.RenderPartial("UploadPhotoForm", new ImageViewModel { ReturnUrl = @Url.Action("AddNewPhoto", "Destination"), MasterID = Model.DestinationID });}
@@ -31,19 +30,22 @@
                                     @foreach (var content in @Model.Contents)
                                     {
                                         <li class="col-md-3" style="position:relative">
-                                            <div class="icon-edit pull-right" style="position:absolute; top:1px;right:8px; z-index:10">
-                                                <div class="dropdown">
-                                                    <a href="#" data-toggle="dropdown">
-                                                        @*<i class="fa fa-pencil fa-1x"></i>*@
-                                                        <span class="btn-default no-margin no-padding"><i class="glyphicon glyphicon-pencil"></i> </span>
-                                                    </a>
-                                                    <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
-                                                        <li>
-                                                            <a onclick="javascript:SetupDeleteDestinationForm.displayPopUpWindow('@content.ContentID');">Delete</a>
-                                                        </li>
-                                                    </ul>
+                                            @if (ViewBag.IsAuthor)
+                                            {
+                                                <div class="icon-edit pull-right" style="position:absolute; top:1px;right:8px; z-index:10">
+                                                    <div class="dropdown">
+                                                        <a href="#" data-toggle="dropdown">
+                                                            @*<i class="fa fa-pencil fa-1x"></i>*@
+                                                            <span class="btn-default no-margin no-padding"><i class="glyphicon glyphicon-pencil"></i> </span>
+                                                        </a>
+                                                        <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
+                                                            <li>
+                                                                <a onclick="javascript:SetupDeleteDestinationForm.displayPopUpWindow('@content.ContentID');">Delete</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
                                             <a class="thumb no-ajaxify" data-gallery="gallery-2" href="@content.URL"><img src="@content.URL" alt="photo" class="img-responsive" /></a>
                                         </li>
                                     }
@@ -86,11 +88,12 @@
                     {
                         <i class="fa fa-2x fa-thumbs-o-up"></i> <span>Like</span>
                     }
-                    else { 
+                    else
+                    {
                         <i class="fa fa-2x fa-thumbs-o-down"></i> <span>Unlike</span>
                     }
                     TempData.Remove("AlreadyLike");
-                }                
+                }
             </a>
             <a href="#" class="innerLR" id="share-btn"><i class="fa fa-2x fa-share-square-o"></i> <span>Share</span></a>
             <a href="#"><i class="fa fa-2x fa-facebook-square"></i> <span>Facebook</span></a>
@@ -98,20 +101,24 @@
     </div>
     <!-- // Tabs Heading END -->
 </div>
-
-<script type="text/javascript">
-    var SetupDeleteDestinationForm = (function () {
-        return {
-            init: function () {
-            },
-            displayPopUpWindow: function (ContentID) {
-                document.forms['frmDeletePhoto'].elements["id"].value = ContentID;
-                $('#delete-photo-modal').modal('show');
-            }
-        };
-    })();
-
-    $(document).ready(function () {
-        SetupDeleteDestinationForm.init();
-    });
-</script>
+@{
+    if (ViewBag.IsAuthor)
+    {
+        <script type="text/javascript">
+            var SetupDeleteDestinationForm = (function () {
+                return {
+                    init: function () {
+                    },
+                    displayPopUpWindow: function (ContentID) {
+                        document.forms['frmDeletePhoto'].elements["id"].value = ContentID;
+                        $('#delete-photo-modal').modal('show');
+                    }
+                };
+            })();
+            $(function () {
+                SetupDeleteDestinationForm.init();
+            });
+        </script>
+    }
+    TempData.Remove("IsAuthor");
+}

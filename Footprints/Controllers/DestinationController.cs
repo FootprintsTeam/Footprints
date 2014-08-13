@@ -58,11 +58,18 @@ namespace Footprints.Controllers
             destinationViewModel.NumberOfDestination = destinationService.GetNumberOfDestination(destinationModel.UserID);
             destinationViewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(destinationModel.UserID);
             destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
+            //Set destination location for EditForm
+            destinationViewModel.EditDestinationForm.PlaceID = destinationViewModel.Place.PlaceID;
+            destinationViewModel.EditDestinationForm.Latitude = destinationViewModel.Place.Latitude;
+            destinationViewModel.EditDestinationForm.Longitude = destinationViewModel.Place.Longitude;
+            destinationViewModel.EditDestinationForm.PlaceName = destinationViewModel.Place.Name;
+            destinationViewModel.EditDestinationForm.Reference = destinationViewModel.Place.Reference;
+
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID), destinationViewModel);
 
             //check if user already like or share
             TempData["AlreadyLike"] = destinationService.UserAlreadyLike(userId, destinationID);
-            TempData["IsDestinationAuthor"] = userId == destinationModel.UserID ? true : false;
+            TempData["IsAuthor"] = userId == destinationModel.UserID ? true : false;
             return View(destinationViewModel);
         }
 
