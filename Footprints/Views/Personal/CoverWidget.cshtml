@@ -3,10 +3,10 @@
 <div class="timeline-cover">
     <div class="cover image ">
         <div class="top">
-            <img src="@Model.CoverPhotoUrl" class="img-responsive" style="width:1130px;height:250px"/>
-            <a href="#modal-picture-add" data-toggle="modal" class="btn btn-primary" style="position:absolute;right:10px;top:15px">Change Profile Picture</a>
+            <img src="@Model.CoverPhotoUrl" class="img-responsive" style="width:1130px;height:250px" />
+            <a href="#modal-cover-picture-add" data-toggle="modal" class="btn btn-primary" style="position:absolute;right:10px;top:15px">Change Profile Picture</a>
         </div>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled" style="background:rgba(0,0,0,0.5) !important">
             <li><a href="@Url.Action("Index","Personal")"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
             <li><a href="@Url.Action("About","Personal")"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
             <li><a href="@Url.Action("Index","Media")"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(@Model.NumberOfFriend)</small></a></li>
@@ -17,7 +17,7 @@
     <div class="widget cover image">
         <div class="widget-body padding-none margin-none">
             <div class="photo">
-                <img src="@Model.ProfilePicURL" class="img-circle" style="width:100px;height:100px"/>
+                <a href="#modal-avatar-picture-add" data-toggle="modal"><img src="@Model.ProfilePicURL" class="img-circle" style="width:100px;height:100px" /></a>
             </div>
             <div class="innerAll border-right pull-left">
                 <h3 class="margin-none">@Model.UserName</h3>

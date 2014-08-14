@@ -69,7 +69,7 @@ namespace Footprints.Controllers
             return Json(photoContent, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult AddAvatar() {
+        public ActionResult AddAvatarPhoto() {
             var photoContent = TempData["FileInfoList"];
             var userID = new Guid(TempData["MasterID"].ToString());
             var photoInfo = (Content)TempData["MediaContent"];
