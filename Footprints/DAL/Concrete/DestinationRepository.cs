@@ -34,23 +34,27 @@ namespace Footprints.DAL.Concrete
         }
         public Destination GetDestinationDetail(Guid DestinationID)
         {
-            var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
-                Match("(Destination)-[:HAS*]->(Content:Content)").
-                Return((Destination, Place, Content) => new
+            var query = Db.Cypher.OptionalMatch("(destination:Destination)-[:AT]->(place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).
+                OptionalMatch("(destination)-[:HAS]->(content:Content)").
+                With("destination, place, content").OrderBy("content.Timestamp").
+                Return((destination, place, content) => new
                 {
-                    Destination = Destination.As<Destination>(),
-                    Place = Place.As<Place>(),
-                    Content = Content.CollectAs<Content>()
-                }).OrderBy("Content.Timestamp").Results;
+                    Destination = destination.As<Destination>(),
+                    Place = place.As<Place>(),
+                    Contents = content.CollectAs<Content>()
+                }).Results;
             Destination result = new Destination();
             foreach (var item in query)
             {
                 result = item.Destination;
+                result.Place = new Place();
                 result.Place = item.Place;
-                foreach (var content in item.Content)
+                result.Contents = new List<Content>();
+                foreach (var content in item.Contents)
                 {
                     result.Contents.Add(content.Data);
                 }
+                return result;
             }
             return result;
         }
@@ -264,13 +268,14 @@ namespace Footprints.DAL.Concrete
         public IList<Destination> GetAllDestination() 
         {
             var query = Db.Cypher.OptionalMatch("(destination:Destination)-[:AT]->(place:Place)").
-                                  OptionalMatch("(destination)-[:HAS*]->(content:Content)")
-                        .Return((destination, place, content) => new
-                        {
-                            destination = destination.As<Destination>(),
-                            place = place.As<Place>(),
-                            content = content.CollectAs<Content>()
-                        }).Results;
+                                  OptionalMatch("(destination)-[:HAS]->(content:Content)").
+                                  With("destination, place, content").OrderBy("content.Timestamp").
+                                    Return((destination, place, content) => new
+                                    {
+                                        destination = destination.As<Destination>(),
+                                        place = place.As<Place>(),
+                                        content = content.CollectAs<Content>()
+                                    }).Results;
             List<Destination> result = new List<Destination>();       
             Destination currentDestination = new Destination();           
             foreach (var item in query)
