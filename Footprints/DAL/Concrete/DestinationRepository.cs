@@ -34,20 +34,20 @@ namespace Footprints.DAL.Concrete
         }
         public Destination GetDestinationDetail(Guid DestinationID)
         {
-            var query = Db.Cypher.Match("(destination:Destination)-[:AT]->(Place:Place)").Where((Destination destination) => destination.DestinationID == DestinationID).
-                Match("(destination)-[:HAS*]->(Content:Content)").
-                Return((Destination, Place, Contents) => new
+            var query = Db.Cypher.Match("(Destination:Destination)-[:AT]->(Place:Place)").Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                Match("(Destination)-[:HAS*]->(Content:Content)").
+                Return((Destination, Place, Content) => new
                 {
                     Destination = Destination.As<Destination>(),
                     Place = Place.As<Place>(),
-                    Contents = Contents.CollectAs<Content>()
+                    Content = Content.CollectAs<Content>()
                 }).OrderBy("Content.Timestamp").Results;
             Destination result = new Destination();
             foreach (var item in query)
             {
                 result = item.Destination;
                 result.Place = item.Place;
-                foreach (var content in item.Contents)
+                foreach (var content in item.Content)
                 {
                     result.Contents.Add(content.Data);
                 }
@@ -109,7 +109,10 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).
                 Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
-                WithParam("Destination", Destination).Return(destination => destination.As<Destination>()).Results;
+                WithParam("Destination", Destination).
+                Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference } )").WithParam("Place", Destination.Place).
+                Merge("(destination)-[:AT]->(place)").
+                Return(destination => destination.As<Destination>()).Results;
             return query.Count<Destination>() > 0 ? true : false;
         }
         public void DeleteDestination(Guid UserID, Guid DestinationID)
@@ -324,6 +327,7 @@ namespace Footprints.DAL.Concrete
         Destination GetDestinationDetail(Guid DestinationID);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
         bool UpdateDestination(Guid UserID, Destination Destination);
+        bool UpdateDestinationForAdmin(Destination Destination);
         void DeleteDestination(Guid UserID, Guid DestinationID);
         void AddNewContent(Content Content, Guid DestinationID, Guid UserID);
         void UpdateContent(Guid UserID, Content Content);
