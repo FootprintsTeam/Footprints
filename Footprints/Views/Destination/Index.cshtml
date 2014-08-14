@@ -84,10 +84,19 @@
     </div>
 </div>
 <!-- // Modal END -->
-
 @{Html.RenderPartial("DeleteCommentModal");}
+@{Html.RenderPartial("DeletePhotoModal", new DeletePhotoFormViewModel() { DestinationID = @Model.DestinationID});}
 
 <script type="text/javascript">
+    //Delete photo
+    function deletePhoto(data) {
+        if (data.Result == 'success') {
+            $('#delete-photo-modal').modal('hide');
+            $('#content-area-wrapper-' + data.ContentID).hide();
+        } else if (data.Result == 'fail') {
+            $('#delete-photo-modal').modal('hide');
+        }
+    }
     //liking
     $("#like-btn").click(function (e) {
         if ($(this).find("span").html() == "Like") {           

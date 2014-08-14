@@ -43,9 +43,9 @@ namespace Footprints.Controllers
             //current user
             var userId = new Guid(User.Identity.GetUserId());
             //destination model
-            var destinationModel = destinationService.GetDestination(destinationID);
+            var destinationModel = destinationService.GetDestinationDetail(destinationID);
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
-            destinationViewModel.Place = destinationService.GetDestinationPlace(destinationID);
+            //destinationViewModel.Place = destinationService.GetDestinationPlace(destinationID);
             var comments = commentService.RetrieveDestinationComment(destinationID);
             if (comments.Count > 0)
             {
@@ -164,6 +164,10 @@ namespace Footprints.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return null;
+            }
+            if (!ModelState.IsValid)
+            {
                 return Redirect(Request.UrlReferrer.ToString());
             }
             var userId = new Guid(User.Identity.GetUserId());
@@ -198,6 +202,10 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Comment(CommentViewModel comment)
         {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
             var commentId = Guid.NewGuid();
             var userId = new Guid(User.Identity.GetUserId());
             var user = userService.RetrieveUser(userId);
@@ -231,6 +239,10 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditComment(CommentViewModel comment)
         {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
             var userId = new Guid(User.Identity.GetUserId());
             var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
             //reset timestamp to current
@@ -276,8 +288,40 @@ namespace Footprints.Controllers
                 var ContentID = Guid.NewGuid();
                 string deleteUrl = Url.Action("DeletePhoto", "Media", new { id = ContentID });
                 fileInforList = ImageProcessor.UploadPhoto(UserID, destination.AlbumID, ContentID, Request.Files.Get(0).InputStream, deleteUrl);
+                if (fileInforList.files[0].error == null)
+                {
+                    Content uploadedPhoto = new Content
+                    {
+                        ContentID = ContentID,
+                        Timestamp = DateTimeOffset.Now,
+                        URL = fileInforList.files[0].url
+                    };
+                    destinationService.AddNewContent(uploadedPhoto, DestinationID, UserID);
+                }
             }
             return Json(fileInforList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePhoto(DeletePhotoFormViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            var userID = new Guid(User.Identity.GetUserId());
+            var destination = destinationService.GetDestination(model.DestinationID);
+            if (userID == destination.UserID)
+            {
+                destinationService.DeleteContent(userID, model.ContentID);
+                return Json(new { Result = "success", ContentID = model.ContentID }, JsonRequestBehavior.DenyGet);
+            }
+            else
+            {
+                return Json(new { Result = "fail", ContentID = model.ContentID }, JsonRequestBehavior.DenyGet);
+            }
         }
 
         public ActionResult LikeUnlike(Guid userID, Guid destinationID)
@@ -321,7 +365,6 @@ namespace Footprints.Controllers
             return PartialView("DestinationMainContentWidget", viewModel);
         }
 
-             
         public ActionResult ShareDestination(Guid userID, Guid destinationID, string content)
         {
             var result = "Fail";

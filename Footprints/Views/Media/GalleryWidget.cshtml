@@ -1,8 +1,11 @@
 ﻿@model Footprints.ViewModels.AlbumDetailsViewModel
 <div class="widget widget-gallery" data-toggle="collapse-widget">
     <div class="widget-head">
-        @*<h4 class="heading">@Model.AlbumName - @Model.DestinationName - @Model.JourneyName</h4>*@
-        @Html.ActionLink(@Model.AlbumName, "Index", new { controller = "Destination" }, new { @class = "pull-left text-inverse innerL" })
+        @Html.ActionLink(@Model.DestinationName + " - " + @Model.JourneyName, "Index", new { controller = "Destination" }, new { @class = "pull-left text-inverse innerL" })
+        <div class="pull-left text-inverse">
+            @Html.ActionLink(@Model.DestinationName, "Index", new { controller = "Destination", destinationID = @Model.DestinationID }, new { @class = "innerL" })
+            @Html.ActionLink(@Model.JourneyName, "Index", new { controller = "Journey", journeyID = @Model.JourneyID }, new { @class = "innerL" })
+        </div>
         <span class="pull-right text-inverse">@Model.NumberOfPhotos <i class="fa fa-fw fa-camera"></i></span>
     </div>
     <div class="widget-body">
@@ -12,7 +15,7 @@
                 @foreach (var photo in @Model.Photos)
                 {
                     @*../assets/images/gallery-2/3.jpg*@
-                    <li class="col-md-3"><a class="thumb no-ajaxify" data-gallery="gallery-2" href="@photo"><img src="@photo" alt="photo" class="img-responsive" /></a></li>
+                    <li class="col-md-3"><a class="thumb no-ajaxify" data-gallery="gallery-2" href="@photo.URL"><img src="@photo.URL" alt="photo" class="img-responsive" /></a></li>
                 }
             </ul>
         </div>

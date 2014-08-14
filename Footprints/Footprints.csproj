@@ -2601,6 +2601,7 @@
     <Content Include="Views\Personal\AddPictureModal.cshtml" />
     <Content Include="Views\Admin\EditDestination.cshtml" />
     <Content Include="Views\Personal\AddCoverPhotoModal.cshtml" />
+    <Content Include="Views\Destination\DeletePhotoModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

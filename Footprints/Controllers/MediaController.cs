@@ -16,9 +16,11 @@ namespace Footprints.Controllers
     public class MediaController : Controller
     {
         IDestinationService destinationService;
-        public MediaController(IDestinationService destinationService)
+        IJourneyService journeyService;
+        public MediaController(IDestinationService destinationService, IJourneyService journeyService)
         {
             this.destinationService = destinationService;
+            this.journeyService = journeyService;
         }
         //
         // GET: /Media/
@@ -53,13 +55,13 @@ namespace Footprints.Controllers
                 return RedirectToAction("Index", "Media");
             }
             AlbumDetailsViewModel albumDetails = new AlbumDetailsViewModel();
-            albumDetails.AlbumId = destination.AlbumID;
-            albumDetails.AlbumName = destination.Name;
+            albumDetails.AlbumID = destination.AlbumID;
             albumDetails.DestinationName = destination.Name;
-            albumDetails.JourneyId = destination.JourneyID;
-            
-
-            return View(AlbumDetailsViewModel.GetSampleObject());
+            albumDetails.JourneyID = destination.JourneyID;
+            var journey = journeyService.GetJourneyDetail(destination.JourneyID);
+            albumDetails.JourneyName = journey.Name;
+            albumDetails.Photos = destination.Contents;
+            return View(albumDetails);
         }
 
         public ActionResult CreateAlbum()

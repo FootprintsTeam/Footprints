@@ -29,7 +29,7 @@
                                 <ul class="row">
                                     @foreach (var content in @Model.Contents)
                                     {
-                                        <li class="col-md-3" style="position:relative">
+                                        <li id="content-area-wrapper-@content.ContentID" class="col-md-3" style="position:relative">
                                             @if (ViewBag.IsAuthor)
                                             {
                                                 <div class="icon-edit pull-right" style="position:absolute; top:1px;right:8px; z-index:10">
@@ -110,7 +110,7 @@
                     init: function () {
                     },
                     displayPopUpWindow: function (ContentID) {
-                        document.forms['frmDeletePhoto'].elements["id"].value = ContentID;
+                        document.forms['frmDeletePhoto'].elements["ContentID"].value = ContentID;
                         $('#delete-photo-modal').modal('show');
                     }
                 };

@@ -52,12 +52,11 @@ namespace Footprints.ViewModels
 
     public class AlbumDetailsViewModel
     {
-        public Guid AlbumId { get; set; }
-        public string AlbumName { get; set; }
+        public Guid AlbumID { get; set; }
         public int NumberOfPhotos { get; set; }
-        public Guid JourneyId { get; set; }
+        public Guid JourneyID { get; set; }
         public String JourneyName { get; set; }
-        public Guid DestinationId { get; set; }
+        public Guid DestinationID { get; set; }
         public String DestinationName { get; set; }
         public List<Content> Photos { get; set; }
 
@@ -65,12 +64,11 @@ namespace Footprints.ViewModels
         {
             return new AlbumDetailsViewModel
             {
-                AlbumId = Guid.NewGuid(),
-                AlbumName = "Tên Album...",
+                AlbumID = Guid.NewGuid(),
                 NumberOfPhotos = 23,
-                JourneyId = Guid.NewGuid(),
+                JourneyID = Guid.NewGuid(),
                 JourneyName = "Journey name",
-                DestinationId = Guid.NewGuid(),
+                DestinationID = Guid.NewGuid(),
                 DestinationName = "Destination name"
             };
         }
@@ -84,5 +82,15 @@ namespace Footprints.ViewModels
         public String ActionName { get; set; }
         [Required]
         public String ControllerName { get; set; }
+    }
+
+    public class DeletePhotoFormViewModel
+    {
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid ContentID { get; set; }
+        [Required]
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid DestinationID { get; set; }
     }
 }
