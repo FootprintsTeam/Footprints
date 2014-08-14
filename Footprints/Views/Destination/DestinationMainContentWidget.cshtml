@@ -18,7 +18,7 @@
                 @if (ViewBag.IsAuthor)
                 {
                     <div class="row innerAll">
-                        @{Html.RenderPartial("UploadPhotoForm", new ImageViewModel { ReturnUrl = @Url.Action("AddNewPhoto", "Destination"), MasterID = Model.DestinationID });}
+                        @{Html.RenderPartial("UploadPhotoForm", new PhotoUploadFormViewModel { ActionName = "AddNewPhoto", ControllerName = "Destination", DestinationID = Model.DestinationID });}
                     </div>
                 }
                 @if (Model.Contents != null && Model.Contents.Count() > 0)

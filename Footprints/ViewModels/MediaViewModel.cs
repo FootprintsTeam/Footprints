@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Footprints.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -57,7 +59,7 @@ namespace Footprints.ViewModels
         public String JourneyName { get; set; }
         public Guid DestinationId { get; set; }
         public String DestinationName { get; set; }
-        public List<String> Photos { get; set; }
+        public List<Content> Photos { get; set; }
 
         public static AlbumDetailsViewModel GetSampleObject()
         {
@@ -69,15 +71,18 @@ namespace Footprints.ViewModels
                 JourneyId = Guid.NewGuid(),
                 JourneyName = "Journey name",
                 DestinationId = Guid.NewGuid(),
-                DestinationName = "Destination name",
-                Photos = new List<String>()
-                {
-                    "../assets/images/gallery-2/3.jpg",
-                    "../assets/images/gallery-2/3.jpg",
-                    "../assets/images/gallery-2/3.jpg",
-                    "../assets/images/gallery-2/3.jpg"
-                }
+                DestinationName = "Destination name"
             };
         }
+    }
+
+    public class PhotoUploadFormViewModel
+    {
+        [RegularExpression(Common.Constant.GUID_REGEX)]
+        public Guid DestinationID { get; set; }
+        [Required]
+        public String ActionName { get; set; }
+        [Required]
+        public String ControllerName { get; set; }
     }
 }

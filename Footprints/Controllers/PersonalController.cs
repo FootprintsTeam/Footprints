@@ -12,6 +12,8 @@ using Footprints.Models;
 using Footprints.ViewModels;
 using Footprints.Services;
 using AutoMapper;
+using Footprints.Common.JsonModel;
+using Footprints.Common;
 
 namespace Footprints.Controllers
 {
@@ -54,34 +56,48 @@ namespace Footprints.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult AddCoverPhoto() {
-            var photoContent = TempData["FileInfoList"];
-            var userID = new Guid(TempData["MasterID"].ToString());
-            var photoInfo = (Content)TempData["MediaContent"];
-            
-            //add photo
-            userService.UpdateCoverPhotoURL(userID, photoInfo.URL);
-
-            //delete temporary data
-            TempData.Remove("FileInfoList");
-            TempData.Remove("MasterID");
-            TempData.Remove("MediaContent");
-            return Json(photoContent, JsonRequestBehavior.AllowGet);
+            FileInfoList fileInforList = null;
+            if (Request.Files.Count > 0)
+            {
+                var UserID = new Guid(User.Identity.GetUserId());
+                var ContentID = Guid.NewGuid();
+                string deleteUrl = Url.Action("DeletePhoto", "Media", new { id = ContentID });
+                fileInforList = ImageProcessor.UploadPhoto(UserID, UserID, ContentID, Request.Files.Get(0).InputStream, deleteUrl);
+                if (fileInforList != null && fileInforList.files.Count > 0)
+                {
+                    if (fileInforList.files.First().error == null)
+                    {
+                        userService.UpdateCoverPhotoURL(UserID, fileInforList.files.First().url);
+                    }
+                }
+            }
+            return Json(fileInforList, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public ActionResult AddAvatarPhoto() {
-            var photoContent = TempData["FileInfoList"];
-            var userID = new Guid(TempData["MasterID"].ToString());
-            var photoInfo = (Content)TempData["MediaContent"];
-
-            //add photo
-            userService.UpdateProfilePicURL(userID, photoInfo.URL);
-
-            //delete temporary data
-            TempData.Remove("FileInfoList");
-            TempData.Remove("MasterID");
-            TempData.Remove("MediaContent");
-            return Json(photoContent, JsonRequestBehavior.AllowGet);
+            FileInfoList fileInforList = null;
+            if (Request.Files.Count > 0)
+            {
+                var UserID = new Guid(User.Identity.GetUserId());
+                var ContentID = Guid.NewGuid();
+                string deleteUrl = Url.Action("DeletePhoto", "Media", new { id = ContentID });
+                fileInforList = ImageProcessor.UploadPhoto(UserID, UserID, ContentID, Request.Files.Get(0).InputStream, deleteUrl);
+                if (fileInforList != null && fileInforList.files.Count > 0)
+                {
+                    if (fileInforList.files.First().error == null)
+                    {
+                        userService.UpdateProfilePicURL(UserID, fileInforList.files.First().url);
+                    }
+                }
+            }
+            return Json(fileInforList, JsonRequestBehavior.AllowGet);
         }
 	}
 }

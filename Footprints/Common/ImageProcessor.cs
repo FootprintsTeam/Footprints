@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.Web.UI.WebControls;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Footprints.Common.JsonModel;
 
 namespace Footprints.Common
 {
@@ -87,6 +88,36 @@ namespace Footprints.Common
             string photoPath = UserID.ToString() + "/" + AlbumID.ToString() + "/" + new Guid(Guid.NewGuid().ToString("N")) + ".jpg";
             UploadPhoto(photoPath, imageStream);
             return photoPath;
+        }
+
+        public static FileInfoList UploadPhoto(Guid UserID, Guid AlbumID, Guid ContentID, Stream imageStream, String deleteUrl)
+        {
+            FileInfoList fileInfoList = new FileInfoList();
+            FileInfoItem fileInfoItem = new FileInfoItem();
+            fileInfoList.files.Add(fileInfoItem);
+            String s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
+            String bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
+            try
+            {
+                if (ImageUtil.IsValidImage(imageStream))
+                {
+                    fileInfoItem.size = imageStream.Length;
+                    ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ContentID, imageStream);
+                    fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ContentID.ToString() + ".jpg";
+                    fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ContentID.ToString() + ".jpg";
+                    fileInfoItem.deleteUrl = deleteUrl;
+                    fileInfoItem.deleteType = "DELETE";
+                }
+                else
+                {
+                    fileInfoItem.error = Constant.UPLOAD_PHOTO_ERROR_MESSAGE;
+                }
+            }
+            catch (Exception)
+            {
+                fileInfoItem.error = Constant.UPLOAD_PHOTO_ERROR_MESSAGE;
+            }
+            return fileInfoList;
         }
     }
 }

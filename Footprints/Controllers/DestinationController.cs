@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using Footprints.Models;
 using Footprints.Common;
+using Footprints.Common.JsonModel;
 using System.IO;
 namespace Footprints.Controllers
 {
@@ -257,19 +258,26 @@ namespace Footprints.Controllers
             return CommentID;
         }
 
-        public ActionResult AddNewPhoto()
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddNewPhoto(Guid DestinationID)
         {
-            var photoContent = TempData["FileInfoList"];
-            var destinationId = new Guid(TempData["MasterID"].ToString());
-            var photoInfo = (Content) TempData["MediaContent"];
-            //add Content here
-            var userId = new Guid(User.Identity.GetUserId());
-            destinationService.AddNewContent(photoInfo, destinationId, userId);
-            //delete temporary data
-            TempData.Remove("FileInfoList");
-            TempData.Remove("MasterID");
-            TempData.Remove("MediaContent");
-            return Json(photoContent, JsonRequestBehavior.AllowGet);
+            FileInfoList fileInforList = null;
+            if (Request.Files.Count > 0)
+            {
+                var UserID = new Guid(User.Identity.GetUserId());
+                var defaultGuid = new Guid();
+                var destination = destinationService.GetDestination(DestinationID);
+                if (destination == null || destination.DestinationID == defaultGuid || destination.UserID != UserID)
+                {
+                    return null;
+                }
+                var ContentID = Guid.NewGuid();
+                string deleteUrl = Url.Action("DeletePhoto", "Media", new { id = ContentID });
+                fileInforList = ImageProcessor.UploadPhoto(UserID, destination.AlbumID, ContentID, Request.Files.Get(0).InputStream, deleteUrl);
+            }
+            return Json(fileInforList, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LikeUnlike(Guid userID, Guid destinationID)

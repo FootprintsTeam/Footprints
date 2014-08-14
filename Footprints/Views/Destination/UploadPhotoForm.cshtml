@@ -1,12 +1,13 @@
-﻿@model Footprints.ViewModels.ImageViewModel
-
+﻿@model Footprints.ViewModels.PhotoUploadFormViewModel
 @Styles.Render("~/css/fileupload")
-@using (Html.BeginForm("AddPhoto", "Media", FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
+@using (Html.BeginForm(Model.ActionName, Model.ControllerName, FormMethod.Post, new { enctype = "multipart/form-data", id = "fileupload" }))
 {       
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-    @Html.HiddenFor(x => x.ReturnUrl)
-    @Html.HiddenFor(x => x.MasterID)
+    if (Model.ControllerName.Equals("Destination"))
+    {
+        @Html.HiddenFor(x => x.DestinationID)
+    }
     <div class="row fileupload-buttonbar">
         <span class="btn btn-success fileinput-button">
             <i class="glyphicon glyphicon-plus"></i>
