@@ -2599,6 +2599,7 @@
     <Content Include="Views\Admin\UserList.cshtml" />
     <Content Include="Views\Newsfeed\NewsfeedWidgetCommentSection.cshtml" />
     <Content Include="Views\Personal\AddPictureModal.cshtml" />
+    <Content Include="Views\Admin\EditDestination.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
