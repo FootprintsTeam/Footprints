@@ -19,45 +19,47 @@ namespace Footprints.DAL.Concrete
             return  query.Count() == 0 ? null : query.First<Journey>();
         }        
         public Journey GetJourneyDetail(Guid JourneyID)
-        {
-            Journey journey = null;
+        {            
             var query = Db.Cypher.OptionalMatch("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
-                                  OptionalMatch("(Journey)-[:HAS*]->(Destination:Destination)").
+                                  OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
                                   OptionalMatch("(Destination)-[:AT]->(Place:Place)").
-                                  OptionalMatch("(Destination)-[:HAS*]->(Content:Content)").Return((Journey, Destination, Place, Content) => new
+                                  OptionalMatch("(Destination)-[:HAS]->(Content:Content)").
+                                  With("Journey, Destination, Place, Content").OrderBy("Destination.OrderNumber").
+                                  With("Journey, Destination, Place, Content").OrderBy("Content.Timestamp").
+                                  Return((Journey, Destination, Place, Content) => new
                                   {
                                       journey = Journey.As<Journey>(),
                                       destination = Destination.As<Destination>(),
                                       place = Place.As<Place>(),
-                                      content = Content.As<Content>()
+                                      content = Content.CollectAs<Content>()
                                   }
                                   ).Results;
-            Destination currentDestination = null;
-            Guid defaultGuid = new Guid();
+            Journey result = null;
+            Destination destination = new Destination();
             bool first = true;
             foreach (var item in query)
             {
                 if (first)
                 {
-                    if (item.journey == null || item.journey.JourneyID == defaultGuid) return null;
-                    journey = item.journey;
-                    journey.Destinations = new List<Destination>();
-                    if (item.destination == null || item.destination.DestinationID == defaultGuid) break;
+                    result = new Journey();
+                    result = item.journey;
+                    result.Destinations = new List<Destination>();
                     first = false;
                 }
-                if (currentDestination == null || currentDestination.DestinationID != item.destination.DestinationID)
+                if (!item.destination.Equals(null))
                 {
-                    currentDestination = item.destination;
-                    currentDestination.Place = item.place;
-                    currentDestination.Contents = new List<Content>();
-                    journey.Destinations.Add(currentDestination);
-                }
-                if (!currentDestination.Contents.Contains(item.content))
-                {
-                    currentDestination.Contents.Add(item.content);
-                }
+                    destination = item.destination;
+                    destination.Place = new Place();
+                    destination.Place = item.place;
+                    destination.Contents = new List<Content>();
+                    foreach (var content in item.content)
+                    {
+                        destination.Contents.Add(content.Data);
+                    }
+                    result.Destinations.Add(destination);
+                }               
             }
-            return journey;
+            return result;
         }
         public bool AddNewJourney(Guid UserID, Journey Journey)
         {

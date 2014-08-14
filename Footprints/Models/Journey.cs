@@ -29,7 +29,6 @@ namespace Footprints.Models
         [Required(ErrorMessage = "Number Of Share is required")]
         [Range(0, int.MaxValue, ErrorMessage = "Number of share must be a positive number")]
         public int NumberOfShare { get; set; }
-
         public List<Destination> Destinations { get; set; }
     }
 }
