@@ -1,9 +1,10 @@
-﻿@model IList<Footprints.Models.Destination>
-@using Footprints.Models
+﻿@model PagedList.IPagedList<Footprints.Models.Destination>
+@using PagedList.Mvc;
 @{
     Layout = "~/Views/Shared/AdminLayout.cshtml";
     ViewBag.Title = "Destination Management";
 }
+
 
 @Styles.Render("~/css/admin");
 
@@ -85,9 +86,9 @@
 
         <div class="widget-body">
 
-            <!-- Total journey & sort by options -->
+            <!-- Total destination & sort by options -->
             <div class="separator bottom">
-                Total journey:
+                Total destination:
                 <span class="pull-right">
                     <label class="strong">Sort by:</label>
                     <select class="selectpicker margin-none" data-style="btn-default btn-xs">
@@ -98,7 +99,7 @@
                 </span>
                 <div class="clearfix"></div>
             </div>
-            <!-- // Total journey & sort by options END -->
+            <!-- // Total destination & sort by options END -->
             <!-- Table -->
             <table class="table table-condensed table-striped table-primary table-vertical-center checkboxs">
                 <thead>
@@ -128,7 +129,7 @@
                             <td class="center">@destination.Timestamp</td>
                             <td class="center">@destination.NumberOfLike</td>
                             <td class="center">@destination.NumberOfShare</td>
-                            <td class="center">@destination.Place</td>
+                            <td class="center">@destination.Place.Name</td>
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
                                     @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
@@ -159,11 +160,8 @@
             <!-- // With selected actions END -->
             <!-- Pagination -->
             <ul class="pagination pull-right margin-none">
-                <li class="disabled"><a href="#">&laquo;</a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">&raquo;</a></li>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("Destination", new { page }))
             </ul>
             <div class="clearfix"></div>
             <!-- // Pagination END -->

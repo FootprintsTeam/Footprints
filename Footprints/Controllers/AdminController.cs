@@ -31,10 +31,11 @@ namespace Footprints.Controllers
             return View();
         }
 
-        public ActionResult Destination()
+        public ActionResult Destination(int? page)
         {
+            int pageNumber = (page ?? 1);
             IList<Destination> list = destinationSer.GetAllDestination();
-            return View(list);
+            return View(list.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult DeleteDestination(Guid UserID, Guid DestinationID)
@@ -69,7 +70,7 @@ namespace Footprints.Controllers
         {
             if (ModelState.IsValid)
             {
-                //destinationSer.UpdateDestination(Destination);
+                destinationSer.UpdateDestinationForAdmin(Destination);
                 return RedirectToAction("Destination");
             }
             return View(Destination);
