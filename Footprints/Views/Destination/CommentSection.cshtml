@@ -51,18 +51,6 @@
             commentEdit.hide();
         }
     }
-    function validateAddCommentForm(destinationId) {
-        var form = $('#add-comment-form-' + destinationId);
-        if (form == null)
-            return false;
-        else {
-            var txtContent = form.find('textarea');
-            if (txtContent == null || txtContent.val() == null || txtContent.val().trim().length == 0)
-                return false;
-            else
-                return true;
-        }
-    }
     //Check for keyup Esc on edit comment field
     $('[id^="comment-edit-"]').keyup(function (ev) {
         if (ev.which == 27) {
