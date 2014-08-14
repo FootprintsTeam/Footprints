@@ -53,5 +53,35 @@ namespace Footprints.Controllers
             var viewModel = Mapper.Map<User, PersonalAboutViewModel>(model);
             return View(viewModel);
         }
+
+        public ActionResult AddCoverPhoto() {
+            var photoContent = TempData["FileInfoList"];
+            var userID = new Guid(TempData["MasterID"].ToString());
+            var photoInfo = (Content)TempData["MediaContent"];
+            
+            //add photo
+            userService.UpdateCoverPhotoURL(userID, photoInfo.URL);
+
+            //delete temporary data
+            TempData.Remove("FileInfoList");
+            TempData.Remove("MasterID");
+            TempData.Remove("MediaContent");
+            return Json(photoContent, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddAvatar() {
+            var photoContent = TempData["FileInfoList"];
+            var userID = new Guid(TempData["MasterID"].ToString());
+            var photoInfo = (Content)TempData["MediaContent"];
+
+            //add photo
+            userService.UpdateProfilePicURL(userID, photoInfo.URL);
+
+            //delete temporary data
+            TempData.Remove("FileInfoList");
+            TempData.Remove("MasterID");
+            TempData.Remove("MediaContent");
+            return Json(photoContent, JsonRequestBehavior.AllowGet);
+        }
 	}
 }

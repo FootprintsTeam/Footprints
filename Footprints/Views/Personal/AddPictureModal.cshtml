@@ -1,0 +1,29 @@
+﻿@using System
+@using Microsoft.AspNet.Identity;
+@using Footprints.ViewModels;
+
+<!--Popup of personal page-->
+<div class="modal fade" id="modal-picture-add">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Add a picture</h3>
+            </div>
+            <!-- // Modal heading END -->
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="innerAll">
+                    <div class="innerLR">                        
+                            @{Html.RenderPartial("~/Views/Destination/UploadPhotoForm.cshtml", new ImageViewModel { ReturnUrl = @Url.Action("AddCoverPhoto", "Personal"), MasterID = new Guid(User.Identity.GetUserId()) });}                        
+                    </div>
+                </div>
+            </div>
+            <!-- // Modal body END -->
+        </div>
+    </div>
+</div>
+<!-- // Modal END -->

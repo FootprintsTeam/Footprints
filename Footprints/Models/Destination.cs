@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace Footprints.Models
 {
@@ -11,12 +12,33 @@ namespace Footprints.Models
         public Guid AlbumID { get; set; }
         public Guid UserID { get; set; }
         public Guid JourneyID { get; set; }
+
+        [Required(ErrorMessage = "Name is required")]
         public String Name { get; set; }
+
+        [Display(Name = "Order Number")]
+        [Required(ErrorMessage="Ordernumber is required")]
         public int OrderNumber { get; set; }
+
+        [Required(ErrorMessage = "Description is required")]
         public String Description { get; set; }
+
+        [Display(Name = "Taken Date")]
+        [Required(ErrorMessage = "TakenDate is required")]
         public DateTimeOffset TakenDate { get; set; }
-        public int NumberOfLike { get; set; } 
+
+        [Display(Name = "Number Of Like")]
+        [Required(ErrorMessage = "Number Of Like is required")]
+        [Range(0, int.MaxValue, ErrorMessage = "Number of share must be a positive number")]
+        public int NumberOfLike { get; set; }
+
+        [Display(Name = "Number Of Share")]
+        [Required(ErrorMessage = "Number Of Share is required")]
+        [Range(0, int.MaxValue, ErrorMessage = "Number of share must be a positive number")]
         public int NumberOfShare { get; set; }
+
+        [Display(Name = "Time Stamp")]
+        [Required(ErrorMessage = "Time Stamp is required")]
         public DateTimeOffset Timestamp { get; set; }
         public Place Place { get; set; }
         public List<Content> Contents { get; set; }

@@ -105,12 +105,12 @@
                     <tr>
                         <th style="width: 1%;" class="uniformjs"><input type="checkbox" /></th>
                         <th class="center">Name</th>
-                        <th class="center">OrderNumber</th>
+                        <th class="center">Order Number</th>
                         <th class="center">Description</th>
-                        <th class="center">TakenDate</th>
-                        <th class="center">Timestamp</th>
-                        <th class="center">NumberOfLike</th>
-                        <th class="center">NumberOfShare</th>
+                        <th class="center">Taken Date</th>
+                        <th class="center">Time Stamp</th>
+                        <th class="center">Number Of Like</th>
+                        <th class="center">Number Of Share</th>
                         <th class="center">Place</th>
                         <th class="center" style="width: 150px;">Actions</th>
                     </tr>
@@ -131,9 +131,11 @@
                             <td class="center">@destination.Place</td>
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
-                                    <a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
+                                    @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
                                     <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
-                                    <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                    <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
+                                    @Html.ActionLink("Edit", "EditDestination", "Admin", new { DestinationID = destination.DestinationID }, new { @class = "btn btn-success" })
+                                    @Html.ActionLink("Del", "DeleteDestination", "Admin", new { UserID = destination.UserID, DestinationID = destination.DestinationID }, new { @class = "btn btn-danger" })
                                 </div>
                             </td>
                         </tr>

@@ -61,55 +61,46 @@ namespace Footprints.Controllers
             FileInfoItem fileInfoItem = new FileInfoItem();
             fileInfoList.files.Add(fileInfoItem);
             const string ERROR_MESSAGE = "An error occurred while processing your request";
-            if (Url.Action("AddNewPhoto", "Destination").Equals(ReturnUrl))
+
+            var AlbumID = MasterID;
+
+
+            var ContentID = Guid.NewGuid();
+            String s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
+            String bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
+            try
             {
-                var destination = destinationService.GetDestination(MasterID);
-                if (destination == null || UserID != destination.UserID)
+                if (ImageUtil.IsValidImage(Request.Files.Get(0).InputStream))
                 {
-                    fileInfoItem.error = ERROR_MESSAGE;
-                    return Json(fileInfoList, JsonRequestBehavior.AllowGet);
-                }
-                var AlbumID = destination.AlbumID;
-                var ContentID = Guid.NewGuid();
-                String s3Path = "https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/";
-                String bucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
-                try
-                {
-                    if (ImageUtil.IsValidImage(Request.Files.Get(0).InputStream))
+                    fileInfoItem.size = Request.Files.Get(0).InputStream.Length;
+                    ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ContentID, Request.Files.Get(0).InputStream);
+                    fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ContentID.ToString() + ".jpg";
+                    fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ContentID.ToString() + ".jpg";
+                    fileInfoItem.deleteUrl = this.Url.Action("DeletePhoto", "Media", new { id = ContentID }, this.Request.Url.Scheme);
+                    fileInfoItem.deleteType = "DELETE";
+                    var mediaContent = new Content
                     {
-                        fileInfoItem.size = Request.Files.Get(0).InputStream.Length;
-                        ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ContentID, Request.Files.Get(0).InputStream);
-                        fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ContentID.ToString() + ".jpg";
-                        fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ContentID.ToString() + ".jpg";
-                        fileInfoItem.deleteUrl = this.Url.Action("DeletePhoto", "Media", new { id = ContentID }, this.Request.Url.Scheme);
-                        fileInfoItem.deleteType = "DELETE";
-                        var mediaContent = new Content
-                        {
-                            ContentID = ContentID,
-                            TakenDate = DateTimeOffset.Now,
-                            Timestamp = DateTimeOffset.Now,
-                            URL = fileInfoItem.url
-                        };
-                        TempData["MediaContent"] = mediaContent;
-                    }
-                    else
-                    {
-                        fileInfoItem.error = ERROR_MESSAGE;
-                    }
+                        ContentID = ContentID,
+                        TakenDate = DateTimeOffset.Now,
+                        Timestamp = DateTimeOffset.Now,
+                        URL = fileInfoItem.url
+                    };
+                    TempData["MediaContent"] = mediaContent;
                 }
-                catch (Exception)
+                else
                 {
                     fileInfoItem.error = ERROR_MESSAGE;
                 }
-                TempData["FileInfoList"] = fileInfoList;
-                TempData["MasterID"] = Request.Form["MasterID"];
-                return Redirect(Request.Form["ReturnUrl"]);
             }
-            else
+            catch (Exception e)
             {
+                fileInfoItem.error = ERROR_MESSAGE;
                 fileInfoItem.error = "ERROR";
                 return Json(fileInfoList, JsonRequestBehavior.AllowGet);
             }
+            TempData["FileInfoList"] = fileInfoList;
+            TempData["MasterID"] = Request.Form["MasterID"];
+            return Redirect(Request.Form["ReturnUrl"]);
         }
 
         public ActionResult CreateAlbum()

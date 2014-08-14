@@ -89,9 +89,7 @@
     @RenderSection("scripts", required: false)
     @Scripts.Render("~/script/form-modal")
     @Scripts.Render("~/script/datepicker")
-    
-    <script src="/Scripts/jquery.validate.js"></script>
-    <script src="/Scripts/jquery.validate.unobtrusive.js"></script>
+    @Scripts.Render("~/script/jquery-validate")
     <script type="text/javascript">
         $.validator.setDefaults({ ignore: '' });
     </script>

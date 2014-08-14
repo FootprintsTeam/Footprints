@@ -19,12 +19,17 @@ namespace Footprints.Models
         [Display(Name = "Time Stamp")]
         [Required(ErrorMessage = "Time Stamp is required")]
         public DateTimeOffset Timestamp { get; set; }
+
         [Display(Name = "Number Of Like")]
+        [Required(ErrorMessage = "Number Of Like is required")]
         [Range(0, int.MaxValue, ErrorMessage="Number of like must be a positive number")]
         public int NumberOfLike { get; set; }
+
         [Display(Name = "Number Of Share")]
+        [Required(ErrorMessage = "Number Of Share is required")]
         [Range(0, int.MaxValue, ErrorMessage = "Number of share must be a positive number")]
         public int NumberOfShare { get; set; }
+
         public List<Destination> Destinations { get; set; }
     }
 }
