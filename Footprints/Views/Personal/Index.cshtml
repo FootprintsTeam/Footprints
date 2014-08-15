@@ -1,5 +1,6 @@
 ﻿@model Footprints.ViewModels.PersonalViewModel
-@using Footprints.Common;
+@using Footprints.Common
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "Personal Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -118,10 +119,7 @@
                         <li class="innerAll border-bottom">
                             <span class="badge badge-default bg-primary pull-right">@Model.NumberOfFriend</span>
                             <i class="fa fa-fw icon-browser-check"></i> Friends
-                        </li>                        
-                        <li class="innerAll bg-white text-center">
-                            <a href="" class="btn btn-primary btn-sm">View Profile</a>
-                        </li>
+                        </li>                                               
                     </ul>
                 </div>
                 <!-- //END ACCOUNT DETAILS -->
@@ -191,5 +189,34 @@
     </div>
 </div>
 
+
+<script type="text/javascript">
+    $("#friend-button").click(function (e) {
+        if ($(this).html() == "Add Friend") {
+
+            //submit http request
+            $.get("@Url.Action("MakeFriend",new {controller = "Personal"})",
+                { userID: "@Model.UserID" },
+                function (data) {
+                    if (data.Result == "true") {
+                        //change icon
+                        $("#like-btn").find("span").html('Unfriend');
+                    }
+                });
+        }
+        else {            
+            //submit http request
+            $.get("@Url.Action("MakeFriend",new {controller = "Personal"})",
+                { userID: "@Model.UserID" },
+                function (data) {
+                    if (data.Result == "true") {
+                        //change icon
+                        $("#like-btn").find("span").html('Add Friend');  
+                    }
+                });
+        }
+        return false;
+    });
+</script>
 @{Html.RenderPartial("AddCoverPhotoModal");}
 @Scripts.Render("~/script/personal")

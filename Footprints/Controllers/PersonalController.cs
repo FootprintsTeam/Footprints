@@ -31,9 +31,10 @@ namespace Footprints.Controllers
         }
         //
         // GET: /Personal/Personal/
-        public ActionResult Index()
-        {
-            var model = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+        public ActionResult Index(string userID = "default")
+        {            
+            var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(User.Identity.GetUserId())) : userService.RetrieveUser(new Guid(userID));
+            
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
 
             //var model = PersonalViewModel.GetSampleObject();            
