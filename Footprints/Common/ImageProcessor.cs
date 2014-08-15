@@ -13,12 +13,12 @@ namespace Footprints.Common
 {
     public class ImageProcessor
     {
-        public static void UploadPhotoWithThumb(Guid UserID, Guid AlbumID, Guid FileName, Stream imageStream)
+        public static void UploadPhotoWithThumb(String UserID, String AlbumID, String FileName, Stream imageStream)
         {
             //Upload image to s3
             String uniqueFileName = FileName.ToString() + ".jpg";
-            String photoPath = UserID.ToString() + "/" + AlbumID.ToString() + "/" + uniqueFileName;
-            String photoThumbPath = UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + uniqueFileName;
+            String photoPath = UserID + "/" + AlbumID + "/" + uniqueFileName;
+            String photoThumbPath = UserID + "/" + AlbumID + "/thumbnails/" + uniqueFileName;
             try
             {
                 //Generate thumbnails image
@@ -38,15 +38,19 @@ namespace Footprints.Common
             }
         }
 
-        public static void DeletePhoto(Guid UserID, Guid AlbumID, string name)
+        public static void DeletePhoto(String UserID, String AlbumID, String ContentID)
         {
-            using (IAmazonS3 s3Client = Amazon.AWSClientFactory.CreateAmazonS3Client(Amazon.RegionEndpoint.APSoutheast1))
+            try
             {
-                DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest();
-                deleteObjectsRequest.BucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
-                deleteObjectsRequest.AddKey(UserID.ToString() + "/" + AlbumID.ToString() + "/" + name);
-                DeleteObjectsResponse deleteObjectResponse = s3Client.DeleteObjects(deleteObjectsRequest);
+                using (IAmazonS3 s3Client = Amazon.AWSClientFactory.CreateAmazonS3Client(Amazon.RegionEndpoint.APSoutheast1))
+                {
+                    DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest();
+                    deleteObjectsRequest.BucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
+                    deleteObjectsRequest.AddKey(UserID + "/" + AlbumID + "/" + ContentID + ".jpg");
+                    DeleteObjectsResponse deleteObjectResponse = s3Client.DeleteObjects(deleteObjectsRequest);
+                }
             }
+            catch { }
         }
 
         /// <summary>
@@ -76,21 +80,7 @@ namespace Footprints.Common
 
         }
 
-        /// <summary>
-        /// Upload image stream to Amazon s3
-        /// </summary>
-        /// <param name="userid"></param>
-        /// <param name="albumid"></param>
-        /// <param name="imageStream"></param>
-        /// <param name="client"></param>
-        public static string UploadPhoto(Guid UserID, Guid AlbumID, Stream imageStream)
-        {
-            string photoPath = UserID.ToString() + "/" + AlbumID.ToString() + "/" + new Guid(Guid.NewGuid().ToString("N")) + ".jpg";
-            UploadPhoto(photoPath, imageStream);
-            return photoPath;
-        }
-
-        public static FileInfoList UploadPhoto(Guid UserID, Guid AlbumID, Guid ContentID, Stream imageStream, String deleteUrl)
+        public static FileInfoList UploadPhoto(String UserID, String AlbumID, String ContentID, Stream imageStream, String deleteUrl)
         {
             FileInfoList fileInfoList = new FileInfoList();
             FileInfoItem fileInfoItem = new FileInfoItem();
@@ -102,9 +92,9 @@ namespace Footprints.Common
                 if (ImageUtil.IsValidImage(imageStream))
                 {
                     fileInfoItem.size = imageStream.Length;
-                    ImageProcessor.UploadPhotoWithThumb(UserID, AlbumID, ContentID, imageStream);
-                    fileInfoItem.url = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/" + ContentID.ToString() + ".jpg";
-                    fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID.ToString() + "/" + AlbumID.ToString() + "/thumbnails/" + ContentID.ToString() + ".jpg";
+                    UploadPhotoWithThumb(UserID, AlbumID, ContentID, imageStream);
+                    fileInfoItem.url = s3Path + bucketName + "/" + UserID + "/" + AlbumID + "/" + ContentID + ".jpg";
+                    fileInfoItem.thumbnailUrl = s3Path + bucketName + "/" + UserID + "/" + AlbumID + "/thumbnails/" + ContentID + ".jpg";
                     fileInfoItem.deleteUrl = deleteUrl;
                     fileInfoItem.deleteType = "DELETE";
                 }

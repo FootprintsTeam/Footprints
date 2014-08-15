@@ -103,8 +103,8 @@ namespace Footprints.Controllers
                             Email = user.Email,
                             Status = Footprints.Models.StatusEnum.Active,
                             UserName = user.UserName,
-                            ProfilePicURL = Constant.defaultAvatarUrl,
-                            CoverPhotoURL = Constant.defaultCoverUrl,
+                            ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
+                            CoverPhotoURL = Constant.DEFAULT_COVER_URL,
                             JoinDate = DateTimeOffset.Now,
                             Genre = model.Genre
                         });
