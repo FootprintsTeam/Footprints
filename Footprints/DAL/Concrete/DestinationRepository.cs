@@ -281,13 +281,13 @@ namespace Footprints.DAL.Concrete
             foreach (var item in query)
             {
                 currentDestination = new Destination();
-                if (!item.destination.Equals(null)) currentDestination = item.destination;
+                if (item.destination != null) currentDestination = item.destination;
                 currentDestination.Contents = new List<Content>();
                 currentDestination.Place = new Place();
-                if (!item.place.Equals(null)) currentDestination.Place = item.place;
+                if (item.place != null) currentDestination.Place = item.place;
                 foreach (var content in item.content)
                 {
-                    if (!content.Equals(null)) currentDestination.Contents.Add(content.Data);
+                    if (content != null) currentDestination.Contents.Add(content.Data);
                 }
                 result.Add(currentDestination);
             }
