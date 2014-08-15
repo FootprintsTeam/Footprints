@@ -121,18 +121,28 @@ namespace Footprints.DAL.Concrete
         }
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
-            Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]->(n)").Where((Destination Destination) => Destination.DestinationID == DestinationID).AndWhere((User User) => User.UserID == UserID).
-                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("Destination, r, n").ExecuteWithoutResults();
+            Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]-()").
+                Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                AndWhere((User User) => User.UserID == UserID).
+                OptionalMatch("(Destination)-[:AT]->(Place:Place)").
+                OptionalMatch("(Destination)-[:HAS]->(Content:Content)").
+                OptionalMatch("(Activity:Activity)").
+                Where((Activity Activity) => Activity.DestinationID == DestinationID).
+                Set("Activity.Status = 'DELETED'").
+                Delete("Destination, r, Place, Content").
+                ExecuteWithoutResults();
         }
         //For Admin
         public void DeleteDestinationForAdmin(Guid DestinationID)
         {
-            Db.Cypher.OptionalMatch("(Destination:Destination)-[r]->(n)").
+            Db.Cypher.OptionalMatch("(Destination:Destination)-[r]-()").
                 Where((Destination Destination) => Destination.DestinationID == DestinationID).
-                Match("(Activity:Activity)").
+                OptionalMatch("(Destination)-[:AT]->(Place:Place)").
+                OptionalMatch("(Destination)-[:HAS]->(Content:Content)").
+                OptionalMatch("(Activity:Activity)").
                 Where((Activity Activity) => Activity.DestinationID == DestinationID).
                 Set("Activity.Status = 'DELETED'").
-                Delete("Destination, r, n").
+                Delete("Destination, r, Place, Content").
                 ExecuteWithoutResults();
         }
         public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
