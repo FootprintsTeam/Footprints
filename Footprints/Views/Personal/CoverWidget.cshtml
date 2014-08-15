@@ -31,7 +31,15 @@
                 if (!Model.UserID.ToString().Equals(User.Identity.GetUserId()))
                 {
                     <div class="innerAll pull-right">
-                        <a href="#" id="friend-button" class="pull-right btn btn-primary btn-sm" style="position:absolute;top:15px;right:15px">Add Friend</a>
+                        <a href="#" id="friend-button" class="pull-right btn btn-primary btn-sm" style="position:absolute;top:15px;right:15px">
+                        @if (ViewBag.AlreadyFriend)
+                        {
+                            <text>Unfriend</text>
+                        }
+                        else { 
+                            <text>Add Friend</text>
+                        }                        
+                        </a>
                     </div>
                 }
             }

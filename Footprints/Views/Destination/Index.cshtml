@@ -103,16 +103,11 @@
 
             //submit http request
             $.get("@Url.Action("LikeUnlike",new {controller = "Destination"})",
-                { userID: "@User.Identity.GetUserId()", destinationID: "@Model.DestinationID" },
+                { destinationID: "@Model.DestinationID" },
                 function (data) {
                     if (data.Result == "Success") {
                         //add number of like
-                        var likeSpanHtml = $("#like-number");
-                        var numberOfLike = parseInt(likeSpanHtml.html());
-                        numberOfLike = numberOfLike + 1;
-                        if (numberOfLike != "NaN")
-                            likeSpanHtml.html(numberOfLike.toString());
-
+                        $("#like-number").html(data.NumberOfLike);
                         //change icon
                         $("#like-btn").find("span").html('Unlike');
                         $("#like-btn").find("i").removeClass('fa-thumbs-o-up');
@@ -123,20 +118,14 @@
         else {        
             //submit http request
             $.get("@Url.Action("LikeUnlike",new {controller = "Destination"})",
-                { userID: "@User.Identity.GetUserId()", destinationID: "@Model.DestinationID" },
+                { destinationID: "@Model.DestinationID" },
                 function (data) {
                     if (data.Result == "Success") {
                         //add number of like
-                        var likeSpanHtml = $("#like-number");
-                        var numberOfLike = parseInt(likeSpanHtml.html());
-                        numberOfLike = numberOfLike - 1;
-                        if (numberOfLike != "NaN")
-                            likeSpanHtml.html(numberOfLike.toString());
-
+                        $("#like-number").html(data.NumberOfLike);
                         $.post("@Url.Action("Share")"
                         
                         )
-
                         //change icon
                         $("#like-btn").find("span").html('Like');
                         $("#like-btn").find("i").removeClass('fa-thumbs-o-down');

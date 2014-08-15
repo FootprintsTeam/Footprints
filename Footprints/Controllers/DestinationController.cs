@@ -325,10 +325,14 @@ namespace Footprints.Controllers
             }
         }
 
-        public ActionResult LikeUnlike(Guid userID, Guid destinationID)
+        public ActionResult LikeUnlike(Guid destinationID)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { Result = "fail" }, JsonRequestBehavior.AllowGet);
+            }
             string result;
-
+            var userID = new Guid(User.Identity.GetUserId());
             if (destinationService.UserAlreadyLike(userID, destinationID))
             {
                 destinationService.UnlikeDestination(userID, destinationID);
@@ -337,9 +341,9 @@ namespace Footprints.Controllers
             {
                 destinationService.LikeDestination(userID, destinationID);
             }
-
+            int numberOfLike = destinationService.GetNumberOfLike(destinationID);
             result = "Success";
-            return Json(new { Result = result }, JsonRequestBehavior.AllowGet);
+            return Json(new { Result = result, NumberOfLike = numberOfLike }, JsonRequestBehavior.AllowGet);
         }
 
         [ChildActionOnly]

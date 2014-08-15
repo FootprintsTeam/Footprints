@@ -197,9 +197,10 @@
             $.get("@Url.Action("MakeFriend",new {controller = "Personal"})",
                 { userID: "@Model.UserID" },
                 function (data) {
-                    if (data.result == "true") {
+                    if (data.result.toString() == "true") {
+                        alert(data.result.toString());
                         //change icon
-                        $("#like-btn").find("span").html('Unfriend');
+                        $("#friend-button").html('Unfriend');
                     }
                 });
         }
@@ -207,10 +208,10 @@
             //submit http request
             $.get("@Url.Action("MakeFriend",new {controller = "Personal"})",
                 { userID: "@Model.UserID" },
-                function (data) {
-                    if (data.result == "true") {
+                function (data) {                    
+                    if (data.result.toString() == "true") {                        
                         //change icon
-                        $("#like-btn").find("span").html('Add Friend');  
+                        $("#friend-button").html('Add Friend');  
                     }
                 });
         }

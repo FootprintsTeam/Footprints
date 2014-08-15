@@ -30,11 +30,11 @@ namespace Footprints.Services
         bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL);
         bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
         bool ChangePassword(Guid UserID, String Password);
-        bool CheckFriendShip(Guid UserID_A, Guid UserID_B);
+        bool CheckFriendShip(Guid UserID_A, Guid UserID_B);        
     }
     public class UserService : IUserService
     {
-        IUserRepository _userRepo;
+        IUserRepository _userRepo;        
         public UserService(IUserRepository userRepo)
         {
             _userRepo = userRepo;

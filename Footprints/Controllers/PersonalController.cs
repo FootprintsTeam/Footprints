@@ -32,11 +32,14 @@ namespace Footprints.Controllers
         //
         // GET: /Personal/Personal/
         public ActionResult Index(string userID = "default")
-        {            
-            var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(User.Identity.GetUserId())) : userService.RetrieveUser(new Guid(userID));
+        {
+            var currentUserID = User.Identity.GetUserId();
+            var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(currentUserID)) : userService.RetrieveUser(new Guid(userID));
             
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
 
+            if (!userID.Equals("default"))
+                ViewBag.AlreadyFriend = userService.CheckFriendShip(new Guid(currentUserID), new Guid(userID));
             //var model = PersonalViewModel.GetSampleObject();            
             return View(viewModel);
         }
@@ -117,7 +120,18 @@ namespace Footprints.Controllers
         public ActionResult MakeFriend(Guid userID)
         {
             var currentUserID = new Guid(User.Identity.GetUserId());
-            var result = userService.AddFriendRelationship(currentUserID, userID);
+            bool result;
+
+            //check if already is friend
+            if (!userService.CheckFriendShip(userID, currentUserID))
+            {
+                 result = userService.AddFriendRelationship(currentUserID, userID);
+            }
+            else 
+            {
+                 result = userService.DeleteFriendRelationship(currentUserID, userID);
+            }
+                        
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
     }
