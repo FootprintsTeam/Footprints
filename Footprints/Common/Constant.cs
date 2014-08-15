@@ -22,6 +22,7 @@ namespace Footprints.Common
         public const string defaultAvatarUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-588205328470/default_avatar.001.jpg";
         public const string defaultCoverUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-588205328470/Coverpicture.png";
         public const string mapUrl = "http://maps.googleapis.com/maps/api/staticmap";
+        public static string UPLOAD_PHOTO_ERROR_MESSAGE = "An error occurred while processing your request";
 
     }
 

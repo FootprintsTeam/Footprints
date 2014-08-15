@@ -2538,7 +2538,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
@@ -2600,6 +2599,8 @@
     <Content Include="Views\Newsfeed\NewsfeedWidgetCommentSection.cshtml" />
     <Content Include="Views\Personal\AddPictureModal.cshtml" />
     <Content Include="Views\Admin\EditDestination.cshtml" />
+    <Content Include="Views\Personal\AddCoverPhotoModal.cshtml" />
+    <Content Include="Views\Destination\DeletePhotoModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

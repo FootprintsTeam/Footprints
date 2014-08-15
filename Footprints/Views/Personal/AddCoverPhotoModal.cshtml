@@ -1,9 +1,7 @@
-﻿@using System
-@using Microsoft.AspNet.Identity;
-@using Footprints.ViewModels;
+﻿@using Footprints.ViewModels;
 
 <!--Popup of personal page-->
-<div class="modal fade" id="modal-picture-add">
+<div class="modal fade" id="modal-cover-picture-add">
 
     <div class="modal-dialog">
         <div class="modal-content">
@@ -18,7 +16,7 @@
             <div class="modal-body">
                 <div class="innerAll">
                     <div class="innerLR">                        
-                            @{Html.RenderPartial("~/Views/Destination/UploadPhotoForm.cshtml", new ImageViewModel { ReturnUrl = @Url.Action("AddCoverPhoto", "Personal"), MasterID = new Guid(User.Identity.GetUserId()) });}                        
+                            @{Html.RenderPartial("~/Views/Destination/UploadPhotoForm.cshtml", new PhotoUploadFormViewModel { ActionName = "AddCoverPhoto", ControllerName = "Personal" });}                        
                     </div>
                 </div>
             </div>

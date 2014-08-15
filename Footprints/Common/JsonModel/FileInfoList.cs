@@ -10,7 +10,7 @@ namespace Footprints.Common.JsonModel
     /// </summary>
     public class FileInfoList
     {
-        public List<FileInfoItem> files = new List<FileInfoItem>();
+        public IList<FileInfoItem> files = new List<FileInfoItem>();
     }
 
     /// <summary>

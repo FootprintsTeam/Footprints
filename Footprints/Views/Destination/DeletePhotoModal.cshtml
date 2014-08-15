@@ -1,0 +1,38 @@
+﻿@model Footprints.ViewModels.DeletePhotoFormViewModel
+<div id="delete-photo-modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Delete Photo</h3>
+            </div>
+            <!-- // Modal heading END -->
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="innerAll">
+                    <div class="innerLR">
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <label class="control-label">Are you sure want to delete this photo?</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- // Modal body END -->
+            <div class="modal-footer">
+                @using (Ajax.BeginForm("DeletePhoto", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "deletePhoto" }, new { @name = "frmDeletePhoto", @role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x => x.DestinationID)
+                    @Html.HiddenFor(x => x.ContentID)
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                    <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

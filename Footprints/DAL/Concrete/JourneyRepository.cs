@@ -46,7 +46,7 @@ namespace Footprints.DAL.Concrete
                     result.Destinations = new List<Destination>();
                     first = false;
                 }
-                if (!item.destination.Equals(null))
+                if (item.destination != null)
                 {
                     destination = item.destination;
                     destination.Place = new Place();
