@@ -14,6 +14,7 @@ using Footprints.Services;
 using System.IO;
 namespace Footprints.Controllers
 {
+    [Authorize]
     public class NewsfeedController : Controller
     {
         IUserService userService;
@@ -70,7 +71,7 @@ namespace Footprints.Controllers
             jsonModel.HTMLString = RenderPartialViewToString("PersonalWidgetViewModel", null);
             return Json(jsonModel);
         }
-
+        [Authorize]
         [ChildActionOnly]
         public ActionResult MainNavBar() {
             var userModel = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));

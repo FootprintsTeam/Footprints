@@ -26,7 +26,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         @*<li class="innerLR"><button type="button" class="btn btn-success navbar-btn"><i class="fa fa-pencil"></i> Sign in</button></li>*@
                         <li style="">
-                            <a href="#">
+                            <a href="@Url.Action("Index","Personal")">
                                 <b>
                                     <span class="pull-left innerR"><img src="@Model.ProfilePicURL" alt="user" class="img-circle" style="width:35px;height:35px"><img /></span>
                                     @Model.UserName
@@ -59,7 +59,7 @@
 
                             <ul class="dropdown-menu" role="menu" aria-labelledby="setting-dropdown">
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Configuration","Home")"><span class="glyphicon glyphicon-stats innerR"><i class=""></i></span>Configuration</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("QuestionAndAnswer","Home")"><span class="glyphicon glyphicon-question-sign innerR"></span> Q&A</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Contact","Home")"><span class="glyphicon glyphicon-question-sign innerR"></span> Q&A</a></li>
                                 <li role="presentation">
                                     <a role="menuitem" tabindex="-1" href="#" onclick="document.getElementById('log-out-form').submit()"><span class="glyphicon glyphicon-off innerR"></span>Log Out</a>
                                     <form id="log-out-form" action="@Url.Action("LogOff","Account")" method="post"> 
