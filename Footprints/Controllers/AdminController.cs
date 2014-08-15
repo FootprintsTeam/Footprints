@@ -50,7 +50,7 @@ namespace Footprints.Controllers
             }
             else
             {
-                destinationSer.DeleteDestination(UserID, DestinationID);
+                destinationSer.DeleteDestinationForAdmin(DestinationID);
                 return RedirectToAction("Destination");
             }
         }
