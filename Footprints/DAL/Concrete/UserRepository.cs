@@ -98,7 +98,7 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" MATCH (UserA:User)-[rel:FRIEND]-(UserB:User) " +
                                             " WHERE (UserA.UserID = {UserID_A}) AND (UserB.UserID = {UserID_B}) " +
                                             " MATCH (previousB)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)-[relNB:EGO {UserID : UserA.UserID}]->(nextB) " +
-                                            " MATCH (previousA)-[relPA:EGO {UserID : UserB.UserID}]->(UserB)-[relNA:EGO {UserID : UserB.UserID}]->(nextA) " +
+                                            " MATCH (previousA)-[relPA:EGO {UserID : UserB.UserID}]->(UserA)-[relNA:EGO {UserID : UserB.UserID}]->(nextA) " +
                                             " DElETE rel, relPA, relPB, relNA, relNB " +
                                             " CREATE (previousA)-[:EGO {UserID : UserB.UserID}]->(nextA) " +
                                             " CREATE (previousB)-[:EGO {UserID : UserA.UserID}]->(nextB) " +
@@ -160,7 +160,10 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetFriendList(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:FRIEND]-(Friend:User)").Where((User user) => user.UserID == UserID).Return(Friend => Friend.As<User>()).Results.ToList<User>();
+            return Db.Cypher.Match("(User:User)-[:FRIEND]-(Friend:User)").
+                Where((User user) => user.UserID == UserID).
+                AndWhere("Friend.UserID <> 'TEMP'").
+                Return(Friend => Friend.As<User>()).Results.ToList<User>();
         }
         public void DeleteAnActivity(Guid ActivityID)
         {
@@ -195,7 +198,9 @@ namespace Footprints.DAL.Concrete
         }
         public long GetNumberOfFriend(Guid UserID)
         {
-            var query = Db.Cypher.Match("(User:User)-[:FRIEND]-(Friend:User)").Where((User User) => User.UserID == UserID).
+            var query = Db.Cypher.Match("(User:User)-[:FRIEND]->(Friend:User)").
+                        Where((User User) => User.UserID == UserID).
+                        AndWhere("Friend.UserID <> 'TEMP'").
                         Return((Friend) => new
                         {
                             NumberOfFriend = Friend.Count()
