@@ -35,12 +35,6 @@ namespace Footprints.Controllers
             this.destinationSer = destinationSer;
         }
 
-        //public AdminController(IUserService userSer, IJourneyService journeySer, IDestinationService destinationSer)
-        //{
-        //    this.userSer = userSer;
-        //    this.journeySer = journeySer;
-        //    this.destinationSer = destinationSer;
-        //}
         //
         // GET: /Admin/       
 
@@ -83,14 +77,12 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditDestination(Destination Destination)
         {
-            destinationSer.UpdateDestinationForAdmin(Destination);
-            return RedirectToAction("Destination");
-            //if (ModelState.IsValid)
-            //{
-            //    destinationSer.UpdateDestinationForAdmin(Destination);
-            //    return RedirectToAction("Destination");
-            //}
-            //return View(Destination);
+            if (ModelState.IsValid)
+            {
+                destinationSer.UpdateDestinationForAdmin(Destination);
+                return RedirectToAction("Destination");
+            }
+            return View(Destination);
         }
 
         public ActionResult UserList(int? page)
@@ -110,7 +102,6 @@ namespace Footprints.Controllers
                 //await UserManager.DeleteAsync(user);                
             }
             return RedirectToAction("UserList");
-
 
 
             ////Guid CurrentAdminID = new Guid("5BBE3A24-99A2-4DE5-85B9-FF8599CF26CD");
@@ -136,7 +127,7 @@ namespace Footprints.Controllers
             //{
             //    return RedirectToAction("UserList");
             //}
-        }
+        }        
 
         public ActionResult Journey(int? page)
         {
