@@ -141,7 +141,7 @@ namespace Footprints.DAL.Concrete
                 OptionalMatch("(Destination)-[:HAS]->(Content:Content)").
                 OptionalMatch("(Activity:Activity)").
                 Where((Activity Activity) => Activity.DestinationID == DestinationID).
-                Set("Activity.Status = 'DELETED'").
+                Set("Activity.Status = 'Deleted'").
                 Delete("Destination, r, Place, Content").
                 ExecuteWithoutResults();
         }
@@ -154,7 +154,7 @@ namespace Footprints.DAL.Concrete
                 OptionalMatch("(Destination)-[:HAS]->(Content:Content)").
                 OptionalMatch("(Activity:Activity)").
                 Where((Activity Activity) => Activity.DestinationID == DestinationID).
-                Set("Activity.Status = 'DELETED'").
+                Set("Activity.Status = 'Deleted'").
                 Delete("Destination, r, Place, Content").
                 ExecuteWithoutResults();
         }
@@ -203,7 +203,7 @@ namespace Footprints.DAL.Concrete
         public void DeleteContent(Guid UserID, Guid ContentID)
         {
             Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)-[r]-()").Where((Content Content) => Content.ContentID == ContentID).AndWhere((User User) => User.UserID == UserID).
-                Match("(Activity:Activity)").Where((Activity Activity) => Activity.ContentID == ContentID).Set("Activity.Status = 'DELETED'").Delete("Content, r").ExecuteWithoutResults();
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.ContentID == ContentID).Set("Activity.Status = 'Deleted'").Delete("Content, r").ExecuteWithoutResults();
         }
         public IList<Content> GetAllContent(Guid DestinationID)
         {
