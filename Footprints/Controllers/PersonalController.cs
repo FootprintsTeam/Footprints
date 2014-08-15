@@ -23,7 +23,8 @@ namespace Footprints.Controllers
         IJourneyService journeyService;
         IDestinationService destinationService;
 
-        public PersonalController(IUserService userService, IJourneyService journeyService, IDestinationService destinationService) {
+        public PersonalController(IUserService userService, IJourneyService journeyService, IDestinationService destinationService)
+        {
             this.userService = userService;
             this.journeyService = journeyService;
             this.destinationService = destinationService;
@@ -34,9 +35,9 @@ namespace Footprints.Controllers
         {
             var model = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
-            
+
             //var model = PersonalViewModel.GetSampleObject();            
-            return View(viewModel);            
+            return View(viewModel);
         }
         public ActionResult About()
         {
@@ -45,12 +46,14 @@ namespace Footprints.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(PersonalAboutViewModel model) {
+        public ActionResult Update(PersonalAboutViewModel model)
+        {
             return View();
         }
 
         [HttpGet]
-        public ActionResult Update() {
+        public ActionResult Update()
+        {
             var model = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
             var viewModel = Mapper.Map<User, PersonalAboutViewModel>(model);
             return View(viewModel);
@@ -59,7 +62,8 @@ namespace Footprints.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AddCoverPhoto() {
+        public ActionResult AddCoverPhoto()
+        {
             FileInfoList fileInforList = null;
             if (Request.Files.Count > 0)
             {
@@ -81,7 +85,8 @@ namespace Footprints.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AddAvatarPhoto() {
+        public ActionResult AddAvatarPhoto()
+        {
             FileInfoList fileInforList = null;
             if (Request.Files.Count > 0)
             {
@@ -99,5 +104,12 @@ namespace Footprints.Controllers
             }
             return Json(fileInforList, JsonRequestBehavior.AllowGet);
         }
-	}
+
+        public ActionResult MakeFriend(Guid userID)
+        {
+            var currentUserID = new Guid(User.Identity.GetUserId());
+            var result = userService.AddFriendRelationship(currentUserID, userID);
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+        }
+    }
 }
