@@ -214,7 +214,7 @@ namespace Footprints.DAL.Concrete
         //For Admin
         public bool DeleteUser(Guid UserID)
         {
-            CypherQuery query = new CypherQuery(" OPTIONAL MATCH (User:User)-[r]-() WHERE (User.UserID = {UserID}) AND (User.Status <> 'Admin') " +
+            CypherQuery query = new CypherQuery(" OPTIONAL MATCH (User:User)-[r]-() WHERE (User.UserID = {UserID})" +
                                                 " OPTIONAL MATCH (User)-[:LATEST_ACTIVITY]->(LatestActivity:Activity) " +
                                                 " OPTIONAL MATCH (LatestActivity)-[:NEXT*]->(NextActivity:Activity) " +
                                                 " OPTIONAL MATCH (User)-[:FRIEND]-(friend:User) " +
