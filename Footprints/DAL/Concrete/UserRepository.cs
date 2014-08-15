@@ -251,7 +251,7 @@ namespace Footprints.DAL.Concrete
 
         public bool CheckFriendShip(Guid UserID_A, Guid UserID_B)
         {
-            var query = Db.Cypher.OptionalMatch("(UserA:User {UserID : {UserID_A}})-[rel:FRIEND]->(UserB:User {UserID : {UserID_B}})").
+            var query = Db.Cypher.OptionalMatch("(UserA:User {UserID : {UserID_A}})-[rel:FRIEND]->(UserB:User {UserID : {UserID_B}})").WithParams(new { UserID_A = UserID_A, UserID_B = UserID_B}).
                         Where("rel IS NOT NULL").Return(UserA => UserA.As<User>()).Results;
             return query.Count() > 0 ? true : false;
         }
