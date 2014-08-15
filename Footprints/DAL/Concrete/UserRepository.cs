@@ -47,33 +47,7 @@ namespace Footprints.DAL.Concrete
             return query.Count() > 0 ? true : false;
         }
         public bool AddFriendRelationship(Guid UserID_A, Guid UserID_B)
-        {
-            //Cypher Query
-            //MATCH (userA:User {UserID : '1'}),(userB:User {UserID : '13'})
-            //CREATE (userA)-[:FRIEND]->(userB)
-            //CREATE (userB)-[:FRIEND]->(userA)
-            //CREATE (activityOfA:Activity { type : "ADD_NEW_FRIEND", userID : '13' ,timestamp : '03/07/2014'})
-            //CREATE (activityOfB:Activity { type : "ADD_NEW_FRIEND", userID : '1' ,timestamp : '03/07/2014'})
-            //WITH userA, userB, activityOfA, activityOfB
-            //MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA)
-            //    DELETE f
-            //    CREATE (userA)-[:LATEST_ACTIVITY]->(activityOfA)
-            //    CREATE (activityOfA)-[:NEXT]->(nextActivityA)
-            //WITH userA, userB, activityOfA, activityOfB
-            //MATCH (userB)-[fi:LATEST_ACTIVITY]->(nextActivityB)
-            //    DELETE fi
-            //    CREATE (userB)-[:LATEST_ACTIVITY]->(activityOfB)
-            //    CREATE (activityOfB)-[:NEXT]->(nextActivityB)
-            //WITH userA, userB 
-            //MATCH (userA)-[egoA:EGO {UserID : '1'}]->(EgoNodeOfA)
-            //    DELETE egoA
-            //    CREATE (userA)-[:EGO {UserID : '1'}]->(userB)
-            //    CREATE (userB)-[:EGO {UserID : '1'}]->(EgoNodeOfA)
-            //WITH userA, userB
-            //MATCH (userB)-[egoB:EGO {UserID : '13'}]->(EgoNodeOfB)
-            //    DELETE egoB
-            //    CREATE (userB)-[:EGO {UserID : '13'}]->(userA)
-            //    CREATE (userA)-[:EGO {UserID : '13'}]->(EgoNodeOfB)
+        {            
             Activity ActivityOfA = new Activity
             {
                 ActivityID = Guid.NewGuid(),
@@ -87,36 +61,7 @@ namespace Footprints.DAL.Concrete
                 Type = "ADD_NEW_FRIEND",
                 UserID = UserID_A,
                 Timestamp = DateTimeOffset.Now
-            };
-            //String EgoEdgeOfUserA = UserID_A.ToString();
-            //String EgoEdgeOfUserB = UserID_B.ToString();
-            //Db.Cypher.Match("(userA:User), (userB:User)").Where((User userA) => userA.UserID == UserID_A).
-            //                         AndWhere((User userB) => userB.UserID == UserID_B).
-            //                         Create("(userA)-[:FRIEND]->(userB)").
-            //                         Create("(userB)-[:FRIEND]->(userA)").
-            //                         Create("(activityOfA:Activity {activityOfA})").WithParams(new { activityOfA = ActivityOfA }).
-            //                         Create("(activityOfA:Activity {activityOfB})").WithParams(new { activityOfB = ActivityOfB }).                                                                         
-            //                         With("userA, userB, activityOfA, activityOfB").
-            //                         Match("(userA)-[f:LATEST_ACTIVITY]->(nextActivityA)").
-            //                         Delete("f").
-            //                         Create("(userA)-[:LATEST_ACTIVITY]->(activityOfA)").
-            //                         Create("(activityOfA)-[:NEXT]->(nextActivityA)").
-            //                         With("userA, userB, activityOfA, activityOfB").                                                                       
-            //                         Match("(userB)-[fi:LATEST_ACTIVITY]->(nextActivityB)").
-            //                         Delete("fi").
-            //                         Create("(userB)-[:LATEST_ACTIVITY]->(activityOfB)").
-            //                         Create("(activityOfB)-[:NEXT]->(nextActivityB)").
-            //                         With("userA, userB").
-            //                         Match("(userA)-[egoA:EGO {UserID : {egoA} }]->(EgoNodeOfA)").WithParams(new {egoA = EgoEdgeOfUserA}).
-            //                         Delete("egoA").
-            //                         Create("(userA)-[:EGO {UserID : {egoA}}]->(userB)").WithParams(new { egoA = EgoEdgeOfUserA }).
-            //                         Create("(userB)-[:EGO {UserID : {egoA}}]->(EgoNodeOfA)").WithParams(new { egoA = EgoEdgeOfUserA }).         
-            //                         With("userA, userB").
-            //                         OptionalMatch("(userB)-[egoB:EGO {UserID : {egoB}}]->(EgoNodeOfB)").WithParams(new { egoB = EgoEdgeOfUserB }).
-            //                         Delete("egoB").
-            //                         Create("(userB)-[:EGO {UserID : {egoB}}]->(userA)").WithParams(new { egoB = EgoEdgeOfUserB }).
-            //                         Create("(userA)-[:EGO {UserID : {egoB}}]->(EgoNodeOfB)").WithParams(new { egoB = EgoEdgeOfUserB }).               
-            //                         ExecuteWithoutResults();
+            };            
             CypherQuery query = new CypherQuery(" MATCH (userA:User {UserID : {UserID_A}}),(userB:User {UserID : {UserID_B}})" +
                                                 " CREATE (userA)-[:FRIEND]->(userB) " + 
                                                 " CREATE (userB)-[:FRIEND]->(userA) " +
