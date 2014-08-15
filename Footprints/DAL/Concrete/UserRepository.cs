@@ -259,6 +259,7 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.OptionalMatch("(User:User {UserID : {UserID}})-[:HAS]->(Journey:Journey)").
                         OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
+                        WithParam("UserID", UserID).
                         With("Journey, Destination").
                         OrderBy("Destination.OrderNumber").
                         Return((Journey, Destination) => new
@@ -269,45 +270,89 @@ namespace Footprints.DAL.Concrete
                             DestinationName = Return.As<String>("Destination.Name")
                         }).Results;
             List<Journey> result = null;
-            bool first = true, check = true;
+            bool first = true;
+            //bool check = true;
             Journey currentJourney = null;
-            Destination currentDestination = new Destination();
+            Destination currentDestination = null;
+            //Destination currentDestination = new Destination();
             foreach (var item in query)
             {
+                
                 if (first)
                 {
+                    currentDestination = new Destination
+                    {
+                        DestinationID = item.DestinationID,
+                        Name = item.DestinationName,
+                        JourneyID = item.JourneyID
+                    };
+                    currentJourney = new Journey
+                    {
+                        JourneyID = item.JourneyID,
+                        Name = item.JourneyName,
+                        Destinations = new List<Destination> {currentDestination}
+                    };
                     result = new List<Journey>();
-                    first = false;
+                    result.Add(currentJourney);
                 }
-                if (currentJourney.JourneyID.Equals(item.JourneyID))
+                if (currentJourney.JourneyID != item.JourneyID)
                 {
-                    check = false;
-                    currentDestination = new Destination();
-                    if (item.DestinationID != null)
+                    currentJourney = new Journey
                     {
-                        currentDestination.DestinationID = item.DestinationID;
-                        check = true;
-                    }
-                    if (item.DestinationName != null)
-                    {
-                        currentDestination.Name = item.DestinationName;
-                        check = true;
-                    }
-                    if (check) currentJourney.Destinations.Add(currentDestination);
+                        JourneyID = item.JourneyID,
+                        Name = item.JourneyName,
+                        Destinations = new List<Destination>()
+                    };
+                    result.Add(currentJourney);
                 }
-                else
+                if (currentDestination.DestinationID != item.DestinationID)
                 {
-                    if (currentJourney != null) result.Add(currentJourney);
-                    currentJourney = new Journey();
-                    currentJourney.JourneyID = item.JourneyID;
-                    if (item.JourneyName != null) currentJourney.Name = item.JourneyName;
-                    currentJourney.Destinations = new List<Destination>();
-                    currentDestination = new Destination();
-                    if (item.DestinationID != null) currentDestination.DestinationID = item.DestinationID;
-                    if (item.DestinationName != null) currentDestination.Name = item.DestinationName;
+                    currentDestination = new Destination
+                    {
+                        DestinationID = item.DestinationID,
+                        Name = item.DestinationName,
+                        JourneyID = item.JourneyID
+                    };
                     currentJourney.Destinations.Add(currentDestination);
                 }
             }
+            //foreach (var item in query)
+            //{
+            //    if (first)
+            //    {
+            //        result = new List<Journey>();
+            //        currentJourney = item.
+            //        first = false;
+            //    }
+            //    if (currentJourney.JourneyID.Equals(item.JourneyID))
+            //    {
+            //        check = false;
+            //        currentDestination = new Destination();
+            //        if (item.DestinationID != null)
+            //        {
+            //            currentDestination.DestinationID = item.DestinationID;
+            //            check = true;
+            //        }
+            //        if (item.DestinationName != null)
+            //        {
+            //            currentDestination.Name = item.DestinationName;
+            //            check = true;
+            //        }
+            //        if (check) currentJourney.Destinations.Add(currentDestination);
+            //    }
+            //    else
+            //    {
+            //        if (currentJourney != null) result.Add(currentJourney);
+            //        currentJourney = new Journey();
+            //        currentJourney.JourneyID = item.JourneyID;
+            //        if (item.JourneyName != null) currentJourney.Name = item.JourneyName;
+            //        currentJourney.Destinations = new List<Destination>();
+            //        currentDestination = new Destination();
+            //        if (item.DestinationID != null) currentDestination.DestinationID = item.DestinationID;
+            //        if (item.DestinationName != null) currentDestination.Name = item.DestinationName;
+            //        currentJourney.Destinations.Add(currentDestination);
+            //    }
+            //}
             return result;
         }
     }

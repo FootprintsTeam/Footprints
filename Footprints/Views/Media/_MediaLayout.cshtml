@@ -2,15 +2,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Styles.Render("~/css/media")
-<div class="container">
+<div class="container" style="margin-top:60px">
     <div class="innerAll">
         <div class="row">
-	        @*Timeline cover*@
-            @*@{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}*@
-        </div>
-        <div class="row">
             <div class="col-lg-9 col-md-8">
-
+                @*Timeline cover*@
+                @*@{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}*@
                 <div class="widget widget-gallery" data-toggle="collapse-widget">
                     <div class="widget-head"><h4 class="heading">Photo Gallery</h4></div>
                     <div class="widget-body">

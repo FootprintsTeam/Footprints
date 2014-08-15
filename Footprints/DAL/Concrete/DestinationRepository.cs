@@ -207,7 +207,7 @@ namespace Footprints.DAL.Concrete
         }
         public IList<Content> GetAllContent(Guid DestinationID)
         {
-            return Db.Cypher.Match("(Destination:Destination)-[:HAS]->(Content:Content)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(content => content.As<Content>()).Results.ToList<Content>();
+            return Db.Cypher.Match("(Destination:Destination)-[:HAS]->(Content:Content)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(Content => Content.As<Content>()).Results.ToList<Content>();
         }
         public void LikeDestination(Guid UserID, Guid DestinationID)
         {

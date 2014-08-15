@@ -58,7 +58,7 @@ namespace Footprints.ViewModels
         public String JourneyName { get; set; }
         public Guid DestinationID { get; set; }
         public String DestinationName { get; set; }
-        public List<Content> Photos { get; set; }
+        public IList<Content> Photos { get; set; }
 
         public static AlbumDetailsViewModel GetSampleObject()
         {

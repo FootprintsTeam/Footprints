@@ -8,26 +8,6 @@
    };
    var destinationID = @Model.DestinationID.ToString();}
 
-<script type="text/javascript">
-    //get data from callback and insert html
-    function commentAdd(data) {
-        var target = $("@String.Format("#section-form{0}", Model.DestinationID.ToString())");
-
-        for (var i = 0; i < data.length; i++) {
-            var comment = data[i];
-            target.before(
-                '<div class="media innerAll bg-gray margin-none border-top border-bottom">'
-                + '<a class="pull-left" href="#"><img src="' + comment.UserAvatarURL + '" alt="photo" class="media-object" width="35"></a>'
-                + '<div class="media-body">'
-                + '<a href="" class="strong text-inverse">' + comment.UserCommentName + '</a>'+'&nbsp' + comment.Content
-                + '<div class="timeline-bottom">'
-                + '<i class="fa fa-clock-o"></i> - &nbsp' + comment.TimeAgo
-                + '</div></div></div>'
-                );
-        }
-    }
-</script>
-
 <li>
     <span class="marker"></span>
     <div class="block block-inline">
@@ -36,7 +16,7 @@
             <div class="timeline-top-info">
                 <i class="fa fa-user"></i>
                 <a href="" class="text-inverse">@Model.UserName</a> visited
-                <a href="" class="text-info"><i class="fa fa-location-arrow"></i> @Model.Place.Name</a>
+                <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID})" class="text-info"><i class="fa fa-location-arrow"></i> @Model.Place.Name</a>
             </div>
             <div class="media margin-none">
                 <div class="row innerLR innerB">
@@ -100,4 +80,20 @@
             $("comment-form" + "@destinationID").submit();
         }
     });
+    function commentAdd(data) {
+        var target = $("@String.Format("#section-form{0}", Model.DestinationID.ToString())");
+
+        for (var i = 0; i < data.length; i++) {
+            var comment = data[i];
+            target.before(
+                '<div class="media innerAll bg-gray margin-none border-top border-bottom">'
+                + '<a class="pull-left" href="#"><img src="' + comment.UserAvatarURL + '" alt="photo" class="media-object" width="35"></a>'
+                + '<div class="media-body">'
+                + '<a href="" class="strong text-inverse">' + comment.UserCommentName + '</a>'+'&nbsp' + comment.Content
+                + '<div class="timeline-bottom">'
+                + '<i class="fa fa-clock-o"></i> - &nbsp' + comment.TimeAgo
+                + '</div></div></div>'
+                );
+        }
+    }
 </script>

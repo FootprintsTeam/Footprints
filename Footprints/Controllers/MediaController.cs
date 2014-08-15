@@ -17,10 +17,12 @@ namespace Footprints.Controllers
     {
         IDestinationService destinationService;
         IJourneyService journeyService;
-        public MediaController(IDestinationService destinationService, IJourneyService journeyService)
+        IUserService userService;
+        public MediaController(IDestinationService destinationService, IJourneyService journeyService, IUserService userService)
         {
             this.destinationService = destinationService;
             this.journeyService = journeyService;
+            this.userService = userService;
         }
         //
         // GET: /Media/
@@ -40,10 +42,36 @@ namespace Footprints.Controllers
                 return View();
             }
         }
-        public ActionResult Albums()
+        public ActionResult Albums(Guid userID)
         {
-            var model = AlbumsViewModel.GetSampleObject();
-            return View(model);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Albums", "Media", new { userID = User.Identity.GetUserId()});
+            }
+            var journeyList = userService.GetJourneyThumbnail(userID);
+            var albumsViewModel = new AlbumsViewModel();
+            if (journeyList != null && journeyList.Count > 0)
+            {
+                AlbumDetailsViewModel albumDetailsViewModel;
+                foreach (var journey in journeyList)
+                {
+                    albumsViewModel.AlbumList = new List<AlbumDetailsViewModel>();
+                    foreach (var destination in journey.Destinations)
+                    {
+                        albumDetailsViewModel = new AlbumDetailsViewModel();
+                        albumDetailsViewModel.DestinationID = destination.DestinationID;
+                        albumDetailsViewModel.DestinationName = destination.Name;
+                        albumDetailsViewModel.JourneyID = journey.JourneyID;
+                        albumDetailsViewModel.JourneyName = journey.Name;
+                        albumDetailsViewModel.Photos = destinationService.GetAllContent(destination.DestinationID);
+                        if (albumDetailsViewModel.Photos != null)
+                        albumDetailsViewModel.NumberOfPhotos = albumDetailsViewModel.Photos.Count();
+                        albumsViewModel.AlbumList.Add(albumDetailsViewModel);
+                    }
+                }
+                
+            }
+            return View(albumsViewModel);
         }
 
         public ActionResult AlbumDetails(Guid DestinationID, Guid AlbumID)

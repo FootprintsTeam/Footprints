@@ -1,7 +1,6 @@
 ﻿@model Footprints.ViewModels.AlbumDetailsViewModel
 <div class="widget widget-gallery" data-toggle="collapse-widget">
     <div class="widget-head">
-        @Html.ActionLink(@Model.DestinationName + " - " + @Model.JourneyName, "Index", new { controller = "Destination" }, new { @class = "pull-left text-inverse innerL" })
         <div class="pull-left text-inverse">
             @Html.ActionLink(@Model.DestinationName, "Index", new { controller = "Destination", destinationID = @Model.DestinationID }, new { @class = "innerL" })
             @Html.ActionLink(@Model.JourneyName, "Index", new { controller = "Journey", journeyID = @Model.JourneyID }, new { @class = "innerL" })
