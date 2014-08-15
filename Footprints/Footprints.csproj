@@ -2604,6 +2604,7 @@
     <Content Include="Views\Personal\AddPhotoPersonalWidget.cshtml" />
     <Content Include="Views\Personal\CommentPersonalWidget.cshtml" />
     <Content Include="Views\Personal\AddDestinationWidget.cshtml" />
+    <Content Include="Views\Admin\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
