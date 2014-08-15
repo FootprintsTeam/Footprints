@@ -106,19 +106,19 @@ namespace Footprints.DAL.Concrete
                                             " OPTIONAL MATCH (UserA)-[:LATEST_ACTIVITY]->(LatestActivityA) " +
                                             " OPTIONAL MATCH (LatestActivityA)-[:NEXT*]->(NextActivityA) " +
                                             " WITH UserA, UserB, LatestActivityA, NextActivityA " +
-                                            " WHERE (LatestActivityA.UserID = UserB.UserID) " +
+                                            " WHERE (LatestActivityA.UserID IS NOT NULL) AND (LatestActivityA.UserID = UserB.UserID) " +
                                             " SET LatestActivityA.Status = 'DELETED' " +
                                             " WITH UserA, UserB, NextActivityA " +
-                                            " WHERE (NextActivityA.UserID = UserB.UserID) " +
+                                            " WHERE (NextActivityA.UserID IS NOT NULL) AND (NextActivityA.UserID = UserB.UserID) " +
                                             " SET NextActivityA.Status = 'DELETED' " +
                                             " WITH UserA, UserB " +
                                             " OPTIONAL MATCH (UserB)-[:LATEST_ACTIVITY]->(LatestActivityB) " +
                                             " OPTIONAL MATCH (LatestActivityB)-[:NEXT*]->(NextActivityB) " +
                                             " WITH UserA, LatestActivityB, NextActivityB " +
-                                            " WHERE (LatestActivityB.UserID = UserA.UserID) " +
+                                            " WHERE (LatestActivityB.UserID IS NOT NULL) AND (LatestActivityB.UserID = UserA.UserID) " +
                                             " SET LatestActivityB.Status = 'DELETED' " +
                                             " WITH UserA, NextActivityB " +
-                                            " WHERE (NextActivityB.UserID = UserA.UserID) " +
+                                            " WHERE (NextActivityB.UserID IS NOT NULL) AND (NextActivityB.UserID = UserA.UserID) " +
                                             " SET NextActivityB.Status = 'DELETED'", 
                 new Dictionary<String, Object> { {"UserID_A", UserID_A}, {"UserID_B", UserID_B} }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
