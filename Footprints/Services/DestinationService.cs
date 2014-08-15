@@ -139,7 +139,7 @@ namespace Footprints.Services
         }
         public void DeleteDestinationForAdmin(Guid DestinationID)
         {
-             _destinationRepo.DeleteDestinationForAdmin(DestinationID);
+            _destinationRepo.DeleteDestinationForAdmin(DestinationID);
         }
     }
 }
