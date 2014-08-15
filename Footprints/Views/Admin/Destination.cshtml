@@ -136,7 +136,7 @@
                                     <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
                                     <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
                                     @Html.ActionLink("Edit", "EditDestination", "Admin", new { DestinationID = destination.DestinationID }, new { @class = "btn btn-success" })
-                                    @Html.ActionLink("Del", "DeleteDestination", "Admin", new { UserID = destination.UserID, DestinationID = destination.DestinationID }, new { @class = "btn btn-danger" })
+                                    @Html.ActionLink("Del", "DeleteDestination", "Admin", new { DestinationID = destination.DestinationID }, new { @class = "btn btn-danger" })
                                 </div>
                             </td>
                         </tr>

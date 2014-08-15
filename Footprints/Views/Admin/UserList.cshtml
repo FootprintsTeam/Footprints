@@ -1,10 +1,11 @@
-﻿@model IList<Footprints.Models.User>
+﻿@model PagedList.IPagedList<Footprints.Models.User>
 @{
     ViewBag.Title = "User";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 @Styles.Render("~/css/admin");
 
+@using PagedList.Mvc
 <!-- <div class="layout-app">  -->
 <div class="innerLR" style="padding-top: 70px;">
     <h3 class="margin-none pull-left">Journey Management</h3>
@@ -154,11 +155,8 @@
             <!-- // With selected actions END -->
             <!-- Pagination -->
             <ul class="pagination pull-right margin-none">
-                <li class="disabled"><a href="#">&laquo;</a></li>
-                <li class="active"><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">&raquo;</a></li>
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                @Html.PagedListPager(Model, page => Url.Action("UserList", new { page }))
             </ul>
             <div class="clearfix"></div>
             <!-- // Pagination END -->

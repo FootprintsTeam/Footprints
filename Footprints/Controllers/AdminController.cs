@@ -8,24 +8,42 @@ using Footprints.Models;
 using System.Net;
 using Microsoft.AspNet.Identity;
 using PagedList;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Threading.Tasks;
 
 namespace Footprints.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         public const int pageSize = 10;
-
         public IUserService userSer;
         public IJourneyService journeySer;
         public IDestinationService destinationSer;
+
+        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public AdminController(UserManager<ApplicationUser> userManager)
+        {
+            UserManager = userManager;
+        }
+
         public AdminController(IUserService userSer, IJourneyService journeySer, IDestinationService destinationSer)
+            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
             this.userSer = userSer;
             this.journeySer = journeySer;
             this.destinationSer = destinationSer;
         }
+
+        //public AdminController(IUserService userSer, IJourneyService journeySer, IDestinationService destinationSer)
+        //{
+        //    this.userSer = userSer;
+        //    this.journeySer = journeySer;
+        //    this.destinationSer = destinationSer;
+        //}
         //
-        // GET: /Admin/
+        // GET: /Admin/       
+
         public ActionResult Index()
         {
             return View();
@@ -38,24 +56,21 @@ namespace Footprints.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult DeleteDestination(Guid UserID, Guid DestinationID)
+        public ActionResult DeleteDestination(Guid DestinationID)
         {
-            if (UserID == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            else if (DestinationID == null)
+            if (DestinationID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             else
             {
-                destinationSer.DeleteDestination(UserID, DestinationID);
+                destinationSer.DeleteDestinationForAdmin(DestinationID);
                 return RedirectToAction("Destination");
             }
         }
 
-        public ActionResult EditDestination(Guid DestinationID) {
+        public ActionResult EditDestination(Guid DestinationID)
+        {
             if (DestinationID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -68,39 +83,59 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditDestination(Destination Destination)
         {
-            if (ModelState.IsValid)
-            {
-                destinationSer.UpdateDestinationForAdmin(Destination);
-                return RedirectToAction("Destination");
-            }
-            return View(Destination);
+            destinationSer.UpdateDestinationForAdmin(Destination);
+            return RedirectToAction("Destination");
+            //if (ModelState.IsValid)
+            //{
+            //    destinationSer.UpdateDestinationForAdmin(Destination);
+            //    return RedirectToAction("Destination");
+            //}
+            //return View(Destination);
         }
 
-        public ActionResult UserList()
+        public ActionResult UserList(int? page)
         {
+            int pageNumber = (page ?? 1);
             IList<User> list = userSer.GetUser();
-            return View(list);
+            return View(list.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult DeleteUser(Guid UserID)
+        public async Task<ActionResult> DeleteUser(Guid UserID)
         {
-            //Guid CurrentAdminID = new Guid(User.Identity.GetUserId());
-            Guid CurrentAdminID = new Guid("5BBE3A24-99A2-4DE5-85B9-FF8599CF26CD");
-            if (UserID == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            //check if admin wanna delete himself
-            else if (UserID == CurrentAdminID)
-            {
-                ModelState.AddModelError("", "Cannot delete your Admin account");
-                return RedirectToAction("UserList");
-            }
-            else
+            Guid CurrentAdminID = new Guid(User.Identity.GetUserId());
+            var user = await UserManager.FindByIdAsync(UserID.ToString());
+            if (user != null)
             {
                 userSer.DeleteUser(UserID);
-                return RedirectToAction("UserList");
+                //await UserManager.DeleteAsync(user);                
             }
+            return RedirectToAction("UserList");
+
+
+
+            ////Guid CurrentAdminID = new Guid("5BBE3A24-99A2-4DE5-85B9-FF8599CF26CD");
+            //System.Diagnostics.Debug.WriteLine("Init");
+            //if (UserID == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            ////check if admin wanna delete himself
+            //else if (UserID == CurrentAdminID)
+            //{
+            //    ModelState.AddModelError("", "Cannot delete your Admin account");
+            //    return RedirectToAction("UserList");
+            //}
+            //else if (user != null)            
+            //{
+            //    System.Diagnostics.Debug.WriteLine("StartDelete");
+            //    userSer.DeleteUser(UserID);
+            //    UserManager.Delete(user);
+            //    return RedirectToAction("UserList");
+            //}
+            //else
+            //{
+            //    return RedirectToAction("UserList");
+            //}
         }
 
         public ActionResult Journey(int? page)
