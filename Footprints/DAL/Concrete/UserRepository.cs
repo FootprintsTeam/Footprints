@@ -95,10 +95,10 @@ namespace Footprints.DAL.Concrete
         //TODO
         public bool DeleteFriendRelationship(Guid UserID_A, Guid UserID_B)
         {
-            CypherQuery query = new CypherQuery(" MATCH (UserA:User)-[rel:FRIEND]-(UserB:User) " +
+            CypherQuery query = new CypherQuery(" OPTIONAL MATCH (UserA:User)-[rel:FRIEND]-(UserB:User) " +
                                             " WHERE (UserA.UserID = {UserID_A}) AND (UserB.UserID = {UserID_B}) " +
-                                            " MATCH (previousB)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)-[relNB:EGO {UserID : UserA.UserID}]->(nextB) " +
-                                            " MATCH (previousA)-[relPA:EGO {UserID : UserB.UserID}]->(UserA)-[relNA:EGO {UserID : UserB.UserID}]->(nextA) " +
+                                            " OPTIONAL MATCH (previousB)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)-[relNB:EGO {UserID : UserA.UserID}]->(nextB) " +
+                                            " OPTIONAL MATCH (previousA)-[relPA:EGO {UserID : UserB.UserID}]->(UserA)-[relNA:EGO {UserID : UserB.UserID}]->(nextA) " +
                                             " DElETE rel, relPA, relPB, relNA, relNB " +
                                             " CREATE (previousA)-[:EGO {UserID : UserB.UserID}]->(nextA) " +
                                             " CREATE (previousB)-[:EGO {UserID : UserA.UserID}]->(nextB) " +
