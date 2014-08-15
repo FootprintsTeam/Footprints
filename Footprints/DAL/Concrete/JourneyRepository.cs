@@ -301,6 +301,12 @@ namespace Footprints.DAL.Concrete
                         Return<Journey>("Journey").Results;
             return query.Count<Journey>() > 0 ? true : false;
         }
+        public int GetNumberOfContent(Guid JourneyID)
+        {
+            var query = Db.Cypher.OptionalMatch("(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content)").
+                   Where((Journey Journey) => Journey.JourneyID == JourneyID).Return<int>("Count(Content)").Results;
+            return query.Count() == 0 ? 0 : query.First();
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -323,6 +329,7 @@ namespace Footprints.DAL.Concrete
         bool UserAlreadyLiked(Guid UserID, Guid JourneyID);
         bool UserAlreadyShared(Guid UserID, Guid JourneyID);
         bool UpdateJourneyForAdmin(Journey Journey);
-        bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);      
+        bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);
+        int GetNumberOfContent(Guid JourneyID);
     }
 }

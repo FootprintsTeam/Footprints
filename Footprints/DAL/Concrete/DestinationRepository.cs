@@ -109,6 +109,19 @@ namespace Footprints.DAL.Concrete
                 Return(destination => destination.As<Destination>()).Results;
             return query.Count<Destination>() > 0 ? true : false;
         }
+
+        public bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp)
+        {
+            var query = Db.Cypher.OptionalMatch("(user:User)-[:HAS]->(Journey:Journey)-[:HAS]->(destination:Destination)").Where((Destination destination) => destination.DestinationID == DestinationID).AndWhere((User user) => user.UserID == UserID).
+                Set("destination.Name = {Name}, destination.Description = {Description}, destination.TakenDate = {TakenDate}, destination.Timestamp = {Timestamp}").
+                WithParams(new Dictionary<String, Object> {{"Name", Name}, {"Description", Description}, {"TakenDate", TakenDate}, {"Timestamp", Timestamp}}).
+                Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference } )").
+                WithParam("Place", Place).
+                Merge("(destination)-[:AT]->(place)").
+                Return(destination => destination.As<Destination>()).Results;
+            return query.Count<Destination>() > 0 ? true : false;
+        }
+
         public bool UpdateDestinationForAdmin(Destination Destination)
         {
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).
@@ -378,6 +391,7 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfContent(Guid UserID);
         IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID);
         void DeleteDestinationForAdmin(Guid DestinationID);
+        bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);
     }
 
 }
