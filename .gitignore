@@ -213,3 +213,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+/packages/jQuery.Validation.Unobtrusive.2.0.20710.0/jQuery.Validation.Unobtrusive.2.0.20710.0.nupkg
