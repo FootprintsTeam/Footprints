@@ -3,13 +3,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Styles.Render("~/css/media")
-<div class="container">
+<div class="container" style="margin-top:60px">
     <div class="innerAll">
         <div class="row">
             <div class="col-lg-9 col-md-8">
-
+                @*Timeline cover*@
+                @*@{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}*@
                 @{Html.RenderPartial("GalleryWidget", Model);}
-                
+
             </div>
         </div>
     </div>
