@@ -255,6 +255,61 @@ namespace Footprints.DAL.Concrete
                         Where("rel IS NOT NULL").Return(UserA => UserA.As<User>()).Results;
             return query.Count() > 0 ? true : false;
         }
+        public IList<Journey> GetJourneyThumbnail(Guid UserID)
+        {
+            var query = Db.Cypher.OptionalMatch("(User:User {UserID : {UserID}})-[:HAS]->(Journey:Journey)").
+                        OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
+                        With("Journey, Destination").
+                        OrderBy("Destination.OrderNumber").
+                        Return((Journey, Destination) => new
+                        {
+                            JourneyID = Return.As<Guid>("Journey.JourneyID"),
+                            JourneyName = Return.As<String>("Journey.Name"),
+                            DestinationID = Return.As<Guid>("Destination.DestinationID"),
+                            DestinationName = Return.As<String>("Destination.Name")
+                        }).Results;
+            List<Journey> result = null;
+            bool first = true, check = true;
+            Journey currentJourney = null;
+            Destination currentDestination = new Destination();
+            foreach (var item in query)
+            {
+                if (first)
+                {
+                    result = new List<Journey>();
+                    first = false;
+                }
+                if (currentJourney.JourneyID.Equals(item.JourneyID))
+                {
+                    check = false;
+                    currentDestination = new Destination();
+                    if (item.DestinationID != null)
+                    {
+                        currentDestination.DestinationID = item.DestinationID;
+                        check = true;
+                    }
+                    if (item.DestinationName != null)
+                    {
+                        currentDestination.Name = item.DestinationName;
+                        check = true;
+                    }
+                    if (check) currentJourney.Destinations.Add(currentDestination);
+                }
+                else
+                {
+                    if (currentJourney != null) result.Add(currentJourney);
+                    currentJourney = new Journey();
+                    currentJourney.JourneyID = item.JourneyID;
+                    if (item.JourneyName != null) currentJourney.Name = item.JourneyName;
+                    currentJourney.Destinations = new List<Destination>();
+                    currentDestination = new Destination();
+                    if (item.DestinationID != null) currentDestination.DestinationID = item.DestinationID;
+                    if (item.DestinationName != null) currentDestination.Name = item.DestinationName;
+                    currentJourney.Destinations.Add(currentDestination);
+                }
+            }
+            return result;
+        }
     }
 
     public interface IUserRepository : IRepository<User>
@@ -281,5 +336,6 @@ namespace Footprints.DAL.Concrete
         bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
         bool ChangePassword(Guid UserID, String Password);
         bool CheckFriendShip(Guid UserID_A, Guid UserID_B);
+        IList<Journey> GetJourneyThumbnail(Guid UserID);
     }
 }

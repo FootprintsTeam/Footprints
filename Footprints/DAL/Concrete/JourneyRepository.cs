@@ -323,6 +323,6 @@ namespace Footprints.DAL.Concrete
         bool UserAlreadyLiked(Guid UserID, Guid JourneyID);
         bool UserAlreadyShared(Guid UserID, Guid JourneyID);
         bool UpdateJourneyForAdmin(Journey Journey);
-        bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);
+        bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);      
     }
 }

@@ -32,6 +32,8 @@ namespace Footprints.Services
         int GetNumberOfShare(Guid DestinationID);
         bool UserAlreadyShared(Guid UserID, Guid DestinationID);
         int GetNumberOfContent(Guid UserID);
+        IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID);
+        void DeleteDestinationForAdmin(Guid DestinationID);
     }
     public class DestinationService : IDestinationService
     {
@@ -130,6 +132,14 @@ namespace Footprints.Services
         public int GetNumberOfContent(Guid UserID)
         {
             return _destinationRepo.GetNumberOfContent(UserID);
+        }
+        public IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID)
+        {
+            return _destinationRepo.GetContentListWithSkipAndLimit(Skip, Limit, DestinationID);
+        }
+        public void DeleteDestinationForAdmin(Guid DestinationID)
+        {
+            return _destinationRepo.DeleteDestinationForAdmin(DestinationID);
         }
     }
 }

@@ -121,8 +121,19 @@ namespace Footprints.DAL.Concrete
         }
         public void DeleteDestination(Guid UserID, Guid DestinationID)
         {
-            Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]-()").Where((Destination Destination) => Destination.DestinationID == DestinationID).AndWhere((User User) => User.UserID == UserID).
-                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("Destination, r").ExecuteWithoutResults();
+            Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[r]->(n)").Where((Destination Destination) => Destination.DestinationID == DestinationID).AndWhere((User User) => User.UserID == UserID).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).Set("Activity.Status = 'DELETED'").Delete("Destination, r, n").ExecuteWithoutResults();
+        }
+        //For Admin
+        public void DeleteDestinationForAdmin(Guid DestinationID)
+        {
+            Db.Cypher.OptionalMatch("(Destination:Destination)-[r]->(n)").
+                Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                Match("(Activity:Activity)").
+                Where((Activity Activity) => Activity.DestinationID == DestinationID).
+                Set("Activity.Status = 'DELETED'").
+                Delete("Destination, r, n").
+                ExecuteWithoutResults();
         }
         public void AddNewContent(Content Content, Guid DestinationID, Guid UserID)
         {
@@ -322,7 +333,13 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)").Where((User User) => User.UserID == UserID).Return<int>("Count(Content)").Results;
             return query.Count() == 0 ? 0 : query.First();
         }
-
+        public IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID)
+        {
+            var query = Db.Cypher.OptionalMatch("(Destination:Destination)-[:HAS]->(Content:Content)").
+                        Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                        Return(Content => Content.As<Content>()).OrderBy("Content.Timestamp").Skip(Skip).Limit(Limit).Results;
+            return query.Count() == 0 ? null : query.ToList<Content>();
+        }
     }
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
@@ -349,6 +366,8 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfShare(Guid DestinationID);
         bool UserAlreadyShared(Guid UserID, Guid DestinationID);
         int GetNumberOfContent(Guid UserID);
+        IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID);
+        void DeleteDestinationForAdmin(Guid DestinationID);
     }
 
 }
