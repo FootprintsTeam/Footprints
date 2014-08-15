@@ -243,6 +243,13 @@ namespace Footprints.DAL.Concrete
                         Set("User.Password = {Password}").WithParam("Password", Password).Return(User => User.As<User>()).Results;
             return query.Count() > 0 ? true : false;
         }
+
+        public bool CheckFriendShip(Guid UserID_A, Guid UserID_B)
+        {
+            var query = Db.Cypher.OptionalMatch("(UserA:User {UserID : {UserID_A}})-[rel:FRIEND]->(UserB:User {UserID : {UserID_B}})").
+                        Where("rel IS NOT NULL").Return(UserA => UserA.As<User>()).Results;
+            return query.Count() > 0 ? true : false;
+        }
     }
 
     public interface IUserRepository : IRepository<User>
@@ -268,5 +275,6 @@ namespace Footprints.DAL.Concrete
         bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL);
         bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
         bool ChangePassword(Guid UserID, String Password);
+        bool CheckFriendShip(Guid UserID_A, Guid UserID_B);
     }
 }

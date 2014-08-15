@@ -30,6 +30,7 @@ namespace Footprints.Services
         bool UpdateProfilePicURL(Guid UserID, String ProfilePicURL);
         bool UpdateCoverPhotoURL(Guid UserID, String CoverPhotoURL);
         bool ChangePassword(Guid UserID, String Password);
+        bool CheckFriendShip(Guid UserID_A, Guid UserID_B);
     }
     public class UserService : IUserService
     {
@@ -124,5 +125,10 @@ namespace Footprints.Services
         {
             return _userRepo.ChangePassword(UserID, Password);
         }
+        public bool CheckFriendShip(Guid UserID_A, Guid UserID_B)
+        {
+            return _userRepo.CheckFriendShip(UserID_A, UserID_B);
+        }
+
     }
 }
