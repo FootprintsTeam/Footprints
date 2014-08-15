@@ -112,6 +112,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\StringUtilTests.cs" />
     <Compile Include="DITest\AutofacTest.cs" />
     <Compile Include="DITest\BaseTestClass.cs" />
     <Compile Include="DITest\CommentDALTest.cs" />

@@ -71,6 +71,7 @@ namespace Footprints.Controllers
             jsonModel.HTMLString = RenderPartialViewToString("PersonalWidgetViewModel", null);
             return Json(jsonModel);
         }
+
         [Authorize]
         [ChildActionOnly]
         public ActionResult MainNavBar() {

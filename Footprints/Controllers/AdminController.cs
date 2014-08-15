@@ -35,12 +35,6 @@ namespace Footprints.Controllers
             this.destinationSer = destinationSer;
         }
 
-        //public AdminController(IUserService userSer, IJourneyService journeySer, IDestinationService destinationSer)
-        //{
-        //    this.userSer = userSer;
-        //    this.journeySer = journeySer;
-        //    this.destinationSer = destinationSer;
-        //}
         //
         // GET: /Admin/       
 
@@ -83,14 +77,12 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditDestination(Destination Destination)
         {
-            destinationSer.UpdateDestinationForAdmin(Destination);
-            return RedirectToAction("Destination");
-            //if (ModelState.IsValid)
-            //{
-            //    destinationSer.UpdateDestinationForAdmin(Destination);
-            //    return RedirectToAction("Destination");
-            //}
-            //return View(Destination);
+            if (ModelState.IsValid)
+            {
+                destinationSer.UpdateDestinationForAdmin(Destination);
+                return RedirectToAction("Destination");
+            }
+            return View(Destination);
         }
 
         public ActionResult UserList(int? page)
@@ -104,39 +96,47 @@ namespace Footprints.Controllers
         {
             Guid CurrentAdminID = new Guid(User.Identity.GetUserId());
             var user = await UserManager.FindByIdAsync(UserID.ToString());
-            if (user != null)
+
+            if (UserID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //check if admin wanna delete himself
+            else if (UserID == CurrentAdminID)
+            {
+                ModelState.AddModelError("", "Cannot delete your Admin account");
+                return RedirectToAction("UserList");
+            }
+            else if (user != null)
             {
                 userSer.DeleteUser(UserID);
-                //await UserManager.DeleteAsync(user);                
+                await UserManager.DeleteAsync(user);                
             }
             return RedirectToAction("UserList");
-
-
-
-            ////Guid CurrentAdminID = new Guid("5BBE3A24-99A2-4DE5-85B9-FF8599CF26CD");
-            //System.Diagnostics.Debug.WriteLine("Init");
-            //if (UserID == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            ////check if admin wanna delete himself
-            //else if (UserID == CurrentAdminID)
-            //{
-            //    ModelState.AddModelError("", "Cannot delete your Admin account");
-            //    return RedirectToAction("UserList");
-            //}
-            //else if (user != null)            
-            //{
-            //    System.Diagnostics.Debug.WriteLine("StartDelete");
-            //    userSer.DeleteUser(UserID);
-            //    UserManager.Delete(user);
-            //    return RedirectToAction("UserList");
-            //}
-            //else
-            //{
-            //    return RedirectToAction("UserList");
-            //}
         }
+
+        public ActionResult EditUser(Guid UserID) {
+            if (UserID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Footprints.Models.User UserRetrieved = userSer.RetrieveUser(UserID);
+            return View(UserRetrieved);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUser(User User)
+        {
+            if (ModelState.IsValid)
+            {
+                userSer.UpdateUser(User);
+                return RedirectToAction("UserList");
+            }
+            return View(User);
+        }
+
 
         public ActionResult Journey(int? page)
         {
