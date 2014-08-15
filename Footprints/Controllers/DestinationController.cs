@@ -287,7 +287,7 @@ namespace Footprints.Controllers
                 }
                 var ContentID = Guid.NewGuid();
                 string deleteUrl = Url.Action("DeletePhoto", "Media", new { id = ContentID });
-                fileInforList = ImageProcessor.UploadPhoto(UserID, destination.AlbumID, ContentID, Request.Files.Get(0).InputStream, deleteUrl);
+                fileInforList = ImageProcessor.UploadPhoto(UserID.ToString(), destination.AlbumID.ToString(), ContentID.ToString(), Request.Files.Get(0).InputStream, deleteUrl);
                 if (fileInforList.files[0].error == null)
                 {
                     Content uploadedPhoto = new Content
@@ -316,6 +316,7 @@ namespace Footprints.Controllers
             if (userID == destination.UserID)
             {
                 destinationService.DeleteContent(userID, model.ContentID);
+                ImageProcessor.DeletePhoto(userID.ToString(), destination.AlbumID.ToString(), model.ContentID.ToString());
                 return Json(new { Result = "success", ContentID = model.ContentID }, JsonRequestBehavior.DenyGet);
             }
             else

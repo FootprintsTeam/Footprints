@@ -31,7 +31,7 @@ namespace Footprints.ViewModels
             {
                 ActivityID = new Guid(),
                 UserName = "Nhân Trịnh",
-                ProfilePicURL = Constant.defaultAvatarUrl,
+                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
                 Timestamp = DateTimeOffset.Now,
                 DestinationID = Guid.NewGuid(),
                 DestinationName = "Phố cổ Hà Nội",
@@ -55,7 +55,7 @@ namespace Footprints.ViewModels
             {
                 ActivityID = new Guid(),
                 UserName = "Nhân Trịnh",
-                ProfilePicURL = Constant.defaultAvatarUrl,
+                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
                 Timestamp = DateTimeOffset.Now,
                 DestinationID = Guid.NewGuid(),
                 DestinationName = "Phố cổ Hà Nội",
@@ -81,7 +81,7 @@ namespace Footprints.ViewModels
             {
                 ActivityID = new Guid(),
                 UserName = "Nhân Trịnh",
-                ProfilePicURL = Constant.defaultAvatarUrl,
+                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
                 Timestamp = DateTimeOffset.Now,
                 DestinationID = Guid.NewGuid(),
                 DestinationName = "Phố cổ Hà Nội",
@@ -104,7 +104,7 @@ namespace Footprints.ViewModels
             var sample = new PersonalWidgetViewModel {
                 ActivityID = new Guid(),
                 UserName = "Nhân Trịnh",
-                ProfilePicURL = Constant.defaultAvatarUrl,
+                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
                 Timestamp = DateTimeOffset.Now,
                 NumberOfJourney  = 10,
                 NumberOfDestination = 10,
@@ -127,7 +127,7 @@ namespace Footprints.ViewModels
             {
                 ActivityID = new Guid(),
                 UserName = "Nhân Trịnh",
-                ProfilePicURL = Constant.defaultAvatarUrl,
+                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
                 Timestamp = DateTimeOffset.Now,
                 DestinationID = Guid.NewGuid(),
                 DestinationName = "Phố cổ Hà Nội",
@@ -156,7 +156,7 @@ namespace Footprints.ViewModels
             {
                 ActivityID = new Guid(),
                 UserName = "Nhân Trịnh",
-                ProfilePicURL = Constant.defaultAvatarUrl,
+                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
                 Timestamp = DateTimeOffset.Now,
                 JourneyID = Guid.NewGuid(),
                 JourneyName = "Phố cổ Hà Nội",                

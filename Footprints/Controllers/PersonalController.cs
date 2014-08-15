@@ -70,12 +70,16 @@ namespace Footprints.Controllers
             {
                 var UserID = new Guid(User.Identity.GetUserId());
                 var ContentID = Guid.NewGuid();
-                string deleteUrl = Url.Action("DeletePhoto", "Media", new { id = ContentID });
-                fileInforList = ImageProcessor.UploadPhoto(UserID, UserID, ContentID, Request.Files.Get(0).InputStream, deleteUrl);
+                fileInforList = ImageProcessor.UploadPhoto(UserID.ToString(), UserID.ToString(), ContentID.ToString(), Request.Files.Get(0).InputStream, "");
                 if (fileInforList != null && fileInforList.files.Count > 0)
                 {
                     if (fileInforList.files.First().error == null)
                     {
+                        var user = userService.RetrieveUser(UserID);
+                        if (!user.CoverPhotoURL.Equals(Constant.DEFAULT_COVER_URL))
+                        {
+                            ImageProcessor.DeletePhoto(user.UserID.ToString(), user.UserID.ToString(), StringUtil.GetContentIdFromS3Url(user.CoverPhotoURL, user.UserID.ToString(), user.UserID.ToString()));
+                        }
                         userService.UpdateCoverPhotoURL(UserID, fileInforList.files.First().url);
                     }
                 }
@@ -93,12 +97,16 @@ namespace Footprints.Controllers
             {
                 var UserID = new Guid(User.Identity.GetUserId());
                 var ContentID = Guid.NewGuid();
-                string deleteUrl = Url.Action("DeletePhoto", "Media", new { id = ContentID });
-                fileInforList = ImageProcessor.UploadPhoto(UserID, UserID, ContentID, Request.Files.Get(0).InputStream, deleteUrl);
+                fileInforList = ImageProcessor.UploadPhoto(UserID.ToString(), UserID.ToString(), ContentID.ToString(), Request.Files.Get(0).InputStream, "");
                 if (fileInforList != null && fileInforList.files.Count > 0)
                 {
                     if (fileInforList.files.First().error == null)
                     {
+                        var user = userService.RetrieveUser(UserID);
+                        if (!user.ProfilePicURL.Equals(Constant.DEFAULT_AVATAR_URL))
+                        {
+                            ImageProcessor.DeletePhoto(user.UserID.ToString(), user.UserID.ToString(), StringUtil.GetContentIdFromS3Url(user.ProfilePicURL, user.UserID.ToString(), user.UserID.ToString()));
+                        }
                         userService.UpdateProfilePicURL(UserID, fileInforList.files.First().url);
                     }
                 }
