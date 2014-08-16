@@ -141,6 +141,27 @@ namespace Footprints.Controllers
             return View(User);
         }
 
+        public ActionResult BanUser(Guid UserID)
+        {
+            var roleResult = UserManager.AddToRole(UserID.ToString(), "Banned");
+            if (roleResult != null)
+            {
+                userSer.BanUser(UserID);
+                return RedirectToAction("UserList");
+            }
+            return View(userSer.RetrieveUser(UserID));
+        }
+
+        public ActionResult GrantAdminPermision(Guid UserID)
+        {
+            var roleResult = UserManager.AddToRole(UserID.ToString(), "Administrator");
+            if (roleResult != null)
+            {
+                userSer.GrantAdminPrivilege(UserID);
+                return RedirectToAction("UserList");
+            }
+            return View(userSer.RetrieveUser(UserID));
+        }
 
         public ActionResult Journey(int? page)
         {

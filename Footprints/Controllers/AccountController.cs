@@ -94,7 +94,7 @@ namespace Footprints.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        var roleResult = UserManager.AddToRole(user.Id, "Member");
+                        var roleResult = UserManager.AddToRole(user.Id, "Active");
                         await SignInAsync(user, isPersistent: false);
                         //add neo4j user here
                         userService.AddNewUser(
@@ -110,7 +110,7 @@ namespace Footprints.Controllers
                                 Genre = model.Genre
                             });
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Newsfeed");
                     }
                     else
                     {

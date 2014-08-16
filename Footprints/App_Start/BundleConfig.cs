@@ -81,6 +81,20 @@ namespace Footprints
             //Admin css
             bundles.Add(new StyleBundle("~/css/admin").Include(
                 "~/assets/css/admin/admin.css"
+                //,"~/assets/library/bootstrap/css/bootstrap.min.css"
+                //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
+                //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_regular.css"
+                //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_social.css"
+                //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_filetypes.css"
+                //, "~/assets/components/core/variables.less"
+                //, "~/assets/components/core/mixins.less"
+                //, "~/assets/components/core/scaffolding.less"
+                //, "~/assets/components/core/helpers.less"
+                //, "~/assets/components/ui_tabs/tabs.less"
+                //, "~/assets/plugins/maps_vector/css/jquery-jvectormap-1.2.2.css"
+                //, "~/assets/plugins/maps_vector/css/elements.css"
+                //, "~/assets/components/maps_vector/maps-vector.less"
+                //, "~/assets/components/core/widgets.less"
                 ));
 
             //Timeline page css

@@ -14,7 +14,15 @@
         @Html.HiddenFor(model => model.UserID)                
         @Html.HiddenFor(model => model.UserName)
         @Html.HiddenFor(model => model.About)
-       
+        @Html.HiddenFor(model => model.About)
+
+        <div class="btn-group" style="padding-left:30px;">
+            @Html.ActionLink("Ban User", "BanUser", "Admin", new { UserID = Model.UserID }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Grant Admin Privileges", "GrantAdminPermision", "Admin", new { UserID = Model.UserID }, new { @class = "btn btn-success" })
+        </div>
+        <div class="clearfix"></div>
+        <br />
+        
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
@@ -46,6 +54,13 @@
             </div>
         </div>
         <div class="form-group">
+            @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.DateOfBirth)
+                @Html.ValidationMessageFor(model => model.DateOfBirth)
+            </div>
+        </div>
+        <div class="form-group">
             @Html.LabelFor(model => model.JoinDate, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.EditorFor(model => model.JoinDate)
@@ -58,7 +73,7 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-    </div>
+    </div>    
 }
 <div style="padding-left:30px;">
     @Html.ActionLink("Back to List", "UserList")
