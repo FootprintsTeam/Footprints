@@ -92,10 +92,10 @@ namespace Footprints.Controllers
             return View(list.ToPagedList(pageNumber, pageSize));
         }
 
-        public async Task<ActionResult> DeleteUser(Guid UserID)
+        public ActionResult DeleteUser(Guid UserID)
         {
             Guid CurrentAdminID = new Guid(User.Identity.GetUserId());
-            var user = await UserManager.FindByIdAsync(UserID.ToString());
+            var user = UserManager.FindById(UserID.ToString());
 
             if (UserID == null)
             {
@@ -105,17 +105,18 @@ namespace Footprints.Controllers
             else if (UserID == CurrentAdminID)
             {
                 ModelState.AddModelError("", "Cannot delete your Admin account");
-                return RedirectToAction("UserList");
+                return View();
             }
             else if (user != null)
             {
                 userSer.DeleteUser(UserID);
-                await UserManager.DeleteAsync(user);                
+                UserManager.DeleteAsync(user);
             }
             return RedirectToAction("UserList");
         }
 
-        public ActionResult EditUser(Guid UserID) {
+        public ActionResult EditUser(Guid UserID)
+        {
             if (UserID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -124,15 +125,18 @@ namespace Footprints.Controllers
             return View(UserRetrieved);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditUser(User User)
         {
             if (ModelState.IsValid)
             {
-                userSer.UpdateUser(User);
-                return RedirectToAction("UserList");
+                var user = UserManager.SetEmail(User.UserID.ToString(), User.Email.ToString());
+                if (user != null)
+                {
+                    userSer.UpdateUser(User);
+                    return RedirectToAction("UserList");
+                }
             }
             return View(User);
         }
