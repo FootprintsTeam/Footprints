@@ -88,33 +88,35 @@ namespace Footprints.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
-
-                var result = await UserManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                var emailExisted = UserManager.FindByEmail(model.Email);
+                if (emailExisted == null)
                 {
-                    await SignInAsync(user, isPersistent: false);
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        var roleResult = UserManager.AddToRole(user.Id, "Member");
+                        await SignInAsync(user, isPersistent: false);
+                        //add neo4j user here
+                        userService.AddNewUser(
+                            new User
+                            {
+                                UserID = new Guid(user.Id),
+                                Email = user.Email,
+                                Status = Footprints.Models.StatusEnum.Active,
+                                UserName = user.UserName,
+                                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
+                                CoverPhotoURL = Constant.DEFAULT_COVER_URL,
+                                JoinDate = DateTimeOffset.Now,
+                                Genre = model.Genre
+                            });
 
-                    //add neo4j user here
-                    userService.AddNewUser(
-                        new User
-                        {
-                            UserID = new Guid(user.Id),
-                            Email = user.Email,
-                            Status = Footprints.Models.StatusEnum.Active,
-                            UserName = user.UserName,
-                            ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
-                            CoverPhotoURL = Constant.DEFAULT_COVER_URL,
-                            JoinDate = DateTimeOffset.Now,
-                            Genre = model.Genre
-                        });
-
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    AddErrors(result);
-                }
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
+                }                
             }
 
             // If we got this far, something failed, redisplay form

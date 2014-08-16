@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Footprints.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Administrator")]
     public class AdminController : Controller
     {
         public const int pageSize = 10;

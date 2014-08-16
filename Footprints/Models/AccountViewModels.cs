@@ -61,6 +61,7 @@ namespace Footprints.Models
         [Compare("Password", ErrorMessage = "The Password and confirmation Password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Required]
         [DataType(DataType.EmailAddress)]        
         public string Email { get; set; }
 
