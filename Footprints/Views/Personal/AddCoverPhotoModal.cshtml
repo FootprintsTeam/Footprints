@@ -15,8 +15,8 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div class="innerAll">
-                    <div class="innerLR">                        
-                            @{Html.RenderPartial("~/Views/Destination/UploadPhotoForm.cshtml", new PhotoUploadFormViewModel { ActionName = "AddCoverPhoto", ControllerName = "Personal" });}                        
+                    <div class="innerLR">
+                        @{Html.RenderPartial("~/Views/Destination/UploadPhotoForm.cshtml", new PhotoUploadFormViewModel { ActionName = "AddCoverPhoto", ControllerName = "Personal", DisplaySlide = true });}
                     </div>
                 </div>
             </div>

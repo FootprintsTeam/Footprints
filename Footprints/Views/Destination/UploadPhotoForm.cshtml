@@ -41,7 +41,8 @@
     <!-- The table listing the files available for upload/download -->
     <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
 }
-
+@if (Model.DisplaySlide)
+{
 <!-- The blueimp Gallery widget -->
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">
     <div class="slides"></div>
@@ -53,6 +54,7 @@
     <ol class="indicator"></ol>
 </div>
 <!-- The template to display files available for upload -->
+}
 <script id="template-upload" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
     <tr class="template-upload fade">

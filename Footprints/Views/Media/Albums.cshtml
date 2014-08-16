@@ -3,8 +3,36 @@
     ViewBag.Title = "Media - Albums";
     ViewBag.ActiveTab = "Albums";
     Layout = "_MediaLayout.cshtml";
+    ViewBag.NumberOfAlbums = @Model.AlbumList.Count();
+    ViewBag.NumberOfPhotos = @Model.NumberOfPhotos;
+    ViewBag.TargetUserID = @Model.TargetUserID;
 }
 @foreach (var album in @Model.AlbumList)
 {
     Html.RenderPartial("GalleryWidget", album);
 }
+<div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
+<script type="text/javascript">
+    var BlockNumber = 1;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() -
+        $(window).height() && !NoMoreData && !inProgress) {
+
+            inProgress = true;
+            $("#loadingDiv").show();
+
+            $.post("@Url.Action("LazyLoadAlbums", "Media")", { "BlockNumber": BlockNumber, "userID": "@Model.TargetUserID" },
+            function (data) {
+
+                BlockNumber = BlockNumber + 1;
+                NoMoreData = data.NoMoreData;
+                $("#loadingDiv").before(data.HTMLString);
+                $("#loadingDiv").hide();
+                inProgress = false;
+            });
+        }
+    });
+</script>

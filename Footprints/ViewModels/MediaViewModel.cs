@@ -31,6 +31,8 @@ namespace Footprints.ViewModels
 
     public class AlbumsViewModel
     {
+        public Guid TargetUserID { get; set; }
+        public Guid UserID { get; set; }
         public int NumberOfPhotos { get; set; }
         public int NumberOfAlbums { get; set; }
         public IList<AlbumDetailsViewModel> AlbumList { get; set; }
@@ -82,6 +84,8 @@ namespace Footprints.ViewModels
         public String ActionName { get; set; }
         [Required]
         public String ControllerName { get; set; }
+        [Required]
+        public bool DisplaySlide { get; set; }
     }
 
     public class DeletePhotoFormViewModel

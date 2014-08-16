@@ -316,47 +316,72 @@ namespace Footprints.DAL.Concrete
                     currentJourney.Destinations.Add(currentDestination);
                 }
             }
-            //foreach (var item in query)
-            //{
-            //    if (first)
-            //    {
-            //        result = new List<Journey>();
-            //        currentJourney = item.
-            //        first = false;
-            //    }
-            //    if (currentJourney.JourneyID.Equals(item.JourneyID))
-            //    {
-            //        check = false;
-            //        currentDestination = new Destination();
-            //        if (item.DestinationID != null)
-            //        {
-            //            currentDestination.DestinationID = item.DestinationID;
-            //            check = true;
-            //        }
-            //        if (item.DestinationName != null)
-            //        {
-            //            currentDestination.Name = item.DestinationName;
-            //            check = true;
-            //        }
-            //        if (check) currentJourney.Destinations.Add(currentDestination);
-            //    }
-            //    else
-            //    {
-            //        if (currentJourney != null) result.Add(currentJourney);
-            //        currentJourney = new Journey();
-            //        currentJourney.JourneyID = item.JourneyID;
-            //        if (item.JourneyName != null) currentJourney.Name = item.JourneyName;
-            //        currentJourney.Destinations = new List<Destination>();
-            //        currentDestination = new Destination();
-            //        if (item.DestinationID != null) currentDestination.DestinationID = item.DestinationID;
-            //        if (item.DestinationName != null) currentDestination.Name = item.DestinationName;
-            //        currentJourney.Destinations.Add(currentDestination);
-            //    }
-            //}
+            return result;
+        }
+
+        public IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit)
+        {
+            var query = Db.Cypher.OptionalMatch("(User:User {UserID : {UserID}})-[:HAS]->(Journey:Journey)").
+                        OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
+                        WithParam("UserID", UserID).
+                        With("Journey, Destination").
+                        OrderBy("Destination.OrderNumber").
+                        Return((Journey, Destination) => new
+                        {
+                            JourneyID = Return.As<Guid>("Journey.JourneyID"),
+                            JourneyName = Return.As<String>("Journey.Name"),
+                            DestinationID = Return.As<Guid>("Destination.DestinationID"),
+                            DestinationName = Return.As<String>("Destination.Name")
+                        }).Skip(Skip).Limit(Limit).Results;
+            List<Journey> result = null;
+            bool first = true;
+            Journey currentJourney = null;
+            Destination currentDestination = null;
+            foreach (var item in query)
+            {
+                if (first)
+                {
+                    currentDestination = new Destination
+                    {
+                        DestinationID = item.DestinationID,
+                        Name = item.DestinationName,
+                        JourneyID = item.JourneyID
+                    };
+                    currentJourney = new Journey
+                    {
+                        JourneyID = item.JourneyID,
+                        Name = item.JourneyName,
+                        Destinations = new List<Destination> { currentDestination }
+                    };
+                    result = new List<Journey>();
+                    result.Add(currentJourney);
+                    first = false;
+                }
+                if (currentJourney.JourneyID != item.JourneyID)
+                {
+                    currentJourney = new Journey
+                    {
+                        JourneyID = item.JourneyID,
+                        Name = item.JourneyName,
+                        Destinations = new List<Destination>()
+                    };
+                    result.Add(currentJourney);
+                }
+                if (currentDestination.DestinationID != item.DestinationID)
+                {
+                    currentDestination = new Destination
+                    {
+                        DestinationID = item.DestinationID,
+                        Name = item.DestinationName,
+                        JourneyID = item.JourneyID
+                    };
+                    currentJourney.Destinations.Add(currentDestination);
+                }
+            }
             return result;
         }
     }
-
+    
     public interface IUserRepository : IRepository<User>
     {
         IList<User> GetUser();
@@ -382,5 +407,6 @@ namespace Footprints.DAL.Concrete
         bool ChangePassword(Guid UserID, String Password);
         bool CheckFriendShip(Guid UserID_A, Guid UserID_B);
         IList<Journey> GetJourneyThumbnail(Guid UserID);
+        IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit);
     }
 }
