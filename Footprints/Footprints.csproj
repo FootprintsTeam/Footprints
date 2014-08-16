@@ -1114,6 +1114,7 @@
     <Content Include="assets\plugins\jquery\jquery.fileupload-video.js" />
     <Content Include="assets\plugins\jquery\jquery.fileupload.js" />
     <Content Include="assets\plugins\jquery\jquery.iframe-transport.js" />
+    <Content Include="assets\plugins\jquery\jquery.resizecrop-1.0.3.js" />
     <Content Include="assets\plugins\jquery\load-image.min.js" />
     <Content Include="assets\plugins\jquery\main.js" />
     <Content Include="assets\plugins\jquery\tmpl.min.js" />
@@ -2605,6 +2606,7 @@
     <Content Include="Views\Personal\CommentPersonalWidget.cshtml" />
     <Content Include="Views\Personal\AddDestinationWidget.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
+    <Content Include="Views\Media\PhotoList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

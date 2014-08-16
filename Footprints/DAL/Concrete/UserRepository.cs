@@ -397,6 +397,13 @@ namespace Footprints.DAL.Concrete
                         Skip(Skip).Limit(Limit).Results;
             return query.Count() == 0 ? null : query.ToList<Content>();
         }
+
+        public int GetNumberOfContentByUserID(Guid UserID)
+        {
+            return Db.Cypher.Match(" (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)").
+                        Where((User User) => User.UserID == UserID).
+                        Return<int>("Count(Content)").Results.FirstOrDefault();
+        }
     }
     
     public interface IUserRepository : IRepository<User>
@@ -426,5 +433,6 @@ namespace Footprints.DAL.Concrete
         IList<Journey> GetJourneyThumbnail(Guid UserID);
         IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit);
         IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit);
+        int GetNumberOfContentByUserID(Guid UserID);
     }
 }
