@@ -140,23 +140,31 @@ namespace Footprints.DAL.Concrete
         }
         public bool UnbanUser(Guid UserID)
         {
-            Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Active'");
-            return true;
+            var query = Db.Cypher.Match("(User:User)").
+                        Where((User User) => User.UserID == UserID).
+                        Set("User.Status = 'Active'").
+                        Return(User => User.As<User>()).Results;
+            return query.Count() == 0 ? false : true;
         }
         public bool UnactiveUser(Guid UserID)
         {
-            Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Inactive'");
-            return true;
+            var query = Db.Cypher.Match("(User:User)").
+                        Where((User User) => User.UserID == UserID).
+                        Set("User.Status = 'Inactive'").
+                        Return(User => User.As<User>()).Results;
+            return query.Count() == 0 ? false : true;
         }
         public bool GrantAdminPrivilege(Guid UserID)
         {
-            Db.Cypher.Match("(user:User)").Where((User user) => user.UserID == UserID).Set("user.Status = 'Admin'");
-            return true;
+            var query = Db.Cypher.Match("(User:User)").
+                        Where((User User) => User.UserID == UserID).
+                        Set("User.Status = 'Admin'").
+                        Return(User => User.As<User>()).Results;
+            return query.Count() == 0 ? false : true;
         }
         public IList<User> GetUser()
         {
-
-            return Db.Cypher.Match("(user:User)").Where("user.UserID <> 'TEMP'").Return(user => user.As<User>()).Results.ToList<User>();
+            return Db.Cypher.Match("(User:User)").Where("User.UserID <> 'TEMP'").Return(User => User.As<User>()).Results.ToList<User>();
         }
         public IList<User> GetFriendList(Guid UserID)
         {
