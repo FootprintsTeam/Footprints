@@ -10,23 +10,23 @@ namespace Footprints.Models
     {
         public Guid JourneyID { get; set; }
         public Guid UserID { get; set; }
-        [Required(ErrorMessage="Name of Journey is required")]
+        [Required]
         public String Name { get; set; }
         public String Description { get; set; }
         [Display(Name="Taken Date")]
-        [Required(ErrorMessage = "Taken Date is required")]
+        [Required]
         public DateTimeOffset TakenDate { get; set; }
         [Display(Name = "Time Stamp")]
-        [Required(ErrorMessage = "Time Stamp is required")]
+        [Required]
         public DateTimeOffset Timestamp { get; set; }
 
         [Display(Name = "Number Of Like")]
-        [Required(ErrorMessage = "Number Of Like is required")]
+        [Required]
         [Range(0, int.MaxValue, ErrorMessage="Number of like must be a positive number")]
         public int NumberOfLike { get; set; }
 
         [Display(Name = "Number Of Share")]
-        [Required(ErrorMessage = "Number Of Share is required")]
+        [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Number of share must be a positive number")]
         public int NumberOfShare { get; set; }
         public List<Destination> Destinations { get; set; }
