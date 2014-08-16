@@ -358,7 +358,7 @@ namespace Footprints.DAL.Concrete
         }
         public IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID)
         {
-            var query = Db.Cypher.OptionalMatch("(Destination:Destination)-[:HAS]->(Content:Content)").
+            var query = Db.Cypher.Match("(Destination:Destination)-[:HAS]->(Content:Content)").
                         Where((Destination Destination) => Destination.DestinationID == DestinationID).
                         Return(Content => Content.As<Content>()).OrderBy("Content.Timestamp").Skip(Skip).Limit(Limit).Results;
             return query.Count() == 0 ? null : query.ToList<Content>();
