@@ -276,8 +276,7 @@ namespace Footprints.DAL.Concrete
             Destination currentDestination = null;
             //Destination currentDestination = new Destination();
             foreach (var item in query)
-            {
-                
+            {                
                 if (first)
                 {
                     currentDestination = new Destination
