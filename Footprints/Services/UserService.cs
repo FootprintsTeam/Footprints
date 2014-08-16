@@ -33,6 +33,7 @@ namespace Footprints.Services
         bool CheckFriendShip(Guid UserID_A, Guid UserID_B);
         IList<Journey> GetJourneyThumbnail(Guid UserID);
         IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit);
+        IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit);
     }
     public class UserService : IUserService
     {
@@ -138,6 +139,10 @@ namespace Footprints.Services
         public IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit)
         {
             return _userRepo.GetJourneyThumbnailWithSkipLimit(UserID, Skip, Limit);
+        }
+        public IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit)
+        {
+            return _userRepo.GetListContentByUserID(UserID, Skip, Limit);
         }
     }
 }

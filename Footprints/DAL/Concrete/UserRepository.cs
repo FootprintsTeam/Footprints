@@ -318,7 +318,6 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
-
         public IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit)
         {
             var query = Db.Cypher.OptionalMatch("(User:User {UserID : {UserID}})-[:HAS]->(Journey:Journey)").
@@ -380,6 +379,16 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
+        public IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit) 
+        {
+            var query = Db.Cypher.Match(" (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)").
+                        Where((User User) => User.UserID == UserID).
+                        With("Content").
+                        OrderBy("Content.Timestamp").
+                        Return(Content => Content.As<Content>()).
+                        Skip(Skip).Limit(Limit).Results;
+            return query.Count() == 0 ? null : query.ToList<Content>();
+        }
     }
     
     public interface IUserRepository : IRepository<User>
@@ -408,5 +417,6 @@ namespace Footprints.DAL.Concrete
         bool CheckFriendShip(Guid UserID_A, Guid UserID_B);
         IList<Journey> GetJourneyThumbnail(Guid UserID);
         IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit);
+        IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit);
     }
 }
