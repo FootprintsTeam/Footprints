@@ -293,6 +293,7 @@ namespace Footprints.DAL.Concrete
                     };
                     result = new List<Journey>();
                     result.Add(currentJourney);
+                    first = false;
                 }
                 if (currentJourney.JourneyID != item.JourneyID)
                 {
