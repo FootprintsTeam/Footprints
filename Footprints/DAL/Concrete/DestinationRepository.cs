@@ -56,7 +56,36 @@ namespace Footprints.DAL.Concrete
                 }
                 return result;
             }
-            return result;
+            return null;
+        }
+        public Destination GetDestinationDetailWithLimitedContent(Guid DestinationID, int Limit)
+        {
+            var query = Db.Cypher.OptionalMatch("(Destination:Destination)").
+                        Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                        OptionalMatch("(Destination)-[:AT]->(Place:Place)").
+                        OptionalMatch("(Destination)-[:HAS]->(Content:Content)").
+                        With("Destination, Place, Content").OrderBy("Content.Timestamp").
+                        With("Destination, Place, Content").Limit(Limit).
+                        Return((Destination, Place, Content) => new
+                        {
+                            Destination = Destination.As<Destination>(),
+                            Place = Place.As<Place>(),
+                            Contents = Content.CollectAs<Content>()
+                        }).Results;
+            Destination result = new Destination();
+            foreach (var item in query)
+            {
+                result = item.Destination;
+                result.Place = new Place();
+                if (item.Place != null) result.Place = item.Place;
+                result.Contents = new List<Content>();
+                foreach (var content in item.Contents)
+                {
+                    result.Contents.Add(content.Data);
+                }
+                return result;
+            }
+            return null;
         }
         public bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID)
         {
@@ -377,6 +406,7 @@ namespace Footprints.DAL.Concrete
         Place GetDestinationPlace(Guid DestinationID);
         Destination GetDestination(Guid DestinationID);
         Destination GetDestinationDetail(Guid DestinationID);
+        Destination GetDestinationDetailWithLimitedContent(Guid DestinationID, int Limit);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
         bool UpdateDestination(Guid UserID, Destination Destination);
         bool UpdateDestinationForAdmin(Destination Destination);

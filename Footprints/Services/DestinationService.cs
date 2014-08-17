@@ -11,6 +11,7 @@ namespace Footprints.Services
     {
         Destination GetDestination(Guid destinationID);
         Destination GetDestinationDetail(Guid DestinationID);
+        Destination GetDestinationDetailWithLimitedContent(Guid DestinationID, int Limit);
         bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID);
         bool UpdateDestination(Guid UserID, Destination Destination);
         bool UpdateDestinationForAdmin(Destination Destination);
@@ -57,6 +58,10 @@ namespace Footprints.Services
         public Destination GetDestinationDetail(Guid DestinationID)
         {
             return _destinationRepo.GetDestinationDetail(DestinationID);
+        }
+        public Destination GetDestinationDetailWithLimitedContent(Guid DestinationID, int Limit)
+        {
+            return _destinationRepo.GetDestinationDetailWithLimitedContent(DestinationID, Limit);
         }
         public bool AddNewDestination(Guid UserID, Destination Destination, Place Place, Guid JourneyID)
         {
