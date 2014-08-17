@@ -51,25 +51,30 @@ namespace Footprints.Controllers
         //    return View();
         //}
 
-        [ChildActionOnly]
-        [ActionName("PersonalWidget1")]
-        public ActionResult PersonalWidget(object model)
-        {            
-            return PartialView(model);
-        }
+        //[ChildActionOnly]
+        //[ActionName("PersonalWidget1")]
+        //public ActionResult PersonalWidget(object model)
+        //{            
+        //    return PartialView(model);
+        //}
 
         [HttpPost]
         public ActionResult InfiniteScroll(int BlockNumber)
         {
             ////////////////// THis line of code only for demo. Needs to be removed ////
-            //System.Threading.Thread.Sleep(3000);
+            System.Threading.Thread.Sleep(1000);
             ////////////////////////////////////////////////////////////////////////////
             //int BlockSize = 5;
             //var books = DataManager.GetBooks(BlockNumber, BlockSize);
-            InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
+            IList<InfiniteScrollJsonModel> jsonModels = new List<InfiniteScrollJsonModel>();
             //jsonModel.NoMoreData = books.Count < BlockSize;
-            jsonModel.HTMLString = RenderPartialViewToString("PersonalWidgetViewModel", null);
-            return Json(jsonModel);
+            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject())});
+            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("DestinationWidget", DestinationWidgetViewModel.GetSampleObject()) });
+            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddPhotoWidget", AddPhotoWidgetViewModel.GetSampleObject()) });
+            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("JourneyWidget", JourneyWidgetViewModel.GetSampleObject()) });
+            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("ShareWidget", ShareWidgetViewModel.GetSampleObject()) });
+            
+            return Json(jsonModels);
         }
 
         [Authorize]
