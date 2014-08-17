@@ -13,11 +13,10 @@ namespace Footprints.Common
         public Search(IGraphClient client) : base(client) { }
 
         public IList<Object> GeneralSearch(String TextEntered)
-        {
-
+        {           
             return null;
         }
-        public IList<User> SearchUser(String TextEntered)
+        public IList<User> SearchUser(String TextEntered, int Limit)
         {
             var query = Db.Cypher.Start(new
             {
@@ -33,7 +32,7 @@ namespace Footprints.Common
                  FirstName = FirstName.As<User>(),
                  LastName = LastName.As<User>(),
                  Email = Email.As<User>()
-             }).
+             }).Limit(Limit).
             Results;
             List<User> result = new List<User>();
             foreach (var item in query)
@@ -45,7 +44,7 @@ namespace Footprints.Common
             }
             return query.Count() == 0 ? null : result;
         }
-        public IList<Journey> SearchJourney(String TextEntered)
+        public IList<Journey> SearchJourney(String TextEntered, int Limit)
         {
             var query = Db.Cypher.Start(new
             {
@@ -56,7 +55,7 @@ namespace Footprints.Common
             {
                 Name = Name.As<Journey>(),
                 Description = Name.As<Journey>()
-            }).
+            }).Limit(Limit).
             Results;
             List<Journey> result = new List<Journey>();
             foreach (var item in query)
@@ -67,7 +66,7 @@ namespace Footprints.Common
             return query.Count() == 0 ? null : result;
 
         }
-        public IList<Destination> SearchDestination(String TextEntered)
+        public IList<Destination> SearchDestination(String TextEntered, int Limit)
         {
             var query = Db.Cypher.Start(new
             {
@@ -78,7 +77,8 @@ namespace Footprints.Common
             {
                 Name = Name.As<Destination>(),
                 Description = Description.As<Destination>()
-            }).Results;
+            }).Limit(Limit).
+            Results;
             List<Destination> result = new List<Destination>();
             foreach (var item in query)
             {
@@ -87,11 +87,22 @@ namespace Footprints.Common
             }
             return query.Count() == 0 ? null : result;
         }
+        public IList<Journey> SearchPlace(String TextEntered, int Limit)
+        {
+            var query = Db.Cypher.Start(new
+            {
+                Name = Node.ByIndexQuery("node_auto_index", "Name:\"" + TextEntered + "\"")
+            }).Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:AT]->(Name:Place )")
+            .Return(Journey => Journey.As<Journey>()).Limit(Limit).
+            Results;
+            return query.Count() == 0 ? null : query.ToList<Journey>(); 
+        }
     }
     public interface ISearch
     {
-        IList<User> SearchUser(String TextEntered);
-        IList<Journey> SearchJourney(String TextEntered);
-        IList<Destination> SearchDestination(String TextEntered);
+        IList<User> SearchUser(String TextEntered, int Limit);
+        IList<Journey> SearchJourney(String TextEntered, int Limit);
+        IList<Destination> SearchDestination(String TextEntered, int Limit);
+        IList<Journey> SearchPlace(String TextEntered, int Limit);
     }
 }
