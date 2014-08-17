@@ -176,9 +176,13 @@ namespace Footprints.DAL.Concrete
                 AndWhere("Friend.UserID <> 'TEMP'").
                 Return(Friend => Friend.As<User>()).Results.ToList<User>();
         }
-        public void DeleteAnActivity(Guid ActivityID)
+        public bool DeleteAnActivity(Guid ActivityID)
         {
-            Db.Cypher.Match("(Activity:Activity)").Where((Activity Activity) => Activity.ActivityID == ActivityID).Delete("Activity").ExecuteWithoutResults();
+            var query = Db.Cypher.Match("(Activity:Activity)").
+                        Where((Activity Activity) => Activity.ActivityID == ActivityID).
+                        Set("Activity.Status = 'Deleted'").
+                        Return(Activity => Activity.As<Activity>()).Results;
+            return query.Count() == 0 ? false : true;
         }
         public long GetNumberOfJourney(Guid UserID)
         {
@@ -423,7 +427,7 @@ namespace Footprints.DAL.Concrete
         bool UnbanUser(Guid UserID);
         bool UnactiveUser(Guid UserID);
         bool GrantAdminPrivilege(Guid UserID);
-        void DeleteAnActivity(Guid ActivityID);
+        bool DeleteAnActivity(Guid ActivityID);
         IList<User> GetFriendList(Guid UserID);
         long GetNumberOfJourney(Guid UserID);
         long GetNumberOfDestination(Guid UserID);

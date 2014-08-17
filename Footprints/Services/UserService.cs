@@ -21,7 +21,7 @@ namespace Footprints.Services
         bool UnbanUser(Guid UserID);
         bool UnactiveUser(Guid UserID);
         bool GrantAdminPrivilege(Guid UserID);
-        void DeleteAnActivity(Guid ActivityID);
+        bool DeleteAnActivity(Guid ActivityID);
         IList<User> GetFriendList(Guid UserID);
         long GetNumberOfJourney(Guid UserID);
         long GetNumberOfDestination(Guid UserID);
@@ -93,9 +93,9 @@ namespace Footprints.Services
         {
             return _userRepo.GrantAdminPrivilege(UserID);
         }
-        public void DeleteAnActivity(Guid ActivityID)
+        public bool DeleteAnActivity(Guid ActivityID)
         {
-            _userRepo.DeleteAnActivity(ActivityID);
+            return _userRepo.DeleteAnActivity(ActivityID);
         }
         public IList<User> GetFriendList(Guid UserID)
         {
