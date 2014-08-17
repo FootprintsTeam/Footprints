@@ -34,6 +34,7 @@ namespace Footprints.Services
         IList<Journey> GetJourneyThumbnail(Guid UserID);
         IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit);
         IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit);
+        int GetNumberOfContentByUserID(Guid UserID);
     }
     public class UserService : IUserService
     {
@@ -143,6 +144,10 @@ namespace Footprints.Services
         public IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit)
         {
             return _userRepo.GetListContentByUserID(UserID, Skip, Limit);
+        }
+        public int GetNumberOfContentByUserID(Guid UserID)
+        {
+            return _userRepo.GetNumberOfContentByUserID(UserID);
         }
     }
 }

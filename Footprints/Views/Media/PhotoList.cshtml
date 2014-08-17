@@ -1,0 +1,16 @@
+﻿@model IList<Footprints.Models.Content>
+@foreach (var photo in Model)
+{
+    <li class="col-md-3" id="Content-@photo.ContentID">
+        <a class="thumb no-ajaxify" data-gallery="gallery-3" href="@photo.URL">
+            @if (@photo.ThumbURL != null && @photo.ThumbURL.Length > 0)
+            {
+                <img src="@photo.ThumbURL" alt="photo" class="img-responsive" />
+            }
+            else
+            {
+                <img src="@photo.URL" alt="photo" class="img-responsive" />
+            }
+        </a>
+    </li>
+}

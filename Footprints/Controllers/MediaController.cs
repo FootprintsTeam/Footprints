@@ -17,9 +17,13 @@ namespace Footprints.Controllers
 {
     public class MediaController : Controller
     {
+        int NumberOfPhotoPerLoad = 20;
+        int NumberOfAlbumPerload = 4;
+
         IDestinationService destinationService;
         IJourneyService journeyService;
         IUserService userService;
+        
         public MediaController(IDestinationService destinationService, IJourneyService journeyService, IUserService userService)
         {
             this.destinationService = destinationService;
@@ -28,22 +32,33 @@ namespace Footprints.Controllers
         }
         //
         // GET: /Media/
-        public ActionResult Index()
-        {
-            var model = MediaViewModel.GetSampleObject();
-            return View(model);
-        }
-        public ActionResult AllPhotos(string userID = "default")
+        public ActionResult Index(string userID = "default")
         {
             Regex regex = new Regex(Common.Constant.GUID_REGEX);
             Guid targetUserID = new Guid(userID.Equals("default") ? User.Identity.GetUserId() : regex.IsMatch(userID) ? userID : User.Identity.GetUserId());
-            return View();
+            var numberOfContent = userService.GetNumberOfContentByUserID(targetUserID);
+            IList<Content> contentList;
+            if (numberOfContent > 0)
+            {
+                contentList = userService.GetListContentByUserID(targetUserID, 0, NumberOfPhotoPerLoad);
+            }
+            else
+            {
+                contentList = new List<Content>();
+            }
+            var model = new MediaViewModel
+            {
+                Photos = contentList,
+                NumberOfPhotos = numberOfContent,
+                TargetUserID = targetUserID
+            };
+            return View(model);
         }
         public ActionResult Albums(string userID = "default")
         {
             Regex regex = new Regex(Common.Constant.GUID_REGEX);
             Guid targetUserID = new Guid(userID.Equals("default") ? User.Identity.GetUserId() : regex.IsMatch(userID) ? userID : User.Identity.GetUserId());
-            var journeyList = userService.GetJourneyThumbnail(targetUserID);
+            var journeyList = userService.GetJourneyThumbnailWithSkipLimit(targetUserID, 0, NumberOfAlbumPerload);
             var albumsViewModel = new AlbumsViewModel();
             albumsViewModel.AlbumList = new List<AlbumDetailsViewModel>();
             albumsViewModel.TargetUserID = targetUserID;
@@ -90,48 +105,6 @@ namespace Footprints.Controllers
             }
         }
 
-        public ActionResult LazyLoadAlbums(string userID, int BlockNumber)
-        {
-            int nAlbumPerBlock = 4;
-            Regex regex = new Regex(Common.Constant.GUID_REGEX);
-            if (userID == null || userID.Length == 0 || BlockNumber <= 0 || !regex.IsMatch(userID)) return null;
-            var targetUserID = new Guid(userID);
-            var journeyList = userService.GetJourneyThumbnailWithSkipLimit(targetUserID, BlockNumber * nAlbumPerBlock, (BlockNumber + 1) * nAlbumPerBlock);
-            InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
-
-            jsonModel.HTMLString = "";
-            jsonModel.NoMoreData = true;
-            if (journeyList != null && journeyList.Count > 0)
-            {
-                AlbumDetailsViewModel albumDetailsViewModel;
-                StringBuilder sbReturnHtml = new StringBuilder("");
-                try
-                {
-                    foreach (var journey in journeyList)
-                    {
-                        foreach (var destination in journey.Destinations)
-                        {
-                            albumDetailsViewModel = new AlbumDetailsViewModel();
-                            albumDetailsViewModel.DestinationID = destination.DestinationID;
-                            albumDetailsViewModel.DestinationName = destination.Name;
-                            albumDetailsViewModel.JourneyID = journey.JourneyID;
-                            albumDetailsViewModel.JourneyName = journey.Name;
-                            albumDetailsViewModel.Photos = destinationService.GetContentListWithSkipAndLimit(0, 4, destination.DestinationID);
-                            if (albumDetailsViewModel.Photos != null && albumDetailsViewModel.Photos.Count > 0)
-                            {
-                                albumDetailsViewModel.NumberOfPhotos = albumDetailsViewModel.Photos.Count();
-                                sbReturnHtml.Append(RenderPartialViewToString("GalleryWidget", albumDetailsViewModel));
-                            }
-                        }
-                    }
-                    jsonModel.HTMLString = sbReturnHtml.ToString();
-                    jsonModel.NoMoreData = false;
-                }
-                catch { }
-            }
-            return Json(jsonModel);
-        }
-
         public ActionResult AlbumDetails(Guid DestinationID, Guid AlbumID)
         {
             Guid defaultGuid = new Guid();
@@ -161,10 +134,89 @@ namespace Footprints.Controllers
             return View();
         }
 
-        [ChildActionOnly]
-        public ActionResult GalleryWidget()
+        public ActionResult LazyLoadAllPhoto(String userID, int BlockNumber)
         {
-            return View();
+            Regex regex = new Regex(Common.Constant.GUID_REGEX);
+            if (userID == null || userID.Length == 0 || BlockNumber <= 0 || !regex.IsMatch(userID)) return null;
+            var targetUserID = new Guid(userID);
+            IList<Content> contentList = userService.GetListContentByUserID (targetUserID, BlockNumber * NumberOfPhotoPerLoad, NumberOfPhotoPerLoad);
+            InfiniteScrollPhotoListJsonModel jsonModel = new InfiniteScrollPhotoListJsonModel();
+            jsonModel.HTMLString = "";
+            jsonModel.NoMoreData = true;
+            jsonModel.PhotoList = new List<string>();
+            if (contentList == null || contentList.Count() > 0)
+            {
+                foreach (var content in contentList)
+                {
+                    jsonModel.PhotoList.Add(content.ContentID.ToString());
+                }
+                jsonModel.HTMLString = RenderPartialViewToString("PhotoList", contentList);
+                if (contentList.Count >= NumberOfPhotoPerLoad)
+                {
+                    jsonModel.NoMoreData = false;
+                }
+            }
+            return Json(jsonModel);
         }
+
+        public ActionResult LazyLoadAlbums(string userID, int BlockNumber)
+        {
+            Regex regex = new Regex(Common.Constant.GUID_REGEX);
+            if (userID == null || userID.Length == 0 || BlockNumber <= 0 || !regex.IsMatch(userID)) return null;
+            var targetUserID = new Guid(userID);
+            var journeyList = userService.GetJourneyThumbnailWithSkipLimit(targetUserID, BlockNumber * NumberOfAlbumPerload, NumberOfAlbumPerload);
+            InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
+            jsonModel.HTMLString = "";
+            jsonModel.NoMoreData = true;
+
+            if (journeyList != null && journeyList.Count > 0)
+            {
+                AlbumDetailsViewModel albumDetailsViewModel;
+                StringBuilder sbReturnHtml = new StringBuilder("");
+                try
+                {
+                    int albumCount = 0;
+                    foreach (var journey in journeyList)
+                    {
+                        foreach (var destination in journey.Destinations)
+                        {
+                            albumDetailsViewModel = new AlbumDetailsViewModel();
+                            albumDetailsViewModel.DestinationID = destination.DestinationID;
+                            albumDetailsViewModel.DestinationName = destination.Name;
+                            albumDetailsViewModel.JourneyID = journey.JourneyID;
+                            albumDetailsViewModel.JourneyName = journey.Name;
+                            albumDetailsViewModel.Photos = destinationService.GetContentListWithSkipAndLimit(0, 4, destination.DestinationID);
+                            if (albumDetailsViewModel.Photos != null && albumDetailsViewModel.Photos.Count > 0)
+                            {
+                                albumDetailsViewModel.NumberOfPhotos = albumDetailsViewModel.Photos.Count();
+                                sbReturnHtml.Append(RenderPartialViewToString("GalleryWidget", albumDetailsViewModel));
+                            }
+                            albumCount++;
+                        }
+                    }
+                    jsonModel.HTMLString = sbReturnHtml.ToString();
+                    if (albumCount >= NumberOfAlbumPerload)
+                    {
+                        jsonModel.NoMoreData = false;
+                    }
+                }
+                catch { }
+            }
+            return Json(jsonModel);
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult GalleryWidget()
+        {
+            return PartialView();
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult PhotoList()
+        {
+            return PartialView();
+        }
+
+
     }
 }

@@ -9,11 +9,49 @@
 <!-- Gallery Layout -->
 <div class="gallery gallery-2">
     <ul class="row">
-        @foreach (var photo in @Model.Photos)
-        {
-            @*../assets/images/gallery-2/3.jpg*@
-            <li class="col-md-3"><a class="thumb no-ajaxify" data-gallery="gallery-2" href="@photo"><img src="@photo" alt="photo" class="img-responsive" /></a></li>
-        }
+        @{Html.RenderPartial("PhotoList", Model.Photos);}
+        <li style="display:none" id="emty-last-image"></li>
     </ul>
 </div>
 <!-- // Gallery Layout END -->
+<div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
+<script type="text/javascript" src="/assets/plugins/jquery/jquery.resizecrop-1.0.3.js"></script>
+<script type="text/javascript">
+    var listImg = $('.img-responsive');
+    var imageContainerWidth = listImg.first().parents('li').width();
+    $('.img-responsive').resizecrop({
+        width: imageContainerWidth,
+        height: imageContainerWidth,
+        vertical: "top"
+    });
+    var BlockNumber = 1;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() -
+        $(window).height() && !NoMoreData && !inProgress) {
+
+            inProgress = true;
+            $("#loadingDiv").show();
+
+            $.post("@Url.Action("LazyLoadAllPhoto", "Media")", { "BlockNumber": BlockNumber, "userID": "@Model.TargetUserID" },
+            function (data) {
+                BlockNumber = BlockNumber + 1;
+                NoMoreData = data.NoMoreData;
+                $("#emty-last-image").before(data.HTMLString);
+                if (data.PhotoList != null && data.PhotoList.length > 0) {
+                    $.each(data.PhotoList, function (k, id) {
+                        $('#Content-' + id.toString()).find('img[class="img-responsive"]').resizecrop({
+                            width: imageContainerWidth,
+                            height: imageContainerWidth,
+                            vertical: "top"
+                        })
+                    });
+                }
+                $("#loadingDiv").hide();
+                inProgress = false;
+            });
+        }
+    });
+</script>

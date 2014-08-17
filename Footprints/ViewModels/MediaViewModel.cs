@@ -9,22 +9,16 @@ namespace Footprints.ViewModels
 {
     public class MediaViewModel
     {
+        public Guid TargetUserID { get; set; }
         public int NumberOfPhotos { get; set; }
         public int NumberOfAlbums { get; set; }
-        public List<String> Photos { get; set; }
+        public IList<Content> Photos { get; set; }
         public static MediaViewModel GetSampleObject()
         {
             return new MediaViewModel()
             {
                 NumberOfAlbums = 10,
-                NumberOfPhotos = 159,
-                Photos = new List<string>()
-                {
-                    "../assets/images/gallery-2/3.jpg",
-                    "../assets/images/gallery-2/3.jpg",
-                    "../assets/images/gallery-2/3.jpg",
-                    "../assets/images/gallery-2/3.jpg"
-                }
+                NumberOfPhotos = 159
             };
         }
     }

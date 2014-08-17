@@ -9,5 +9,11 @@ namespace Footprints.ViewModels
     {
         public string HTMLString { get; set; }
         public bool NoMoreData { get; set; }
-    } 
+    }
+    public class InfiniteScrollPhotoListJsonModel
+    {
+        public string HTMLString { get; set; }
+        public bool NoMoreData { get; set; }
+        public IList<string> PhotoList { get; set; }
+    }
 }

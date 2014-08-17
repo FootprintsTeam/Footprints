@@ -10,6 +10,7 @@ namespace Footprints.Models
         public Guid ContentID { get; set; }
         public String Name { get; set; }
         public String URL { get; set; }
+        public String ThumbURL { get; set; }
         public DateTimeOffset TakenDate { get; set; }
         public DateTimeOffset Timestamp { get; set; }
     }
