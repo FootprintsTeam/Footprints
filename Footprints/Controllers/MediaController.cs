@@ -35,8 +35,10 @@ namespace Footprints.Controllers
         public ActionResult Index(string userID = "default")
         {
             Regex regex = new Regex(Common.Constant.GUID_REGEX);
-            Guid targetUserID = new Guid(userID.Equals("default") ? User.Identity.GetUserId() : regex.IsMatch(userID) ? userID : User.Identity.GetUserId());
+            Guid currentUserID = new Guid(User.Identity.GetUserId());
+            Guid targetUserID = userID.Equals("default") ? currentUserID :  regex.IsMatch(userID) ? new Guid(userID) : currentUserID;
             var numberOfContent = userService.GetNumberOfContentByUserID(targetUserID);
+            
             IList<Content> contentList;
             if (numberOfContent > 0)
             {
@@ -75,9 +77,9 @@ namespace Footprints.Controllers
                         albumDetailsViewModel.JourneyID = journey.JourneyID;
                         albumDetailsViewModel.JourneyName = journey.Name;
                         albumDetailsViewModel.Photos = destinationService.GetContentListWithSkipAndLimit(0, 4, destination.DestinationID);
+                        albumDetailsViewModel.NumberOfPhotos = destinationService.GetNumberOfContentInDestination(albumDetailsViewModel.DestinationID);
                         if (albumDetailsViewModel.Photos != null && albumDetailsViewModel.Photos.Count > 0)
                         {
-                            albumDetailsViewModel.NumberOfPhotos = albumDetailsViewModel.Photos.Count();
                             albumsViewModel.NumberOfPhotos += albumDetailsViewModel.NumberOfPhotos;
                             albumsViewModel.AlbumList.Add(albumDetailsViewModel);
                         }
@@ -139,12 +141,14 @@ namespace Footprints.Controllers
             Regex regex = new Regex(Common.Constant.GUID_REGEX);
             if (userID == null || userID.Length == 0 || BlockNumber <= 0 || !regex.IsMatch(userID)) return null;
             var targetUserID = new Guid(userID);
+            Guid currentUserID = new Guid(User.Identity.GetUserId());
+
             IList<Content> contentList = userService.GetListContentByUserID (targetUserID, BlockNumber * NumberOfPhotoPerLoad, NumberOfPhotoPerLoad);
             InfiniteScrollPhotoListJsonModel jsonModel = new InfiniteScrollPhotoListJsonModel();
             jsonModel.HTMLString = "";
             jsonModel.NoMoreData = true;
             jsonModel.PhotoList = new List<string>();
-            if (contentList == null || contentList.Count() > 0)
+            if (contentList != null && contentList.Count() > 0)
             {
                 foreach (var content in contentList)
                 {

@@ -392,6 +392,11 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)").Where((User User) => User.UserID == UserID).Return<int>("Count(Content)").Results;
             return query.Count() == 0 ? 0 : query.First();
         }
+        public int GetNumberOfContentInDestination(Guid DestinationID)
+        {
+            var query = Db.Cypher.OptionalMatch("(Destination:Destination)-[:HAS]->(Content:Content)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return<int>("Count(Content)").Results;
+            return query.Count() == 0 ? 0 : query.First();
+        }
         public IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID)
         {
             var query = Db.Cypher.Match("(Destination:Destination)-[:HAS]->(Content:Content)").
@@ -426,6 +431,7 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfShare(Guid DestinationID);
         bool UserAlreadyShared(Guid UserID, Guid DestinationID);
         int GetNumberOfContent(Guid UserID);
+        int GetNumberOfContentInDestination(Guid DestinationID);
         IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID);
         void DeleteDestinationForAdmin(Guid DestinationID);
         bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);

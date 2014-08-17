@@ -264,8 +264,8 @@
     <Compile Include="Models\Destination.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Journey.cs" />
-    <Compile Include="Models\ViewModels\ImageViewModel.cs" />
-    <Compile Include="Models\ViewModels\PersonalViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewModel.cs" />
+    <Compile Include="ViewModels\PersonalViewModel.cs" />
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\User.cs" />
@@ -276,14 +276,14 @@
     <Compile Include="Services\NewsfeedService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Models\ViewModels\DestinationViewModel.cs" />
-    <Compile Include="Models\ViewModels\InfiniteScrollJsonModel.cs" />
-    <Compile Include="Models\ViewModels\JourneyViewModel.cs" />
-    <Compile Include="Models\ViewModels\MediaViewModel.cs" />
-    <Compile Include="Models\ViewModels\FriendViewModel.cs" />
-    <Compile Include="Models\ViewModels\NewsfeedPostViewModel.cs" />
-    <Compile Include="Models\ViewModels\PersonalAboutViewModel.cs" />
-    <Compile Include="Models\ViewModels\NewsfeedViewModel.cs" />
+    <Compile Include="ViewModels\DestinationViewModel.cs" />
+    <Compile Include="ViewModels\InfiniteScrollJsonModel.cs" />
+    <Compile Include="ViewModels\JourneyViewModel.cs" />
+    <Compile Include="ViewModels\MediaViewModel.cs" />
+    <Compile Include="ViewModels\FriendViewModel.cs" />
+    <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
+    <Compile Include="ViewModels\PersonalAboutViewModel.cs" />
+    <Compile Include="ViewModels\NewsfeedViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\components\admin_courses\courses-featured-1.init.js" />

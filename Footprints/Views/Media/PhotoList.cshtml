@@ -1,15 +1,15 @@
 ﻿@model IList<Footprints.Models.Content>
-@foreach (var photo in Model)
+@foreach (var content in Model)
 {
-    <li class="col-md-3" id="Content-@photo.ContentID">
-        <a class="thumb no-ajaxify" data-gallery="gallery-3" href="@photo.URL">
-            @if (@photo.ThumbURL != null && @photo.ThumbURL.Length > 0)
+    <li id="Content-@content.ContentID" class="col-lg-3 col-md-2" style="position:relative">
+        <a class="thumb no-ajaxify" data-gallery="gallery-3" href="@content.URL">
+            @if (@content.ThumbURL != null && @content.ThumbURL.Length > 0)
             {
-                <img src="@photo.ThumbURL" alt="photo" class="img-responsive" />
+                <img src="@content.ThumbURL" alt="photo" class="img-responsive" />
             }
             else
             {
-                <img src="@photo.URL" alt="photo" class="img-responsive" />
+                <img src="@content.URL" alt="photo" class="img-responsive" />
             }
         </a>
     </li>

@@ -16,6 +16,8 @@ namespace Footprints.Controllers
 {
     public class DestinationController : Controller
     {
+        int NumberOfPhotoPerLoad = 18;
+
         IDestinationService destinationService;
         ICommentService commentService;
         IUserService userService;
@@ -43,7 +45,8 @@ namespace Footprints.Controllers
             //current user
             var userId = new Guid(User.Identity.GetUserId());
             //destination model
-            var destinationModel = destinationService.GetDestinationDetail(destinationID);
+            //var destinationModel = destinationService.GetDestinationDetail(destinationID);
+            var destinationModel = destinationService.GetDestinationDetailWithLimitedContent(destinationID, NumberOfPhotoPerLoad);
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
             //destinationViewModel.Place = destinationService.GetDestinationPlace(destinationID);
             var comments = commentService.RetrieveDestinationComment(destinationID);
@@ -294,7 +297,8 @@ namespace Footprints.Controllers
                     {
                         ContentID = ContentID,
                         Timestamp = DateTimeOffset.Now,
-                        URL = fileInforList.files[0].url
+                        URL = fileInforList.files[0].url,
+                        ThumbURL = fileInforList.files[0].thumbnailUrl
                     };
                     destinationService.AddNewContent(uploadedPhoto, DestinationID, UserID);
                 }
@@ -369,13 +373,36 @@ namespace Footprints.Controllers
         {
             return PartialView("DestinationMainContentWidget", viewModel);
         }
-
         public ActionResult ShareDestination(Guid userID, Guid destinationID, string content)
         {
             var result = "Fail";
             destinationService.ShareDestination(userID, destinationID, content);
 
             return Json(new { Result = result }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult LazyLoadGallery(int BlockNumber, Guid destinationID)
+        {
+            InfiniteScrollPhotoListJsonModel jsonModel = new InfiniteScrollPhotoListJsonModel();
+            jsonModel.NoMoreData = true;
+            IList<Content> contentList = destinationService.GetContentListWithSkipAndLimit(BlockNumber * NumberOfPhotoPerLoad, NumberOfPhotoPerLoad, destinationID);
+            var destination = destinationService.GetDestination(destinationID);
+            var userId = new Guid(User.Identity.GetUserId());
+            jsonModel.PhotoList = new List<string>();
+            TempData["IsAuthor"] = userId == destination.UserID ? true : false;
+            if (contentList != null && contentList.Count() > 0)
+            {
+                foreach (var content in contentList)
+                {
+                    jsonModel.PhotoList.Add(content.ContentID.ToString());
+                }
+                jsonModel.HTMLString = RenderPartialViewToString("PhotoList", contentList);
+                if (contentList.Count >= NumberOfPhotoPerLoad)
+                {
+                    jsonModel.NoMoreData = false;
+                }
+            }
+            TempData.Remove("IsAuthor");
+            return Json(jsonModel);
         }
     }
 }

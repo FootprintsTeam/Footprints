@@ -1,0 +1,31 @@
+﻿@model IList<Footprints.Models.Content>
+@foreach (var content in Model)
+{
+    <li id="Content-@content.ContentID" class="col-md-2" style="position:relative">
+        @if ((bool)TempData["IsAuthor"])
+        {
+            <div class="icon-edit pull-right" style="position:absolute; top:1px;right:8px; z-index:10; display:none">
+                <div class="dropdown">
+                    <a href="#" data-toggle="dropdown">
+                        <span class="btn-default no-margin no-padding"><i class="glyphicon glyphicon-pencil"></i> </span>
+                    </a>
+                    <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
+                        <li>
+                            <a onclick="javascript:SetupDeletePhotoForm.displayPopUpWindow('@content.ContentID');">Delete</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        }
+        <a class="thumb no-ajaxify" data-gallery="gallery-3" href="@content.URL">
+            @if (@content.ThumbURL != null && @content.ThumbURL.Length > 0)
+            {
+                <img src="@content.ThumbURL" alt="photo" class="img-responsive" />
+            }
+            else
+            {
+                <img src="@content.URL" alt="photo" class="img-responsive" />
+            }
+        </a>
+    </li>
+}

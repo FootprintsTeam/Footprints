@@ -47,6 +47,7 @@ namespace Footprints.Common
                     DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest();
                     deleteObjectsRequest.BucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
                     deleteObjectsRequest.AddKey(UserID + "/" + AlbumID + "/" + ContentID + ".jpg");
+                    deleteObjectsRequest.AddKey(UserID + "/" + AlbumID + "/thumbnails/" + ContentID + ".jpg");
                     DeleteObjectsResponse deleteObjectResponse = s3Client.DeleteObjects(deleteObjectsRequest);
                 }
             }

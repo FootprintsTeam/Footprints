@@ -33,6 +33,7 @@ namespace Footprints.Services
         int GetNumberOfShare(Guid DestinationID);
         bool UserAlreadyShared(Guid UserID, Guid DestinationID);
         int GetNumberOfContent(Guid UserID);
+        int GetNumberOfContentInDestination(Guid DestinationID);
         IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID);
         void DeleteDestinationForAdmin(Guid DestinationID);
         bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);
@@ -138,6 +139,10 @@ namespace Footprints.Services
         public int GetNumberOfContent(Guid UserID)
         {
             return _destinationRepo.GetNumberOfContent(UserID);
+        }
+        public int GetNumberOfContentInDestination(Guid DestinationID)
+        {
+            return _destinationRepo.GetNumberOfContentInDestination(DestinationID);
         }
         public IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID)
         {

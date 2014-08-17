@@ -16,7 +16,7 @@
                         <div class="tabsbar">
                             <ul>
                                 <li class="glyphicons camera  @(ViewBag.ActiveTab == "AllPhotos" ? "active" : "")"><a href="@Url.Action("Index", "Media", new { userID = ViewBag.TargetUserID})"><i></i> View all photos <strong>(@ViewBag.NumberOfPhotos)</strong></a></li>
-                                <li class="glyphicons folder_open @(ViewBag.ActiveTab == "Albums" ? "active" : "")"><a href="@Url.Action("Albums", "Media", new { userID = ViewBag.TargetUserID})"><i></i> Albums <strong>(@ViewBag.NumberOfAlbums)</strong></a></li>
+                                <li class="glyphicons folder_open @(ViewBag.ActiveTab == "Albums" ? "active" : "")"><a href="@Url.Action("Albums", "Media", new { userID = ViewBag.TargetUserID})"><i></i> Albums</a></li>
                                 @*<li class="glyphicons circle_plus tab-stacked @(ViewBag.ActiveTab == "AddPhotos" ? "active" : "")"><a href=""><i></i> <span>Add Photos</span></a></li>*@
                                 @*<li class="glyphicons folder_plus tab-stacked @(ViewBag.ActiveTab == "CreateAlbum" ? "active" : "")"><a href=""><i></i> <span>Create Album</span></a></li>*@
                             </ul>

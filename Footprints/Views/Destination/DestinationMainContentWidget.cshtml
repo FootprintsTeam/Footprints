@@ -1,54 +1,40 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
 @using Footprints.ViewModels
-@{
-    ViewBag.IsAuthor = (bool)TempData["IsAuthor"];
-}
 <div class="widget widget-tabs widget-tabs-double widget-tabs-responsive">
     <div class="widget-body">
         <div class="tab-content">
             <!-- Tab content -->
-            <div class="tab-pane active" id="tab1-2">
+            <div class="tab-pane active" id="tab-map">
                 <div id="google-map-container-destinations" style="height: 200px; width: 100%">
                     <div id="map-canvas-destinations" class="map-canvas"></div>
                 </div>
             </div>
             <!-- // Tab content END -->
             <!-- Tab content -->
-            <div class="tab-pane" id="tab2-2">
-                @if (ViewBag.IsAuthor)
+            <div class="tab-pane" id="tab-gallery">
+                @if ((bool)TempData["IsAuthor"])
                 {
-                    <div class="row innerAll">
-                        @{Html.RenderPartial("UploadPhotoForm", new PhotoUploadFormViewModel { ActionName = "AddNewPhoto", ControllerName = "Destination", DestinationID = Model.DestinationID, DisplaySlide = false });}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#add-photo-form"><i class="fa fa-plus-circle"></i> Add Photo</a></h4>
+                        </div>
+                        <div id="add-photo-form" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                @{Html.RenderPartial("UploadPhotoForm", new PhotoUploadFormViewModel { ActionName = "AddNewPhoto", ControllerName = "Destination", DestinationID = Model.DestinationID, DisplaySlide = false });}
+                            </div>
+                        </div>
                     </div>
                 }
                 @if (Model.Contents != null && Model.Contents.Count() > 0)
                 {
-                    <div class="widget widget-gallery" data-toggle="collapse-widget">
+                    <div class="widget widget-gallery" data-toggle="collapse-widget" style="max-height: 320px; overflow: auto;" id="widget-gallery-area">
                         <div class="widget-body">
                             <div class="gallery gallery-2">
                                 <ul class="row">
-                                    @foreach (var content in @Model.Contents)
-                                    {
-                                        <li id="content-area-wrapper-@content.ContentID" class="col-md-3" style="position:relative">
-                                            @if (ViewBag.IsAuthor)
-                                            {
-                                                <div class="icon-edit pull-right" style="position:absolute; top:1px;right:8px; z-index:10">
-                                                    <div class="dropdown">
-                                                        <a href="#" data-toggle="dropdown">
-                                                            <span class="btn-default no-margin no-padding"><i class="glyphicon glyphicon-pencil"></i> </span>
-                                                        </a>
-                                                        <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
-                                                            <li>
-                                                                <a onclick="javascript:SetupDeleteDestinationForm.displayPopUpWindow('@content.ContentID');">Delete</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            }
-                                            <a class="thumb no-ajaxify" data-gallery="gallery-2" href="@content.URL"><img src="@content.URL" alt="photo" class="img-responsive" /></a>
-                                        </li>
-                                    }
+                                    @{Html.RenderPartial("PhotoList", Model.Contents);}
+                                    <li style="display:none" id="emty-last-image"></li>
                                 </ul>
+                                <div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
                             </div>
                         </div>
                     </div>
@@ -73,10 +59,10 @@
     <div class="widget-head" style="border-top: 1px solid #efefef; border-bottom:none !important">
         <ul>
             <li class="active">
-                <a href="#tab1-2" class="glyphicons google_maps" data-toggle="tab"><i></i><span class="strong">Maps</span><span>Pin location</span></a>
+                <a href="#tab-map" class="glyphicons google_maps" data-toggle="tab"><i></i><span class="strong">Maps</span><span>Pin location</span></a>
             </li>
             <li>
-                <a href="#tab2-2" class="glyphicons picture" data-toggle="tab"><i></i><span class="strong">Images</span><span>Captured</span></a>
+                <a href="#tab-gallery" class="glyphicons picture" data-toggle="tab"><i></i><span class="strong">Images</span><span>Captured</span></a>
             </li>
         </ul>
 
@@ -101,10 +87,10 @@
     <!-- // Tabs Heading END -->
 </div>
 @{
-    if (ViewBag.IsAuthor)
+    if ((bool)TempData["IsAuthor"])
     {
         <script type="text/javascript">
-            var SetupDeleteDestinationForm = (function () {
+            var SetupDeletePhotoForm = (function () {
                 return {
                     init: function () {
                     },
@@ -115,9 +101,46 @@
                 };
             })();
             $(function () {
-                SetupDeleteDestinationForm.init();
+                SetupDeletePhotoForm.init();
+            });
+            $('li[id^="Content-"]').mouseover(function () {
+                $(this).find('div.icon-edit.pull-right').show();
+            });
+            $('li[id^="Content-"]').mouseout(function () {
+                $(this).find('.icon-edit.pull-right').hide();
             });
         </script>
     }
     TempData.Remove("IsAuthor");
 }
+<script type="text/javascript">
+    var photoBlockNumber = 1;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+    var widgetGalleryArea = $('#widget-gallery-area');
+
+    $('#widget-gallery-area').scroll(function () {
+        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight && !NoMoreData && !inProgress) {
+            inProgress = true;
+            $("#loadingDiv").show();
+
+            $.post("@Url.Action("LazyLoadGallery", "Destination")", { "BlockNumber": photoBlockNumber, "destinationID": "@Model.DestinationID" },
+            function (data) {
+                photoBlockNumber++;
+                NoMoreData = data.NoMoreData;
+                $('#emty-last-image').before(data.HTMLString);
+                if (data.PhotoList != null && data.PhotoList.length > 0) {
+                    $.each(data.PhotoList, function (k, id) {
+                        $('#Content-' + id.toString()).find('img[class="img-responsive"]').resizecrop({
+                            width: imageContainerWidth,
+                            height: imageContainerWidth,
+                            vertical: "top"
+                        })
+                    });
+                }
+                $("#loadingDiv").hide();
+                inProgress = false;
+            });
+        }
+    });
+</script>
