@@ -404,12 +404,40 @@ namespace Footprints.DAL.Concrete
                         Skip(Skip).Limit(Limit).Results;
             return query.Count() == 0 ? null : query.ToList<Content>();
         }
-
         public int GetNumberOfContentByUserID(Guid UserID)
         {
             return Db.Cypher.Match(" (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content:Content)").
                         Where((User User) => User.UserID == UserID).
                         Return<int>("Count(Content)").Results.FirstOrDefault();
+        }
+        public IList<Activity> GetAllActivity(Guid UserID)
+        {
+            var query = Db.Cypher.Match("(User:User)-[:LATEST_ACTIVITY]->(LatestActivity:Activity)").
+                        Where((User User) => User.UserID == UserID).
+                        Match("(LatestActivity)-[:NEXT*]->(Activity:Activity)").
+                        Return((LatestActivity, Activity) => new
+                        {
+                            LatestActivity = LatestActivity.As<Activity>(),
+                            Activity = Activity.CollectAs<Activity>()
+                        }).
+                        Results;
+            List<Activity> result = new List<Activity>();
+            foreach (var item in query)
+            {
+                if ((item.LatestActivity != null) && (item.LatestActivity.Status != Activity.StatusEnum.Deleted) ) 
+                {
+                    result.Add(item.LatestActivity);
+                }
+                foreach (var activity in item.Activity)
+	            {
+		            if ((activity != null) && (activity.Data.Status != Activity.StatusEnum.Deleted)) 
+                    {
+                        result.Add(activity.Data);
+                    }
+	            }
+                return result;
+            }
+            return null;
         }
     }
     
@@ -441,5 +469,6 @@ namespace Footprints.DAL.Concrete
         IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit);
         IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit);
         int GetNumberOfContentByUserID(Guid UserID);
+        IList<Activity> GetAllActivity(Guid UserID);
     }
 }
