@@ -23,7 +23,7 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(User:User)-[ego:EGO* {UserID : User.UserID }]->(friend:User)").
                         Where((User User) => User.UserID == UserID).AndWhere("friend.UserID <> 'TEMP'").
                         Match("(friend)-[:LATEST_ACTIVITY]->(latest_activity:Activity)").
-                        Match("(latest_activity)-[:NEXT*]->(next_activity)").
+                        Match("(latest_activity)-[:NEXT*]->(next_activity:Activity)").
                         Return((friend, latest_activity, next_activity) => new
                         {
                             friend = friend.As<User>(),
