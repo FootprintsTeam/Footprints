@@ -13,12 +13,14 @@ namespace Footprints.DAL.Concrete
         public CommentRepository(IGraphClient client) : base(client) { }
         public IList<Comment> GetAllCommentOnJourney(Guid JourneyID)
         {
-            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(user:User)").Where((Comment comment) => comment.JourneyID == JourneyID).
-                Return((comment, user) => new
-                {
-                    comment = comment.As<Comment>(),
-                    user = user.As<User>()
-                }).OrderBy("comment.Timestamp").Results;
+            var query = Db.Cypher.Match("(comment:Comment)-[:ON]->(Journey:Journey)").
+                        Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                        Match("(comment)-[:COMMENT_BY]->(user:User)").
+                        Return((comment, user) => new
+                        {
+                            comment = comment.As<Comment>(),
+                            user = user.As<User>()
+                        }).OrderBy("comment.Timestamp").Results;
             List<Comment> result = new List<Comment>();
             Comment currentComment = new Comment();
             foreach (var item in query)
@@ -32,12 +34,14 @@ namespace Footprints.DAL.Concrete
         public IList<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
 
-            var query = Db.Cypher.Match("(comment:Comment)-[:COMMENT_BY]->(user:User)").Where((Comment comment) => comment.DestinationID == DestinationID).
-                Return((comment, user) => new
-                {
-                    comment = comment.As<Comment>(),
-                    user = user.As<User>()
-                }).OrderBy("comment.Timestamp").Results;
+            var query = Db.Cypher.Match("(comment:Comment)-[:ON]->(Destination:Destination)").
+                        Where((Destination Destination) => Destination.DestinationID == DestinationID).
+                        Match("(comment)-[:COMMENT_BY]->(user:User)").
+                        Return((comment, user) => new
+                        {
+                            comment = comment.As<Comment>(),
+                            user = user.As<User>()
+                        }).OrderBy("comment.Timestamp").Results;
             List<Comment> result = new List<Comment>();
             Comment currentComment = new Comment();
             foreach (var item in query)
@@ -113,6 +117,10 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
                                                 " WITH Comment, Activity " +
+                                                " MATCH (Destination:Destination) " +
+                                                " WHERE (Destination.DestinationID = {DestinationID}) " +
+                                                " CREATE (Comment)-[:ON]->(Destination) " +
+                                                " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
                                                 " CREATE (Comment)-[:COMMENT_BY]->(User) " +
@@ -151,6 +159,10 @@ namespace Footprints.DAL.Concrete
 
             CypherQuery query = new CypherQuery(" CREATE (Comment:Comment {Comment}) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
+                                                " WITH Comment, Activity " +
+                                                " MATCH (Journey:Journey) " +
+                                                " WHERE (Journey.JourneyID = {JourneyID}) " +
+                                                " CREATE (Comment)-[:ON]->(Journey) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
