@@ -19,5 +19,6 @@ namespace Footprints.Models
         [Display(Name = "Place Name")]
         [Required(ErrorMessage = "Place Name is required")]
         public String Name { get; set; }
+        public String Address { get; set; }
     }
 }

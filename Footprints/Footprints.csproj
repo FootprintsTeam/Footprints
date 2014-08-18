@@ -233,6 +233,7 @@
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="Controllers\NewsfeedController.cs" />
     <Compile Include="Controllers\PersonalController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DAL\Abstract\IRepository.cs" />
     <Compile Include="DAL\Abstract\RepositoryBase.cs" />
     <Compile Include="DAL\Concrete\NewsFeedRepository.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
     <Compile Include="ViewModels\PersonalAboutViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedViewModel.cs" />
+    <Compile Include="ViewModels\SearchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\components\admin_courses\courses-featured-1.init.js" />
@@ -2608,6 +2610,10 @@
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Media\PhotoList.cshtml" />
     <Content Include="Views\Destination\PhotoList.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Search\DestinationList.cshtml" />
+    <Content Include="Views\Search\JourneyList.cshtml" />
+    <Content Include="Views\Search\UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

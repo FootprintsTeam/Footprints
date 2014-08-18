@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Footprints.Models.Destination>
+<table class="table table-vertical-center border-bottom">
+    <tr>
+        <th class="center">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th class="center">
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th class="center">
+            @Html.DisplayNameFor(model => model.TakenDate)
+        </th>
+        <th class="center">
+            @Html.DisplayNameFor(model => model.NumberOfLike)
+        </th>
+        <th class="center">
+            @Html.DisplayNameFor(model => model.NumberOfShare)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TakenDate)
+            </td>
+            <td class="center">
+                @Html.DisplayFor(modelItem => item.NumberOfLike)
+            </td>
+            <td class="center">
+                @Html.DisplayFor(modelItem => item.NumberOfShare)
+            </td>
+            <td class="center">
+                <a class="btn btn-xs btn-primary" href="@Url.Action("Index", "Destination", new { destinationID = @item.DestinationID })">View <i class="icon-eye-open"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>

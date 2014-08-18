@@ -1,0 +1,20 @@
+﻿@model Footprints.ViewModels.SearchViewModel
+@{
+    ViewBag.Title = "Search";
+}
+@if (Model.Destinations.Count > 0)
+{
+    Html.RenderPartial("DestinationList", Model.Destinations);
+}
+@if (Model.Journeys.Count > 0)
+{
+    Html.RenderPartial("JourneyList", Model.Journeys);
+}
+@if (Model.Users.Count > 0)
+{
+    Html.RenderPartial("UserList", Model.Users);
+}
+@if (Model.Places.Count > 0)
+{
+    Html.RenderPartial("JourneyList", Model.Places);
+}
