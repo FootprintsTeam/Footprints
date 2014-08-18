@@ -11,7 +11,6 @@ namespace Footprints.Common
     public class Search : RepositoryBase<Search>, ISearch
     {
         public Search(IGraphClient client) : base(client) { }
-
         public IList<Object> GeneralSearch(String TextEntered)
         {           
             return null;

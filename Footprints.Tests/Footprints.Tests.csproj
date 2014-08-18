@@ -115,11 +115,11 @@
     <Compile Include="Common\StringUtilTests.cs" />
     <Compile Include="DITest\AutofacTest.cs" />
     <Compile Include="DITest\BaseTestClass.cs" />
-    <Compile Include="DITest\CommentDALTest.cs" />
-    <Compile Include="DITest\DestinationDALTest.cs" />
-    <Compile Include="DITest\JourneyDALTest.cs" />
-    <Compile Include="DITest\NewsfeedTest.cs" />
-    <Compile Include="DITest\UserDALTest.cs" />
+    <Compile Include="DAL\Concrete\CommentDALTest.cs" />
+    <Compile Include="DAL\Concrete\DestinationDALTest.cs" />
+    <Compile Include="DAL\Concrete\JourneyDALTest.cs" />
+    <Compile Include="DAL\Concrete\NewsfeedTest.cs" />
+    <Compile Include="DAL\Concrete\UserDALTest.cs" />
     <Compile Include="DITest\UserMigrationTest.cs" />
     <Compile Include="ModelViews\NewsfeedViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

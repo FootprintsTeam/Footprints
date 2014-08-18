@@ -15,7 +15,6 @@ namespace Footprints.Common.Tests
         {
             Assert.Fail();
         }
-
         [TestMethod()]
         public void GetContentIdFromS3UrlTest()
         {
