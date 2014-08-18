@@ -11,7 +11,7 @@ namespace Footprints.DAL.Concrete
     public class NewsFeedRepository : RepositoryBase<NewsFeedRepository>, INewsFeedRepository
     {
         private C5.IntervalHeap<Activity> priorityQueue;
-        private System.Collections.Generic.HashSet<Activity> result;
+        private List<Activity> result;
         private LinkedList<User> friendList = new LinkedList<User>();
         private LinkedList<LinkedList<Activity>> activities = new LinkedList<LinkedList<Activity>>();
         private Activity latestActivity = new Activity(), mostRecentActivity = new Activity();
@@ -51,14 +51,14 @@ namespace Footprints.DAL.Concrete
             }
             activities.AddLast(activity);
         }
-        public void RetrieveNewsFeed(Guid UserID, int k)
+        public IList<Activity> RetrieveNewsFeed(Guid UserID, int k)
         {
             //If necessary
             LoadEgoNetwork(UserID);
             //Init
             ActivityComparer comparer = new ActivityComparer();
             priorityQueue = new C5.IntervalHeap<Activity>(comparer);
-            result = new HashSet<Activity>();
+            result = new List<Activity>();
 
             numberOfFriends = friendList.Count;
             // Add latest activity of closest friend in ego
@@ -110,16 +110,21 @@ namespace Footprints.DAL.Concrete
                     }
                 }
             }
+            return result.Count == 0 ? null : result;
         }
-        public void LoadMoreNewsfeed(Guid UserID, int l)
+        public IList<Activity> LoadMoreNewsfeed(Guid UserID, int l)
         {
             int cnt = 0;
             numberOfFriends = friendList.Count;
+            List<Activity> moreNewsfeed = new List<Activity>();
             while (!priorityQueue.IsEmpty && cnt < l)
             {
                 mostRecentActivity = priorityQueue.FindMax();
                 priorityQueue.DeleteMax();
-                result.Add(mostRecentActivity);
+                if ((mostRecentActivity != null) && (mostRecentActivity.Status != Activity.StatusEnum.Deleted))
+                {
+                    moreNewsfeed.Add(mostRecentActivity);
+                }
                 cnt++;
                 var tempActivity = activities.ElementAt(currentFriendPosition).Find(mostRecentActivity);
                 if (tempActivity != null && tempActivity.Next != null)
@@ -145,6 +150,7 @@ namespace Footprints.DAL.Concrete
                     }
                 }
             }
+            return moreNewsfeed.Count == 0 ? null : moreNewsfeed;
         }
     }
     public class ActivityComparer : Comparer<Activity>
@@ -157,7 +163,7 @@ namespace Footprints.DAL.Concrete
     public interface INewsFeedRepository
     {
         void LoadEgoNetwork(Guid UserID);
-        void RetrieveNewsFeed(Guid UserID, int k);
-        void LoadMoreNewsfeed(Guid UserID, int l);
+        IList<Activity> RetrieveNewsFeed(Guid UserID, int k);
+        IList<Activity> LoadMoreNewsfeed(Guid UserID, int l);
     }
 }

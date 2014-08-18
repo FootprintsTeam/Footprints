@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Footprints.Models;
 
 namespace Footprints.Services
 {
@@ -17,9 +18,9 @@ namespace Footprints.Services
         {
             newsfeedRepository.LoadEgoNetwork(UserID);
         }
-        public void RetrieveNewsFeed(Guid UserID, int k)
+        public IList<Activity> RetrieveNewsFeed(Guid UserID, int k)
         {
-            newsfeedRepository.RetrieveNewsFeed(UserID, k);
+            return newsfeedRepository.RetrieveNewsFeed(UserID, k);
         }
         public void LoadMoreNewsfeed(Guid UserID, int l)
         {
@@ -29,7 +30,7 @@ namespace Footprints.Services
     public interface INewsfeedService
     {
         void LoadEgoNetwork(Guid UserID);
-        void RetrieveNewsFeed(Guid UserID, int k);
-        void LoadMoreNewsfeed(Guid UserID, int l);
+        IList<Activity> RetrieveNewsFeed(Guid UserID, int k);
+        IList<Activity> LoadMoreNewsfeed(Guid UserID, int l);
     }
 }
