@@ -120,6 +120,7 @@ namespace Footprints.DAL.Concrete
                                                 " MATCH (Destination:Destination) " +
                                                 " WHERE (Destination.DestinationID = {DestinationID}) " +
                                                 " CREATE (Comment)-[:ON]->(Destination) " +
+                                                " CREATE (Activity)-[:COMMENT_ON_DESTINATION]->(Destination) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
@@ -163,6 +164,7 @@ namespace Footprints.DAL.Concrete
                                                 " MATCH (Journey:Journey) " +
                                                 " WHERE (Journey.JourneyID = {JourneyID}) " +
                                                 " CREATE (Comment)-[:ON]->(Journey) " +
+                                                " CREATE (Activity)-[:COMMENT_ON_JOURNEY]->(Journey) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
