@@ -11,6 +11,7 @@ using Footprints.DAL.Concrete;
 using System.Web.Mvc;
 using Footprints.Services;
 using System.Reflection;
+using Footprints.Common;
 
 namespace Footprints.App_Start
 {
@@ -23,7 +24,7 @@ namespace Footprints.App_Start
             //register database connection
             builder.Register<IGraphClient>(context =>
             {
-                var graphClient = new GraphClient(new Uri("http://54.179.157.145:7474/db/data"));
+                var graphClient = new GraphClient(new Uri("http://54.179.164.142:7474/db/data"));
                 graphClient.Connect();
                 return graphClient;
             }).SingleInstance();
@@ -41,6 +42,7 @@ namespace Footprints.App_Start
             builder.RegisterType<DestinationService>().As<IDestinationService>();
             builder.RegisterType<UserService>().As<IUserService>();
             builder.RegisterType<NewsfeedService>().As<INewsfeedService>();
+			builder.RegisterType<Search>().As<ISearch>();
 
             var container = builder.Build();
             return container;

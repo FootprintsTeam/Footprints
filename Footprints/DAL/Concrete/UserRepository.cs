@@ -171,7 +171,7 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetFriendList(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:FRIEND]->(Friend:User)").
+            return Db.Cypher.Match("(user:User)-[:FRIEND]->(Friend:User)").
                 Where((User user) => user.UserID == UserID).
                 AndWhere("Friend.UserID <> 'TEMP'").
                 Return(Friend => Friend.As<User>()).Results.ToList<User>();
@@ -266,7 +266,7 @@ namespace Footprints.DAL.Concrete
 
         public bool CheckFriendShip(Guid UserID_A, Guid UserID_B)
         {
-            var query = Db.Cypher.OptionalMatch("(UserA:User {UserID : {UserID_A}})-[rel:FRIEND]->(UserB:User {UserID : {UserID_B}})").WithParams(new { UserID_A = UserID_A, UserID_B = UserID_B}).
+            var query = Db.Cypher.Match("(UserA:User {UserID : {UserID_A}})-[rel:FRIEND]->(UserB:User {UserID : {UserID_B}})").WithParams(new { UserID_A = UserID_A, UserID_B = UserID_B}).
                         Where("rel IS NOT NULL").Return(UserA => UserA.As<User>()).Results;
             return query.Count() > 0 ? true : false;
         }

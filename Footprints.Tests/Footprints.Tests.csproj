@@ -54,6 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="StaticReflection, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ExpressionReflection.1.2.0\lib\net45\StaticReflection.dll</HintPath>
@@ -113,13 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\StringUtilTests.cs" />
+    <Compile Include="DAL\Concrete\CommentRepositoryTests.cs" />
     <Compile Include="DITest\AutofacTest.cs" />
     <Compile Include="DITest\BaseTestClass.cs" />
-    <Compile Include="DAL\Concrete\CommentDALTest.cs" />
-    <Compile Include="DAL\Concrete\DestinationDALTest.cs" />
-    <Compile Include="DAL\Concrete\JourneyDALTest.cs" />
-    <Compile Include="DAL\Concrete\NewsfeedTest.cs" />
-    <Compile Include="DAL\Concrete\UserDALTest.cs" />
     <Compile Include="DITest\UserMigrationTest.cs" />
     <Compile Include="ModelViews\NewsfeedViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
