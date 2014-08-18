@@ -22,9 +22,9 @@ namespace Footprints.Services
         {
             return newsfeedRepository.RetrieveNewsFeed(UserID, k);
         }
-        public void LoadMoreNewsfeed(Guid UserID, int l)
+        public IList<Activity> LoadMoreNewsfeed(Guid UserID, int l)
         {
-            newsfeedRepository.LoadMoreNewsfeed(UserID, l);
+            return newsfeedRepository.LoadMoreNewsfeed(UserID, l);
         }
     }
     public interface INewsfeedService
