@@ -12,19 +12,28 @@ using Footprints.Models;
 using Footprints.ViewModels;
 using Footprints.Services;
 using System.IO;
+using Footprints.Common;
+using Microsoft.AspNet.Identity;
+
 namespace Footprints.Controllers
 {
     [Authorize]
     public class NewsfeedController : Controller
     {
         IUserService userService;
-        public NewsfeedController(IUserService userService) {
+        INewsfeedService newsfeedService;
+        public NewsfeedController(IUserService userService, INewsfeedService newsfeedService) {
             this.userService = userService;
+            this.newsfeedService = newsfeedService;
         }
         //
         // GET: /Newsfeed/Newsfeed/
         public ActionResult Index()
         {
+            newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);
+
+
+
             return View();
         }
 

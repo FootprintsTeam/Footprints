@@ -47,5 +47,17 @@ namespace Footprints.Common
             int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
             return years <= 1 ? "one year ago" : years + " years ago";
         }
+
+        public static string ToStringTiny(this DateTimeOffset dt) {
+            return dt.ToString("MM/dd/yyyy");   // Saturday, 21 July 2007 14:58
+        }
+
+        public static string ToStringShort(this DateTimeOffset dt) {
+            return dt.ToString("dddd, dd MMMM yyyy");   //Saturday, 21 July 2007
+        }
+
+        public static string ToStringLong(this DateTimeOffset dt) {
+            return dt.ToString("dddd, dd MMMM yyyy HH:mm"); // Saturday, 21 July 2007 14:58
+        }
     }
 }
