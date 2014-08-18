@@ -29,7 +29,6 @@ namespace Footprints.DAL.Concrete
             }
             return result;
         }
-
         public IList<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
 
@@ -65,14 +64,12 @@ namespace Footprints.DAL.Concrete
             }
             return null;
         }
-
         public bool UpdateComment(Guid UserID, Comment Comment)
         {
             Db.Cypher.OptionalMatch("(Comment:Comment)-[rel:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.CommentID == Comment.CommentID).
                         AndWhere((User User) => User.UserID == UserID).With("Comment, rel").Where("rel IS NOT NULL").Set("Comment = {Comment}").WithParam("Comment", Comment).ExecuteWithoutResults();
             return true;
         }
-
         public bool AddDestinationComment(Guid UserID, Comment Comment)
         {
             //Cypher Query
@@ -141,7 +138,6 @@ namespace Footprints.DAL.Concrete
             ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }
-
         public bool AddJourneyComment(Guid UserID, Comment Comment)
         {
             Activity activity = new Activity
@@ -181,21 +177,18 @@ namespace Footprints.DAL.Concrete
             ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }
-
         public void LikeAComment(Guid UserID, Guid CommentID)
         {
             Db.Cypher.Match("(User:User), (Comment:Comment)").Where((User User) => User.UserID == UserID).AndWhere((Comment Comment) => Comment.CommentID == CommentID).
                 Create("(Comment)-[:LIKED_BY]->(User)").Set("Comment.NumberOfLike = Comment.NumberOfLike + 1")
                 .ExecuteWithoutResults();
         }
-
         public void UnlikeAComment(Guid UserID, Guid CommentID)
         {
             Db.Cypher.Match("(Comment:Comment)-[rel:LIKED_BY]->(User:User)").Where((User User) => User.UserID == UserID).AndWhere((Comment Comment) => Comment.CommentID == CommentID).
                  Set("Comment.NumberOfLike = Comment.NumberOfLike - 1").Delete("rel")
                 .ExecuteWithoutResults();
         }
-
         public IList<User> GetAllUserLikeComment(Guid CommentID)
         {
             return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(user:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results.ToList<User>();
@@ -215,7 +208,6 @@ namespace Footprints.DAL.Concrete
                         ExecuteWithoutResults();
         }
     }
-
     public interface ICommentRepository : IRepository<CommentRepository>
     {
         IList<Comment> GetAllCommentOnDestination(Guid DestinationID);

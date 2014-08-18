@@ -19,15 +19,17 @@ namespace Footprints.DAL.Concrete
         public NewsFeedRepository(IGraphClient client) : base(client) { }
         public void LoadEgoNetwork(Guid UserID)
         {
-            String egoEdges = UserID.ToString();
             //SQL-Injection-prone
-            var query = Db.Cypher.Match("(user:User {UserID : {UserID} })-[ego:EGO* {UserID : {UserID} }]->(friend:User)-[:LATEST_ACTIVITY]->(latest_activity:Activity)-[:NEXT*]->(next_activity:Activity)").WithParams(new { UserID = egoEdges }).
-                    Return((friend, latest_activity, next_activity) => new
-                    {
-                        friend = friend.As<User>(),
-                        latest_activity = latest_activity.As<Activity>(),
-                        next_activity = next_activity.As<Activity>()
-                    }).Results;
+            var query = Db.Cypher.Match("(User:User)-[ego:EGO* {UserID : User.UserID }]->(friend:User)").
+                        Where((User User) => User.UserID == UserID).
+                        Match("(friend)-[:LATEST_ACTIVITY]->(latest_activity:Activity)").
+                        Match("(latest_activity)-[:NEXT*]->(next_activity)").
+                        Return((friend, latest_activity, next_activity) => new
+                        {
+                            friend = friend.As<User>(),
+                            latest_activity = latest_activity.As<Activity>(),
+                            next_activity = next_activity.As<Activity>()
+                        }).Results;
             LinkedList<Activity> activity = new LinkedList<Activity>();
             User currentFriend = new User();
             foreach (var item in query)
