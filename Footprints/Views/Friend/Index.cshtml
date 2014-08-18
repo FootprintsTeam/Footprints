@@ -47,17 +47,18 @@
                         var isAuthor = true;
     //var isAuthor = @Model.UserID.ToString().ToLower().Equals(@User.Identity.GetUserId().ToLower());
                     }
-                    @foreach (var friend in @Model.FriendList)
+
+                    @foreach (var friend in Model.FriendList)
                     {
                         <div class="col-md-12 col-lg-6 bg-white border-bottom" name="friend-item-wrapper">
                             <div class="row" id="block-friend-@friend.UserID">
                                 <div class="col-sm-9">
                                     <div class="media">
                                         <a class="pull-left margin-none" href="@Url.Action("Index", "Personal", new { id= @Model.UserID})">
-                                            <img class="img-clean" src="@friend.ProfilePictureUrl" alt=" ...">
+                                            <img class="img-clean" src="@friend.ProfilePicURL" alt=" ...">
                                         </a>
                                         <div class="media-body innerAll inner-2x padding-right-none padding-bottom-none">
-                                            <h4 class="media-heading"><a href="@Url.Action("Index", "Personal", new { id= @Model.UserID})" class="text-inverse" name="username">@friend.UserName</a></h4>
+                                            <h4 class="media-heading"><a href="@Url.Action("Index", "Personal", new { id= @Model.UserID })" class="text-inverse" name="username">@friend.UserName</a></h4>
                                             <p>@friend.Time.ToString("dd MMM yyyy")</p>
                                         </div>
                                     </div>
@@ -96,6 +97,7 @@
                     }
                 </div>
             </div>
+
             @{Html.RenderPartial("TimelineAccountMenu");}
 
         </div>

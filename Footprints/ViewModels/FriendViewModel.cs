@@ -11,7 +11,7 @@ namespace Footprints.ViewModels
     {
         public Guid UserID { get; set; }
         public String UserName { get; set; }
-        public IList<FriendItemViewModel> FriendList { get; set; }
+        public IList<FriendItemViewModel> FriendList = new List<FriendItemViewModel>();
         public static FriendViewModel GetSampleObject()
         {
             var list = new List<FriendItemViewModel>();
@@ -32,7 +32,7 @@ namespace Footprints.ViewModels
         public Guid UserID { get; set; }
         public String UserName { get; set; }
         public DateTime Time { get; set; }
-        public String ProfilePictureUrl { get; set; }
+        public String ProfilePicURL { get; set; }
         public static FriendItemViewModel GetSampleObject()
         {
             return new FriendItemViewModel()
@@ -40,7 +40,7 @@ namespace Footprints.ViewModels
                 UserID = Guid.NewGuid(),
                 UserName = "Hùng Vi",
                 Time = DateTime.Now,
-                ProfilePictureUrl = "../assets/images/people/100/22.jpg"
+                ProfilePicURL = "../assets/images/people/100/22.jpg"
             };
         }
     }
