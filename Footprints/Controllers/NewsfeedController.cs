@@ -30,11 +30,11 @@ namespace Footprints.Controllers
         // GET: /Newsfeed/Newsfeed/
         public ActionResult Index()
         {
-            var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);
+            //var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);
 
-            foreach (var activity in newsfeedWidgets) {
+            //foreach (var activity in newsfeedWidgets) {
 
-            };
+            //};
 
 
             return View();
