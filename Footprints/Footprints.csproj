@@ -2559,7 +2559,6 @@
     <Content Include="Views\Newsfeed\CommentWidget.cshtml" />
     <Content Include="Views\Newsfeed\DestinationWidget.cshtml" />
     <Content Include="Views\Newsfeed\JourneyWidget.cshtml" />
-    <Content Include="Views\Newsfeed\ListFriendWidget.cshtml" />
     <Content Include="Views\Newsfeed\PersonalWidget.cshtml" />
     <Content Include="Views\Newsfeed\ShareWidget.cshtml" />
     <Content Include="Views\Newsfeed\WidePictureWidget.cshtml" />
@@ -2614,6 +2613,11 @@
     <Content Include="Views\Search\DestinationList.cshtml" />
     <Content Include="Views\Search\JourneyList.cshtml" />
     <Content Include="Views\Search\UserList.cshtml" />
+    <Content Include="Views\Personal\PersonalShareWidget.cshtml" />
+    <Content Include="Views\Personal\PersonalDestinationWidget.cshtml" />
+    <Content Include="Views\Personal\PersonalJourneyWidget.cshtml" />
+    <Content Include="Views\Personal\PersonalAddPhotoWidget.cshtml" />
+    <Content Include="Views\Personal\PersonalCommentWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

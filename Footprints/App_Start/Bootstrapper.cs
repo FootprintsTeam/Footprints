@@ -33,12 +33,14 @@ namespace Footprints.App_Start
             builder.RegisterType<JourneyRepository>().As<IJourneyRepository>();
             builder.RegisterType<DestinationRepository>().As<IDestinationRepository>();
             builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder.RegisterType<NewsFeedRepository>().As<INewsFeedRepository>();
 
             //register service layer
             builder.RegisterType<CommentService>().As<ICommentService>();
             builder.RegisterType<JourneyService>().As<IJourneyService>();
             builder.RegisterType<DestinationService>().As<IDestinationService>();
             builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<NewsfeedService>().As<INewsfeedService>();
 
             var container = builder.Build();
             return container;
