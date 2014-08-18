@@ -1,1 +1,11 @@
-﻿
+﻿@model Footprints.ViewModels.CommentWidgetViewModel
+@using Footprints.Common
+
+<li class="active">
+    <span class="type glyphicons comments">Comment <i></i><span class="time">@Model.Timestamp.ToStringShort()</span></span>
+    <div class="widget widget-heading-simple widget-body-white margin-none">
+        <div class="widget-body">
+            <p class="glyphicons user margin-none"><i></i> <strong><a href="">@Model.UserName</a> commented on a destination</strong> @Model.Content.TruncateLongString(100)</p>
+        </div>
+    </div>
+</li>
