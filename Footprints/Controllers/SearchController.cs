@@ -1,34 +1,28 @@
-﻿using System;
+﻿using Footprints.Common;
+using Footprints.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Footprints.Models;
-using Footprints.Common;
-using Footprints.Services;
 
 namespace Footprints.Controllers
 {
     public class SearchController : Controller
     {
-        public ISearch SystemSearch;
-
-        public SearchController(ISearch SystemSearch)
-        {                        
-            this.SystemSearch = SystemSearch;
-        }
-
-        //
-        // GET: /Search/
-        public ActionResult Journey(String TextEntered)
+        ISearch search;
+        public SearchController(ISearch search)
         {
-            IList<Journey> list = SystemSearch.SearchJourney(TextEntered);
-            return View(list);
+            this.search = search;
         }
-
-        public PartialViewResult JourneyPartial()
+        public ActionResult Index(string keyword)
         {
-            return new PartialViewResult();
+            SearchViewModel model = new SearchViewModel();
+            model.Destinations = search.SearchDestination(keyword, 10);
+            model.Journeys = search.SearchJourney(keyword, 10);
+            model.Places = search.SearchPlace(keyword, 10);
+            model.Users = search.SearchUser(keyword, 10);
+            return View();
         }
 	}
 }

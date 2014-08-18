@@ -3,7 +3,9 @@ using Footprints.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-
+using Microsoft.AspNet.Identity;
+using Footprints.Models;
+using AutoMapper;
 namespace Footprints.Controllers
 {
     public class FriendController : Controller
@@ -17,10 +19,25 @@ namespace Footprints.Controllers
 
         //
         // GET: /Friend/Friend/
-        public ActionResult Index()
+        public ActionResult Index(string userID = "default")
         {
-            var model = FriendViewModel.GetSampleObject();
-            return View(model);
+            IList<User> friendList;
+            if (userID != "default")
+            {
+                friendList = userService.GetFriendList(new Guid(userID));                
+            }
+            else
+            {
+                friendList = userService.GetFriendList(new Guid(User.Identity.GetUserId()));
+            }
+
+            var viewModel = new FriendViewModel();
+
+            foreach (User user in friendList) {
+                viewModel.FriendList.Add(Mapper.Map<User,FriendItemViewModel>(user));
+            };
+            
+            return View(viewModel);
         }
 
         [HttpPost]
