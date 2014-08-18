@@ -14,6 +14,7 @@ using Footprints.Services;
 using System.IO;
 using Footprints.Common;
 using Microsoft.AspNet.Identity;
+
 namespace Footprints.Controllers
 {
     [Authorize]

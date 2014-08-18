@@ -1,5 +1,6 @@
 ﻿@model Footprints.ViewModels.PersonalViewModel
 @using Footprints.Common;
+@using Footprints.ViewModels;
 @{
     ViewBag.Title = "Personal Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,7 +25,7 @@
                                 <ul class="timeline">
                                     @{Html.RenderPartial("AddDestinationWidget");}
                                     @{Html.RenderPartial("CommentPersonalWidget");}
-                                    @{Html.RenderPartial("AddPhotoPersonalWidget");}
+                                    @{Html.RenderPartial("PersonalAddPhotoWidget",AddPhotoWidgetViewModel.GetSampleObject());}
                                 </ul>
                             </div>
                         </div>
