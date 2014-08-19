@@ -12,21 +12,20 @@ namespace Footprints.Tests.DITest
 {
     public class BaseTestClass
     {        
-        public static GraphClient client;
+        public  GraphClient client;
 
         //List Repository
-        public static UserRepository userRep;
-        public static JourneyRepository journeyRep;
-
+        public UserRepository userRep;
+        public JourneyRepository journeyRep;
+        public CommentRepository commentRepo;
         //List model
-        public static IList<User> users;
-        public static IList<Journey> journeys;
+        public IList<User> users;
+        public IList<Journey> journeys;
 
         public BaseTestClass() {
             client = new GraphClient(new Uri("http://54.179.157.145:7474/db/data"));
             client.Connect();
-            SetupUser();
-            SetupJourney();
+            commentRepo = new CommentRepository(client);
         }
 
         void SetupUser(){
