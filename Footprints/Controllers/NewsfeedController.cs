@@ -14,6 +14,7 @@ using Footprints.Services;
 using System.IO;
 using Footprints.Common;
 using Microsoft.AspNet.Identity;
+using AutoMapper;
 
 namespace Footprints.Controllers
 {
@@ -22,21 +23,76 @@ namespace Footprints.Controllers
     {
         IUserService userService;
         INewsfeedService newsfeedService;
-        public NewsfeedController(IUserService userService, INewsfeedService newsfeedService) {
+        public NewsfeedController(IUserService userService, INewsfeedService newsfeedService)
+        {
             this.userService = userService;
             this.newsfeedService = newsfeedService;
         }
+
         //
         // GET: /Newsfeed/Newsfeed/
+
+
         public ActionResult Index()
         {
             var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);
+            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();
+            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+
+            if (newsfeedWidgets == null)
+            {
+                return View();
+            }
 
             foreach (var activity in newsfeedWidgets)
             {
 
-            };
+                var user = userService.RetrieveUser(activity.UserID);
 
+                switch (activity.Type)
+                {
+                    case Constant.ActivityAddNewContent:
+                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);                        
+                        Mapper.Map<User, AddPhotoWidgetViewModel>(user, photoModel);
+                        viewModels.Add(photoModel);
+                        break;
+
+                    case Constant.ActivityAddNewDestination:
+                        DestinationWidgetViewModel destinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
+                        Mapper.Map<User, DestinationWidgetViewModel>(user, destinationModel);
+                        viewModels.Add(destinationModel);
+                        break;
+
+                    case Constant.ActivityAddNewFriend:
+                        //
+                        break;
+
+                    case Constant.ActivityAddnewJourney:
+                        JourneyWidgetViewModel journeyModel = Mapper.Map<Activity, JourneyWidgetViewModel>(activity);
+                        Mapper.Map<User, JourneyWidgetViewModel>(user, journeyModel);
+                        viewModels.Add(journeyModel);
+                        break;
+
+                    case Constant.ActivityComment:
+                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);
+                        Mapper.Map<User, CommentWidgetViewModel>(user, commentModel);
+                        viewModels.Add(commentModel);
+                        break;
+
+                    case Constant.ActivityLikeDestination:                        
+                        break;
+
+                    case Constant.ActivityShareDestination:
+                        ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);
+                        Mapper.Map<User, ShareWidgetViewModel>(user, shareModel);
+                        viewModels.Add(shareModel);
+                        break;
+
+                    default:
+                        System.Diagnostics.Debug.WriteLine(activity.Type + "something");
+                        break;
+                }
+            };
 
             return View();
         }
@@ -81,44 +137,49 @@ namespace Footprints.Controllers
             //var books = DataManager.GetBooks(BlockNumber, BlockSize);
             IList<InfiniteScrollJsonModel> jsonModels = new List<InfiniteScrollJsonModel>();
             //jsonModel.NoMoreData = books.Count < BlockSize;
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject())});
+            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("DestinationWidget", DestinationWidgetViewModel.GetSampleObject()) });
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddPhotoWidget", AddPhotoWidgetViewModel.GetSampleObject()) });
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("JourneyWidget", JourneyWidgetViewModel.GetSampleObject()) });
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("ShareWidget", ShareWidgetViewModel.GetSampleObject()) });
-            
+
             return Json(jsonModels);
         }
 
         [Authorize]
         [ChildActionOnly]
-        public ActionResult MainNavBar() {
+        public ActionResult MainNavBar()
+        {
             var userModel = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
             return PartialView("MainNavBar", userModel);
         }
 
         [ChildActionOnly]
-        public ActionResult AddPhotoWidget() {
+        public ActionResult AddPhotoWidget()
+        {
             var sample = AddPhotoWidgetViewModel.GetSampleObject();
             return PartialView(sample);
         }
 
         [ChildActionOnly]
-        public ActionResult CommentWidget() {
+        public ActionResult CommentWidget()
+        {
             var sample = CommentWidgetViewModel.GetSampleObject();
             return PartialView(sample);
         }
 
         [ChildActionOnly]
-        public ActionResult ShareWidget() {
+        public ActionResult ShareWidget()
+        {
             var sample = ShareWidgetViewModel.GetSampleObject();
             return PartialView(sample);
         }
 
         [ChildActionOnly]
-        public ActionResult PersonalWidget() {
+        public ActionResult PersonalWidget()
+        {
             var sample = PersonalWidgetViewModel.GetSampleObject();
-            return PartialView(sample); 
+            return PartialView(sample);
         }
 
         [ChildActionOnly]
@@ -129,9 +190,10 @@ namespace Footprints.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult JourneyWidget() {
+        public ActionResult JourneyWidget()
+        {
             var sample = JourneyWidgetViewModel.GetSampleObject();
             return PartialView(sample);
         }
-	}
+    }
 }

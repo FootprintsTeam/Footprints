@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Footprints.Models;
+using Footprints.ViewModels;
 
 namespace Footprints.Common
 {
@@ -28,6 +29,32 @@ namespace Footprints.Common
         public static string GetContentIdFromS3Url(string s3FileAbsolutePath, string userId, string albumId)
         {
             return s3FileAbsolutePath.Replace("https://s3-" + Amazon.RegionEndpoint.APSoutheast1.SystemName + ".amazonaws.com/" + System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"] + "/" + userId + "/" + albumId + "/", "").Replace(".jpg", "");
+        }
+
+        public static string GetWidgetViewName(this NewsfeedBaseWidgetViewModel widget)
+        {
+            switch (widget.Type)
+            {
+                case Constant.ActivityAddNewContent:
+                    return "AddPhotoWidget";
+                case Constant.ActivityAddNewDestination:
+                    return "DestinationWidget";
+                case Constant.ActivityAddNewFriend:
+                    return "FriendWidget";
+                case Constant.ActivityAddnewJourney:
+                    return "JourneyWidget";
+                case Constant.ActivityComment:
+                    return "CommentWidget";
+                case Constant.ActivityLikeDestination:
+                    System.Diagnostics.Debug.WriteLine(widget.Type);
+                    break;
+                case Constant.ActivityShareDestination:
+                    return "ShareWidget";
+                default:
+                    System.Diagnostics.Debug.WriteLine(widget.Type + "something");
+                    return "";
+            }
+            return "";
         }
     }
 }

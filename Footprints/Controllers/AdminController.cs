@@ -131,8 +131,8 @@ namespace Footprints.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = UserManager.SetEmail(User.UserID.ToString(), User.Email.ToString());
-                if (user != null)
+                IdentityResult user = UserManager.SetEmail(User.UserID.ToString(), User.Email.ToString());
+                if (user.Succeeded)
                 {
                     userSer.UpdateUser(User);
                     return RedirectToAction("UserList");
@@ -143,8 +143,8 @@ namespace Footprints.Controllers
 
         public ActionResult BanUser(Guid UserID)
         {
-            var roleResult = UserManager.AddToRole(UserID.ToString(), "Banned");
-            if (roleResult != null)
+            IdentityResult roleResult = UserManager.AddToRole(UserID.ToString(), "Banned");
+            if (roleResult.Succeeded)
             {
                 userSer.BanUser(UserID);
                 return RedirectToAction("UserList");
@@ -154,8 +154,8 @@ namespace Footprints.Controllers
 
         public ActionResult GrantAdminPermision(Guid UserID)
         {
-            var roleResult = UserManager.AddToRole(UserID.ToString(), "Administrator");
-            if (roleResult != null)
+            IdentityResult roleResult = UserManager.AddToRole(UserID.ToString(), "Administrator");
+            if (roleResult.Succeeded)
             {
                 userSer.GrantAdminPrivilege(UserID);
                 return RedirectToAction("UserList");

@@ -26,6 +26,14 @@ namespace Footprints.Common
         public const string mapUrl = "http://maps.googleapis.com/maps/api/staticmap";
         public static string UPLOAD_PHOTO_ERROR_MESSAGE = "An error occurred while processing your request";
         public const int defaultNewsfeedBlockNumber = 8;
+        public const string ActivityAddNewFriend = "ADD_NEW_FRIEND";
+        public const string ActivityComment = "COMMENT_ON_DESTINATION";
+        public const string ActivityAddNewDestination = "ADD_NEW_DESTINATION";
+        public const string ActivityAddnewJourney = "ADD_NEW_JOURNEY";
+        public const string ActivityShareDestination = "SHARE_A_DESTINATION";
+        public const string ActivityLikeDestination = "LIKE_A_DESTINATION";
+        public const string ActivityAddNewContent = "ADD_NEW_CONTENT";
+
     }
 
     public enum Genre

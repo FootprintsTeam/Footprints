@@ -17,6 +17,7 @@ namespace Footprints.ViewModels
         public int NumberOfLike { get; set; }
         public int NumberOfShare { get; set; }
         public IList<CommentViewModel> Comments { get; set; }
+        public string Type { get; set; }
     }
 
     public class AddPhotoWidgetViewModel : NewsfeedBaseWidgetViewModel

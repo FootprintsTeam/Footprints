@@ -8,13 +8,18 @@
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4 style="padding-left:30px;padding-top:70px;">Journey</h4>
+        <h4 style="padding-left:30px;padding-top:70px;">User</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.UserID)                
         @Html.HiddenFor(model => model.UserName)
-        @Html.HiddenFor(model => model.About)
-        @Html.HiddenFor(model => model.About)
+        @Html.HiddenFor(model => model.PhoneNumber)        
+        @Html.HiddenFor(model => model.About)      
+        @Html.HiddenFor(model => model.ProfilePicURL)
+        @Html.HiddenFor(model => model.CoverPhotoURL)    
+        @Html.HiddenFor(model => model.JoinDate)
+        @Html.HiddenFor(model => model.Status)
+
 
         <div class="btn-group" style="padding-left:30px;">
             @Html.ActionLink("Ban User", "BanUser", "Admin", new { UserID = Model.UserID }, new { @class = "btn btn-danger" })
@@ -25,49 +30,42 @@
         
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Email)
-                @Html.ValidationMessageFor(model => model.Email)
+            <div class="col-md-6">                
+                @Html.TextBoxFor(model => model.Email, new { @class = "col-md-6" })                
             </div>
+                @Html.ValidationMessageFor(model => model.Email)           
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Genre, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.Genre)
-                @Html.ValidationMessageFor(model => model.Genre)
+                @Html.TextBoxFor(model => model.Genre, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.Genre)            
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.FirstName)
-                @Html.ValidationMessageFor(model => model.FirstName)
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.FirstName)            
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.LastName)
-                @Html.ValidationMessageFor(model => model.LastName)
+                @Html.TextBoxFor(model => model.LastName, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.LastName)            
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.DateOfBirth)
-                @Html.ValidationMessageFor(model => model.DateOfBirth)
+                @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.DateOfBirth)            
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.JoinDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.JoinDate)
-                @Html.ValidationMessageFor(model => model.JoinDate)
-            </div>
-        </div>
-
+   
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
