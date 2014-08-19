@@ -18,6 +18,8 @@
         @Html.HiddenFor(model => model.Place.PlaceID)
         @Html.HiddenFor(model => model.Place.Reference)
         @Html.HiddenFor(model => model.Contents)
+        @Html.HiddenFor(model => model.NumberOfLike)
+        @Html.HiddenFor(model => model.NumberOfShare)
         
         <div class="form-group">
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
@@ -52,20 +54,6 @@
             <div class="col-md-6">
                 @Html.EditorFor(model => model.Timestamp)
                 @Html.ValidationMessageFor(model => model.Timestamp)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfLike, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.NumberOfLike)
-                @Html.ValidationMessageFor(model => model.NumberOfLike)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfShare, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.NumberOfShare)
-                @Html.ValidationMessageFor(model => model.NumberOfShare)
             </div>
         </div>
 

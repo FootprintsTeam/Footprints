@@ -15,6 +15,8 @@
         @Html.HiddenFor(model => model.JourneyID)
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.Destinations)
+        @Html.HiddenFor(model => model.NumberOfLike)
+        @Html.HiddenFor(model => model.NumberOfShare)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
@@ -44,21 +46,7 @@
                 @Html.ValidationMessageFor(model => model.Timestamp)
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfLike, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.NumberOfLike)
-                @Html.ValidationMessageFor(model => model.NumberOfLike)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfShare, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.NumberOfShare)
-                @Html.ValidationMessageFor(model => model.NumberOfShare)
-            </div>
-        </div>
-
+     
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
