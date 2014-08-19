@@ -23,6 +23,20 @@ namespace Footprints.Mappings
             Mapper.CreateMap<Comment, CommentViewModel>();
             Mapper.CreateMap<User, DestinationViewModel>();
             Mapper.CreateMap<User, FriendItemViewModel>();
+            Mapper.CreateMap<Activity, NewsfeedBaseWidgetViewModel>();
+            Mapper.CreateMap<Activity, AddPhotoWidgetViewModel>();
+            Mapper.CreateMap<Activity, CommentWidgetViewModel>();
+            Mapper.CreateMap<Activity, ShareWidgetViewModel>();
+            Mapper.CreateMap<Activity, PersonalWidgetViewModel>();
+            Mapper.CreateMap<Activity, DestinationWidgetViewModel>();
+            Mapper.CreateMap<Activity, JourneyWidgetViewModel>();
+            Mapper.CreateMap<User, NewsfeedBaseWidgetViewModel>();
+            Mapper.CreateMap<User, AddPhotoWidgetViewModel>();
+            Mapper.CreateMap<User, CommentWidgetViewModel>();
+            Mapper.CreateMap<User, ShareWidgetViewModel>();
+            Mapper.CreateMap<User, PersonalWidgetViewModel>();
+            Mapper.CreateMap<User, DestinationWidgetViewModel>();
+            Mapper.CreateMap<User, JourneyWidgetViewModel>();
         }
     }
 }

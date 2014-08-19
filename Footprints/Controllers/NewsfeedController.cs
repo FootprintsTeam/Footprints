@@ -32,71 +32,64 @@ namespace Footprints.Controllers
         //
         // GET: /Newsfeed/Newsfeed/
 
-        public string GetWidgetViewName(this NewsfeedBaseWidgetViewModel widget) {
-            switch (widget.Type)
-            {
-                case Constant.ActivityAddNewContent:
-                    return "AddPhotoWidget";                    
-                case Constant.ActivityAddNewDestination:
-                    return "DestinationWidget";
-                case Constant.ActivityAddNewFriend:
-                    return "FriendWidget";
-                case Constant.ActivityAddnewJourney:
-                    return "JourneyWidget";
-                case Constant.ActivityComment:
-                    return "CommentWidget";
-                case Constant.ActivityLikeDestination:
-                    System.Diagnostics.Debug.WriteLine(widget.Type);
-                    break;
-                case Constant.ActivityShareDestination:
-                    return "ShareWidget";                    
-                default:
-                    System.Diagnostics.Debug.WriteLine(widget.Type + "something");
-                    return "";
-            }
-            return "";
-        }
 
         public ActionResult Index()
         {
             var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);
-            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();            
-
+            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();
+            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));            
+            
             foreach (var activity in newsfeedWidgets)
             {
-                Mapper.Map<Activity, NewsfeedBaseWidgetViewModel>(activity);
+
+                var user = userService.RetrieveUser(activity.UserID);
 
                 switch (activity.Type)
                 {
                     case Constant.ActivityAddNewContent:
-                        System.Diagnostics.Debug.WriteLine(activity.Type);
+                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);                        
+                        Mapper.Map<User, AddPhotoWidgetViewModel>(user, photoModel);
+                        viewModels.Add(photoModel);
                         break;
+
                     case Constant.ActivityAddNewDestination:
-                        System.Diagnostics.Debug.WriteLine(activity.Type);
+                        DestinationWidgetViewModel destinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
+                        Mapper.Map<User, DestinationWidgetViewModel>(user, destinationModel);
+                        viewModels.Add(destinationModel);
                         break;
+
                     case Constant.ActivityAddNewFriend:
-                        System.Diagnostics.Debug.WriteLine(activity.Type);
+                        //
                         break;
+
                     case Constant.ActivityAddnewJourney:
-                        System.Diagnostics.Debug.WriteLine(activity.Type);
+                        JourneyWidgetViewModel journeyModel = Mapper.Map<Activity, JourneyWidgetViewModel>(activity);
+                        Mapper.Map<User, JourneyWidgetViewModel>(user, journeyModel);
+                        viewModels.Add(journeyModel);
                         break;
+
                     case Constant.ActivityComment:
-                        System.Diagnostics.Debug.WriteLine(activity.Type);
+                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);
+                        Mapper.Map<User, CommentWidgetViewModel>(user, commentModel);
+                        viewModels.Add(commentModel);
                         break;
-                    case Constant.ActivityLikeDestination:
-                        System.Diagnostics.Debug.WriteLine(activity.Type);
+
+                    case Constant.ActivityLikeDestination:                        
                         break;
+
                     case Constant.ActivityShareDestination:
-                        System.Diagnostics.Debug.WriteLine(activity.Type);
+                        ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);
+                        Mapper.Map<User, ShareWidgetViewModel>(user, shareModel);
+                        viewModels.Add(shareModel);
                         break;
+
                     default:
                         System.Diagnostics.Debug.WriteLine(activity.Type + "something");
                         break;
                 }
             };
-            
-            return View();
 
+            return View();
         }
 
         protected string RenderPartialViewToString(string viewName, object model)

@@ -52,6 +52,7 @@ namespace Footprints.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+                    Session["User"] = userService.RetrieveUser(new Guid(user.Id));
                     return RedirectToLocal(returnUrl);
                 }
                 else
