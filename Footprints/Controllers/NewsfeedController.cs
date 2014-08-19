@@ -37,8 +37,13 @@ namespace Footprints.Controllers
         {
             var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);
             IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();
-            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));            
-            
+            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+
+            if (newsfeedWidgets == null)
+            {
+                return View();
+            }
+
             foreach (var activity in newsfeedWidgets)
             {
 
