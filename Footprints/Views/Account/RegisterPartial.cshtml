@@ -11,7 +11,7 @@
     @Html.ValidationSummary(true)
 
     <div class="form-group">
-        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Name" })
+        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Username" })
         @Html.ValidationMessageFor(model => model.UserName)
     </div>
 
