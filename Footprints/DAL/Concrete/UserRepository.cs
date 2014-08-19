@@ -128,7 +128,7 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.Match("(User:User)").
                         Where((User User) => User.UserID == UserID).
-                        Set("User.Status = 'Baned'").
+                        Set("User.Status = 'Banned'").
                         Return(User => User.As<User>()).Results;
             return query.Count() == 0 ? false : true;           
         }
