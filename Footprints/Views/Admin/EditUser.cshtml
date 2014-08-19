@@ -30,40 +30,40 @@
         
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Email)
-                @Html.ValidationMessageFor(model => model.Email)
+            <div class="col-md-6">                
+                @Html.TextBoxFor(model => model.Email, new { @class = "col-md-6" })                
             </div>
+                @Html.ValidationMessageFor(model => model.Email)           
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Genre, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.Genre)
-                @Html.ValidationMessageFor(model => model.Genre)
+                @Html.TextBoxFor(model => model.Genre, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.Genre)            
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.FirstName)
-                @Html.ValidationMessageFor(model => model.FirstName)
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.FirstName)            
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.LastName)
-                @Html.ValidationMessageFor(model => model.LastName)
+                @Html.TextBoxFor(model => model.LastName, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.LastName)            
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.EditorFor(model => model.DateOfBirth)
-                @Html.ValidationMessageFor(model => model.DateOfBirth)
+                @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "col-md-6" })
             </div>
+                @Html.ValidationMessageFor(model => model.DateOfBirth)            
         </div>
    
         <div class="form-group">
