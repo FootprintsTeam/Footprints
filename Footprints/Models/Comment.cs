@@ -14,5 +14,6 @@ namespace Footprints.Models
         public int NumberOfLike { get; set; }
         public DateTimeOffset Timestamp { get; set; }
         public User User { get; set; }
+        public String ProfilePicURL { get; set; }
     }
 }
