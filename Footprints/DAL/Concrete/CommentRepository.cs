@@ -26,6 +26,7 @@ namespace Footprints.DAL.Concrete
             foreach (var item in query)
             {
                 currentComment = item.comment;
+                currentComment.User = new User();
                 currentComment.User = item.user;
                 result.Add(currentComment);
             }
@@ -47,6 +48,7 @@ namespace Footprints.DAL.Concrete
             foreach (var item in query)
             {
                 currentComment = item.comment;
+                currentComment.User = new User();
                 currentComment.User = item.user;
                 result.Add(currentComment);
             }
@@ -63,6 +65,7 @@ namespace Footprints.DAL.Concrete
             foreach (var item in query)
             {
                 result = item.comment;
+                result.User = new User();
                 result.User = item.user;
                 return result;
             }

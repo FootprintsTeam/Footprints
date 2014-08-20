@@ -21,7 +21,7 @@ namespace Footprints.Common
             //Search by UserName
             var query = Db.Cypher.Start(new
             {
-                UserName = Node.ByIndexQuery("node_auto_index", "UserName:" + TextEntered + "~")
+                UserName = Node.ByIndexQuery("node_auto_index", "UserName:\"" + TextEntered + "\"")
             }).
             Return(UserName => UserName.As<User>()).
             Limit(Limit).
