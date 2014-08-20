@@ -23,7 +23,11 @@ namespace Footprints.Controllers
             SearchViewModel viewModel = new SearchViewModel();
             List<Journey> journeyList = new List<Journey>();
             viewModel.Keyword = dataModel.Keyword;
-            viewModel.Destinations = (List<Destination>)search.SearchDestination(dataModel.Keyword, NumberOfResultPerBlock);
+            viewModel.Destinations = search.SearchDestination(dataModel.Keyword, NumberOfResultPerBlock);
+            if (viewModel.Destinations != null)
+            {
+                viewModel.Destinations = viewModel.Destinations.Distinct(new DestinationEqualityComparer()).ToList();
+            }
             viewModel.Journeys = (List<Journey>)search.SearchJourney(dataModel.Keyword, NumberOfResultPerBlock);
             if (viewModel.Journeys == null)
             {
@@ -38,9 +42,13 @@ namespace Footprints.Controllers
             {
                 journeyList.AddRange(viewModel.Places);
             }
-            viewModel.Journeys = journeyList.Distinct().ToList();
+            viewModel.Journeys = journeyList.Distinct(new JourneyEqualityComparer()).ToList();
             viewModel.Places = null;
-            viewModel.Users = (List<User>)search.SearchUser(dataModel.Keyword, NumberOfResultPerBlock);
+            viewModel.Users = search.SearchUser(dataModel.Keyword, NumberOfResultPerBlock);
+            if (viewModel.Users != null)
+            {
+                viewModel.Users = viewModel.Users.Distinct(new UserEqualityComparer()).ToList();
+            }
             return View(viewModel);
         }
 
