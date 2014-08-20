@@ -29,6 +29,7 @@ namespace Footprints.DAL.Concrete
             Activity activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Activity.StatusEnum.Active,
                 Type = "JOIN_FOOTPRINTS",
                 Timestamp = DateTimeOffset.Now
             };
@@ -51,6 +52,7 @@ namespace Footprints.DAL.Concrete
             Activity ActivityOfA = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Activity.StatusEnum.Active,
                 Type = "ADD_NEW_FRIEND",
                 UserID = UserID_B,
                 Timestamp = DateTimeOffset.Now
@@ -58,6 +60,7 @@ namespace Footprints.DAL.Concrete
             Activity ActivityOfB = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Activity.StatusEnum.Active,
                 Type = "ADD_NEW_FRIEND",
                 UserID = UserID_A,
                 Timestamp = DateTimeOffset.Now

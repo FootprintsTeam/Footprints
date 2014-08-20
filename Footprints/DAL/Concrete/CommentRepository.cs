@@ -109,6 +109,7 @@ namespace Footprints.DAL.Concrete
             Activity activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Activity.StatusEnum.Active,
                 Type = "COMMENT_ON_DESTINATION",
                 UserID = UserID,
                 DestinationID = Comment.DestinationID,
@@ -152,6 +153,7 @@ namespace Footprints.DAL.Concrete
             Activity activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Activity.StatusEnum.Active,
                 Type = "COMMENT_ON_JOURNEY",
                 UserID = UserID,
                 JourneyID = Comment.JourneyID,

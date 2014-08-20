@@ -92,6 +92,7 @@ namespace Footprints.DAL.Concrete
             Activity Activity = new Activity()
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Models.Activity.StatusEnum.Active,
                 Type = "ADD_NEW_DESTINATION",
                 JourneyID = JourneyID,
                 DestinationID = Destination.DestinationID,
@@ -193,6 +194,7 @@ namespace Footprints.DAL.Concrete
             Activity Activity = new Activity()
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Models.Activity.StatusEnum.Active,
                 Type = "ADD_NEW_CONTENT",
                 DestinationID = DestinationID,
                 ContentID = Content.ContentID
@@ -250,6 +252,7 @@ namespace Footprints.DAL.Concrete
             Activity Activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Models.Activity.StatusEnum.Active,
                 Type = "LIKE_A_DESTINATION",
                 DestinationID = DestinationID,
                 Timestamp = DateTimeOffset.Now
@@ -298,6 +301,7 @@ namespace Footprints.DAL.Concrete
             Activity Activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Models.Activity.StatusEnum.Active,
                 Type = "SHARE_A_DESTINATION",
                 DestinationID = DestinationID,
                 Content = Content,

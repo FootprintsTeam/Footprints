@@ -66,6 +66,7 @@ namespace Footprints.DAL.Concrete
             Activity activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Activity.StatusEnum.Active,
                 Type = "ADD_NEW_JOURNEY",
                 UserID = UserID,
                 JourneyID = Journey.JourneyID,
@@ -176,6 +177,7 @@ namespace Footprints.DAL.Concrete
             Activity Activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Models.Activity.StatusEnum.Active,
                 Type = "LIKE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Timestamp = DateTimeOffset.Now
@@ -224,6 +226,7 @@ namespace Footprints.DAL.Concrete
             Activity Activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
+                Status = Models.Activity.StatusEnum.Active,
                 Type = "SHARE_A_JOURNEY",
                 JourneyID = JourneyID,
                 Content = Content,
