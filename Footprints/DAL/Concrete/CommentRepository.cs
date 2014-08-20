@@ -213,7 +213,7 @@ namespace Footprints.DAL.Concrete
         public void DeleteAComment(Guid UserID,Guid CommentID)
         {
             Db.Cypher.OptionalMatch("(Comment:Comment)-[rel:COMMENT_BY]->(User:User)").
-                        Where((Comment comment) => comment.CommentID == CommentID).
+                        Where((Comment Comment) => Comment.CommentID == CommentID).
                         AndWhere((User User) => User.UserID == UserID).
                         With("Comment, rel").Where("rel IS NOT NULL").
                         Match("(Comment)-[r]-()").
