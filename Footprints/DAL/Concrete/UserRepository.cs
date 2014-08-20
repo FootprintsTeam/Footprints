@@ -68,25 +68,25 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (activityOfA:Activity {ActivityOfA}) " +
                                                 " CREATE (activityOfB:Activity {ActivityOfB}) " + 
                                                 " WITH userA, userB, activityOfA, activityOfB " +
-                                                " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +
-                                                "    DELETE f " +
+                                                " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                                
                                                 "    CREATE (userA)-[:LATEST_ACTIVITY]->(activityOfA) " +
                                                 "    CREATE (activityOfA)-[:NEXT]->(nextActivityA) " +
+                                                "    DELETE f " +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
                                                 " MATCH (userB)-[fi:LATEST_ACTIVITY]->(nextActivityB) " +
-                                                "    DELETE fi " +
                                                 "    CREATE (userB)-[:LATEST_ACTIVITY]->(activityOfB) " +
                                                 "    CREATE (activityOfB)-[:NEXT]->(nextActivityB) " +
+                                                "    DELETE fi " +
                                                 " WITH userA, userB " +
                                                 " MATCH (userA)-[egoA:EGO {UserID : {UserID_A}}]->(EgoNodeOfA) " +
-                                                "    DELETE egoA " +
                                                 "    CREATE (userA)-[:EGO {UserID : {UserID_A}}]->(userB) " +
                                                 "    CREATE (userB)-[:EGO {UserID : {UserID_A}}]->(EgoNodeOfA) " +
+                                                "    DELETE egoA " +
                                                 " WITH userA, userB " +
                                                 " MATCH (userB)-[egoB:EGO {UserID : {UserID_B}}]->(EgoNodeOfB) " +
-                                                "    DELETE egoB " +
                                                 "    CREATE (userB)-[:EGO {UserID : {UserID_B}}]->(userA) " +
-                                                "    CREATE (userA)-[:EGO {UserID : {UserID_B}}]->(EgoNodeOfB)",
+                                                "    CREATE (userA)-[:EGO {UserID : {UserID_B}}]->(EgoNodeOfB)" +
+                                                "    DELETE egoB ",
                                                 new Dictionary<String, Object> { { "UserID_A", UserID_A }, { "UserID_B", UserID_B }, { "ActivityOfA", ActivityOfA }, { "ActivityOfB", ActivityOfB } }, 
                                                 CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
