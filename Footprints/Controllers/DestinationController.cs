@@ -45,10 +45,8 @@ namespace Footprints.Controllers
             //current user
             var userId = new Guid(User.Identity.GetUserId());
             //destination model
-            //var destinationModel = destinationService.GetDestinationDetail(destinationID);
             var destinationModel = destinationService.GetDestinationDetailWithLimitedContent(destinationID, NumberOfPhotoPerLoad);
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
-            //destinationViewModel.Place = destinationService.GetDestinationPlace(destinationID);
             var comments = commentService.RetrieveDestinationComment(destinationID);
             if (comments.Count > 0)
             {
@@ -61,16 +59,9 @@ namespace Footprints.Controllers
             destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(destinationModel.UserID).Count;
             destinationViewModel.NumberOfDestination = destinationService.GetNumberOfDestination(destinationModel.UserID);
             destinationViewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(destinationModel.UserID);
+            destinationViewModel.EditDestinationForm = new EditDestinationFormViewModel(destinationViewModel.Place);
             destinationViewModel.EditDestinationForm = Mapper.Map<DestinationViewModel, EditDestinationFormViewModel>(destinationViewModel);
-            //Set destination location for EditForm
-            destinationViewModel.EditDestinationForm.PlaceID = destinationViewModel.Place.PlaceID;
-            destinationViewModel.EditDestinationForm.Latitude = destinationViewModel.Place.Latitude;
-            destinationViewModel.EditDestinationForm.Longitude = destinationViewModel.Place.Longitude;
-            destinationViewModel.EditDestinationForm.PlaceName = destinationViewModel.Place.Name;
-            destinationViewModel.EditDestinationForm.Reference = destinationViewModel.Place.Reference;
-
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID), destinationViewModel);
-
             //check if user already like or share
             TempData["AlreadyLike"] = destinationService.UserAlreadyLike(userId, destinationID);
             TempData["IsAuthor"] = userId == destinationModel.UserID ? true : false;

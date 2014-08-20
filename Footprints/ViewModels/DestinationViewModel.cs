@@ -124,6 +124,7 @@ namespace Footprints.ViewModels
         public String PlaceID { get; set; }
         [Required(ErrorMessage = "Please choose a place on the map")]
         public String PlaceName { get; set; }
+        public String Address { get; set; }
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid JourneyID { get; set; }
@@ -151,23 +152,28 @@ namespace Footprints.ViewModels
         }
     }
 
-    public class EditDestinationFormViewModel
+    public class EditDestinationFormViewModel : Place
     {
+        public EditDestinationFormViewModel(Place place)
+        {
+            this.PlaceID = place.PlaceID;
+            this.PlaceName = place.Name;
+            this.Longitude = place.Longitude;
+            this.Latitude = place.Latitude;
+            this.Address = place.Address;
+            this.Reference = place.Reference;
+        }
+        public EditDestinationFormViewModel()
+        {
+        }
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid DestinationID { get; set; }
-        [Required(ErrorMessage = "Please choose a place on the map")]
-        public String PlaceID { get; set; }
         [Required(ErrorMessage = "Please choose a place on the map")]
         public String PlaceName { get; set; }
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid JourneyID { get; set; }
-        [Required(ErrorMessage = "Please choose a place on the map")]
-        public Double Longitude { get; set; }
-        [Required(ErrorMessage = "Please choose a place on the map")]
-        public Double Latitude { get; set; }
-        public String Reference { get; set; }
         [Required]
         public String Name { get; set; }
         [Required]
