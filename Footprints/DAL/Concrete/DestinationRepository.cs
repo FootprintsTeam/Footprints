@@ -197,7 +197,9 @@ namespace Footprints.DAL.Concrete
                 Status = Models.Activity.StatusEnum.Active,
                 Type = "ADD_NEW_CONTENT",
                 DestinationID = DestinationID,
-                ContentID = Content.ContentID
+                ContentID = Content.ContentID,
+                UserID = UserID,
+                Timestamp = Content.Timestamp,                
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination) WHERE (User.UserID = {UserID}) AND (Destination.DestinationID = {DestinationID}) " +
                                                 " WITH User, Destination " +
