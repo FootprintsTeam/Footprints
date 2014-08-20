@@ -1,12 +1,16 @@
 ﻿@model IEnumerable<Footprints.Models.User>
 @foreach (var item in Model) {
     <div class="col-lg-6 col-md-6">
-        <div class="media">
-            <a class="pull-left" href=""><img width="50" class="media-object" src="@item.ProfilePicURL" style="width: auto; height: auto; display: block; margin-left: auto; margin-right: auto;"></a>
-            <div class="media-body innerTB half">
-                <a class="pull-right innerT innerR text-muted" href="@Url.Action("Index", "Personal", new { userID = item.UserID})"><i class="fa fa-fw fa-eye fa-2x"></i></a>
-                <a class="strong display-block" href="@Url.Action("Index", "Personal", new { userID = item.UserID})">@item.DisplayName()</a>
-                <span>@String.Format("{0:dd MMMM yyyy}", item.JoinDate)</span>
+        <div class="widget">
+            <div class="widget-body padding-none">
+                <div class="media border-bottom innerAll margin-none">
+                    <div class="media-body">
+                        <a class="pull-left" href="@Url.Action("Index", "Personal", new { userID = item.UserID})"><img width="50" height="50" class="media-object" src="@item.ProfilePicURL" style="display: block; margin-left: auto; margin-right: auto;"></a>
+                        <a class="pull-right innerT innerR text-muted" href="@Url.Action("Index", "Personal", new { userID = item.UserID})"><i class="fa fa-fw fa-eye fa-2x"></i></a>
+                        <a class="strong display-block" href="@Url.Action("Index", "Personal", new { userID = item.UserID})"> @if (@item.DisplayName() != null && @item.DisplayName().Trim().Length > 0) { @item.DisplayName()} else {@item.UserName}</a>
+                        <span>@String.Format("{0:dd MMMM yyyy}", item.JoinDate)</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
