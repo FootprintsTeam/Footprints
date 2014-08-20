@@ -1,45 +1,27 @@
 ﻿@model IEnumerable<Footprints.Models.Destination>
-<table class="table table-vertical-center border-bottom">
-    <tr>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.TakenDate)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.NumberOfLike)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.NumberOfShare)
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TakenDate)
-            </td>
-            <td class="center">
-                @Html.DisplayFor(modelItem => item.NumberOfLike)
-            </td>
-            <td class="center">
-                @Html.DisplayFor(modelItem => item.NumberOfShare)
-            </td>
-            <td class="center">
-                <a class="btn btn-xs btn-primary" href="@Url.Action("Index", "Destination", new { destinationID = @item.DestinationID })">View <i class="icon-eye-open"></i></a>
-            </td>
-        </tr>
-    }
-
-</table>
+@foreach (var item in Model)
+{
+    <div class="col-lg-6 col-md-6">
+        <div class="widget">
+            <div class="widget-body padding-none">
+                <div class="media border-bottom innerAll margin-none">
+                    <div class="media-body">
+                        <a class="pull-right innerT innerR text-muted" href="@Url.Action("Index", "Destination", new { destinationID = item.DestinationID})"><i class="fa fa-fw fa-eye fa-2x"></i></a>
+                        <i class="fa fa-map-marker fa-2x"></i><a href="@Url.Action("Index", "Destination", new { destinationID = item.DestinationID })" class="text-inverse">@Html.DisplayFor(modelItem => item.Name)</a>
+                        <p>on @String.Format("{0:dd MMMM yyyy}", item.TakenDate)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="col-lg-6 col-md-6">
+        <div class="media">
+            <a class="pull-left" href=""><img width="50" class="media-object" src="../assets/images/people/50/3.jpg" style="width: auto; height: auto; display: block; margin-left: auto; margin-right: auto;"></a>
+            <div class="media-body innerTB half">
+                <a class="pull-right innerT innerR text-muted" href="@Url.Action("Index", "Journey", new { journeyID = item.JourneyID})"><i class="fa fa-fw fa-eye fa-2x"></i></a>
+                <a class="strong display-block" href="">@Html.DisplayFor(modelItem => item.Name)</a>
+                <span>on @String.Format("{0:dd MMMM yyyy}", item.TakenDate)</span>
+            </div>
+        </div>
+    </div>*@
+}

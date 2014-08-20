@@ -16,4 +16,13 @@ namespace Footprints.ViewModels
         public bool NoMoreData { get; set; }
         public IList<string> PhotoList { get; set; }
     }
+    public class InfiniteScrollSearchResultJsonModel
+    {
+        public string HTMLString { get; set; }
+        public int BlockNumber { get; set; }
+        public bool JourneyNoMoreData { get; set; }
+        public bool DestinationNoMoreData { get; set; }
+        public bool PlaceNoMoreData { get; set; }
+        public bool UserNoMoreData { get; set; }
+    }
 }

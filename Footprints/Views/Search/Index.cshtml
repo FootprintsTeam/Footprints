@@ -1,20 +1,61 @@
 ﻿@model Footprints.ViewModels.SearchViewModel
 @{
     ViewBag.Title = "Search";
+    ViewBag.Keyword = Model.Keyword;
 }
-@if (Model.Destinations.Count > 0)
-{
-    Html.RenderPartial("DestinationList", Model.Destinations);
-}
-@if (Model.Journeys.Count > 0)
-{
-    Html.RenderPartial("JourneyList", Model.Journeys);
-}
-@if (Model.Users.Count > 0)
-{
-    Html.RenderPartial("UserList", Model.Users);
-}
-@if (Model.Places.Count > 0)
-{
-    Html.RenderPartial("JourneyList", Model.Places);
-}
+
+<div class="container" style="margin-top:60px">
+    <div class="innerAll" style="height:60px">
+
+        <div class="row">
+            <div class="col-lg-10 col-md-8">
+                @if (Model.Journeys != null && Model.Journeys.Count > 0)
+                {
+                    Html.RenderPartial("JourneyList", Model.Journeys);
+                }
+                @if (Model.Destinations != null && Model.Destinations.Count > 0)
+                {
+                    Html.RenderPartial("DestinationList", Model.Destinations);
+                }
+                @if (Model.Users != null && Model.Users.Count > 0)
+                {
+                    Html.RenderPartial("UserList", Model.Users);
+                }
+                @if (Model.Places != null && Model.Places.Count > 0)
+                {
+                    Html.RenderPartial("JourneyList", Model.Places);
+                }
+                @*<div id="last-search-result-item" style="display:none"></div>*@
+            </div>
+        </div>
+        @*<div class="row">
+                <div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
+            </div>*@
+    </div>
+</div>
+@*<script type="text/javascript">
+        var BlockNumber = 1;
+        var JourneyNoMoreData = false;
+        var DestinationNoMoreData = false;
+        var PlaceNoMoreData = false;
+        var UserNoMoreData = false;
+        var inProgress = false;
+        $(window).scroll(function () {
+            if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight && (!JourneyNoMoreData || !DestinationNoMoreData || !PlaceNoMoreData || !UserNoMoreData) && !inProgress) {
+                inProgress = true;
+                $("#loadingDiv").show();
+
+                $.post("@Url.Action("LazyLoadSearchResult", "Search")", { "BlockNumber": BlockNumber, Keyword : "@Model.Keyword" },
+                function (data) {
+                    photoBlockNumber++;
+                    JourneyNoMoreData = data.JourneyNoMoreData;
+                    DestinationNoMoreData = data.DestinationNoMoreData;
+                    PlaceNoMoreData = data.PlaceNoMoreData;
+                    UserNoMoreData = data.UserNoMoreData;
+                    $('#last-search-result-item').before(data.HTMLString);
+                    $("#loadingDiv").hide();
+                    inProgress = false;
+                });
+            }
+        });
+    </script>*@
