@@ -1,61 +1,13 @@
 ﻿@model IEnumerable<Footprints.Models.User>
-<table class="table">
-    <tr>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.ProfilePicURL)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th class="center">
-            Full name
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </th>
-        <th class="center">
-            @Html.DisplayNameFor(model => model.JoinDate)
-        </th>
-    </tr>
-
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            <img alt="Avatar" style="width: 50px; height: 50px;" src="@item.ProfilePicURL">
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-
-        <td>
-            @Html.DisplayText(@item.DisplayName())
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateOfBirth)
-        </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.JoinDate)
-        </td>
-        <td>
-            <a class="btn btn-xs btn-primary" href="@Url.Action("Index", "Personal", new { journeyID = @item.UserID})">View <i class="icon-eye-open"></i></a>
-        </td>
-    </tr>
+    <div class="col-lg-6 col-md-6">
+        <div class="media">
+            <a class="pull-left" href=""><img width="50" class="media-object" src="@item.ProfilePicURL" style="width: auto; height: auto; display: block; margin-left: auto; margin-right: auto;"></a>
+            <div class="media-body innerTB half">
+                <a class="pull-right innerT innerR text-muted" href="@Url.Action("Index", "Personal", new { userID = item.UserID})"><i class="fa fa-fw fa-eye fa-2x"></i></a>
+                <a class="strong display-block" href="@Url.Action("Index", "Personal", new { userID = item.UserID})">@item.DisplayName()</a>
+                <span>@String.Format("{0:dd MMMM yyyy}", item.JoinDate)</span>
+            </div>
+        </div>
+    </div>
 }
-
-</table>

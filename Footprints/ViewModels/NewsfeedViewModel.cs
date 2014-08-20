@@ -76,7 +76,6 @@ namespace Footprints.ViewModels
         public Guid JourneyID { get; set; }
         public string JourneyName { get; set; }
         public string Content { get; set; }
-        public string Type { get; set; }
         public static ShareWidgetViewModel GetSampleObject() {
             var sample = new ShareWidgetViewModel
             {

@@ -1,0 +1,8 @@
+﻿@model Footprints.ViewModels.SearchDataViewModel
+@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { name = "frmQuickSearch", @class = "navbar-form navbar-left", role = "search" }))
+{
+    <div class="form-group">
+        @Html.TextBoxFor(x => x.Keyword, new { style = "width:290px !important", @class = "form-control", placeholder = "Search" })
+        <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i></button>
+    </div>
+}

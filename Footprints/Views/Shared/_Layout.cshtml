@@ -92,6 +92,22 @@
     @Scripts.Render("~/script/jquery-validate")
     <script type="text/javascript">
         $.validator.setDefaults({ ignore: '' });
+        $('form[name="frmQuickSearch"]').keydown(function (e) {
+            if (e.which == 13) {
+                if ($(this).find('input[name="QuickSearchInput"]').val() != '') {
+                    $(this).submit();
+                } else {
+                    e.preventDefault();
+                }
+            }
+        });
+        $('form[name="frmQuicSearch"]').submit(function (e) {
+            if ($(this).find('input[name="QuickSearchInput"]').val() != '') {
+                $(this).submit();
+            } else {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
