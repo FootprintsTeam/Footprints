@@ -1,0 +1,49 @@
+﻿@using Footprints.ViewModels
+@model Footprints.ViewModels.SearchDataViewModel
+@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="widget">
+        <div class="widget-body bg-gray">
+            <div class="row">
+                <div class="col-md-4 center">
+                    <label class="strong">Search for</label>
+                    @Html.TextBoxFor(x => x.Keyword, new { placeholder = "Type your keywords .. ", @class = "form-control" })
+                </div>
+                <div class="col-md-4 center">
+                    <div class="checkbox">
+                        <label class="checkbox-custom">
+                            @if (@Model.SearchTypes.Contains(SearchType.user))
+                            {
+                                <input type="checkbox" name="SearchTypes" value="@SearchType.user" checked="checked">
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="SearchTypes" value="@SearchType.user">
+                            }
+                            <i class="fa fa-fw fa-square-o checked"></i> Users
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label class="checkbox-custom">
+                            @if (@Model.SearchTypes.Contains(SearchType.place))
+                            {
+                                <input type="checkbox" name="SearchTypes" value="@SearchType.place" checked="checked">
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="SearchTypes" value="@SearchType.place">
+                            }
+                            <i class="fa fa-fw fa-square-o checked"></i> Places
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 center">
+                    <div class="innerLR">
+                        <button class="btn btn-primary btn-lg" type="submit"><i class="fa fa-fw fa-search"></i> Start Searching</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -21,33 +21,48 @@ namespace Footprints.Controllers
         public ActionResult Index(SearchDataViewModel dataModel)
         {
             SearchViewModel viewModel = new SearchViewModel();
-            List<Journey> journeyList = new List<Journey>();
+            //Search place by default
+            if (dataModel.SearchTypes == null || dataModel.SearchTypes.Count == 0)
+            {
+                dataModel.SearchTypes = new List<SearchType> {
+                    SearchType.place
+                };
+            }
+            if (dataModel.SearchTypes.Contains(SearchType.user))
+            {
+                viewModel.Users = search.SearchUser(dataModel.Keyword, NumberOfResultPerBlock);
+                if (viewModel.Users != null)
+                {
+                    viewModel.Users = viewModel.Users.Distinct(new UserEqualityComparer()).ToList();
+                }
+            }
             viewModel.Keyword = dataModel.Keyword;
-            viewModel.Destinations = search.SearchDestination(dataModel.Keyword, NumberOfResultPerBlock);
-            if (viewModel.Destinations != null)
+            viewModel.SearchTypes = dataModel.SearchTypes;
+            if (dataModel.SearchTypes.Contains(SearchType.place))
             {
-                viewModel.Destinations = viewModel.Destinations.Distinct(new DestinationEqualityComparer()).ToList();
-            }
-            viewModel.Journeys = (List<Journey>)search.SearchJourney(dataModel.Keyword, NumberOfResultPerBlock);
-            if (viewModel.Journeys == null)
-            {
-                viewModel.Journeys = new List<Journey>();
-            }
-            else
-            {
-                journeyList.AddRange(viewModel.Journeys);
-            }
-            viewModel.Places = (List<Journey>)search.SearchPlace(dataModel.Keyword, NumberOfResultPerBlock);
-            if (viewModel.Places != null)
-            {
-                journeyList.AddRange(viewModel.Places);
-            }
-            viewModel.Journeys = journeyList.Distinct(new JourneyEqualityComparer()).ToList();
-            viewModel.Places = null;
-            viewModel.Users = search.SearchUser(dataModel.Keyword, NumberOfResultPerBlock);
-            if (viewModel.Users != null)
-            {
-                viewModel.Users = viewModel.Users.Distinct(new UserEqualityComparer()).ToList();
+                List<Journey> journeyList = new List<Journey>();
+                viewModel.Keyword = dataModel.Keyword;
+                viewModel.Destinations = search.SearchDestination(dataModel.Keyword, NumberOfResultPerBlock);
+                if (viewModel.Destinations != null)
+                {
+                    viewModel.Destinations = viewModel.Destinations.Distinct(new DestinationEqualityComparer()).ToList();
+                }
+                viewModel.Journeys = (List<Journey>)search.SearchJourney(dataModel.Keyword, NumberOfResultPerBlock);
+                if (viewModel.Journeys == null)
+                {
+                    viewModel.Journeys = new List<Journey>();
+                }
+                else
+                {
+                    journeyList.AddRange(viewModel.Journeys);
+                }
+                viewModel.Places = (List<Journey>)search.SearchPlace(dataModel.Keyword, NumberOfResultPerBlock);
+                if (viewModel.Places != null)
+                {
+                    journeyList.AddRange(viewModel.Places);
+                }
+                viewModel.Journeys = journeyList.Distinct(new JourneyEqualityComparer()).ToList();
+                viewModel.Places = null;
             }
             return View(viewModel);
         }

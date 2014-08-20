@@ -2620,6 +2620,7 @@
     <Content Include="Views\Personal\PersonalAddPhotoWidget.cshtml" />
     <Content Include="Views\Personal\PersonalCommentWidget.cshtml" />
     <Content Include="Views\Shared\SearchFormPartial.cshtml" />
+    <Content Include="Views\Search\SearchForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

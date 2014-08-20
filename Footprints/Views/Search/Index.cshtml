@@ -1,4 +1,5 @@
-﻿@model Footprints.ViewModels.SearchViewModel
+﻿@using Footprints.ViewModels
+@model Footprints.ViewModels.SearchViewModel
 @{
     ViewBag.Title = "Search";
     ViewBag.Keyword = Model.Keyword;
@@ -9,6 +10,8 @@
 
         <div class="row">
             <div class="col-lg-10 col-md-8">
+                @{Html.RenderPartial("SearchForm", new SearchDataViewModel { Keyword = @Model.Keyword, SearchTypes = @Model.SearchTypes });}
+
                 @if (Model.Journeys != null && Model.Journeys.Count > 0)
                 {
                     Html.RenderPartial("JourneyList", Model.Journeys);
