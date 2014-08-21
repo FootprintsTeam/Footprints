@@ -8,12 +8,12 @@ namespace Footprints.Models
 {
     public class Place
     {
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public String PlaceID { get; set; }
         [Display(Name = "Place Longitude")]
-        [Required(ErrorMessage = "Place Longitude is required")]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Longitude { get; set; }
-        [Display(Name = "Place Latitude")]
-        [Required(ErrorMessage = "Place Latitude is required")]
+        [Required(ErrorMessage = "Please choose a place on the map")]
         public Double Latitude { get; set; }
         public String Reference { get; set; }
         [Display(Name = "Place Name")]

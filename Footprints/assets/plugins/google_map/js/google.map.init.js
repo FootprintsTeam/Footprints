@@ -16,11 +16,11 @@ var hdDestinationLatitude = frmDestination.elements["Latitude"];
 var hdDestinationLongitude = frmDestination.elements["Longitude"];
 var hdDestinationReference = frmDestination.elements["Reference"];
 var hdDestinationPlaceName = frmDestination.elements["PlaceName"];
+var hdDestinationAddress = frmDestination.elements["Address"];
 
 var centerLatLng = new google.maps.LatLng(21.0226967, 105.8369637);
 if (hdDestinationLatitude.value.length > 0 && hdDestinationLongitude.value.length > 0) {
     centerLatLng = new google.maps.LatLng(hdDestinationLatitude.value, hdDestinationLongitude.value);
-    console.log(hdDestinationLatitude.value + ' ---- ' + hdDestinationLongitude.value)
 }
 
 function initialize() {
@@ -87,19 +87,21 @@ function initialize() {
         }));
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
-
         var address = '';
-        if (place.address_components) {
+        if (typeof place.address_components !== "undefined" && place.address_components) {
             address = [
               (place.address_components[0] && place.address_components[0].short_name || ''),
               (place.address_components[1] && place.address_components[1].short_name || ''),
               (place.address_components[2] && place.address_components[2].short_name || '')
             ].join(' ');
         }
-
         txtDestinationName.value = place.name;
         hdDestinationPlaceId.value = place.place_id;
-        hdDestinationPlaceName.value = place.name
+        hdDestinationPlaceName.value = place.name;
+        if (typeof place.formatted_address !== "undefined" && place.formatted_address) {
+            address = place.formatted_address;
+        }
+        hdDestinationAddress.value = address;
         hdDestinationLatitude.value = place.geometry.location.lat();
         hdDestinationLongitude.value = place.geometry.location.lng();
         if (place.reference && place.reference != null) {
@@ -114,6 +116,7 @@ function initialize() {
         infowindow.close();
         hdDestinationPlaceId.value = '';
         hdDestinationPlaceName.value = '';
+        hdDestinationAddress.value = '';
         hdDestinationReference.value = '';
         marker.setPosition(event.latLng);
         hdDestinationLatitude.value = marker.position.lat();
@@ -137,7 +140,12 @@ function initialize() {
         //run the original setContent-method
         fx.apply(this, arguments);
     };
-
+    $("#map-canvas").curvedLine({
+        LatStart: -0.003089904783662708,
+        LngStart: -0.005879402160644531,
+        LatEnd: -0.006351470934259514,
+        LngEnd: 0.000514984130859375
+    });
 }
 
 function nearbySearch(location) {
@@ -161,8 +169,19 @@ function nearbySearch_callback(responses, status) {
 function displaySuggestionPlaces() {
     if (nearbyPlaces && nearbyPlaces.length > 0) {
         var html = '';
+        var address = '';
         for (i = 0; i < nearbyPlaces.length; i++) {
             if (nearbyPlaces[i].name) {
+                console.log(nearbyPlaces[i]);
+                if (typeof nearbyPlaces[i].formatted_address !== "undefined" && nearbyPlaces[i].formatted_address) {
+                    address = nearbyPlaces[i].formatted_address;
+                } else if (nearbyPlaces[i].address_components) {
+                    address = [
+                      (nearbyPlaces[i].address_components[0] && nearbyPlaces[i].address_components[0].short_name || ''),
+                      (nearbyPlaces[i].address_components[1] && nearbyPlaces[i].address_components[1].short_name || ''),
+                      (nearbyPlaces[i].address_components[2] && nearbyPlaces[i].address_components[2].short_name || '')
+                    ].join(' ');
+                }
                 html += '<div class=\"sp-item\" latitude=\"' + nearbyPlaces[i].geometry.location.lat() + '\" longitude=\"' + nearbyPlaces[i].geometry.location.lng() + '\" reference=\"' + nearbyPlaces[i].reference + '\" place_id=\"' + nearbyPlaces[i].place_id + '\" place_name=\"' + nearbyPlaces[i].name + '\">' + nearbyPlaces[i].name + '</div>';
             }
         }
@@ -210,12 +229,22 @@ $(function () {
         txtDestinationName.value = this.innerHTML;
         hdDestinationPlaceId.value = $(this).attr("place_id");
         hdDestinationPlaceName.value = $(this).attr("place_name");
+        //Retrieve google place details
+        var request = {
+            placeId: $(this).attr("place_id")
+        };
+        placeService.getDetails(request, GetPlaceDetails_Callback);
         hdDestinationLatitude.value = $(this).attr("latitude");
         hdDestinationLongitude.value = $(this).attr("longitude");
         hdDestinationReference.value = $(this).attr("reference");
         $("#sp-container").hide();
     });
 });
+function GetPlaceDetails_Callback(place, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        hdDestinationAddress.value = place.formatted_address;
+    }
+}
 
 google.maps.event.addDomListener(window, "resize", resizingMap());
 
