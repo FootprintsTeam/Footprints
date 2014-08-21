@@ -135,7 +135,9 @@ namespace Footprints.DAL.Concrete
                 Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
                 WithParam("Destination", Destination).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").WithParam("Place", Destination.Place).
-                Merge("(destination)-[:AT]->(place)").
+                Match("(destination)-[rel:AT]->(Place:Place)").
+                Delete("rel").
+                Create("(destination)-[:AT]->(place)").
                 Return(destination => destination.As<Destination>()).Results;
             return query.Count<Destination>() > 0 ? true : false;
         }
@@ -147,7 +149,9 @@ namespace Footprints.DAL.Concrete
                 WithParams(new Dictionary<String, Object> {{"Name", Name}, {"Description", Description}, {"TakenDate", TakenDate}, {"Timestamp", Timestamp}}).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").
                 WithParam("Place", Place).
-                Merge("(destination)-[:AT]->(place)").
+                Match("(destination)-[rel:AT]->(Place:Place)").
+                Delete("rel").
+                Create("(destination)-[:AT]->(place)").
                 Return(destination => destination.As<Destination>()).Results;
             return query.Count<Destination>() > 0 ? true : false;
         }
@@ -158,7 +162,9 @@ namespace Footprints.DAL.Concrete
                 Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
                 WithParam("Destination", Destination).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").WithParam("Place", Destination.Place).
-                Merge("(destination)-[:AT]->(place)").
+                Match("(destination)-[rel:AT]->(Place:Place)").
+                Delete("rel").
+                Create("(destination)-[:AT]->(place)").
                 Return(destination => destination.As<Destination>()).Results;
             return query.Count<Destination>() > 0 ? true : false;
         }
@@ -353,7 +359,7 @@ namespace Footprints.DAL.Concrete
                                         content = content.CollectAs<Content>()
                                     }).Results;
             List<Destination> result = new List<Destination>();       
-            Destination currentDestination = new Destination();           
+             Destination currentDestination = new Destination();           
             foreach (var item in query)
             {
                 currentDestination = new Destination();
