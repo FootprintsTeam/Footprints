@@ -1,8 +1,28 @@
-﻿@model Footprints.ViewModels.SearchDataViewModel
+﻿@using Footprints.ViewModels
+@model Footprints.ViewModels.SearchDataViewModel
 @using (Html.BeginForm("Index", "Search", FormMethod.Get, new { name = "frmQuickSearch", @class = "navbar-form navbar-left", role = "search" }))
 {
     <div class="form-group">
-        @Html.TextBoxFor(x => x.Keyword, new { style = "width:290px !important", @class = "form-control", placeholder = "Search" })
+        @Html.TextBoxFor(x => x.Keyword, new { @class = "form-control", placeholder = "Search" })
+        @*<input class="form-control" data-val="true" data-val-required="The Keyword field is required." id="Keyword" name="Keyword" placeholder="Search" type="text" value="" />*@
+        <select class="btn dropdown-toggle selectpicker btn-default" name="SearchTypes">
+            @if (@Model.SearchTypes.Contains(@SearchType.user))
+            {
+                <option value="@SearchType.user" selected>Users</option>
+            }
+            else
+            {
+                <option value="@SearchType.user">Users</option>
+            }
+            @if (@Model.SearchTypes.Contains(@SearchType.place))
+            {
+                <option value="@SearchType.place" selected>Places</option>
+            }
+            else
+            {
+                <option value="@SearchType.place">Places</option>
+            }
+        </select>
         <button type="submit" class="btn btn-info"><i class="glyphicon glyphicon-search"></i></button>
     </div>
 }
