@@ -19,5 +19,9 @@ namespace Footprints.Models
         public String PlaceID { get; set; }
         public DateTimeOffset Timestamp { get; set; }
         public String Content { get; set; }
+        public int NumberOfPhoto { get; set; }        
+        public string DestinationName { get; set; }
+        public int NumberOfLike { get; set; }
+        public int NumberOfShare { get; set; }
     }
 }
