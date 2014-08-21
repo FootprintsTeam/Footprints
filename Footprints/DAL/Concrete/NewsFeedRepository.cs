@@ -70,7 +70,7 @@ namespace Footprints.DAL.Concrete
                 result.Add(activities.ElementAt(0).ElementAt(0));
             }            
             // Add next activity of the activity above to priority queue           
-            priorityQueue.Add(activities.ElementAt(0).ElementAt(1));
+            if (activities.ElementAt(0).ElementAt(1) != null) priorityQueue.Add(activities.ElementAt(0).ElementAt(1));
             //Add the latest activity of next friend in ego graph to priority queue
             latestFriendPosition = 0;
             currentFriendPosition = 0;
@@ -89,18 +89,24 @@ namespace Footprints.DAL.Concrete
                 {
                     result.Add(mostRecentActivity);
                 }
-                var tempActivity = activities.ElementAt(currentFriendPosition).Find(mostRecentActivity);
-                if (tempActivity != null && tempActivity.Next != null)
+                Activity tmpActivity = new Activity();
+                bool ok = false;
+                for (int i = 0; i < activities.Count; i++)
                 {
-                    priorityQueue.Add(tempActivity.Next.Value);
-                }
-                else
-                {
-                    tempActivity = activities.ElementAt(latestFriendPosition).Find(mostRecentActivity);
-                    if (tempActivity != null && tempActivity.Next != null)
+                    for (int j = 0; j < activities.ElementAt(i).Count; j++)
                     {
-                        priorityQueue.Add(tempActivity.Next.Value);
+                        if (activities.ElementAt(i).ElementAt(j) == mostRecentActivity)
+                        {
+                            if (j < activities.ElementAt(i).Count - 1)
+                            {
+                                tmpActivity = activities.ElementAt(i).ElementAt(j + 1);
+                                priorityQueue.Add(tmpActivity);
+                                ok = true;
+                                break;
+                            }
+                        }
                     }
+                    if (ok) break;
                 }
                 if (mostRecentActivity.Timestamp == latestActivity.Timestamp)
                 {
