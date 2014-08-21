@@ -15,10 +15,10 @@ var hdDestinationLatitude = frmDestination.elements["Latitude"];
 var hdDestinationLongitude = frmDestination.elements["Longitude"];
 var hdDestinationReference = frmDestination.elements["Reference"];
 var hdDestinationPlaceName = frmDestination.elements["PlaceName"];
+var hdDestinationAddress = frmDestination.elements["Address"];
 var centerLatLng = new google.maps.LatLng(21.0226967, 105.8369637);
 if (hdDestinationLatitude.value.length > 0 && hdDestinationLongitude.value.length > 0) {
     centerLatLng = new google.maps.LatLng(hdDestinationLatitude.value, hdDestinationLongitude.value);
-    console.log(hdDestinationLatitude.value + ' ---- ' + hdDestinationLongitude.value)
 }
 function initialize() {
     psContainer = document.getElementById('sp-container');
@@ -75,19 +75,21 @@ function initialize() {
         }));
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
-
         var address = '';
-        if (place.address_components) {
+        if (typeof place.address_components !== "undefined" && place.address_components) {
             address = [
               (place.address_components[0] && place.address_components[0].short_name || ''),
               (place.address_components[1] && place.address_components[1].short_name || ''),
               (place.address_components[2] && place.address_components[2].short_name || '')
             ].join(' ');
         }
-
         txtDestinationName.value = place.name;
         hdDestinationPlaceId.value = place.place_id;
-        hdDestinationPlaceName.value = place.name
+        hdDestinationPlaceName.value = place.name;
+        if (typeof place.formatted_address !== "undefined" && place.formatted_address) {
+            address = place.formatted_address;
+        }
+        hdDestinationAddress.value = address;
         hdDestinationLatitude.value = place.geometry.location.lat();
         hdDestinationLongitude.value = place.geometry.location.lng();
         if (place.reference && place.reference != null) {
@@ -102,6 +104,7 @@ function initialize() {
         infowindow.close();
         hdDestinationPlaceId.value = '';
         hdDestinationPlaceName.value = '';
+        hdDestinationAddress.value = '';
         hdDestinationReference.value = '';
         marker.setPosition(event.latLng);
         hdDestinationLatitude.value = marker.position.lat();
@@ -125,7 +128,12 @@ function initialize() {
         //run the original setContent-method
         fx.apply(this, arguments);
     };
-
+    $("#map-canvas").curvedLine({
+        LatStart: -0.003089904783662708,
+        LngStart: -0.005879402160644531,
+        LatEnd: -0.006351470934259514,
+        LngEnd: 0.000514984130859375
+    });
 }
 
 function nearbySearch(location) {
@@ -149,8 +157,19 @@ function nearbySearch_callback(responses, status) {
 function displaySuggestionPlaces() {
     if (nearbyPlaces && nearbyPlaces.length > 0) {
         var html = '';
+        var address = '';
         for (i = 0; i < nearbyPlaces.length; i++) {
             if (nearbyPlaces[i].name) {
+                console.log(nearbyPlaces[i]);
+                if (typeof nearbyPlaces[i].formatted_address !== "undefined" && nearbyPlaces[i].formatted_address) {
+                    address = nearbyPlaces[i].formatted_address;
+                } else if (nearbyPlaces[i].address_components) {
+                    address = [
+                      (nearbyPlaces[i].address_components[0] && nearbyPlaces[i].address_components[0].short_name || ''),
+                      (nearbyPlaces[i].address_components[1] && nearbyPlaces[i].address_components[1].short_name || ''),
+                      (nearbyPlaces[i].address_components[2] && nearbyPlaces[i].address_components[2].short_name || '')
+                    ].join(' ');
+                }
                 html += '<div class=\"sp-item\" latitude=\"' + nearbyPlaces[i].geometry.location.lat() + '\" longitude=\"' + nearbyPlaces[i].geometry.location.lng() + '\" reference=\"' + nearbyPlaces[i].reference + '\" place_id=\"' + nearbyPlaces[i].place_id + '\" place_name=\"' + nearbyPlaces[i].name + '\">' + nearbyPlaces[i].name + '</div>';
             }
         }
@@ -198,12 +217,22 @@ $(function () {
         txtDestinationName.value = this.innerHTML;
         hdDestinationPlaceId.value = $(this).attr("place_id");
         hdDestinationPlaceName.value = $(this).attr("place_name");
+        //Retrieve google place details
+        var request = {
+            placeId: $(this).attr("place_id")
+        };
+        placeService.getDetails(request, GetPlaceDetails_Callback);
         hdDestinationLatitude.value = $(this).attr("latitude");
         hdDestinationLongitude.value = $(this).attr("longitude");
         hdDestinationReference.value = $(this).attr("reference");
         $("#sp-container").hide();
     });
 });
+function GetPlaceDetails_Callback(place, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        hdDestinationAddress.value = place.formatted_address;
+    }
+}
 
 google.maps.event.addDomListener(window, "resize", resizingMap());
 
@@ -222,3 +251,131 @@ function resizingMap() {
    google.maps.event.trigger(map, 'resize');
    map.setCenter(center); 
 }
+
+(function ($) {
+
+    var evenOdd = 0;
+
+    $.fn.extend({
+
+        curvedLine: function (options) {
+
+            var defaults = {
+                LatStart: null,
+                LngStart: null,
+                LatEnd: null,
+                LngEnd: null,
+                Color: "#FF0000",
+                Opacity: 1,
+                Weight: 3,
+                GapWidth: 0,
+                Horizontal: true,
+                Multiplier: 1,
+                Resolution: 0.1,
+                Map: map
+            }
+
+            var options = $.extend(defaults, options);
+
+            return this.each(function () {
+
+                var o = options;
+
+                var LastLat = o.LatStart;
+                var LastLng = o.LngStart;
+
+                var PartLat;
+                var PartLng;
+
+                var Points = new Array();
+                var PointsOffset = new Array();
+
+                for (point = 0; point <= 1; point += o.Resolution) {
+                    Points.push(point);
+                    offset = (0.6 * Math.sin((Math.PI * point / 1)));
+                    PointsOffset.push(offset);
+                }
+
+                var OffsetMultiplier = 0;
+
+                if (o.Horizontal == true) {
+
+                    var OffsetLenght = (o.LngEnd - o.LngStart) * 0.1;
+
+                } else {
+
+                    var OffsetLenght = (o.LatEnd - o.LatStart) * 0.1;
+
+                }
+
+                for (var i = 0; i < Points.length; i++) {
+
+                    if (i == 4) {
+
+                        OffsetMultiplier = 1.5 * o.Multiplier;
+
+                    }
+
+                    if (i >= 5) {
+
+                        OffsetMultiplier = (OffsetLenght * PointsOffset[i]) * o.Multiplier;
+
+                    } else {
+
+                        OffsetMultiplier = (OffsetLenght * PointsOffset[i]) * o.Multiplier;
+
+                    }
+
+                    if (o.Horizontal == true) {
+
+                        PartLat = (o.LatStart + ((o.LatEnd - o.LatStart) * Points[i])) + OffsetMultiplier;
+                        PartLng = (o.LngStart + ((o.LngEnd - o.LngStart) * Points[i]));
+
+                    } else {
+
+                        PartLat = (o.LatStart + ((o.LatEnd - o.LatStart) * Points[i]));
+                        PartLng = (o.LngStart + ((o.LngEnd - o.LngStart) * Points[i])) + OffsetMultiplier;
+
+                    }
+
+                    curvedLineCreateSegment(LastLat, LastLng, PartLat, PartLng, o.Color, o.Opacity, o.Weight, o.GapWidth, o.Map);
+
+                    LastLat = PartLat;
+                    LastLng = PartLng;
+
+                }
+
+                curvedLineCreateSegment(LastLat, LastLng, o.LatEnd, o.LngEnd, o.Color, o.Opacity, o.Weight, o.GapWidth, o.Map);
+
+            });
+
+        }
+
+    });
+
+    function curvedLineCreateSegment(LatStart, LngStart, LatEnd, LngEnd, Color, Opacity, Weight, GapWidth, Map) {
+
+        evenOdd++;
+
+        if (evenOdd % (GapWidth + 1))
+            return;
+
+        var LineCordinates = new Array();
+
+        LineCordinates[0] = new google.maps.LatLng(LatStart, LngStart);
+        LineCordinates[1] = new google.maps.LatLng(LatEnd, LngEnd);
+
+        var Line = new google.maps.Polyline({
+            path: LineCordinates,
+            geodesic: false,
+            strokeColor: Color,
+            strokeOpacity: Opacity,
+            strokeWeight: Weight
+        });
+
+        Line.setMap(Map);
+
+
+    }
+
+})(jQuery);
