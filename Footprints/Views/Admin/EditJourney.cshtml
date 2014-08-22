@@ -22,29 +22,37 @@
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.TextBoxFor(model => model.Name, new { @class = "col-md-6" })
+                @Html.ValidationMessageFor(model => model.Name)
+                
             </div>
-                @Html.ValidationMessageFor(model => model.Name)            
+                       
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.TextAreaFor(model => model.Description, new { @class = "col-md-6" })
+                @Html.ValidationMessageFor(model => model.Description)
+                
             </div>
-                @Html.ValidationMessageFor(model => model.Description)            
+                
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.TakenDate, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.TextBoxFor(model => model.TakenDate, new { @class = "col-md-6" })
+                @Html.ValidationMessageFor(model => model.TakenDate)
+                
             </div>
-                @Html.ValidationMessageFor(model => model.TakenDate)            
+                        
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Timestamp, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
                 @Html.TextBoxFor(model => model.Timestamp, new { @class = "col-md-6" })
+                @Html.ValidationMessageFor(model => model.Timestamp)
+                
             </div>
-                @Html.ValidationMessageFor(model => model.Timestamp)            
+                          
         </div>
      
         <div class="form-group">
