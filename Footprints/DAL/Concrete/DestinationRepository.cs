@@ -107,6 +107,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (Destination)-[:AT]->(Place) " +
                                                 " CREATE (Journey)-[:HAS]->(Destination) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
                                                 " WITH Destination, Journey, Activity, User " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -213,6 +214,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (Content:Content {Content}) " +                                               
                                                 " CREATE (Destination)-[:HAS]->(Content) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " + 
                                                 " WITH Destination, Content, Activity, User " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -270,6 +272,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (Destination)-[:LIKED_BY]->(User) " +
                                                 " SET Destination.NumberOfLike = Destination.NumberOfLike + 1 " +
                                                 " CREATE (Activity:Activity {Activity}) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
                                                 " WITH User, Destination, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -320,6 +323,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (Destination)-[:SHARED_BY]->(User) " +
                                                 " SET Destination.NumberOfShare = Destination.NumberOfShare + 1 " +
                                                 " CREATE (Activity:Activity {Activity}) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
                                                 " WITH User, Destination, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +

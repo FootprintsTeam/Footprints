@@ -97,6 +97,7 @@ namespace Footprints.DAL.Concrete
                                                 " DELETE f " +
                                                 " CREATE (user)-[:LATEST_ACTIVITY]->(activity) " +
                                                 " CREATE (activity)-[:NEXT]->(nextActivity) " +
+                                                " CREATE (activity)-[:ACT_ON_JOURNEY]->(journey) " +
                                                 " WITH user " +
                                                 " MATCH (user)-[:FRIEND]->(friend) " +
                                                 " WITH user, COLLECT(friend) AS friends " +
@@ -132,7 +133,8 @@ namespace Footprints.DAL.Concrete
         public bool DeleteJourney(Guid UserID, Guid JourneyID)
         {
             Db.Cypher.OptionalMatch("(User:User)").Where((User User) => User.UserID == UserID).
-                      OptionalMatch("(User)-[rel:HAS]->(Journey:Journey)-[r]-()").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                      OptionalMatch("(User)-[rel:HAS]->(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                      OptionalMatch("(Journey:Journey)-[r]-()").
                       OptionalMatch("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).
                       With("User, rel, r, Journey").
                       Where("rel IS NOT NULL").Set("Activity.Status = 'Deleted'").Delete("rel, r, Journey").ExecuteWithoutResults();
@@ -148,32 +150,6 @@ namespace Footprints.DAL.Concrete
         }
         public void LikeJourney(Guid UserID, Guid JourneyID)
         {
-            // Cypher Query
-            //MATCH (User:User), (Journey:Journey)
-            //WHERE (User.UserID = '1') AND (Journey.JourneyID = '5')
-            //CREATE (Journey)-[:LIKED_BY]->(User)
-            //SET Journey.numberOfLikes = Journey.numberOfLikes + 1
-            //CREATE (Activity:Activity {Type : 'LIKE_A_JOURNEY', timestamp : '21/07/2014', JourneyID : '5'})
-            //WITH User, Journey, Activity
-            //MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity)
-            //DELETE f
-            //CREATE (User)-[:LATEST_ACTIVITY]->(Activity)
-            //CREATE (Activity)-[:NEXT]->(nextActivity)
-            //CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey)
-            //WITH User
-            //MATCH (User)-[:FRIEND]->(friend)
-            //WITH User, COLLECT(friend) AS friends
-            //UNWIND friends AS fr
-            //MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
-            //OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser)
-            //WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo
-            //WHERE NextFriendInEgo <>  User
-            //CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User)
-            //CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
-            //WITH fr, previousUser, nextUser
-            //WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL
-            //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
-
             Activity Activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),

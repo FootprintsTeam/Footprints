@@ -34,11 +34,8 @@ namespace Footprints.Controllers
             this.userService = userService;
             this.newsfeedService = newsfeedService;
         }
-
         //
         // GET: /Newsfeed/Newsfeed/
-
-
         public ActionResult Index()
         {
             var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);

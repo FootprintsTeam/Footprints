@@ -73,8 +73,8 @@ namespace Footprints.DAL.Concrete
         }
         public bool UpdateComment(Guid UserID, Comment Comment)
         {
-            Db.Cypher.OptionalMatch("(Comment:Comment)-[rel:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.CommentID == Comment.CommentID).
-                        AndWhere((User User) => User.UserID == UserID).With("Comment, rel").Where("rel IS NOT NULL").Set("Comment = {Comment}").WithParam("Comment", Comment).ExecuteWithoutResults();
+            Db.Cypher.OptionalMatch("(comment:Comment)-[rel:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.CommentID == Comment.CommentID).
+                        AndWhere((User User) => User.UserID == UserID).With("comment, rel").Where("rel IS NOT NULL").Set("comment = {Comment}").WithParam("Comment", Comment).ExecuteWithoutResults();
             return true;
         }
         public bool AddDestinationComment(Guid UserID, Comment Comment)
@@ -124,7 +124,7 @@ namespace Footprints.DAL.Concrete
                                                 " MATCH (Destination:Destination) " +
                                                 " WHERE (Destination.DestinationID = {DestinationID}) " +
                                                 " CREATE (Comment)-[:ON]->(Destination) " +
-                                                " CREATE (Activity)-[:COMMENT_ON_DESTINATION]->(Destination) " +
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
@@ -169,7 +169,7 @@ namespace Footprints.DAL.Concrete
                                                 " MATCH (Journey:Journey) " +
                                                 " WHERE (Journey.JourneyID = {JourneyID}) " +
                                                 " CREATE (Comment)-[:ON]->(Journey) " +
-                                                " CREATE (Activity)-[:COMMENT_ON_JOURNEY]->(Journey) " +
+                                                " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +

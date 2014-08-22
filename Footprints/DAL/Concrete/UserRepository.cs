@@ -54,7 +54,7 @@ namespace Footprints.DAL.Concrete
                 ActivityID = Guid.NewGuid(),
                 Status = Activity.StatusEnum.Active,
                 Type = "ADD_NEW_FRIEND",
-                UserID = UserID_B,
+                UserID = UserID_B,                
                 Timestamp = DateTimeOffset.Now
             };
             Activity ActivityOfB = new Activity
@@ -68,8 +68,10 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" MATCH (userA:User {UserID : {UserID_A}}),(userB:User {UserID : {UserID_B}})" +
                                                 " CREATE (userA)-[:FRIEND]->(userB) " + 
                                                 " CREATE (userB)-[:FRIEND]->(userA) " +
-                                                " CREATE (activityOfA:Activity {ActivityOfA}) " +
-                                                " CREATE (activityOfB:Activity {ActivityOfB}) " + 
+                                                " CREATE (activityOfA:Activity {ActivityID : {ActivityOfA}.ActivityID, Status : {ActivityOfA}.Status, Type : {ActivityOfA}.Type, UserID : {ActivityOfA}.UserID, Timestamp : {ActivityOfA}.Timestamp, }) " +
+                                                " CREATE (activityOfA)-[:ACT_ON_USER]->(userB) " +
+                                                " CREATE (activityOfB:Activity {ActivityOfB}) " +
+                                                " CREATE (activityOfB)-[:ACT_ON_USER]->(userA) " +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
                                                 " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                                
                                                 "    CREATE (userA)-[:LATEST_ACTIVITY]->(activityOfA) " +

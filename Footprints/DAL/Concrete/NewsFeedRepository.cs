@@ -61,7 +61,6 @@ namespace Footprints.DAL.Concrete
             ActivityComparer comparer = new ActivityComparer();
             priorityQueue = new C5.IntervalHeap<Activity>(comparer);
             result = new List<Activity>();
-
             numberOfFriends = friendList.Count;
             if (numberOfFriends == 0) return null;
             // Add latest activity of closest friend in ego
