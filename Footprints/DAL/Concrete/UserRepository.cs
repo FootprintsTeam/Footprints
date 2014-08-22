@@ -76,11 +76,13 @@ namespace Footprints.DAL.Concrete
                                                 " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                                
                                                 "    CREATE (userA)-[:LATEST_ACTIVITY]->(activityOfA) " +
                                                 "    CREATE (activityOfA)-[:NEXT]->(nextActivityA) " +
+                                                " WITH userA, userB, activityOfA, activityOfB, f " +
                                                 "    DELETE f " +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
                                                 " MATCH (userB)-[fi:LATEST_ACTIVITY]->(nextActivityB) " +
                                                 "    CREATE (userB)-[:LATEST_ACTIVITY]->(activityOfB) " +
                                                 "    CREATE (activityOfB)-[:NEXT]->(nextActivityB) " +
+                                                " WITH userA, userB, activityOfA, activityOfB, fi " +
                                                 "    DELETE fi " +
                                                 " WITH userA, userB " +
                                                 " MATCH (userA)-[egoA:EGO {UserID : {UserID_A}}]->(EgoNodeOfA) " +
