@@ -13,7 +13,6 @@ using Footprints.ViewModels;
 using Footprints.Services;
 using System.IO;
 using Footprints.Common;
-using Microsoft.AspNet.Identity;
 using AutoMapper;
 
 namespace Footprints.Controllers

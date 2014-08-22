@@ -70,28 +70,17 @@ namespace Footprints.DAL.Concrete
                 Type = "ADD_NEW_JOURNEY",
                 UserID = UserID,
                 JourneyID = Journey.JourneyID,
+                Journey_Name = Journey.Name,
+                Journey_Description = Journey.Description,
+                Journey_NumberOfLike = Journey.NumberOfLike,
+                Journey_NumberOfShare = Journey.NumberOfShare,
                 Timestamp = DateTimeOffset.Now
-            };
-            // Neo4jClient currently doestn't support UNWIND statement
-            //Db.Cypher.Create("(journey:Journey {j} )").WithParam("j", journey).With("journey").
-            //        Match("(user:User)").Where((User user) => user.UserID == userID).
-            //        Create("(user)-[:HAS_JOURNEY]->(journey)").
-            //        Create("(activity:Activity {a})").WithParam("a", activity).
-            //        With("user, journey, activity").
-            //        Match("(user)-[f:LATEST_ACTIVITY]->(nextActivity)").
-            //        Delete("f").
-            //        Create("(user)-[:LATEST_ACTIVITY]->(activity)").
-            //        Create("(activity)-[:NEXT]->(nextActivity)").
-            //        Create("(activity)-[:ACT_ON_JOURNEY]->(journey)").
-            //        With("user").
-            //        Match("(user)-[:FRIEND]->(friend)").
-            //        With("user, COLLECT(friend) AS friends").                    
-            //        .ExecuteWithoutResults();
+            };            
             CypherQuery query = new CypherQuery("CREATE (journey:Journey {journey}) " +
                                                 " WITH journey " +
                                                 " MATCH (user:User {UserID : {UserID}}) " +
                                                 " CREATE (user)-[:HAS]->(journey) " +
-                                                " CREATE (activity:Activity {activity}) " +
+                                                " CREATE (activity:Activity {ActivityID : {Activity}.ActivityID, Status : {Activity}.Status, Type : {Activity}.Type, JourneyID : {Activity}.JourneyID, Timestamp : {Activity}.Timestamp, UserName : User.UserName, FirstName : User.FirstName, LastName : User.LastName, ProfilePicURL : User.ProfilePicURL, Journey_Name : {Activity}.Journey_Name, Journey_Description : {Activity}.Journey_Description, Journey_NumberOfLike : {Activity}.Journey_NumberOfLike, Journey_NumberOfShare : {Activity}.Journey_NumberOfShare}) " +
                                                 " WITH user, journey, activity " +
                                                 " MATCH (user)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -162,7 +151,7 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE (User.UserID = {UserID} ) AND (Journey.JourneyID = {JourneyID} ) " +
                                                 " CREATE (Journey)-[:LIKED_BY]->(User) " +
                                                 " SET Journey.NumberOfLike = Journey.NumberOfLike + 1 " +
-                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Status : {Activity}.Status, Type : {Activity}.Type, JourneyID : {Activity}.JourneyID, Timestamp : {Activity}.Timestamp, UserName : User.UserName, FirstName : User.FirstName, LastName : User.LastName, ProfilePicURL : User.ProfilePicURL, Journey_Name : Journey.Name, Journey_Description : Journey.Description, Journey_NumberOfLike : Journey.NumberOfLike, Journey_NumberOfShare : Journey.NumberOfShare}) " +
                                                 " WITH User, Journey, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -208,11 +197,11 @@ namespace Footprints.DAL.Concrete
                 Content = Content,
                 Timestamp = DateTimeOffset.Now
             };
-            CypherQuery query = new CypherQuery("MATCH (User:User), (Journey:Journey) " +
+            CypherQuery query = new CypherQuery(" MATCH (User:User), (Journey:Journey) " +
                                                 " WHERE (User.UserID = {UserID} ) AND (Journey.JourneyID = {JourneyID} ) " +
                                                 " CREATE (Journey)-[:SHARED_BY]->(User) " +
                                                 " SET Journey.NumberOfShare = Journey.NumberOfShare + 1 " +
-                                                " CREATE (Activity:Activity {Activity}) " +
+                                                " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Content : {Activity}.Content, Status : {Activity}.Status, Type : {Activity}.Type, UserName : User.UserName, FirstName : User.FirstName, LastName : User.LastName, ProfilePicURL : User.ProfilePicURL  JourneyID : {Activity}.JourneyID, Timestamp : {Activity}.Timestamp, Journey_Name : Journey.Name, Journey_Description : Journey.Description, Journey_NumberOfLike : Journey.NumberOfLike, Journey_NumberOfShare : Journey.NumberOfShare}) " +
                                                 " WITH User, Journey, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +

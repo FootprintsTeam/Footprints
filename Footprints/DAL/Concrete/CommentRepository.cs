@@ -78,37 +78,7 @@ namespace Footprints.DAL.Concrete
             return true;
         }
         public bool AddDestinationComment(Guid UserID, Comment Comment)
-        {
-            //Cypher Query
-            //CREATE (Comment:Comment {CommentID : '1', DestinationID : '1', NumberOfLike : 0, Timestamp : '04/07/2014'})
-            //CREATE (Activity:Activity {Type : 'COMMENT_ON_DESTINATION', UserID : '1', DestinationID : '1', Timestamp : '04/07/2014'})
-            //WITH Comment, Activity
-            //MATCH (Destination:Destination)
-            //WHERE (Destination.DestinationID = '1')
-            //CREATE (Comment)-[:COMMENT_ON_DESTINATION]->(Destination)
-            //CREATE (Activity)-[:COMMENT_ON_DESTINATION]->(Destination)
-            //WITH Comment, Activity
-            //MATCH (User:User)
-            //WHERE (User.UserID = '1')
-            //CREATE (Comment)-[:COMMENT_BY]->(User)
-            //WITH User, Activity
-            //MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity)
-            //DELETE f
-            //CREATE (User)-[:LATEST_ACTIVITY]->(Activity)
-            //CREATE (Activity)-[:NEXT]->(nextActivity)
-            //WITH User
-            //MATCH (User)-[:FRIEND]->(friend)
-            //WITH User, COLLECT(friend) AS friends
-            //UNWIND friends AS fr
-            //MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
-            //OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser)
-            //WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo
-            //WHERE NextFriendInEgo <>  User
-            //CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User)
-            //CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo)
-            //WITH fr, previousUser, nextUser
-            //WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL
-            //CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)
+        {            
             Activity activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
@@ -125,10 +95,12 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE (Destination.DestinationID = {DestinationID}) " +
                                                 " CREATE (Comment)-[:ON]->(Destination) " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
+                                                " SET Activity.Destination_Name = Destination.Name, Activity.Destination_Description = Destination.Description, Activity.Destination_NumberOfLike = Destination.NumberOfLike, Destination.Destination_NumberOfShare = Destination.NumberOfShare" +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
                                                 " CREATE (Comment)-[:COMMENT_BY]->(User) " +
+                                                " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL" +
                                                 " WITH User, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -170,10 +142,12 @@ namespace Footprints.DAL.Concrete
                                                 " WHERE (Journey.JourneyID = {JourneyID}) " +
                                                 " CREATE (Comment)-[:ON]->(Journey) " +
                                                 " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " +
+                                                " SET Activity.Journey_Name = Journey.Name, Activity.Journey_Description = Journey.Description, Activity.Journey_NumberOfLike = Journey.NumberOfLike, Activity.NumberOfShare = Journey.NumberOfShare" +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
                                                 " CREATE (Comment)-[:COMMENT_BY]->(User) " +
+                                                " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURl" +
                                                 " WITH User, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +

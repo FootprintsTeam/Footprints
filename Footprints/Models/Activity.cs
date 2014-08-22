@@ -38,6 +38,10 @@ namespace Footprints.Models
         public String Destination_Description { get; set; }
         public int Destination_NumberOfLike { get; set; }
         public int Destination_NumberOfShare { get; set; }
-        public List<Comment> Comments { get; set; }
+        //Place Object
+        public String Place_Name { get; set; }
+        public String Place_Address { get; set; }
+        //Content Object
+        public String ContentURL { get; set; }
     }
 }
