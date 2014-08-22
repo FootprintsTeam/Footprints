@@ -68,9 +68,9 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" MATCH (userA:User {UserID : {UserID_A}}),(userB:User {UserID : {UserID_B}})" +
                                                 " CREATE (userA)-[:FRIEND]->(userB) " + 
                                                 " CREATE (userB)-[:FRIEND]->(userA) " +
-                                                " CREATE (activityOfA:Activity {ActivityID : {ActivityOfA}.ActivityID, Status : {ActivityOfA}.Status, Type : {ActivityOfA}.Type, UserID : {ActivityOfA}.UserID, Timestamp : {ActivityOfA}.Timestamp, }) " +
+                                                " CREATE (activityOfA:Activity {ActivityID : {ActivityOfA}.ActivityID, Status : {ActivityOfA}.Status, Type : {ActivityOfA}.Type, UserID : {ActivityOfA}.UserID, Timestamp : {ActivityOfA}.Timestamp, UserName : userB.UserName, FirstName : userB.FirstName, LastName : userB.LastName, ProfilePicURL : userB.ProfilePicURL}) " +
                                                 " CREATE (activityOfA)-[:ACT_ON_USER]->(userB) " +
-                                                " CREATE (activityOfB:Activity {ActivityOfB}) " +
+                                                 " CREATE (activityOfA:Activity {ActivityID : {ActivityOfB}.ActivityID, Status : {ActivityOfB}.Status, Type : {ActivityOfB}.Type, UserID : {ActivityOfB}.UserID, Timestamp : {ActivityOfB}.Timestamp, UserName : userA.UserName, FirstName : userA.FirstName, LastName : userA.LastName, ProfilePicURL : userA.ProfilePicURL}) " +
                                                 " CREATE (activityOfB)-[:ACT_ON_USER]->(userA) " +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
                                                 " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                                

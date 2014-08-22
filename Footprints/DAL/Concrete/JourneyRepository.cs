@@ -286,6 +286,30 @@ namespace Footprints.DAL.Concrete
                    Where((Journey Journey) => Journey.JourneyID == JourneyID).Return<int>("Count(Content)").Results;
             return query.Count() == 0 ? 0 : query.First();
         }
+        public IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID)
+        {
+            var query = Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)").Where((User User) => User.UserID == UserID).
+                        OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
+                        With("Journey, Destination").OrderBy("Destination.OrderNumber").
+                        Return((Journey, Destination) => new
+                        {
+                            Journey = Journey.As<Journey>(),
+                            Destination = Destination.CollectAs<Destination>()
+                        }).Results;
+            List<Journey> result = new List<Journey>();
+            Journey tmp = new Journey();
+            foreach (var item in query)
+            {
+                tmp = item.Journey;
+                tmp.Destinations = new List<Destination>();
+                foreach (var destination in item.Destination)
+                {
+                    tmp.Destinations.Add(destination.Data);   
+                }
+                result.Add(tmp);
+            }
+            return query.Count() == 0 ? null : result;
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -310,5 +334,6 @@ namespace Footprints.DAL.Concrete
         bool UpdateJourneyForAdmin(Journey Journey);
         bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);
         int GetNumberOfContent(Guid JourneyID);
+        IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID);
     }
 }
