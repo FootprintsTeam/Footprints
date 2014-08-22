@@ -9,26 +9,33 @@
     <div class="innerAll" style="height:60px">
 
         <div class="row">
-            <div class="col-lg-10 col-md-8">
+            <div class="col-lg-1 col-md-1"></div>
+            <div class="col-lg-10 col-md-10">
                 @{Html.RenderPartial("SearchForm", new SearchDataViewModel { Keyword = @Model.Keyword, SearchTypes = @Model.SearchTypes });}
-
-                @if (Model.Journeys != null && Model.Journeys.Count > 0)
-                {
-                    Html.RenderPartial("JourneyList", Model.Journeys);
-                }
-                @if (Model.Destinations != null && Model.Destinations.Count > 0)
-                {
-                    Html.RenderPartial("DestinationList", Model.Destinations);
-                }
-                @if (Model.Users != null && Model.Users.Count > 0)
-                {
-                    Html.RenderPartial("UserList", Model.Users);
-                }
-                @if (Model.Places != null && Model.Places.Count > 0)
-                {
-                    Html.RenderPartial("JourneyList", Model.Places);
-                }
-                @*<div id="last-search-result-item" style="display:none"></div>*@
+                <div id="search-result-wrapper">
+                    @if ((Model.Journeys == null || Model.Journeys.Count == 0) &&
+                    (Model.Places == null || Model.Places.Count == 0) &&
+                    (Model.Destinations == null || Model.Destinations.Count == 0) &&
+                    (Model.Users == null || Model.Users.Count == 0))
+                    {
+                        Html.RenderPartial("NoResultWidget");
+                    }
+                    else
+                    {
+                        if (Model.Journeys != null && Model.Journeys.Count > 0)
+                        {
+                            Html.RenderPartial("JourneyList", Model.Journeys);
+                        }
+                        if (Model.Destinations != null && Model.Destinations.Count > 0)
+                        {
+                            Html.RenderPartial("DestinationList", Model.Destinations);
+                        }
+                        if (Model.Users != null && Model.Users.Count > 0)
+                        {
+                            Html.RenderPartial("UserList", Model.Users);
+                        }
+                    }
+                </div>
             </div>
         </div>
         @*<div class="row">

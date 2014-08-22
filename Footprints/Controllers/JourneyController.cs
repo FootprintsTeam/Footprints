@@ -71,8 +71,12 @@ namespace Footprints.Controllers
             {
                 targetUserID = new Guid(userID);
             }
-            journeyService.GetJourneyDetailsListBelongToUser(targetUserID);
-            return Json(null, JsonRequestBehavior.AllowGet);
+            var journeyList = journeyService.GetJourneyDetailsListBelongToUser(targetUserID);
+            if (journeyList == null)
+            {
+                journeyList = new List<Journey>();
+            }
+            return View(journeyList);
         }
 
         //

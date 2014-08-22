@@ -2621,6 +2621,8 @@
     <Content Include="Views\Personal\PersonalCommentWidget.cshtml" />
     <Content Include="Views\Shared\SearchFormPartial.cshtml" />
     <Content Include="Views\Search\SearchForm.cshtml" />
+    <Content Include="Views\Journey\JourneyList.cshtml" />
+    <Content Include="Views\Search\NoResultWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
