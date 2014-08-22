@@ -8,10 +8,10 @@
             <a href="#modal-cover-picture-add" data-toggle="modal" class="btn btn-primary" style="position:absolute;right:10px;top:15px">Change Profile Picture</a>
         </div>
         <ul class="list-unstyled" style="background:rgba(0,0,0,0.5) !important">
-            <li><a href="@Url.Action("Index","Personal")"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
-            <li><a href="@Url.Action("About","Personal")"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
-            <li><a href="@Url.Action("Index","Media")"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(@Model.NumberOfFriend)</small></a></li>
-            <li><a href="@Url.Action("Index","Friend")"><i class="icon-group"></i> <span>Friends</span> <small>(19)</small></a></li>
+            <li><a href="@Url.Action("Index", "Personal", new { userId = Model.UserID })"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
+            <li><a href="@Url.Action("About", "Personal", new { userId = Model.UserID })"><i class="fa fa-fw fa-user"></i> <span>About</span></a></li>
+            <li><a href="@Url.Action("Index", "Media", new { userId = Model.UserID })"><i class="icon-photo-camera"></i> <span>Photos</span> <small>(@Model.NumberOfPhoto)</small></a></li>
+            <li><a href="@Url.Action("Index", "Friend", new { userId  = Model.UserID})"><i class="icon-group"></i> <span>Friends</span> <small>(@Model.NumberOfFriend)</small></a></li>
             @*<li><a href="messages.html?component=timeline&amp;v=v2.0.1-rc1"><i class="icon-envelope-fill-1"></i> <span>Messages</span> <small>(2 new)</small></a></li>*@
         </ul>
     </div>

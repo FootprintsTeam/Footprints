@@ -193,8 +193,12 @@ namespace Footprints.Controllers
         [ChildActionOnly]
         public ActionResult PersonalWidget()
         {
-            var sample = PersonalWidgetViewModel.GetSampleObject();
-            return PartialView(sample);
+            var model = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            PersonalWidgetViewModel viewModel = Mapper.Map<User, PersonalWidgetViewModel>(model);
+            viewModel.NumberOfDestination = (int)userService.GetNumberOfDestination(viewModel.UserID);
+            viewModel.NumberOfJourney = (int)userService.GetNumberOfJourney(viewModel.UserID);
+            viewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(viewModel.UserID);
+            return PartialView(viewModel);
         }
 
         [ChildActionOnly]
