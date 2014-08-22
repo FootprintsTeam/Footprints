@@ -57,9 +57,9 @@ namespace Footprints.ViewModels
         public Guid DestinationID { get; set; }
         [Required]
         public Guid CommentID { get; set; }
-        public Guid UserCommentId { get; set; }
+        public Guid UserID { get; set; }
         public string UserAvatarURL { get; set; }
-        public string UserCommentName { get; set; }
+        public string UserName { get; set; }
         [Required]
         public string Content { get; set; }
         public DateTimeOffset Time { get; set; }
@@ -74,12 +74,12 @@ namespace Footprints.ViewModels
             var sample = new CommentViewModel { 
                 DestinationID = Guid.NewGuid(), 
                 CommentID = Guid.NewGuid(), 
-                UserCommentId = Guid.NewGuid(), 
+                UserID = Guid.NewGuid(), 
                 Content = "đây là một comment",
                 UserAvatarURL = "../assets/images/people/80/2.jpg", 
                 Time = DateTime.Now, 
                 NumberOfLike = 10, 
-                UserCommentName = "Chiến Thắng"
+                UserName = "Chiến Thắng"
             };
             var list = new List<CommentViewModel>();
             list.Add(sample);
