@@ -33,20 +33,30 @@ namespace Footprints.Controllers
         // GET: /Personal/Personal/
         public ActionResult Index(string userID = "default")
         {
+
             var currentUserID = User.Identity.GetUserId();
             var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(currentUserID)) : userService.RetrieveUser(new Guid(userID));
             
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
 
+            //add number of pictures
+            viewModel.NumberOfPhoto = userService.GetNumberOfContentByUserID(viewModel.UserID);
+            viewModel.NumberOfJourney = (int)userService.GetNumberOfJourney(viewModel.UserID);
+            viewModel.NumberOfDestination = destinationService.GetNumberOfDestination(viewModel.UserID);
+            viewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(viewModel.UserID);
             if (!userID.Equals("default"))
                 ViewBag.AlreadyFriend = userService.CheckFriendShip(new Guid(currentUserID), new Guid(userID));
-            //var model = PersonalViewModel.GetSampleObject();            
+            //var model = PersonalViewModel.GetSampleObject();      
+      
             return View(viewModel);
+
         }
         public ActionResult About()
         {
+
             var model = PersonalAboutViewModel.GetSampleObject();
             return View(model);
+
         }
 
         [HttpPost]

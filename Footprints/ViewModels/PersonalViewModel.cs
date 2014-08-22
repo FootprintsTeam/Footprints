@@ -13,6 +13,8 @@ namespace Footprints.ViewModels
         [HiddenInput(DisplayValue = false)]
         public Guid UserID { get; set; }
 
+        public int NumberOfPhoto { get; set; }
+
         public String CoverPhotoUrl { get; set; }
 
         public String FirstName { get; set; }

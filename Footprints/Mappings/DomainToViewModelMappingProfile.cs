@@ -46,7 +46,7 @@ namespace Footprints.Mappings
             //Mapper.CreateMap<User, PersonalWidgetViewModel>();
             //Mapper.CreateMap<User, DestinationWidgetViewModel>();
             //Mapper.CreateMap<User, JourneyWidgetViewModel>();
-
+            Mapper.CreateMap<User, PersonalWidgetViewModel>();
             Mapper.CreateMap<User, NewsfeedBaseWidgetViewModel>();
             
         }
