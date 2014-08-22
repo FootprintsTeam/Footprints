@@ -204,9 +204,9 @@ namespace Footprints.Controllers
             var userId = new Guid(User.Identity.GetUserId());
             var user = userService.RetrieveUser(userId);
             comment.UserAvatarURL = user.ProfilePicURL;
-            comment.UserCommentId = user.UserID;
+            comment.UserID = user.UserID;
             comment.CommentID = commentId;
-            comment.UserCommentName = User.Identity.GetUserName();
+            comment.UserName = User.Identity.GetUserName();
             comment.Time = DateTimeOffset.Now;
             comment.NumberOfLike = 0;
             var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
