@@ -28,7 +28,7 @@ namespace Footprints.Mappings
             Mapper.CreateMap<Destination, AddPhotoWidgetViewModel>().
                 ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Name)); 
             Mapper.CreateMap<Comment, CommentViewModel>().
-                ForMember(x => x.UserAvatarURL, y => y.MapFrom(src => src.User.ProfilePicURL));
+                ForMember(x => x.UserAvatarURL, y => y.MapFrom(src => src.User.ProfilePicURL));            
             Mapper.CreateMap<User, DestinationViewModel>();
             Mapper.CreateMap<User, FriendItemViewModel>();
             Mapper.CreateMap<Content, AddPhotoWidgetViewModel>();

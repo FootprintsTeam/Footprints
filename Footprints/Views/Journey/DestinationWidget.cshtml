@@ -1,6 +1,7 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
 @using Footprints.ViewModels
 @using Footprints.Models
+@using Footprints.Common
 @{ AjaxOptions commentFormOptions = new AjaxOptions
    {
        HttpMethod = "Post",
@@ -10,27 +11,24 @@
 
 <li>
     <span class="marker"></span>
-    <div class="block block-inline">
+    <div class="block block-inline" style="width: 500px !important">
         <div class="caret"></div>
         <div class="box-generic">
             <div class="timeline-top-info">
-                <i class="fa fa-user"></i>
-                <a href="" class="text-inverse">@Model.UserName</a> visited
+                <a href="@Url.Action("Index","Personal", new {userID = Model.UserID})"><img src="@Model.ProfilePicURL.ToString()" style="width:40px !important"/></a>
+                <a href="@Url.Action("Index","Personal", new {userID = Model.UserID})" class="text-inverse">@Model.UserName</a> visited
                 <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID})" class="text-info"><i class="fa fa-location-arrow"></i> @Model.Place.Name</a>
             </div>
             <div class="media margin-none">
                 <div class="row innerLR innerB">
                     <div class="col-lg-12 col-md-12">
-                        <div class="innerT">
-                            <p>@Model.Description<a href="#">view more</a></p>
+                        <div class="innerT" style="display: inline; word-break: break-all; word-wrap: break-word !important">
+                            <p>@Model.Description.TruncateLongString(100)<a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID })">... more</a></p>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-12">
                         <div class="innerT">
-                            <div class="icon-block text-center ">
-                                <span class="glyphicons tower"><i></i></span>
-                                @*picture area*@
-                            </div>
+                            <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID})"><img src="@Model.Place.ConstructMapImageUrl(420,200,12)" /></a>
                         </div>
                     </div>
                 </div>
