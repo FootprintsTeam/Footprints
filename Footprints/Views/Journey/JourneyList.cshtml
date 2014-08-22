@@ -29,8 +29,17 @@
                         <div class="widget">
                             <div class="innerAll inner-2x border-bottom">
                                 <h4><a href="@Url.Action("Index", "Journey", new { journeyID = @journey.JourneyID})">@journey.Name</a></h4>
-                                <p class="text-muted">@String.Format("{0:dd MMMM yyyy}", journey.TakenDate)</p>
-                                <p class="margin-none" style="white-space: pre-line">@journey.Description</p>
+                                <p class="margin-none"><i class="fa fa-calendar"></i> @String.Format("{0:dd MMMM yyyy}", journey.TakenDate)</p>
+                                <p class="margin-none" style="white-space: pre-line"><i class="fa fa-align-left"></i> @journey.Description</p>
+                                @if (journey.Destinations != null && journey.Destinations.Count > 0)
+                                {
+                                    <ul class="list-group margin-none innerT">
+                                        @foreach (var destination in journey.Destinations)
+                                        {
+                                            <li class="list-group-item"><a href="@Url.Action("Index", "Destination", new { destinationID = @destination.DestinationID})"><i class="fa fa-map-marker"></i> @destination.Name</a></li>
+                                        }
+                                    </ul>
+                                }
                             </div>
                             <div class="row row-merge bg-white">
                                 <div class="col-md-2">
