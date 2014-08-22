@@ -60,6 +60,21 @@ namespace Footprints.Controllers
             return View(journeyViewModel);
         }
 
+        public ActionResult JourneyList(string userID = "default")
+        {
+            var targetUserID = new Guid();
+            if (userID.Equals("default"))
+            {
+                targetUserID = new Guid(User.Identity.GetUserId());
+            }
+            else
+            {
+                targetUserID = new Guid(userID);
+            }
+            journeyService.GetJourneyDetailsListBelongToUser(targetUserID);
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // GET: /Journey/Details/5
         public ActionResult Details(int id)

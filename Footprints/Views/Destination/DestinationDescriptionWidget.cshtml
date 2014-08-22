@@ -32,7 +32,7 @@
             <p>
                 <span class="label label-info">@Model.NumberOfJourney Journeys</span><br />
                 <span class="label label-danger">@Model.NumberOfDestination Destinations</span><br />
-                <span class="label label-success">@Model.NumberOfFriend Friends</span>
+                <a href="@Url.Action("Index", "Friend", new { userID = @Model.UserID})"><span class="label label-success">@Model.NumberOfFriend Friends</span></a>
             </p>
         </div>
 
@@ -45,7 +45,7 @@
                         </div>
                         <div id="collapse-1-1" class="panel-collapse collapse in" style="height: auto;">
                             <div class="panel-body" style="border:none !important">
-                                <p class="innerT">@Model.Description</p>
+                                <p class="innerT" style="white-space: pre-line">@Model.Description</p>
                             </div>
                         </div>
                     </div>

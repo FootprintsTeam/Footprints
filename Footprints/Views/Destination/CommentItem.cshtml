@@ -24,7 +24,7 @@
                 <abbr><i class="fa fa-clock-o"></i> @Model.TimeAgo</abbr>
             </div>
             <div class="col-md-9" id="comment-content-@Model.CommentID">
-                <span>@Model.Content</span>
+                <span style="white-space: pre-line">@Model.Content</span>
             </div>
             @* Authenticate to display edit comment menu *@
             @if (StringUtil.compareGuidToString(Model.UserCommentId, User.Identity.GetUserId()))
