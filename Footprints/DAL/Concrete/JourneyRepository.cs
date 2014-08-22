@@ -63,7 +63,7 @@ namespace Footprints.DAL.Concrete
         }
         public bool AddNewJourney(Guid UserID, Journey Journey)
         {
-            Activity activity = new Activity
+            Activity Activity = new Activity
             {
                 ActivityID = Guid.NewGuid(),
                 Status = Activity.StatusEnum.Active,
@@ -80,7 +80,7 @@ namespace Footprints.DAL.Concrete
                                                 " WITH journey " +
                                                 " MATCH (user:User {UserID : {UserID}}) " +
                                                 " CREATE (user)-[:HAS]->(journey) " +
-                                                " CREATE (activity:Activity {ActivityID : {Activity}.ActivityID, Status : {Activity}.Status, Type : {Activity}.Type, JourneyID : {Activity}.JourneyID, Timestamp : {Activity}.Timestamp, UserName : User.UserName, FirstName : User.FirstName, LastName : User.LastName, ProfilePicURL : User.ProfilePicURL, Journey_Name : {Activity}.Journey_Name, Journey_Description : {Activity}.Journey_Description, Journey_NumberOfLike : {Activity}.Journey_NumberOfLike, Journey_NumberOfShare : {Activity}.Journey_NumberOfShare}) " +
+                                                " CREATE (activity:Activity {ActivityID : {Activity}.ActivityID, Status : {Activity}.Status, Type : {Activity}.Type, JourneyID : {Activity}.JourneyID, Timestamp : {Activity}.Timestamp, UserName : user.UserName, FirstName : user.FirstName, LastName : user.LastName, ProfilePicURL : user.ProfilePicURL, Journey_Name : {Activity}.Journey_Name, Journey_Description : {Activity}.Journey_Description, Journey_NumberOfLike : {Activity}.Journey_NumberOfLike, Journey_NumberOfShare : {Activity}.Journey_NumberOfShare}) " +
                                                 " WITH user, journey, activity " +
                                                 " MATCH (user)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -99,7 +99,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (user)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
                                                 " WITH fr, previousUser, nextUser " +
                                                 " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", new Dictionary<String, Object> { { "journey", Journey }, { "activity", activity }, { "UserID", UserID } }, CypherResultMode.Projection);
+                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ", new Dictionary<String, Object> { { "journey", Journey }, { "Activity", Activity }, { "UserID", UserID } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }

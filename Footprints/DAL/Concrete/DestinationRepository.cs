@@ -113,7 +113,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (Destination)-[:AT]->(Place) " +
                                                 " CREATE (Journey)-[:HAS]->(Destination) " +
                                                 " CREATE (Activity:Activity {Activity}) " +
-                                                " SET Activtity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL, Activity.Journey_Name = Journey.Name, Activity.Journey_Description = Journey.Description, Activity.Journey_NumberOfLike = Journey.NumberOfLike, Activity.Journey_NumberOfShare = Journey.NumberOfShare " +
+                                                " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL, Activity.Journey_Name = Journey.Name, Activity.Journey_Description = Journey.Description, Activity.Journey_NumberOfLike = Journey.NumberOfLike, Activity.Journey_NumberOfShare = Journey.NumberOfShare " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
                                                 " WITH Destination, Journey, Activity, User " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
@@ -217,12 +217,13 @@ namespace Footprints.DAL.Concrete
                 Timestamp = Content.Timestamp,                
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination) WHERE (User.UserID = {UserID}) AND (Destination.DestinationID = {DestinationID}) " +
-                                                " WITH User, Destination " +
+                                                " WITH User, Journey, Destination " +
                                                 " WHERE (Destination IS NOT NULL) AND (User IS NOT NULL) " +
                                                 " CREATE (Content:Content {Content}) " +                                               
                                                 " CREATE (Destination)-[:HAS]->(Content) " +
                                                 " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, ContentID : {Activity}.ContentID, ContentURL : {Activity}.ContentURL, UserID : {Activity}.UserID, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
                                                 " SET Activity.Journey_Name = Journey.Name, Activity.Journey_Description = Journey.Description, Activity.Journey_NumberOfLike = Journey.NumberOfLike, Activity.Journey_NumberOfShare = Journey.NumberOfShare " +
+                                                " Set Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL" +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " + 
                                                 " WITH Destination, Content, Activity, User " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
@@ -281,6 +282,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (Destination)-[:LIKED_BY]->(User) " +
                                                 " SET Destination.NumberOfLike = Destination.NumberOfLike + 1 " +
                                                 " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
+                                                " Set Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
                                                 " WITH User, Destination, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
@@ -332,6 +334,7 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (Destination)-[:SHARED_BY]->(User) " +
                                                 " SET Destination.NumberOfShare = Destination.NumberOfShare + 1 " +
                                                 " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Content : {Activity}.Content, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
+                                                " Set Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
                                                 " WITH User, Destination, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
