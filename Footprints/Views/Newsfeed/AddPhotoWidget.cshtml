@@ -19,9 +19,10 @@
     <!-- Content -->
     <div class="innerAll">
         <a href="@Url.Action("Index", "Destionation", new { destinationID = Model.DestinationID })"><p class="lead">@Model.DestinationName</p></a>
-        <a href=""><img src="../assets/images/social/100/1.jpg" alt="" class="img-post display-block-inline" /></a>
-        <a href=""><img src="../assets/images/social/100/2.jpg" alt="" class="img-post display-block-inline" /></a>
-        <a href=""><img src="../assets/images/social/100/3.jpg" alt="" class="img-post display-block-inline" /></a>
+        @if (Model.URL != null) {             
+            <img src="@Model.URL" style="width:100%;height:auto"/>
+        }
+        <a href=""><img src="../assets/images/social/100/1.jpg" alt="" class="img-post display-block-inline" style="width:100%;height:auto !important"/></a>        
     </div>
 
     <!-- Comment -->
