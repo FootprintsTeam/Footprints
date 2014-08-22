@@ -25,7 +25,7 @@ namespace Footprints.ViewModels
         public int NumberOfPhoto { get; set; }
         public Guid DestinationID { get; set; }
         public string DestinationName { get; set; }
-
+        public string URL { get; set; }
         public static AddPhotoWidgetViewModel GetSampleObject()
         {
             var sample = new AddPhotoWidgetViewModel
