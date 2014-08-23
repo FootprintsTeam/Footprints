@@ -197,6 +197,7 @@ namespace Footprints.DAL.Concrete
                         Match("(Activity:Activity)").
                         Where((Activity Activity) => Activity.CommentID == CommentID).
                         Set("Activity.Status = 'Deleted'").
+                        With("Comment, r").
                         Delete("Comment, r").
                         ExecuteWithoutResults();
         }
