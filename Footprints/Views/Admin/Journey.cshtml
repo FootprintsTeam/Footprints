@@ -16,7 +16,47 @@
     </div>
     <div class="clearfix"></div>
     <div class="separator-h"></div>
-    
+
+    <!-- Filters -->
+    @*<div class="filter-bar">
+        <form class="margin-none form-inline">
+
+            <!-- From -->
+            <div class="form-group col-md-2 padding-none">
+                <label>From:</label>
+                <div class="input-group">
+                    <input type="text" name="from" id="dateRangeFrom" class="form-control" value="08/05/13" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <!-- // From END -->
+            <!-- To -->
+            <div class="form-group col-md-2 padding-none">
+                <label>To:</label>
+                <div class="input-group">
+                    <input type="text" name="to" id="dateRangeTo" class="form-control" value="08/18/13" />
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+            <!-- // To END -->
+
+            <!-- Select -->
+            <div class="form-group col-md-3 padding-none">
+                <label class="label-control">Select:</label>
+                <div class="col-md-8 padding-none">
+                    <select name="from" class="form-control">
+                        <option>Some option</option>
+                        <option>Other option</option>
+                        <option>Some other option</option>
+                    </select>
+                </div>
+            </div>
+            <!-- // Select END -->
+
+            <div class="clearfix"></div>
+        </form>
+    </div>*@
+    <!-- // Filters END -->
     <!-- Widget -->
     <div class="widget widget-body-white">
 
@@ -74,7 +114,7 @@
                                         <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
                                         <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
                                     @Html.ActionLink("Edit", "EditJourney", "Admin", new { JourneyID = journey.JourneyID }, new { @class = "btn btn-success" })
-                                    <a class="btn btn-danger" data-toggle="modal" href="#delete-journey">Delete</a>
+                                    @Html.ActionLink("Del", "DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID }, new { @class = "btn btn-danger" })
                                 </div>
                             </td>
                         </tr>
@@ -108,35 +148,5 @@
         </div>
     </div>
     <!-- // Widget -->
-</div>
-
-<div class="modal fade" id="delete-journey">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal heading -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">Delete Journey</h3>
-            </div>
-            <!-- // Modal heading END -->
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="innerAll">
-                    <div class="innerLR">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <label class="control-label">Are you sure want to delete this journey?</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- // Modal body END -->
-            <div class="modal-footer">
-                @Html.ActionLink("Del", "DeleteJourney", "Admin", new { UserID = Model.UserID, JourneyID = Model.JourneyID }, new { @class = "btn btn-danger" })
-                <button class="btn btn-primary" type="submit"> Confirm</button>
-                <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
+    @Scripts.Render("~/script/core")
 </div>
