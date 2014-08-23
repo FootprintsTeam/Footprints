@@ -1,6 +1,6 @@
 ﻿@using Footprints.ViewModels
 @model Footprints.ViewModels.SearchDataViewModel
-@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @class = "form-horizontal", role = "form" }))
+@using (Ajax.BeginForm("LazySearch", new { controller = "Search" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addSearchResult" }))
 {
     @Html.ValidationSummary(true)
     <div class="widget">
@@ -10,7 +10,7 @@
                     <label class="strong">Search for</label>
                     @Html.TextBoxFor(x => x.Keyword, new { placeholder = "Type your keywords .. ", @class = "form-control" })
                 </div>
-                <div class="col-md-4 center">
+                <div class="col-md-4">
                     <div class="checkbox">
                         <label class="checkbox-custom">
                             @if (@Model.SearchTypes.Contains(SearchType.user))
@@ -47,3 +47,9 @@
         </div>
     </div>
 }
+<script type="text/javascript">
+    function addSearchResult(data) {
+        var searchResultWrapper = $('#search-result-wrapper');
+        searchResultWrapper.html(data.HTMLString);
+    }
+</script>

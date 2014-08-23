@@ -83,6 +83,75 @@ namespace Footprints.Controllers
             }
         }
 
+        public ActionResult LazySearch(SearchDataViewModel dataModel)
+        {
+            InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
+            if (dataModel.SearchTypes != null && dataModel.SearchTypes.Count > 0)
+            {
+                bool isEmptyResult = true;
+                if (dataModel.SearchTypes.Contains(SearchType.user))
+                {
+                    IList<User> users = search.SearchUser(dataModel.Keyword, NumberOfResultPerBlock);
+                    if (users != null)
+                    {
+                        users = users.Distinct(new UserEqualityComparer()).ToList();
+                        isEmptyResult = false;
+                        jsonModel.HTMLString += RenderPartialViewToString("UserList", users);
+                    }
+                }
+                if (dataModel.SearchTypes.Contains(SearchType.place))
+                {
+                    IList<Destination> destinations = search.SearchDestination(dataModel.Keyword, NumberOfResultPerBlock);
+                    if (destinations != null)
+                    {
+                        destinations = destinations.Distinct(new DestinationEqualityComparer()).ToList();
+                        jsonModel.HTMLString += RenderPartialViewToString("DestinationList", destinations);
+                    }
+                    List<Journey> journeyList = new List<Journey>();
+                    var tmpJourneyList = search.SearchJourney(dataModel.Keyword, NumberOfResultPerBlock);
+                    if ( tmpJourneyList!= null)
+                    {
+                        journeyList.AddRange(tmpJourneyList);
+                    }
+                    tmpJourneyList = search.SearchPlace(dataModel.Keyword, NumberOfResultPerBlock);
+                    if (tmpJourneyList != null)
+                    {
+                        journeyList.AddRange(tmpJourneyList);
+                    }
+                    if (journeyList.Count > 0)
+                    {
+                        isEmptyResult = false;
+                        journeyList = journeyList.Distinct(new JourneyEqualityComparer()).ToList();
+                        jsonModel.HTMLString += RenderPartialViewToString("JourneyList", journeyList);
+                    }
+                    if (isEmptyResult)
+                    {
+                        jsonModel.HTMLString += RenderPartialViewToString("NoResultWidGet", null);
+                    }
+                }
+            }
+            return Json(jsonModel, JsonRequestBehavior.DenyGet);
+        }
+
+        [ChildActionOnly]
+        public ActionResult DestinationList(IEnumerable<Destination> model)
+        {
+            return PartialView("DestinationList", model);
+        }
+        [ChildActionOnly]
+        public ActionResult JourneyList(IEnumerable<Journey> model)
+        {
+            return PartialView("JourneyList", model);
+        }
+        public ActionResult UserList(IEnumerable<User> model)
+        {
+            return PartialView("UserList", model);
+        }
+        [ChildActionOnly]
+        public ActionResult NoResultWidget()
+        {
+            return View();
+        }
         public ActionResult LazyLoadSearchResult(string Keyword, int BlockNumber)
         {
             InfiniteScrollSearchResultJsonModel result = new InfiniteScrollSearchResultJsonModel();

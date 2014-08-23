@@ -289,7 +289,8 @@ namespace Footprints.DAL.Concrete
             Journey tmp = new Journey();
             foreach (var item in query)
             {
-                tmp = item.Journey;
+                if (item.Journey == null) return null;
+                else tmp = item.Journey;
                 tmp.Destinations = new List<Destination>();
                 foreach (var destination in item.Destination)
                 {
