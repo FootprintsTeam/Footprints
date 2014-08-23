@@ -30,7 +30,7 @@
                 <h3 class="media-heading strong">@*Trịnh Thành Nhân*@ @Model.UserName</h3>
             </a>
             <p>
-                <span class="label label-info">@Model.NumberOfJourney Journeys</span><br />
+                <a href="@Url.Action("JourneyList", "Journey", new { userID = @Model.UserID})"><span class="label label-info">@Model.NumberOfJourney Journeys</span><br /></a>
                 <span class="label label-danger">@Model.NumberOfDestination Destinations</span><br />
                 <a href="@Url.Action("Index", "Friend", new { userID = @Model.UserID})"><span class="label label-success">@Model.NumberOfFriend Friends</span></a>
             </p>

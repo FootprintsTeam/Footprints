@@ -169,6 +169,33 @@
 <script type="text/javascript">
     var arrPlace = $.parseJSON('@Html.ToJson(listPlace)');
     var x2 = 2;
+
+    var isCommentProcessing = false;
+    $('[id^="comment-input-"]').keyup(function (ev) {
+        if (ev.which == 13) {
+            $(this).parents('form').submit();
+        }
+
+    });
+    function addComment(data) {
+        $('#empty-last-comment-' + data.DestinationID).before(
+            data.HTMLString
+        );
+        $('#comment-input-' + data.DestinationID).val('');
+    }
+    function addCommentComplete(destinationId) {
+        isCommentProcessing = false;
+    }
+    function validateAddCommentForm(destinationId) {
+        if (isCommentProcessing) return false;
+        isCommentProcessing = true;
+        
+        var txtcontent = $('#comment-input-' + destinationId);
+        if (txtcontent == null || txtcontent.val() == null || txtcontent.val().trim().length == 0)
+            return false;
+        else
+            return true;
+    }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 <script src="/assets/plugins/google_map/js/google.map.init.js"></script>

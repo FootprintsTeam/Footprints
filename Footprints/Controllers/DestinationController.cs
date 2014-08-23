@@ -211,15 +211,20 @@ namespace Footprints.Controllers
             comment.NumberOfLike = 0;
             var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
             commentObj.Timestamp = DateTimeOffset.Now;
-            InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
+            var jsonModel = new CommentInfo();
             if (commentService.AddDestinationComment(userId, commentObj))
             {
+                bool isPostedFromJourneyPage = Request.UrlReferrer.ToString().Contains("/Journey/Index");
+                    TempData.Add("CommentPage", "Journey");
                 jsonModel.HTMLString = RenderPartialViewToString("CommentItem", comment);
+                if (isPostedFromJourneyPage)
+                    TempData.Remove("CommentPage");
             }
             else
             {
                 jsonModel.HTMLString = "";
             }
+            jsonModel.DestinationID = comment.DestinationID;
             return Json(jsonModel);
         }
 

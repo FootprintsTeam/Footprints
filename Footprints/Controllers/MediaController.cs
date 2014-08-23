@@ -119,7 +119,7 @@ namespace Footprints.Controllers
             albumDetails.AlbumID = destination.AlbumID;
             albumDetails.DestinationName = destination.Name;
             albumDetails.JourneyID = destination.JourneyID;
-            var journey = journeyService.GetJourneyDetail(destination.JourneyID);
+            var journey = journeyService.RetrieveJourney(destination.JourneyID);
             albumDetails.JourneyName = journey.Name;
             albumDetails.Photos = destination.Contents;
             return View(albumDetails);

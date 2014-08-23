@@ -19,13 +19,19 @@
 <script src="~/assets/plugins/forms_elements_textarea/jquery.autosize.js"></script>
 <script type="text/javascript">
     //get data from callback and insert html
+    var isCommentProcessing = false;
     function addComment(data) {
         $('#comment-section-container').before(
             data.HTMLString
         );
         $('#comment-input-@ViewBag.DestinationID').val('');
     }
+    function addCommentComplete() {
+        isCommentProcessing = false;
+    }
     function validateAddCommentForm(destinationId) {
+        if (isCommentProcessing) return false;
+        isCommentProcessing = true;
         var form = $('#add-comment-form-' + destinationId);
         if (form == null)
             return false;
