@@ -194,7 +194,7 @@ namespace Footprints.DAL.Concrete
                 Status = Models.Activity.StatusEnum.Active,
                 Type = "SHARE_A_JOURNEY",
                 JourneyID = JourneyID,
-                Content = Content,
+                SharedContent = Content,
                 Timestamp = DateTimeOffset.Now
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User), (Journey:Journey) " +
@@ -300,6 +300,12 @@ namespace Footprints.DAL.Concrete
             }
             return query.Count() == 0 ? null : result;
         }
+        public Journey GetJourneyDetailWithComment(Guid JourneyID)
+        {
+            var query = Db.Cypher.Match("(Journey:Journey)").
+                Where((Journey Journey) => Journey.JourneyID == JourneyID);
+            return null;
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -325,5 +331,6 @@ namespace Footprints.DAL.Concrete
         bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);
         int GetNumberOfContent(Guid JourneyID);
         IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID);
+        Journey GetJourneyDetailWithComment(Guid JourneyID);
     }
 }

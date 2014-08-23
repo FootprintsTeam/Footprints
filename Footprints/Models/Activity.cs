@@ -18,11 +18,15 @@ namespace Footprints.Models
         public Guid ContentID { get; set; }
         public String PlaceID { get; set; }
         public DateTimeOffset Timestamp { get; set; }
-        public String Content { get; set; }
+        public String SharedContent { get; set; }
         public int NumberOfPhoto { get; set; }        
         public string DestinationName { get; set; }
         public int NumberOfLike { get; set; }
         public int NumberOfShare { get; set; }
+        //Friend Object
+        public string FriendName { get; set; }
+        public string FriendUserID { get; set; }
+        public string FriendProfilePicUrl { get; set; }
         // User Object
         public String UserName { get; set; }
         public String FirstName { get; set; }
@@ -41,7 +45,11 @@ namespace Footprints.Models
         //Place Object
         public String Place_Name { get; set; }
         public String Place_Address { get; set; }
+        public Double Longitude { get; set; }
+        public Double Latitude { get; set; }
         //Content Object
         public String ContentURL { get; set; }
+        //Comment Object
+        public String CommentContent { get; set; }
     }
 }

@@ -33,7 +33,6 @@ namespace Footprints.Common
         public const string ActivityShareDestination = "SHARE_A_DESTINATION";
         public const string ActivityLikeDestination = "LIKE_A_DESTINATION";
         public const string ActivityAddNewContent = "ADD_NEW_CONTENT";
-
     }
 
     public enum Genre

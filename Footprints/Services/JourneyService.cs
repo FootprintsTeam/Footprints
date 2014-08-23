@@ -35,6 +35,7 @@ namespace Footprints.Services
         bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp);
         int GetNumberOfContent(Guid JourneyID);
         IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID);
+        Journey GetJourneyDetailWithComment(Guid JourneyID);
     }
     public class JourneyService : IJourneyService
     {
@@ -134,6 +135,10 @@ namespace Footprints.Services
         public IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID)
         {
             return journeyRepository.GetJourneyDetailsListBelongToUser(UserID);
+        }
+        public Journey GetJourneyDetailWithComment(Guid JourneyID)
+        {
+            return journeyRepository.GetJourneyDetailWithComment(JourneyID);
         }
     }
 }

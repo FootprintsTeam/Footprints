@@ -44,12 +44,12 @@ namespace Footprints.DAL.Concrete
                     Contents = content.CollectAs<Content>()
                 }).Results;
             Destination result = new Destination();
+            result.Place = new Place();
+            result.Contents = new List<Content>();
             foreach (var item in query)
             {
                 result = item.Destination;
-                result.Place = new Place();
                 result.Place = item.Place;
-                result.Contents = new List<Content>();
                 foreach (var content in item.Contents)
                 {
                     result.Contents.Add(content.Data);
@@ -73,12 +73,12 @@ namespace Footprints.DAL.Concrete
                             Contents = Content.CollectAs<Content>()
                         }).Results;
             Destination result = new Destination();
+            result.Place = new Place();
+            result.Contents = new List<Content>();
             foreach (var item in query)
             {
                 result = item.Destination;
-                result.Place = new Place();
                 if (item.Place != null) result.Place = item.Place;
-                result.Contents = new List<Content>();
                 foreach (var content in item.Contents)
                 {
                     result.Contents.Add(content.Data);
@@ -103,7 +103,9 @@ namespace Footprints.DAL.Concrete
                 UserID = UserID,
                 PlaceID = Place.PlaceID,
                 Place_Name = Place.Name,
-                Place_Address = Place.Address
+                Place_Address = Place.Address,
+                Longitude = Place.Longitude,
+                Latitude = Place.Latitude
             };
             CypherQuery query = new CypherQuery(" OPTIONAL MATCH (User:User)-[:HAS]->(Journey:Journey) WHERE (User.UserID = {UserID}) AND (Journey.JourneyID = {JourneyID})" +
                                                 " WITH User, Journey " +
@@ -142,7 +144,11 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.OptionalMatch("(user:User)-[:HAS]->(Journey:Journey)-[:HAS]->(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).AndWhere((User user)=>user.UserID == UserID).
                 Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
                 WithParam("Destination", Destination).
-                Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").WithParam("Place", Destination.Place).
+                Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").
+                WithParam("Place", Destination.Place).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == Destination.DestinationID).
+                Set("Activity.Place_Name = place.Name, Activity.Place_Address = place.Address, Activity.Longitude = place.Longitude, Activity.Latitude = place.Latitude ").
+                With("destination, place").
                 Match("(destination)-[rel:AT]->(Place:Place)").
                 Delete("rel").
                 Create("(destination)-[:AT]->(place)").
@@ -157,6 +163,9 @@ namespace Footprints.DAL.Concrete
                 WithParams(new Dictionary<String, Object> {{"Name", Name}, {"Description", Description}, {"TakenDate", TakenDate}, {"Timestamp", Timestamp}}).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").
                 WithParam("Place", Place).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).
+                Set("Activity.Place_Name = place.Name, Activity.Place_Address = place.Address, Activity.Longitude = place.Longitude, Activity.Latitude = place.Latitude ").                
+                With("destination, place").
                 Match("(destination)-[rel:AT]->(Place:Place)").
                 Delete("rel").
                 Create("(destination)-[:AT]->(place)").
@@ -170,6 +179,9 @@ namespace Footprints.DAL.Concrete
                 Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
                 WithParam("Destination", Destination).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").WithParam("Place", Destination.Place).
+                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == Destination.DestinationID).
+                Set("Activity.Place_Name = place.Name, Activity.Place_Address = place.Address, Activity.Longitude = place.Longitude, Activity.Latitude = place.Latitude ").
+                With("destination, place").
                 Match("(destination)-[rel:AT]->(Place:Place)").
                 Delete("rel").
                 Create("(destination)-[:AT]->(place)").
@@ -217,14 +229,19 @@ namespace Footprints.DAL.Concrete
                 Timestamp = Content.Timestamp,                
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination) WHERE (User.UserID = {UserID}) AND (Destination.DestinationID = {DestinationID}) " +
-                                                " WITH User, Journey, Destination " +
+                                                " MATCH (Destination)-[:AT]->(Place:Place)" +
+                                                " WITH User, Journey, Destination, Place " +
                                                 " WHERE (Destination IS NOT NULL) AND (User IS NOT NULL) " +
                                                 " CREATE (Content:Content {Content}) " +                                               
                                                 " CREATE (Destination)-[:HAS]->(Content) " +
                                                 " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, ContentID : {Activity}.ContentID, ContentURL : {Activity}.ContentURL, UserID : {Activity}.UserID, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
                                                 " SET Activity.Journey_Name = Journey.Name, Activity.Journey_Description = Journey.Description, Activity.Journey_NumberOfLike = Journey.NumberOfLike, Activity.Journey_NumberOfShare = Journey.NumberOfShare " +
-                                                " Set Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL" +
+                                                " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL" +
+                                                " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude" +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " + 
+                                                " WITH Destination, Content, Activity, User " +
+                                                " MATCH (Destination)-[:AT]->(Place:Place)" + 
+                                                " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " WITH Destination, Content, Activity, User " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
                                                 " DELETE f " +
@@ -279,10 +296,12 @@ namespace Footprints.DAL.Concrete
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User), (Destination:Destination) " +
                                                 " WHERE (User.UserID = {UserID} ) AND (Destination.DestinationID = {DestinationID} ) " +
+                                                " MATCH (Destination)-[:AT]->(Place:Place)" + 
                                                 " CREATE (Destination)-[:LIKED_BY]->(User) " +
                                                 " SET Destination.NumberOfLike = Destination.NumberOfLike + 1 " +
                                                 " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
-                                                " Set Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
+                                                " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
+                                                " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
                                                 " WITH User, Destination, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
@@ -326,15 +345,17 @@ namespace Footprints.DAL.Concrete
                 Status = Models.Activity.StatusEnum.Active,
                 Type = "SHARE_A_DESTINATION",
                 DestinationID = DestinationID,
-                Content = Content,
+                SharedContent = Content,
                 Timestamp = DateTimeOffset.Now
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User), (Destination:Destination) " +
                                                 " WHERE (User.UserID = {UserID} ) AND (Destination.DestinationID = {DestinationID} ) " +
+                                                " MATCH (Destination)-[:AT]->(Place:Place)" +
                                                 " CREATE (Destination)-[:SHARED_BY]->(User) " +
                                                 " SET Destination.NumberOfShare = Destination.NumberOfShare + 1 " +
                                                 " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Content : {Activity}.Content, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
-                                                " Set Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
+                                                " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
+                                                " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
                                                 " WITH User, Destination, Activity " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +

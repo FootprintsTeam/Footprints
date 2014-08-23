@@ -35,7 +35,7 @@ namespace Footprints.DAL.Concrete
             };
             Db.Cypher.Create("(User:User {User})").WithParam("User", UserPara).
                       Create("(Activity:Activity {Activity})").WithParam("Activity", activity).With("User, Activity").
-                      Match("(UserTemp:User {UserID : 'TEMP'})").
+                      Merge("(UserTemp:User {UserID : 'TEMP'})").
                       Create("(User)-[:EGO {UserID : User.UserID}]->(UserTemp)").
                       Create("(User)-[:LATEST_ACTIVITY]->(Activity)").
                       Create("(User)-[:FRIEND]->(UserTemp)")
@@ -68,9 +68,9 @@ namespace Footprints.DAL.Concrete
             CypherQuery query = new CypherQuery(" MATCH (userA:User {UserID : {UserID_A}}),(userB:User {UserID : {UserID_B}})" +
                                                 " CREATE (userA)-[:FRIEND]->(userB) " + 
                                                 " CREATE (userB)-[:FRIEND]->(userA) " +
-                                                " CREATE (activityOfA:Activity {ActivityID : {ActivityOfA}.ActivityID, Status : {ActivityOfA}.Status, Type : {ActivityOfA}.Type, UserID : {ActivityOfA}.UserID, Timestamp : {ActivityOfA}.Timestamp, UserName : userB.UserName, FirstName : userB.FirstName, LastName : userB.LastName, ProfilePicURL : userB.ProfilePicURL}) " +
+                                                " CREATE (activityOfA:Activity {ActivityID : {ActivityOfA}.ActivityID, Status : {ActivityOfA}.Status, Type : {ActivityOfA}.Type, UserID : {ActivityOfA}.UserID, Timestamp : {ActivityOfA}.Timestamp, UserName : userA.UserName, FirstName : userA.FirstName, LastName : userA.LastName, ProfilePicURL : userA.ProfilePicURL, FriendName : userB.UserName, FriendUserID : userB.UserID, FriendProfilePicURL : userB.ProfilePicURL}) " +
                                                 " CREATE (activityOfA)-[:ACT_ON_USER]->(userB) " +
-                                                " CREATE (activityOfB:Activity {ActivityID : {ActivityOfB}.ActivityID, Status : {ActivityOfB}.Status, Type : {ActivityOfB}.Type, UserID : {ActivityOfB}.UserID, Timestamp : {ActivityOfB}.Timestamp, UserName : userA.UserName, FirstName : userA.FirstName, LastName : userA.LastName, ProfilePicURL : userA.ProfilePicURL}) " +
+                                                " CREATE (activityOfB:Activity {ActivityID : {ActivityOfB}.ActivityID, Status : {ActivityOfB}.Status, Type : {ActivityOfB}.Type, UserID : {ActivityOfB}.UserID, Timestamp : {ActivityOfB}.Timestamp, UserName : userB.UserName, FirstName : userB.FirstName, LastName : userB.LastName, ProfilePicURL : userB.ProfilePicURL, FriendName : userA.UserName, FriendUserID : userA.UserID, FriendProfilePicURL : userA.ProfilePicURL}) " +
                                                 " CREATE (activityOfB)-[:ACT_ON_USER]->(userA) " +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
                                                 " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                        

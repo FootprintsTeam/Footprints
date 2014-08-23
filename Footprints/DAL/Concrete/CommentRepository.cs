@@ -73,8 +73,15 @@ namespace Footprints.DAL.Concrete
         }
         public bool UpdateComment(Guid UserID, Comment Comment)
         {
-            Db.Cypher.OptionalMatch("(comment:Comment)-[rel:COMMENT_BY]->(User:User)").Where((Comment comment) => comment.CommentID == Comment.CommentID).
-                        AndWhere((User User) => User.UserID == UserID).With("comment, rel").Where("rel IS NOT NULL").Set("comment = {Comment}").WithParam("Comment", Comment).ExecuteWithoutResults();
+            Db.Cypher.OptionalMatch("(comment:Comment)-[rel:COMMENT_BY]->(User:User)").
+                        Where((Comment comment) => comment.CommentID == Comment.CommentID).
+                        AndWhere((User User) => User.UserID == UserID).
+                        With("comment, rel").Where("rel IS NOT NULL").
+                        Set("comment = {Comment}").WithParam("Comment", Comment).
+                        With("Comment").
+                        Match("Activity:Activity").Where((Activity Activity) => Activity.CommentID == Comment.CommentID).
+                        Set("Activity.Content = Comment.Content").
+                        ExecuteWithoutResults();
             return true;
         }
         public bool AddDestinationComment(Guid UserID, Comment Comment)
@@ -85,6 +92,7 @@ namespace Footprints.DAL.Concrete
                 Status = Activity.StatusEnum.Active,
                 Type = "COMMENT_ON_DESTINATION",
                 UserID = UserID,
+                CommentContent = Comment.Content,
                 CommentID = Comment.CommentID,
                 DestinationID = Comment.DestinationID,
                 Timestamp = DateTimeOffset.Now
@@ -132,6 +140,7 @@ namespace Footprints.DAL.Concrete
                 Status = Activity.StatusEnum.Active,
                 Type = "COMMENT_ON_JOURNEY",
                 UserID = UserID,
+                CommentContent = Comment.Content,
                 CommentID = Comment.CommentID,
                 JourneyID = Comment.JourneyID,
                 Timestamp = DateTimeOffset.Now
