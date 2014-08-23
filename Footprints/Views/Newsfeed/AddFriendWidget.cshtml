@@ -1,5 +1,4 @@
-﻿@model Footprints.ViewModels.AddPhotoWidgetViewModel
-
+﻿@model Footprints.ViewModels.AddFriendWidgetViewmodel
 @using Footprints.ViewModels
 <div class="widget gridalicious-item not-responsive">
     <!-- Info -->
@@ -18,19 +17,19 @@
 
     <!-- Content -->
     <div class="innerAll">
-        <a href="@Url.Action("Index", "Destionation", new { destinationID = Model.DestinationID })"><p class="lead">@Model.DestinationName</p></a>
-        @if (Model.URL != null) {             
+        @*<a href="@Url.Action("Index", "Destionation", new { destinationID = Model.DestinationID })"><p class="lead">@Model.DestinationName</p></a>*@
+        @*@if (Model.URL != null) {             
             <img src="@Model.URL" style="width:100%;height:auto"/>
-        }
+        }*@
         <a href=""><img src="../assets/images/social/100/1.jpg" alt="" class="img-post display-block-inline" style="width:100%;height:auto !important"/></a>        
     </div>
 
     <!-- Comment -->
-    <div class="bg-gray innerAll border-top border-bottom text-small">
+    @*<div class="bg-gray innerAll border-top border-bottom text-small">
         <span>View all <a href="" class="text-primary">@Model.Comments.Count() Comments</a></span>
-    </div>
+    </div>*@
 
-    @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
+    @*@{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}*@
 
     <div class="input-group comment">
         <input type="text" class="form-control" placeholder="Your comment here...">

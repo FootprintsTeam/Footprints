@@ -120,6 +120,18 @@ namespace Footprints.ViewModels
         public string FriendName { get; set; }
         public string FriendUserID { get; set; }
         public string FriendProfilePicUrl { get; set; }
+        public static AddFriendWidgetViewmodel GetSampleObject()
+        {
+            var sample = new AddFriendWidgetViewmodel
+            {
+                ActivityID = new Guid(),
+                UserName = "Nhân Trịnh",
+                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
+                Timestamp = DateTimeOffset.Now               
+            };
+
+            return sample;
+        }
     }
 
     public class DestinationWidgetViewModel : NewsfeedBaseWidgetViewModel
