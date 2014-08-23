@@ -37,15 +37,12 @@ namespace Footprints.Controllers
         //
         // GET: /Newsfeed/Newsfeed/
 
-        public ActionResult Index()
-        {
-            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
-            var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(currentUser.UserID, Constant.defaultNewsfeedBlockNumber);
-            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();            
+        public IList<NewsfeedBaseWidgetViewModel> ConstructNewsfeedCollection(IList<Activity> newsfeedWidgets) {
+            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();
 
             if (newsfeedWidgets == null)
             {
-                return View();
+                return viewModels;
             }
 
             foreach (var activity in newsfeedWidgets)
@@ -110,6 +107,81 @@ namespace Footprints.Controllers
                 }
             };
 
+            return viewModels;
+        }
+        
+        public IList<NewsfeedBaseWidgetViewModel> NewConstructNewsfeedCollection(IList<Activity> newsfeedWidgets)
+        {
+
+            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();
+
+            if (newsfeedWidgets == null)
+            {
+                return viewModels;
+            }
+
+            foreach (var activity in newsfeedWidgets)
+            {                
+
+                switch (activity.Type)
+                {
+                    case Constant.ActivityAddNewContent:
+                        var destinationPhoto = destinationService.GetDestinationDetail(activity.DestinationID);
+                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);                        
+                        viewModels.Add(photoModel);
+                        break;
+
+                    case Constant.ActivityAddNewDestination:
+                        DestinationWidgetViewModel destinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
+                        //Mapper.Map<Destination,DestinationWidgetViewModel>()                        
+                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), destinationModel.Comments);
+                        viewModels.Add(destinationModel);
+                        break;
+
+                    case Constant.ActivityAddNewFriend:
+                        AddFriendWidgetViewmodel addFriendModel = Mapper.Map<Activity, AddFriendWidgetViewmodel>(activity);
+                        viewModels.Add(addFriendModel);
+                        break;
+
+                    case Constant.ActivityAddnewJourney:
+                        JourneyWidgetViewModel journeyModel = Mapper.Map<Activity, JourneyWidgetViewModel>(activity);                        
+                        Mapper.Map<Journey, JourneyWidgetViewModel>(journeyService.RetrieveJourney(activity.JourneyID), journeyModel);
+                        viewModels.Add(journeyModel);
+                        break;
+
+                    case Constant.ActivityComment:
+                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);                        
+                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), commentModel.Comments);
+                        viewModels.Add(commentModel);
+                        break;
+
+                    case Constant.ActivityLikeDestination:
+                        DestinationWidgetViewModel likeDestinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
+                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), likeDestinationModel.Comments);
+                        viewModels.Add(likeDestinationModel);
+                        break;
+
+                    case Constant.ActivityShareDestination:
+                        ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);                       
+                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), shareModel.Comments);
+                        viewModels.Add(shareModel);
+                        break;
+
+                    default:
+                        System.Diagnostics.Debug.WriteLine(activity.Type + "something");
+                        break;
+                }
+            };
+
+            return viewModels;
+        }
+        public ActionResult Index()
+        {
+            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(currentUser.UserID, Constant.defaultNewsfeedBlockNumber);
+
+            var viewModels = NewConstructNewsfeedCollection(newsfeedWidgets);
+
             return View();
         }
 
@@ -155,7 +227,7 @@ namespace Footprints.Controllers
             //jsonModel.NoMoreData = books.Count < BlockSize;
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("DestinationWidget", DestinationWidgetViewModel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddPhotoWidget", AddPhotoWidgetViewModel.GetSampleObject()) });
+            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddFriendWidget", AddFriendWidgetViewmodel.GetSampleObject()) });
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("JourneyWidget", JourneyWidgetViewModel.GetSampleObject()) });
             jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("ShareWidget", ShareWidgetViewModel.GetSampleObject()) });
 
@@ -173,7 +245,7 @@ namespace Footprints.Controllers
         [ChildActionOnly]
         public ActionResult AddFriendWidget()
         {
-            var sample = AddPhotoWidgetViewModel.GetSampleObject();
+            var sample = AddFriendWidgetViewmodel.GetSampleObject();
             return PartialView(sample);
         }
 

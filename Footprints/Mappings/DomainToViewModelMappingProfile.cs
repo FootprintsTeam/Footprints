@@ -35,12 +35,23 @@ namespace Footprints.Mappings
             Mapper.CreateMap<User, FriendItemViewModel>();
             Mapper.CreateMap<Content, AddPhotoWidgetViewModel>();
             Mapper.CreateMap<Activity, NewsfeedBaseWidgetViewModel>();
-            Mapper.CreateMap<Activity, AddPhotoWidgetViewModel>();
-            Mapper.CreateMap<Activity, CommentWidgetViewModel>();
-            Mapper.CreateMap<Activity, ShareWidgetViewModel>();
+            Mapper.CreateMap<Activity, AddFriendWidgetViewmodel>();
+            Mapper.CreateMap<Activity, AddPhotoWidgetViewModel>().
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name)).                
+                ForMember(x=>x.URL,y=>y.MapFrom(src=>src.ContentURL));
+            Mapper.CreateMap<Activity, CommentWidgetViewModel>().
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name));
+            Mapper.CreateMap<Activity, ShareWidgetViewModel>().
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name));
             Mapper.CreateMap<Activity, PersonalWidgetViewModel>();
-            Mapper.CreateMap<Activity, DestinationWidgetViewModel>();
-            Mapper.CreateMap<Activity, JourneyWidgetViewModel>();
+            Mapper.CreateMap<Activity, DestinationWidgetViewModel>().
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name)).
+                ForMember(x=> x.Description, y=>y.MapFrom(src=>src.Destination_Description));
+            Mapper.CreateMap<Activity, JourneyWidgetViewModel>().
+                ForMember(x => x.JourneyName, y => y.MapFrom(src => src.Journey_Name));
+            Mapper.CreateMap<Activity, Place>().
+                ForMember(x => x.Name, y => y.MapFrom(src => src.Place_Name)).
+                ForMember(x => x.Address, y => y.MapFrom(src => src.Place_Address));
             //Mapper.CreateMap<User, NewsfeedBaseWidgetViewModel>();
             //Mapper.CreateMap<User, AddPhotoWidgetViewModel>();
             //Mapper.CreateMap<User, CommentWidgetViewModel>();

@@ -85,6 +85,7 @@ namespace Footprints.DAL.Concrete
                 Status = Activity.StatusEnum.Active,
                 Type = "COMMENT_ON_DESTINATION",
                 UserID = UserID,
+                CommentID = Comment.CommentID,
                 DestinationID = Comment.DestinationID,
                 Timestamp = DateTimeOffset.Now
             };
@@ -131,6 +132,7 @@ namespace Footprints.DAL.Concrete
                 Status = Activity.StatusEnum.Active,
                 Type = "COMMENT_ON_JOURNEY",
                 UserID = UserID,
+                CommentID = Comment.CommentID,
                 JourneyID = Comment.JourneyID,
                 Timestamp = DateTimeOffset.Now
             };
@@ -187,7 +189,7 @@ namespace Footprints.DAL.Concrete
             return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(user:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results.ToList<User>();
         }
         //TODO
-        public void DeleteAComment(Guid UserID,Guid CommentID)
+        public void DeleteAComment(Guid UserID, Guid CommentID)
         {
             Db.Cypher.OptionalMatch("(Comment:Comment)-[rel:COMMENT_BY]->(User:User)").
                         Where((Comment Comment) => Comment.CommentID == CommentID).
@@ -197,6 +199,7 @@ namespace Footprints.DAL.Concrete
                         Match("(Activity:Activity)").
                         Where((Activity Activity) => Activity.CommentID == CommentID).
                         Set("Activity.Status = 'Deleted'").
+                        With("Comment, r").
                         Delete("Comment, r").
                         ExecuteWithoutResults();
         }
