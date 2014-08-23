@@ -125,7 +125,7 @@ namespace Footprints.DAL.Concrete
                       OptionalMatch("(User)-[rel:HAS]->(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
                       OptionalMatch("(Journey:Journey)-[r]-()").
                       OptionalMatch("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).
-                      With("User, rel, r, Journey").
+                      With("User, rel, r, Journey, Activity").
                       Where("rel IS NOT NULL").Set("Activity.Status = 'Deleted'").Delete("rel, r, Journey").ExecuteWithoutResults();
             return true;
         }

@@ -44,11 +44,11 @@ namespace Footprints.DAL.Concrete
                     Contents = content.CollectAs<Content>()
                 }).Results;
             Destination result = new Destination();
-            result.Place = new Place();
-            result.Contents = new List<Content>();
             foreach (var item in query)
             {
                 result = item.Destination;
+                result.Place = new Place();
+                result.Contents = new List<Content>();
                 result.Place = item.Place;
                 foreach (var content in item.Contents)
                 {
@@ -72,12 +72,12 @@ namespace Footprints.DAL.Concrete
                             Place = Place.As<Place>(),
                             Contents = Content.CollectAs<Content>()
                         }).Results;
-            Destination result = new Destination();
-            result.Place = new Place();
-            result.Contents = new List<Content>();
+            Destination result = new Destination();            
             foreach (var item in query)
             {
                 result = item.Destination;
+                result.Place = new Place();
+                result.Contents = new List<Content>();
                 if (item.Place != null) result.Place = item.Place;
                 foreach (var content in item.Contents)
                 {

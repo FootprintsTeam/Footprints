@@ -26,7 +26,7 @@ namespace Footprints.Models
         //Friend Object
         public string FriendName { get; set; }
         public string FriendUserID { get; set; }
-        public string FriendProfilePicUrl { get; set; }
+        public string FriendProfilePicURL { get; set; }
         // User Object
         public String UserName { get; set; }
         public String FirstName { get; set; }
