@@ -24,9 +24,9 @@ namespace Footprints.Models
         public int NumberOfLike { get; set; }
         public int NumberOfShare { get; set; }
         //Friend Object
-        public string FriendName { get; set; }
-        public string FriendUserID { get; set; }
-        public string FriendProfilePicURL { get; set; }
+        public String FriendName { get; set; }
+        public String FriendUserID { get; set; }
+        public String FriendProfilePicURL { get; set; }
         // User Object
         public String UserName { get; set; }
         public String FirstName { get; set; }
