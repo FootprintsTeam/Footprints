@@ -39,9 +39,9 @@ namespace Footprints.Controllers
 
         public ActionResult Index()
         {
-            var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(new Guid(User.Identity.GetUserId()), Constant.defaultNewsfeedBlockNumber);
-            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();
             var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(currentUser.UserID, Constant.defaultNewsfeedBlockNumber);
+            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();            
 
             if (newsfeedWidgets == null)
             {
@@ -51,7 +51,7 @@ namespace Footprints.Controllers
             foreach (var activity in newsfeedWidgets)
             {
 
-                var user = userService.RetrieveUser(activity.UserID);                
+                var user = userService.RetrieveUser(activity.UserID);
 
                 switch (activity.Type)
                 {
@@ -67,8 +67,8 @@ namespace Footprints.Controllers
                     case Constant.ActivityAddNewDestination:
                         DestinationWidgetViewModel destinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
                         //Mapper.Map<Destination,DestinationWidgetViewModel>()
-                        Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, destinationModel);                        
-                        Mapper.Map<Destination, DestinationWidgetViewModel>(destinationService.GetDestinationDetail(activity.DestinationID),destinationModel);
+                        Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, destinationModel);
+                        Mapper.Map<Destination, DestinationWidgetViewModel>(destinationService.GetDestinationDetail(activity.DestinationID), destinationModel);
                         Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), destinationModel.Comments);
                         viewModels.Add(destinationModel);
                         break;
@@ -87,7 +87,7 @@ namespace Footprints.Controllers
                     case Constant.ActivityComment:
                         CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);
                         Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, commentModel);
-                        Mapper.Map<Destination, CommentWidgetViewModel>(destinationService.GetDestination(activity.DestinationID),commentModel);
+                        Mapper.Map<Destination, CommentWidgetViewModel>(destinationService.GetDestination(activity.DestinationID), commentModel);
                         Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), commentModel.Comments);
                         viewModels.Add(commentModel);
                         break;
@@ -98,8 +98,8 @@ namespace Footprints.Controllers
                     case Constant.ActivityShareDestination:
                         ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);
                         Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, shareModel);
-                         Mapper.Map<User, ShareWidgetViewModel>(user, shareModel);                        
-                        Mapper.Map<Destination, ShareWidgetViewModel>(destinationService.GetDestinationDetail(activity.DestinationID),shareModel);
+                        Mapper.Map<User, ShareWidgetViewModel>(user, shareModel);
+                        Mapper.Map<Destination, ShareWidgetViewModel>(destinationService.GetDestinationDetail(activity.DestinationID), shareModel);
                         Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), shareModel.Comments);
                         viewModels.Add(shareModel);
                         break;
@@ -171,7 +171,7 @@ namespace Footprints.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult AddPhotoWidget()
+        public ActionResult AddFriendWidget()
         {
             var sample = AddPhotoWidgetViewModel.GetSampleObject();
             return PartialView(sample);

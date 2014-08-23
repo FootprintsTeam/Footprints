@@ -18,7 +18,26 @@
 
     <!-- Content -->
     <div class="innerAll">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, pariatur!</p>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="map_canvas" style="height: 180px">
+                    <img id="google-map-json" src="" alt="somepicture" style="width:100%;" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="strong text-inverse innerB half">
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="strong">place name</a>
+                </div>
+                <div class="media margin-none">
+                    <p class="margin-none innerTB half">destination description goes here</p>
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="btn btn-xs btn-inverse">View</a>
+                    <div class="media-body">
+                        <small class="text-muted ">342 Likes</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <blockquote class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, delectus!</blockquote>
     </div>
 
     <!-- Comment -->
