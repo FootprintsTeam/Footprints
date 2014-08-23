@@ -35,7 +35,7 @@ namespace Footprints.Mappings
             Mapper.CreateMap<User, FriendItemViewModel>();
             Mapper.CreateMap<Content, AddPhotoWidgetViewModel>();
             Mapper.CreateMap<Activity, NewsfeedBaseWidgetViewModel>();
-            Mapper.CreateMap<Activity, AddFriendWidgetViewmodel>().ForMember(x=>x.FriendProfilePicUrl,y=>y.MapFrom(src=>src.FriendProfilePicUrl));
+            Mapper.CreateMap<Activity, AddFriendWidgetViewmodel>();
             Mapper.CreateMap<Activity, AddPhotoWidgetViewModel>().
                 ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name)).                
                 ForMember(x=>x.URL,y=>y.MapFrom(src=>src.ContentURL));
