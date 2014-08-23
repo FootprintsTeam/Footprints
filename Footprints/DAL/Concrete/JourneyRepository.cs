@@ -39,6 +39,7 @@ namespace Footprints.DAL.Concrete
             bool first = true;
             foreach (var item in query)
             {
+                if (item.journey == null) return null;
                 if (first)
                 {
                     result = new Journey();
