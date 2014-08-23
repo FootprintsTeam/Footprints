@@ -54,6 +54,25 @@ namespace Footprints.Common
             catch { }
         }
 
+        public static void DeleteAlbums(String UserID, String AlbumID, List<String> ContentURLList)
+        {
+            try
+            {
+                using (IAmazonS3 s3Client = Amazon.AWSClientFactory.CreateAmazonS3Client(Amazon.RegionEndpoint.APSoutheast1))
+                {
+                    DeleteObjectsRequest deleteObjectsRequest = new DeleteObjectsRequest();
+                    deleteObjectsRequest.BucketName = System.Configuration.ConfigurationManager.AppSettings["ImageBucketName"];
+                    foreach (var key in ContentURLList)
+                    {
+                        deleteObjectsRequest.AddKey(UserID + "/" + AlbumID + key);
+                    }
+                    DeleteObjectsResponse deleteObjectResponse = s3Client.DeleteObjects(deleteObjectsRequest);
+                    System.Diagnostics.Debug.WriteLine("deleteObjectResponse = [" + deleteObjectResponse + "]");
+                }
+            }
+            catch (Exception e) { System.Diagnostics.Debug.WriteLine("Error: " + e.StackTrace); }
+        }
+
         /// <summary>
         /// 
         /// </summary>
