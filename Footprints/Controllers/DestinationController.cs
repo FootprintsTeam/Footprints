@@ -166,7 +166,7 @@ namespace Footprints.Controllers
             }
             var userId = new Guid(User.Identity.GetUserId());
             destinationService.DeleteDestination(userId, model.DestinationID);
-            return RedirectToAction("Index", "Journey", new { id = model.JourneyID });
+            return RedirectToAction("Index", "Journey", new { journeyID = model.JourneyID });
         }
 
         protected String RenderPartialViewToString(String viewName, object model)
