@@ -1,5 +1,32 @@
-﻿@Styles.Render("~/Content/css")
-@Scripts.Render("~/bundles/modernizr")
+﻿@Styles.Render("~/css/core")
+
+<script src="../assets/plugins/core_ajaxify_loadscript/script.min.js?v=v2.0.0-rc8&sv=v0.0.1.2"></script>
+<script>
+    var basePath = '',
+   commonPath = '../assets/',
+   rootPath = '../',
+   DEV = false,
+   componentsPath = '../assets/components/';
+
+    var primaryColor = '#5577b4',
+        dangerColor = '#b55151',
+        successColor = '#609450',
+        infoColor = '#4a8bc2',
+        warningColor = '#ab7a4b',
+        inverseColor = '#45484d';
+
+    var themerPrimaryColor = primaryColor;
+    var App = {};
+    App.Config = {
+        ajaxify_menu_selectors: ['#menu'],
+        ajaxify_layout_app: false
+    };
+</script>
+@Scripts.Render("~/script/core")
+@Scripts.Render("~/script/dependency")
+@Styles.Render("~/css/form-modal")
+
+
 <div>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -23,3 +50,4 @@
     </div>
     @RenderBody()
 </div>
+@Scripts.Render("~/script/form-modal")
