@@ -303,8 +303,45 @@ namespace Footprints.DAL.Concrete
         public Journey GetJourneyDetailWithComment(Guid JourneyID)
         {
             var query = Db.Cypher.Match("(Journey:Journey)").
-                Where((Journey Journey) => Journey.JourneyID == JourneyID);
-            return null;
+                Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                Match("(Journey)-[:HAS]->(Destination:Destination)").
+                Match("(DComment:Comment)-[:ON]->(Destination:Destination)").
+                Match("(JComment:Comment)-[:ON]->(Journey:Journey)").
+                With("Journey, Destination, DComment, JComment").
+                OrderBy("Destination.OrderNumber, DComment.Timestamp, JComment.Timestamp").
+                Return((Journey, Destination, DComment, JComment) => new
+                {
+                    Journey = Journey.As<Journey>(),
+                    Destination = Destination.As<Destination>(),
+                    JComment = JComment.CollectAs<Comment>(),
+                    DComment = DComment.CollectAs<Comment>()
+                }).Results;
+            Destination destination = new Destination();
+            Journey result = new Journey();
+            result.Destinations = new List<Destination>();
+            result.Comments = new List<Comment>();
+            bool first = true;
+            foreach (var item in query)
+            {
+                if (first)
+                {
+                    result = item.Journey;
+                    first = false;
+                    foreach (var comment in item.JComment)
+                    {
+                        result.Comments.Add(comment.Data);
+                    }
+                }
+                destination = new Destination();
+                destination.Comments = new List<Comment>();
+                destination = item.Destination;
+                foreach (var comment in item.DComment)
+                {
+                    destination.Comments.Add(comment.Data);
+                }
+                result.Destinations.Add(destination);
+            }
+            return query.Count() == 0 ? null : result;
         }
     }
     public interface IJourneyRepository : IRepository<Journey>

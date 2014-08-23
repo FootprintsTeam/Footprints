@@ -30,5 +30,6 @@ namespace Footprints.Models
         [Range(0, int.MaxValue, ErrorMessage = "Number of share must be a positive number")]
         public int NumberOfShare { get; set; }
         public List<Destination> Destinations { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

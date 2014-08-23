@@ -146,6 +146,7 @@ namespace Footprints.DAL.Concrete
                 WithParam("Destination", Destination).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").
                 WithParam("Place", Destination.Place).
+                With("destination, place").
                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == Destination.DestinationID).
                 Set("Activity.Place_Name = place.Name, Activity.Place_Address = place.Address, Activity.Longitude = place.Longitude, Activity.Latitude = place.Latitude ").
                 With("destination, place").
@@ -163,6 +164,7 @@ namespace Footprints.DAL.Concrete
                 WithParams(new Dictionary<String, Object> {{"Name", Name}, {"Description", Description}, {"TakenDate", TakenDate}, {"Timestamp", Timestamp}}).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").
                 WithParam("Place", Place).
+                With("destination, place").
                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == DestinationID).
                 Set("Activity.Place_Name = place.Name, Activity.Place_Address = place.Address, Activity.Longitude = place.Longitude, Activity.Latitude = place.Latitude ").                
                 With("destination, place").
@@ -179,6 +181,7 @@ namespace Footprints.DAL.Concrete
                 Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
                 WithParam("Destination", Destination).
                 Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").WithParam("Place", Destination.Place).
+                With("destination, place").
                 Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == Destination.DestinationID).
                 Set("Activity.Place_Name = place.Name, Activity.Place_Address = place.Address, Activity.Longitude = place.Longitude, Activity.Latitude = place.Latitude ").
                 With("destination, place").
