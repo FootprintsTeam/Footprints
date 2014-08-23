@@ -364,9 +364,9 @@ namespace Footprints.Controllers
         {
             return PartialView("DestinationMainContentWidget", viewModel);
         }
-        public ActionResult ShareDestination(Guid userID, Guid destinationID, string content)
+        public ActionResult ShareDestination(Guid userID, Guid destinationID, string content="content")
         {
-            var result = "Fail";
+            var result = "Success";
             destinationService.ShareDestination(userID, destinationID, content);
 
             return Json(new { Result = result }, JsonRequestBehavior.AllowGet);

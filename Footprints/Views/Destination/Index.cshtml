@@ -139,25 +139,24 @@
     //sharing
     $("#share-btn").click(function (e) {
         if ($(this).find("span").html() != null && $(this).find("span").html() != "Shared") {
-            var shareSpanHtml = $("#share-number");
-            var numberOfShare = parseInt(shareSpanHtml.html());
-            numberOfShare = numberOfShare + 1;
-
-            if (numberOfShare != "NaN")
-                shareSpanHtml.html(numberOfShare.toString());
-
-            $(this).find("span").html("Shared");
-
-            $(this).find("i").removeClass("fa-share-square-o");
-            $(this).find("i").addClass("fa-check-square-o");
-
+            
             //send http request
-            $.get("@Url.Action("ShareDestination","Destination")", new {
+            $.get("@Url.Action("ShareDestination","Destination")", {
                 userID: "@User.Identity.GetUserId()",
                 destinationID: "@Model.DestinationID",
                 content: "something"
             }, function (data) {
+                var shareSpanHtml = $("#share-number");
+                var numberOfShare = parseInt(shareSpanHtml.html());
+                numberOfShare = numberOfShare + 1;
 
+                if (numberOfShare != "NaN")
+                    shareSpanHtml.html(numberOfShare.toString());
+
+                $(this).find("span").html("Shared");
+
+                $(this).find("i").removeClass("fa-share-square-o");
+                $(this).find("i").addClass("fa-check-square-o");
             });
         }
     });

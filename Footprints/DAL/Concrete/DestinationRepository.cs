@@ -45,10 +45,11 @@ namespace Footprints.DAL.Concrete
                 }).Results;
             Destination result = new Destination();
             result.Place = new Place();
-            result.Contents = new List<Content>();
+            
             foreach (var item in query)
             {
                 result = item.Destination;
+                result.Contents = new List<Content>();
                 result.Place = item.Place;
                 foreach (var content in item.Contents)
                 {
