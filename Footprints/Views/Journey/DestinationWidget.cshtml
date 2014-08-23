@@ -2,12 +2,7 @@
 @using Footprints.ViewModels
 @using Footprints.Models
 @using Footprints.Common
-@{ AjaxOptions commentFormOptions = new AjaxOptions
-   {
-       HttpMethod = "Post",
-       OnSuccess = "commentAdd"
-   };
-   var destinationID = @Model.DestinationID.ToString();}
+@{var destinationID = @Model.DestinationID.ToString();}
 
 <li>
     <span class="marker"></span>
@@ -49,11 +44,13 @@
                     </div>
                 }
             }
-            <div class="innerAll" id="@String.Format("section-form{0}", Model.DestinationID.ToString())">
-                @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, commentFormOptions, new { id = "comment-form" + Model.DestinationID.ToString() }))
+            <div style="display: none" id="empty-last-comment-@Model.DestinationID"></div>
+            <div class="innerAll" id="@String.Format("section-form-{0}", Model.DestinationID.ToString())">
+                @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnComplete = "addCommentComplete('" + @Model.DestinationID + "')", OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + Model.DestinationID.ToString() }))
                 {                    
+                    @Html.AntiForgeryToken()
                     @Html.Hidden("DestinationID", Model.DestinationID)
-                    @Html.TextBox("Content", null, new { id = "comment-input" + @Model.DestinationID + "", @class = "form-control", placeholder = "Comment here ..." })
+                    @Html.TextBox("Content", null, new { id = "comment-input-" + @Model.DestinationID + "", @class = "form-control", placeholder = "Comment here ..." })
                 }
             </div>
         </div>
@@ -62,36 +59,3 @@
         </div>
     </div>
 </li>
-
-<script type="text/javascript">
-    $("#comment-input" + "@destinationID").focus(function () {
-        $(this).data("hasfocus", true);
-    });
-
-    $("#comment-input"+"@destinationID").blur(function () {
-        $(this).data("hasfocus", false);
-    });
-
-    $(document.body).keyup(function (ev) {
-        // 13 is ENTER
-        if (ev.which === 13 && $("#comment-input"+"@destinationID").data("hasfocus")) {
-            $("comment-form" + "@destinationID").submit();
-        }
-    });
-    function commentAdd(data) {
-        var target = $("@String.Format("#section-form{0}", Model.DestinationID.ToString())");
-
-        for (var i = 0; i < data.length; i++) {
-            var comment = data[i];
-            target.before(
-                '<div class="media innerAll bg-gray margin-none border-top border-bottom">'
-                + '<a class="pull-left" href="#"><img src="' + comment.UserAvatarURL + '" alt="photo" class="media-object" width="35"></a>'
-                + '<div class="media-body">'
-                + '<a href="" class="strong text-inverse">' + comment.UserName + '</a>'+'&nbsp' + comment.Content
-                + '<div class="timeline-bottom">'
-                + '<i class="fa fa-clock-o"></i> - &nbsp' + comment.TimeAgo
-                + '</div></div></div>'
-                );
-        }
-    }
-</script>

@@ -1,0 +1,42 @@
+﻿@model Footprints.ViewModels.AddPhotoWidgetViewModel
+
+@using Footprints.ViewModels
+<div class="widget gridalicious-item not-responsive">
+    <!-- Info -->
+    <div class="bg-primary">
+        <div class="media">
+            <a href="" class="pull-left"><img src="@Model.ProfilePicURL" style="width:50px !important;height:50px" class="media-object"></a>
+            <div class="media-body innerTB half">
+                <a href="#" class="pull-right innerT innerR text-white">
+                    <i class="icon-reply-all-fill fa fa-2x "></i>
+                </a>
+                <a href="" class="text-white strong display-block">@Model.UserName</a>
+                <span>added <a href="" class="text-white strong">Photos</a> on 15th January, 2014</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="innerAll">
+        <a href="@Url.Action("Index", "Destionation", new { destinationID = Model.DestinationID })"><p class="lead">@Model.DestinationName</p></a>
+        @if (Model.URL != null) {             
+            <img src="@Model.URL" style="width:100%;height:auto"/>
+        }
+        <a href=""><img src="../assets/images/social/100/1.jpg" alt="" class="img-post display-block-inline" style="width:100%;height:auto !important"/></a>        
+    </div>
+
+    <!-- Comment -->
+    <div class="bg-gray innerAll border-top border-bottom text-small">
+        <span>View all <a href="" class="text-primary">@Model.Comments.Count() Comments</a></span>
+    </div>
+
+    @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
+
+    <div class="input-group comment">
+        <input type="text" class="form-control" placeholder="Your comment here...">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-primary" href="#"><i class="fa fa-comment"></i></button>
+        </div>
+    </div>
+
+</div>

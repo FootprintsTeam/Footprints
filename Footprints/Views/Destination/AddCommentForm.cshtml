@@ -1,5 +1,5 @@
 ﻿@model Footprints.ViewModels.AddCommentFormViewModel
-@using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + @Model.DestinationID }))
+@using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnComplete = "addCommentComplete", OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + @Model.DestinationID }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)

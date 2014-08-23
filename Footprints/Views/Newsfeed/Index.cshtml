@@ -1,5 +1,5 @@
-﻿@model IList<Footprints.ViewModels.CommentViewModel>
-
+﻿@model IList<Footprints.ViewModels.NewsfeedBaseWidgetViewModel>
+@using Footprints.Common
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,22 +14,43 @@
                     @{Html.RenderAction("PersonalWidget");}
                     @*End Widget*@
                     <!-- Widget -->
-                    @{Html.RenderAction("JourneyWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderAction("DestinationWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderAction("AddFriendWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderAction("CommentWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderAction("ShareWidget");}
-                    <!-- //End Widget -->
-                    <!-- Widget -->
-                    @{Html.RenderPartial("WidePictureWidget");}
+                    @foreach (var activity in Model)
+                    {
+
+                        switch (activity.Type)
+                        {
+                            case Constant.ActivityAddNewContent:
+                                Html.RenderPartial("WidePictureWidget", activity);
+                                break;
+
+                            case Constant.ActivityAddNewDestination:
+                                Html.RenderPartial("DestinationWidget",activity);
+                                break;
+
+                            case Constant.ActivityAddNewFriend:
+                                Html.RenderPartial("AddFriendWidget", activity);
+                                break;
+
+                            case Constant.ActivityAddnewJourney:
+                                Html.RenderPartial("JourneyWidget", activity);
+                                break;
+
+                            case Constant.ActivityComment:
+                                Html.RenderPartial("CommentWidget",activity);
+                                break;
+
+                            case Constant.ActivityLikeDestination:                                
+                                break;
+
+                            case Constant.ActivityShareDestination:
+                                Html.RenderPartial("ShareWidget", activity);
+                                break;
+
+                            default:
+                                System.Diagnostics.Debug.WriteLine(activity.Type + "something");
+                                break;
+                        }
+                    };
                     <!-- //End Widget -->
                 </div>
                 <div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
@@ -59,12 +80,12 @@
                             BlockNumber = BlockNumber + 1;
                             NoMoreData = data.NoMoreData;
                             for (i = 0; i < data.length; i++) {
-                                $(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));                                
+                                $(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
                             }
                             $("#loadingDiv").hide();
                             inProgress = false;
                         });
             }
-        });        
+        });
     </script>
 }

@@ -127,14 +127,15 @@ namespace Footprints.Controllers
                 {
                     case Constant.ActivityAddNewContent:
                         var destinationPhoto = destinationService.GetDestinationDetail(activity.DestinationID);
-                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);                        
+                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);                          
                         viewModels.Add(photoModel);
                         break;
 
                     case Constant.ActivityAddNewDestination:
                         DestinationWidgetViewModel destinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
                         //Mapper.Map<Destination,DestinationWidgetViewModel>()                        
-                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), destinationModel.Comments);
+                        destinationModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID));
+                        destinationModel.Place = Mapper.Map<Activity, Place>(activity);
                         viewModels.Add(destinationModel);
                         break;
 
@@ -150,20 +151,25 @@ namespace Footprints.Controllers
                         break;
 
                     case Constant.ActivityComment:
-                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);                        
-                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), commentModel.Comments);
+                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);      
+                        var commentList = commentService.RetrieveDestinationComment(activity.DestinationID);
+                        commentModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentList);                        
                         viewModels.Add(commentModel);
                         break;
 
                     case Constant.ActivityLikeDestination:
                         DestinationWidgetViewModel likeDestinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
-                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), likeDestinationModel.Comments);
+                        var commenLiketList = commentService.RetrieveDestinationComment(activity.DestinationID);
+                        likeDestinationModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commenLiketList);   
+                        likeDestinationModel.Place = Mapper.Map<Activity, Place>(activity);
                         viewModels.Add(likeDestinationModel);
                         break;
 
                     case Constant.ActivityShareDestination:
                         ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);                       
-                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), shareModel.Comments);
+                        var commentShareList = commentService.RetrieveDestinationComment(activity.DestinationID);
+                        shareModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentShareList);   
+                        shareModel.Place = Mapper.Map<Activity, Place>(activity);
                         viewModels.Add(shareModel);
                         break;
 
@@ -182,7 +188,7 @@ namespace Footprints.Controllers
 
             var viewModels = NewConstructNewsfeedCollection(newsfeedWidgets);
 
-            return View();
+            return View(viewModels);        
         }
 
         protected string RenderPartialViewToString(string viewName, object model)

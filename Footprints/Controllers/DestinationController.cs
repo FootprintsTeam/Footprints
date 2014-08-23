@@ -166,7 +166,7 @@ namespace Footprints.Controllers
             }
             var userId = new Guid(User.Identity.GetUserId());
             destinationService.DeleteDestination(userId, model.DestinationID);
-            return RedirectToAction("Index", "Journey", new { id = model.JourneyID });
+            return RedirectToAction("Index", "Journey", new { journeyID = model.JourneyID });
         }
 
         protected String RenderPartialViewToString(String viewName, object model)
@@ -211,15 +211,20 @@ namespace Footprints.Controllers
             comment.NumberOfLike = 0;
             var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
             commentObj.Timestamp = DateTimeOffset.Now;
-            InfiniteScrollJsonModel jsonModel = new InfiniteScrollJsonModel();
+            var jsonModel = new CommentInfo();
             if (commentService.AddDestinationComment(userId, commentObj))
             {
+                bool isPostedFromJourneyPage = Request.UrlReferrer.ToString().Contains("/Journey/Index");
+                    TempData.Add("CommentPage", "Journey");
                 jsonModel.HTMLString = RenderPartialViewToString("CommentItem", comment);
+                if (isPostedFromJourneyPage)
+                    TempData.Remove("CommentPage");
             }
             else
             {
                 jsonModel.HTMLString = "";
             }
+            jsonModel.DestinationID = comment.DestinationID;
             return Json(jsonModel);
         }
 
@@ -364,9 +369,9 @@ namespace Footprints.Controllers
         {
             return PartialView("DestinationMainContentWidget", viewModel);
         }
-        public ActionResult ShareDestination(Guid userID, Guid destinationID, string content)
+        public ActionResult ShareDestination(Guid userID, Guid destinationID, string content="content")
         {
-            var result = "Fail";
+            var result = "Success";
             destinationService.ShareDestination(userID, destinationID, content);
 
             return Json(new { Result = result }, JsonRequestBehavior.AllowGet);
