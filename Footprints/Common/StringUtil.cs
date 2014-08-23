@@ -24,7 +24,7 @@ namespace Footprints.Common
             return str.Substring(0, Math.Min(str.Length, maxLength));
         }
 
-        public static string ConstructMapImageUrl(this Place place, float width = 180, float height = 150, int zoomLvl = 12) { 
+        public static string ConstructMapImageUrl(this Place place, float width = 150, float height = 150, int zoomLvl = 12) { 
             //http://maps.googleapis.com/maps/api/staticmap?center=-15.800513,-47.91378&zoom=11&size=200x200&markers=color:blue%7Clabel:S%7C40.702147,-74.015794
             return string.Format("http://maps.googleapis.com/maps/api/staticmap?center={0},{1}&zoom={2}&size={3}x{4}&markers=color:{5}%7C{6},{7}",place.Latitude,place.Longitude,zoomLvl,width,height,ConsoleColor.Blue,place.Latitude,place.Longitude);
         }

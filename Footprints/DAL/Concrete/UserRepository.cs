@@ -70,30 +70,36 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (userB)-[:FRIEND]->(userA) " +
                                                 " CREATE (activityOfA:Activity {ActivityID : {ActivityOfA}.ActivityID, Status : {ActivityOfA}.Status, Type : {ActivityOfA}.Type, UserID : {ActivityOfA}.UserID, Timestamp : {ActivityOfA}.Timestamp, UserName : userB.UserName, FirstName : userB.FirstName, LastName : userB.LastName, ProfilePicURL : userB.ProfilePicURL}) " +
                                                 " CREATE (activityOfA)-[:ACT_ON_USER]->(userB) " +
-                                                " CREATE (activityOfA:Activity {ActivityID : {ActivityOfB}.ActivityID, Status : {ActivityOfB}.Status, Type : {ActivityOfB}.Type, UserID : {ActivityOfB}.UserID, Timestamp : {ActivityOfB}.Timestamp, UserName : userA.UserName, FirstName : userA.FirstName, LastName : userA.LastName, ProfilePicURL : userA.ProfilePicURL}) " +
+                                                " CREATE (activityOfB:Activity {ActivityID : {ActivityOfB}.ActivityID, Status : {ActivityOfB}.Status, Type : {ActivityOfB}.Type, UserID : {ActivityOfB}.UserID, Timestamp : {ActivityOfB}.Timestamp, UserName : userA.UserName, FirstName : userA.FirstName, LastName : userA.LastName, ProfilePicURL : userA.ProfilePicURL}) " +
                                                 " CREATE (activityOfB)-[:ACT_ON_USER]->(userA) " +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
-                                                " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                                
-                                                "    CREATE (userA)-[:LATEST_ACTIVITY]->(activityOfA) " +
+                                                " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                        
+                                                "    CREATE (userA)-[rAafter:LATEST_ACTIVITY]->(activityOfA) " +
                                                 "    CREATE (activityOfA)-[:NEXT]->(nextActivityA) " +
+                                                " SET rAafter = f" +
                                                 " WITH userA, userB, activityOfA, activityOfB, f " +
-                                                "    DELETE f " +
+                                                " DELETE f" +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
                                                 " MATCH (userB)-[fi:LATEST_ACTIVITY]->(nextActivityB) " +
-                                                "    CREATE (userB)-[:LATEST_ACTIVITY]->(activityOfB) " +
+                                                "    CREATE (userB)-[rBafter:LATEST_ACTIVITY]->(activityOfB) " +
                                                 "    CREATE (activityOfB)-[:NEXT]->(nextActivityB) " +
+                                                " SET rBafter = fi " +
                                                 " WITH userA, userB, activityOfA, activityOfB, fi " +
-                                                "    DELETE fi " +
+                                                " DELETE fi " +
                                                 " WITH userA, userB " +
                                                 " MATCH (userA)-[egoA:EGO {UserID : {UserID_A}}]->(EgoNodeOfA) " +
-                                                "    CREATE (userA)-[:EGO {UserID : {UserID_A}}]->(userB) " +
+                                                "    CREATE (userA)-[egoAafter:EGO {UserID : {UserID_A}}]->(userB) " +
                                                 "    CREATE (userB)-[:EGO {UserID : {UserID_A}}]->(EgoNodeOfA) " +
-                                                "    DELETE egoA " +
+                                                "    SET egoAafter = egoA " +
+                                                " WITH userA, userB, egoA " +
+                                                " DELETE egoA " +
                                                 " WITH userA, userB " +
-                                                " MATCH (userB)-[egoB:EGO {UserID : {UserID_B}}]->(EgoNodeOfB) " +
-                                                "    CREATE (userB)-[:EGO {UserID : {UserID_B}}]->(userA) " +
-                                                "    CREATE (userA)-[:EGO {UserID : {UserID_B}}]->(EgoNodeOfB)" +
-                                                "    DELETE egoB ",
+                                                " MATCH (userB)-[egoB:EGO {UserID : {UserID_B}}]->(EgoNodeOfB) " +                                                
+                                                "    CREATE (userB)-[egoBafter:EGO {UserID : {UserID_B}}]->(userA) " +
+                                                "    CREATE (userA)-[:EGO {UserID : {UserID_B}}]->(EgoNodeOfB)" + 
+                                                "    SET egoBafter = egoB " +
+                                                " WITH userA, userB, egoB" +                                                 
+                                                "   DELETE egoB " ,
                                                 new Dictionary<String, Object> { { "UserID_A", UserID_A }, { "UserID_B", UserID_B }, { "ActivityOfA", ActivityOfA }, { "ActivityOfB", ActivityOfB } }, 
                                                 CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
@@ -104,11 +110,25 @@ namespace Footprints.DAL.Concrete
         {
             CypherQuery query = new CypherQuery(" OPTIONAL MATCH (UserA:User)-[rel:FRIEND]-(UserB:User) " +
                                             " WHERE (UserA.UserID = {UserID_A}) AND (UserB.UserID = {UserID_B}) " +
-                                            " OPTIONAL MATCH (previousB)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)-[relNB:EGO {UserID : UserA.UserID}]->(nextB) " +
-                                            " OPTIONAL MATCH (previousA)-[relPA:EGO {UserID : UserB.UserID}]->(UserA)-[relNA:EGO {UserID : UserB.UserID}]->(nextA) " +
-                                            " DElETE rel, relPA, relPB, relNA, relNB " +
-                                            " CREATE (previousA)-[:EGO {UserID : UserB.UserID}]->(nextA) " +
-                                            " CREATE (previousB)-[:EGO {UserID : UserA.UserID}]->(nextB) " +
+                                            " DELETE rel " + 
+                                            " WITH UserA, UserB " +
+                                            " OPTIONAL MATCH (previousB:User)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)" +
+                                            "   DELETE relPB" + 
+                                            " WITH UserA, UserB, previousB " +
+                                            " OPTIONAL MATCH (UserB)-[relNB:EGO {UserID : UserA.UserID}]->(nextB:User) " +
+                                            " CREATE (previousB)-[rBnew:EGO {UserID : UserA.UserID}]->(nextB) " +
+                                            " SET rBnew = relNB " +
+                                            " WITH UserA, UserB, relNB" +
+                                            "   DELETE relNB" +
+                                            " WITH UserA, UserB " +
+                                            " OPTIONAL MATCH (previousA:User)-[relPA:EGO {UserID : UserB.UserID}]->(UserA) " +
+                                            "   DELETE relPA" + 
+                                            " WITH UserA, UserB, previousA " +
+                                            " OPTIONAL MATCH (UserA)-[relNA:EGO {UserID : UserB.UserID}]->(nextA:User) " +                                            
+                                            " CREATE (previousA)-[rAnew:EGO {UserID : UserB.UserID}]->(nextA) " +
+                                            " SET rAnew = relNA " + 
+                                            " WITH UserA, UserB, relNA" +
+                                            "   DELETE relNA " +                                               
                                             " WITH UserA, UserB " +
                                             " OPTIONAL MATCH (UserA)-[:LATEST_ACTIVITY]->(LatestActivityA) " +
                                             " OPTIONAL MATCH (LatestActivityA)-[:NEXT*]->(NextActivityA) " +

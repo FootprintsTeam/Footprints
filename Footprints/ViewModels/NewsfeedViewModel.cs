@@ -116,6 +116,12 @@ namespace Footprints.ViewModels
         }
     }
 
+    public class AddFriendWidgetViewmodel : NewsfeedBaseWidgetViewModel {
+        public string FriendName { get; set; }
+        public string FriendUserID { get; set; }
+        public string FriendProfilePicUrl { get; set; }
+    }
+
     public class DestinationWidgetViewModel : NewsfeedBaseWidgetViewModel
     {
         public Place Place { get; set; }

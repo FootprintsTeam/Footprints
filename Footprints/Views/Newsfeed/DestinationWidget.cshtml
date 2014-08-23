@@ -21,21 +21,19 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="map_canvas" style="height: 180px">
-                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl()" style="width:100%;"/>
+                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl()" style="width:100%;" />
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="strong text-inverse innerB half"> Just Checked in at:</div>
-                <div class="media margin-none">
-                    <a href="" class="pull-left ">
-                        <img src="" data-src="holder.js/50x50" class="media-object">
-                    </a>
+                <div class="strong text-inverse innerB half">
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="strong">@Model.Place.Name</a>
+                </div>
+                <div class="media margin-none">                                        
+                    <p class="margin-none innerTB half">@Model.Description.TruncateLongString(100) aksdjaklsjdaksjdkalsjdkl</p>
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="btn btn-xs btn-inverse">View</a>
                     <div class="media-body">
-                        <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="strong">@Model.Place.Name</a>
                         <small class="text-muted ">342 Likes</small>
                     </div>
-                    <p class="margin-none innerTB half">@Model.Description.TruncateLongString(100)</p>
-                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="btn btn-xs btn-inverse">View</a>
                 </div>
             </div>
         </div>
