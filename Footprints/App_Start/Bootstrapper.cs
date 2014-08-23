@@ -24,7 +24,7 @@ namespace Footprints.App_Start
             //register database connection
             builder.Register<IGraphClient>(context =>
             {
-                var graphClient = new GraphClient(new Uri("http://54.179.164.142:7474/db/data"));
+                var graphClient = new GraphClient(new Uri("http://46.51.216.66:7474/db/data"));
                 graphClient.Connect();
                 return graphClient;
             }).SingleInstance();
