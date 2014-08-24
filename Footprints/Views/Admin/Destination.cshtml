@@ -8,7 +8,6 @@
 @Styles.Render("~/css/admin")
 @Scripts.Render("~/scripts/adminmodal")
 
-
 <script>
     $(document).ready(function () {
         var url = "";
@@ -89,14 +88,6 @@
             url = $(this).attr('href');
             $(".ui-dialog-title").html("Delete Destination");
             $("#dialog-confirm").dialog('open');
-
-            return false;
-        });
-
-        $(".lnkDetail").live("click", function (e) {
-            // e.preventDefault(); use this or return false
-            url = $(this).attr('href');
-            $("#dialog-detail").dialog('open');
 
             return false;
         });

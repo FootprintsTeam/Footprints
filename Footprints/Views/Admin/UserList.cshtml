@@ -92,14 +92,6 @@
             return false;
         });
 
-        $(".lnkDetail").live("click", function (e) {
-            // e.preventDefault(); use this or return false
-            url = $(this).attr('href');
-            $("#dialog-detail").dialog('open');
-
-            return false;
-        });
-
         $("#btncancel").live("click", function (e) {
             $("#dialog-edit").dialog("close");
             return false;
