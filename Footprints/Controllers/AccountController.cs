@@ -115,19 +115,12 @@ namespace Footprints.Controllers
                         message.Destination = model.Email;
                         message.Subject = "Confirm your account";
                         message.Body = "Please confirm your account by clicking this link: <a href=\""
-                            + callbackUrl + "\">link</a>";
-                        // Console.WriteLine(message.Body + " ");
+                            + callbackUrl + "\">link</a>";                        
                         if (UserManager.EmailService != null)
                         {
                             await UserManager.EmailService.SendAsync(message);
-                            // System.Threading.Thread.Sleep(10000);
-                        }
-                        //await UserManager.SendEmailAsync(
-                        //    user.Id,
-                        //    "Confirm your account",
-                        //"Please confirm your account by clicking this link: <a href=\""
-                        //+ callbackUrl + "\">link</a>");
-                        ViewBag.Link = callbackUrl;
+                            
+                        }                                 
                         var roleResult = UserManager.AddToRole(user.Id, "Active");
                         // await SignInAsync(user, isPersistent: false);
                         //add neo4j user here
@@ -143,7 +136,9 @@ namespace Footprints.Controllers
                                 JoinDate = DateTimeOffset.Now,
                                 Genre = model.Genre
                             });
-                        return RedirectToAction("Index", "Newsfeed");
+
+                        ViewBag.Link = callbackUrl;
+                        return View("DisplayEmail");
                     }
                     AddErrors(result);
                 }
@@ -156,7 +151,22 @@ namespace Footprints.Controllers
             // If we got this far, something failed, redisplay form
             // return RedirectToAction("Login", "Account");
         }
-        //
+
+
+        // GET: /Account/ConfirmEmail
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+
+
         // POST: /Account/Disassociate
         [HttpPost]
         [ValidateAntiForgeryToken]

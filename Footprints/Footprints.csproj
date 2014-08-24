@@ -2637,6 +2637,8 @@
     <Content Include="Views\Search\NoResultWidget.cshtml" />
     <Content Include="Views\Destination\EditCommentForm.cshtml" />
     <Content Include="Views\Newsfeed\AddPhotoWidget.cshtml" />
+    <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
