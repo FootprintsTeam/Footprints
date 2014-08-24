@@ -6,8 +6,7 @@
 @using PagedList.Mvc;
 
 @Styles.Render("~/css/admin");
-<script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>
-<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+@Scripts.Render("~/scripts/adminmodal")
 
 <script>
     $(document).ready(function () {
@@ -135,6 +134,33 @@
         });
     });
 </script>
+<script type="text/javascript">
+    $(function () {
+        //Lay checkbox co ID=checkAll
+        var $checkBox = $("input:checkbox[id$=chkAll]");
+        //Lay mang cac checkbox co name =cid
+        var $tblChkBox = $("input:checkbox[name$=Id]");
+        //Them su kien click cho chkAll
+        $checkBox.click(function () {
+            $tblChkBox
+                    .attr('checked', $checkBox
+                    .is(':checked'));
+        }
+        );
+
+        //Them su kien cho cac checkbox co name la =cid
+        //Khi bo check thi chkAll cung tro ve trang thai Uncheck
+        $tblChkBox.click(
+            function (e) {
+                if (!$(this)[0].checked) {
+                    $checkBox.attr("checked", false);
+                }
+            }
+        );
+            
+    });
+
+</script>
 
 <div id="dialog-alert" style="display: none">
     <p>
@@ -153,7 +179,6 @@
 </div>
 <div id="dialog-detail" style="display: none">
 </div>
-
 
 <!-- <div class="layout-app">  -->
 <div class="innerLR" style="padding-top: 70px;">
@@ -191,7 +216,9 @@
             <table class="table table-condensed table-striped table-primary table-vertical-center checkboxs">
                 <thead>
                     <tr>
-                        <th style="width: 1%;" class="uniformjs"><input type="checkbox" /></th>
+                        <th style="width: 1%;" class="uniformjs">
+                            <input type="checkbox" id="chkAll" />
+                        </th>
                         <th class="center">Name</th>
                         <th class="center">Description</th>
                         <th class="center">Taken Date</th>
@@ -206,7 +233,7 @@
                     @foreach (var journey in @Model)
                     {
                         <tr class="selectable">
-                            <td class="center uniformjs"><input type="checkbox" /></td>
+                            <td class="center uniformjs"><input type="checkbox" value="@journey.JourneyID" name="Id" /></td>
                             <td class="center">@journey.Name</td>
                             <td class="center">@journey.Description</td>
                             <td class="center">@journey.TakenDate</td>
@@ -216,7 +243,7 @@
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
                                     <a href='@Url.Action("EditJourney", "Admin", new { JourneyID = journey.JourneyID })' class="lnkEdit"><input type="button" value="Edit" class="btn btn-success" /> </a>
-                                    <a href='@Url.Action("DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID })' class="lnkDelete"><input type="button" value="Del" class="btn btn-danger" /> </a>                                                                                  
+                                    <a href='@Url.Action("DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID })' class="lnkDelete"><input type="button" value="Del" class="btn btn-danger" /> </a>
                                 </div>
                             </td>
                         </tr>
@@ -227,18 +254,17 @@
                 </tbody>
             </table>
             <!-- // Table END -->
-            <!-- With selected actions -->
+
+            <!-- Delete multile row -->
             <div class="pull-left checkboxs_actions hide-2">
                 <label class="strong">
-                    With selected:
-                    <select class="selectpicker margin-none" data-style="btn-default btn-small">
-                        <option>Delete</option>
-                        <option>Action</option>
-                        <option>Action</option>
-                    </select>
+                    With selected:               
+                    <a href='@Url.Action("DeleteMultipleJourney", "Admin")' class="lnkDelete"><input type="submit" value="Del" class="btn btn-danger" /> </a>
                 </label>
+
             </div>
-            <!-- // With selected actions END -->
+            <!-- Delete multile row END -->
+
             <!-- Pagination -->
             <ul class="pagination pull-right margin-none">
                 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
@@ -249,5 +275,5 @@
 
         </div>
     </div>
-    <!-- // Widget -->    
+    <!-- // Widget -->
 </div>

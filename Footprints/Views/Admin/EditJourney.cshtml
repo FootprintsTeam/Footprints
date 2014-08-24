@@ -4,66 +4,6 @@
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
-@*@using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        <div class="form-horizontal">
-            <h4 style="padding-left:30px;padding-top:70px;">Journey</h4>
-            <hr />
-            @Html.ValidationSummary(true)
-            @Html.HiddenFor(model => model.JourneyID)
-            @Html.HiddenFor(model => model.UserID)
-            @Html.HiddenFor(model => model.Destinations)
-            @Html.HiddenFor(model => model.NumberOfLike)
-            @Html.HiddenFor(model => model.NumberOfShare)
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
-                <div class="col-md-6">
-                    @Html.TextBoxFor(model => model.Name, new { @class = "col-md-6" })
-                    @Html.ValidationMessageFor(model => model.Name)
-
-                </div>
-
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
-                <div class="col-md-6">
-                    @Html.TextAreaFor(model => model.Description, new { @class = "col-md-6" })
-                    @Html.ValidationMessageFor(model => model.Description)
-
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.TakenDate, new { @class = "control-label col-md-2" })
-                <div class="col-md-6">
-                    @Html.TextBoxFor(model => model.TakenDate, new { @class = "col-md-6" })
-                    @Html.ValidationMessageFor(model => model.TakenDate)
-
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Timestamp, new { @class = "control-label col-md-2" })
-                <div class="col-md-6">
-                    @Html.TextBoxFor(model => model.Timestamp, new { @class = "col-md-6" })
-                    @Html.ValidationMessageFor(model => model.Timestamp)
-
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
-    <div style="padding-left:30px;">
-        @Html.ActionLink("Back to List", "Journey")
-    </div>*@
-
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

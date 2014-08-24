@@ -7,85 +7,76 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4 style="padding-left:30px;padding-top:70px;">User</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.UserID)                
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>@Model.FirstName</legend>
+
+        @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.UserName)
-        @Html.HiddenFor(model => model.PhoneNumber)        
-        @Html.HiddenFor(model => model.About)      
+        @Html.HiddenFor(model => model.PhoneNumber)
         @Html.HiddenFor(model => model.ProfilePicURL)
-        @Html.HiddenFor(model => model.CoverPhotoURL)    
+        @Html.HiddenFor(model => model.CoverPhotoURL)
         @Html.HiddenFor(model => model.JoinDate)
         @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.DateOfBirth)
 
-
-        <div class="btn-group" style="padding-left:30px;">
+        <div class="btn-group">
             @Html.ActionLink("Ban User", "BanUser", "Admin", new { UserID = Model.UserID }, new { @class = "btn btn-danger" })
             @Html.ActionLink("Grant Admin Privileges", "GrantAdminPermision", "Admin", new { UserID = Model.UserID }, new { @class = "btn btn-success" })
         </div>
-        <div class="clearfix"></div>
+           <hr />
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Enter email..." })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>       
         <br />
+        <div class="form-group">
+            <label for="genre" class="col-sm-2 control-label">Gerne</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.Genre, new { @class = "form-control", placeholder = "Enter genre..." })
+                @Html.ValidationMessageFor(model => model.Genre)
+            </div>
+        </div>
+               
+
+        <div class="form-group">
+            <label for="genre" class="col-sm-2 control-label">First name</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", placeholder = "Enter firstname..." })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <label for="firstname" class="col-sm-2 control-label">Last name</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", placeholder = "Enter lastname..." })
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+        </div>
+        <hr />
         
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">                
-                @Html.TextBoxFor(model => model.Email, new { @class = "col-md-6" })                
-                @Html.ValidationMessageFor(model => model.Email)
-                
+            <label for="user-about" class="col-sm-2 control-label">About</label>
+            <div class="col-sm-10">
+                @Html.TextAreaFor(x => x.About, new { @class = "form-control", placeholder = "Write your about here...", rows = "3" })
+                @Html.ValidationMessageFor(x => x.About)
             </div>
-                      
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Cancel" id="btncancel" class="btn btn-default" />
+            </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Genre, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.Genre, new { @class = "col-md-6" })
-                @Html.ValidationMessageFor(model => model.Genre)
-                
-            </div>
-                      
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.FirstName, new { @class = "col-md-6" })
-                @Html.ValidationMessageFor(model => model.FirstName)
-                
-            </div>
-                
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.LastName, new { @class = "col-md-6" })
-                @Html.ValidationMessageFor(model => model.LastName)
-                
-            </div>
-                  
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.DateOfBirth, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "col-md-6" })
-                @Html.ValidationMessageFor(model => model.DateOfBirth)
-                
-            </div>
-                      
-        </div>
-   
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+    </fieldset>
 }
-<div style="padding-left:30px;">
-    @Html.ActionLink("Back to List", "UserList")
-</div>
+
 
 
 

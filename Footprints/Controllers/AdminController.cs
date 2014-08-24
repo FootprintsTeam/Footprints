@@ -100,18 +100,22 @@ namespace Footprints.Controllers
             if (UserID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["Msg"] = "Can not delete this account !"; 
             }
             //check if admin wanna delete himself
             else if (UserID == CurrentAdminID)
-            {
-                ModelState.AddModelError("", "Cannot delete your Admin account");
-                TempData["Msg"] = "You can't not delete your account";                
+            {                
+                TempData["Msg"] = "You can not delete your account";                
             }
             else if (user != null)
             {
                 userSer.DeleteUser(UserID);
                 UserManager.DeleteAsync(user);
                 TempData["Msg"] = "Delete user " + user.UserName + " successfully";                
+            }
+            else
+            {
+                TempData["Msg"] = "Can not delete this account !"; 
             }
             return RedirectToAction("UserList");
         }
@@ -136,6 +140,7 @@ namespace Footprints.Controllers
                 if (user.Succeeded)
                 {
                     userSer.UpdateUser(User);
+                    TempData["Msg"] = "User has been updated succeessfully";
                     return RedirectToAction("UserList");
                 }
             }
@@ -155,7 +160,7 @@ namespace Footprints.Controllers
 
         public ActionResult GrantAdminPermision(Guid UserID)
         {
-            IdentityResult roleResult = UserManager.AddToRole(UserID.ToString(), "Administrator");
+            IdentityResult roleResult = UserManager.AddToRole(UserID.ToString(), "Admin");
             if (roleResult.Succeeded)
             {
                 userSer.GrantAdminPrivilege(UserID);
@@ -187,7 +192,23 @@ namespace Footprints.Controllers
                 TempData["Msg"] = "Delete journey successfully";
                 return RedirectToAction("Journey");
             }
+        }
 
+        public ActionResult DeleteMultipleJourney(Guid UserID, Guid[] JourneyID)
+        {
+            foreach (var id in JourneyID)
+            {
+                try {
+                    journeySer.DeleteJourney(UserID, id);                                        
+                    return RedirectToAction("Journey");
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+            TempData["Msg"] = "Delete multiple journey successfully";
+            return RedirectToAction("Journey");
         }
 
         public ActionResult EditJourney(Guid JourneyID)

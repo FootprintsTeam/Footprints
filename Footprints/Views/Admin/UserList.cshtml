@@ -3,9 +3,157 @@
     ViewBag.Title = "User";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
-@Styles.Render("~/css/admin");
-
 @using PagedList.Mvc
+
+@Styles.Render("~/css/admin");
+@Scripts.Render("~/scripts/adminmodal")
+
+<script>
+    $(document).ready(function () {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $("#dialog-edit").dialog({
+            title: 'Create User',
+            autoOpen: false,
+            resizable: true,            
+            width: 650,            
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+                    window.location.href = url;
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(".lnkEdit").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $(".ui-dialog-title").html("Update User");
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDelete").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $(".ui-dialog-title").html("Delete User");
+            $("#dialog-confirm").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDetail").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-detail").dialog('open');
+
+            return false;
+        });
+
+        $("#btncancel").live("click", function (e) {
+            $("#dialog-edit").dialog("close");
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        //Lay checkbox co ID=checkAll
+        var $checkBox = $("input:checkbox[id$=chkAll]");
+        //Lay mang cac checkbox co name =cid
+        var $tblChkBox = $("input:checkbox[name$=Id]");
+        //Them su kien click cho chkAll
+        $checkBox.click(function () {
+            $tblChkBox
+                    .attr('checked', $checkBox
+                    .is(':checked'));
+        }
+        );
+
+        //Them su kien cho cac checkbox co name la =cid
+        //Khi bo check thi chkAll cung tro ve trang thai Uncheck
+        $tblChkBox.click(
+            function (e) {
+                if (!$(this)[0].checked) {
+                    $checkBox.attr("checked", false);
+                }
+            }
+        );
+
+    });
+
+</script>
+
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+
+<div id="dialog-confirm" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        Are you sure to delete user?
+    </p>
+</div>
+
+<div id="dialog-edit" style="display: none">
+</div>
+<div id="dialog-detail" style="display: none">
+</div>
+
+
+
 <!-- <div class="layout-app">  -->
 <div class="innerLR" style="padding-top: 70px;">
     <h3 class="margin-none pull-left">User Management</h3>
@@ -14,47 +162,7 @@
     </div>
     <div class="clearfix"></div>
     <div class="separator-h"></div>
-
-    <!-- Filters -->
-    @*<div class="filter-bar">
-        <form class="margin-none form-inline">
-
-            <!-- From -->
-            <div class="form-group col-md-2 padding-none">
-                <label>From:</label>
-                <div class="input-group">
-                    <input type="text" name="from" id="dateRangeFrom" class="form-control" value="08/05/13" />
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                </div>
-            </div>
-            <!-- // From END -->
-            <!-- To -->
-            <div class="form-group col-md-2 padding-none">
-                <label>To:</label>
-                <div class="input-group">
-                    <input type="text" name="to" id="dateRangeTo" class="form-control" value="08/18/13" />
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                </div>
-            </div>
-            <!-- // To END -->
-
-            <!-- Select -->
-            <div class="form-group col-md-3 padding-none">
-                <label class="label-control">Select:</label>
-                <div class="col-md-8 padding-none">
-                    <select name="from" class="form-control">
-                        <option>Some option</option>
-                        <option>Other option</option>
-                        <option>Some other option</option>
-                    </select>
-                </div>
-            </div>
-            <!-- // Select END -->
-
-            <div class="clearfix"></div>
-        </form>
-    </div>*@
-    <!-- // Filters END -->
+   
     <!-- Widget -->
     <div class="widget widget-body-white">
 
@@ -68,15 +176,7 @@
 
             <!-- Total journey & sort by options -->
             <div class="separator bottom">
-                Total user:
-                @*<span class="pull-right">
-                    <label class="strong">Sort by:</label>
-                    <select class="selectpicker margin-none" data-style="btn-default btn-xs">
-                        <option>Option</option>
-                        <option>Option</option>
-                        <option>Option</option>
-                    </select>
-                </span>*@
+                Total user:            
                 <div class="clearfix"></div>
             </div>
             <!-- // Total journey & sort by options END -->
@@ -84,7 +184,7 @@
             <table class="table table-condensed table-striped table-primary table-vertical-center checkboxs">
                 <thead>
                     <tr>
-                        <th style="width: 1%;" class="uniformjs"><input type="checkbox" /></th>
+                        <th style="width: 1%;" class="uniformjs"><input type="checkbox" id="chkAll" /></th>
                         <th class="center">Email</th>
                         <th class="center">Username</th>
                         <th class="center">FirstName</th>
@@ -100,7 +200,7 @@
                     @foreach (var user in @Model)
                     {
                         <tr class="selectable">
-                            <td class="center uniformjs"><input type="checkbox" /></td>
+                            <td class="center uniformjs"><input type="checkbox" value="@user.UserID" name="Id" /></td>
                             <td class="center">@user.Email</td>
                             <td class="center">@user.UserName</td>
                             <td class="center">@user.FirstName</td>
@@ -109,12 +209,9 @@
                             <td class="center">@user.Address</td>
                             <td class="center">@user.About</td>
                             <td class="center">
-                                <div class="btn-group btn-group-sm">
-                                    @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
-                                        <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
-                                        <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
-                                    @Html.ActionLink("Edit", "EditUser", "Admin", new { UserID = user.UserID }, new { @class = "btn btn-success" })
-                                    @Html.ActionLink("Del", "DeleteUser", "Admin", new { UserID = user.UserID }, new { @class = "btn btn-danger" })
+                                <div class="btn-group btn-group-sm">                                                                     
+                                    <a href='@Url.Action("EditUser", "Admin", new { UserID = user.UserID })' class="lnkEdit"><input type="button" value="Edit" class="btn btn-success" /> </a>
+                                    <a href='@Url.Action("DeleteUser", "Admin", new { UserID = user.UserID })' class="lnkDelete"><input type="button" value="Del" class="btn btn-danger" /> </a>
                                 </div>
                             </td>
                         </tr>
@@ -129,11 +226,7 @@
             <div class="pull-left checkboxs_actions hide-2">
                 <label class="strong">
                     With selected:
-                    <select class="selectpicker margin-none" data-style="btn-default btn-small">
-                        <option>Delete</option>
-                        <option>Action</option>
-                        <option>Action</option>
-                    </select>
+                    <a href='@Url.Action("DeleteMultipleUser", "Admin")' class="lnkDelete"><input type="submit" value="Del" class="btn btn-danger" /> </a>
                 </label>
             </div>
 
@@ -148,6 +241,5 @@
 
         </div>
     </div>
-    <!-- // Widget -->
-    @Scripts.Render("~/script/core")
+    <!-- // Widget -->    
 </div>
