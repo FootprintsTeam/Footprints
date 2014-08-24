@@ -1,69 +1,143 @@
-﻿
-@model Footprints.Models.Journey
+﻿@model Footprints.Models.Journey
 @{
     ViewBag.Title = "EditJourney";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
+@*@using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4 style="padding-left:30px;padding-top:70px;">Journey</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.JourneyID)
+            @Html.HiddenFor(model => model.UserID)
+            @Html.HiddenFor(model => model.Destinations)
+            @Html.HiddenFor(model => model.NumberOfLike)
+            @Html.HiddenFor(model => model.NumberOfShare)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "col-md-6" })
+                    @Html.ValidationMessageFor(model => model.Name)
+
+                </div>
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "col-md-6" })
+                    @Html.ValidationMessageFor(model => model.Description)
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TakenDate, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.TakenDate, new { @class = "col-md-6" })
+                    @Html.ValidationMessageFor(model => model.TakenDate)
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Timestamp, new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.Timestamp, new { @class = "col-md-6" })
+                    @Html.ValidationMessageFor(model => model.Timestamp)
+
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+    <div style="padding-left:30px;">
+        @Html.ActionLink("Back to List", "Journey")
+    </div>*@
+
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4 style="padding-left:30px;padding-top:70px;">Journey</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@Model.Name</legend>
         @Html.HiddenFor(model => model.JourneyID)
         @Html.HiddenFor(model => model.UserID)
-        @Html.HiddenFor(model => model.Destinations)
         @Html.HiddenFor(model => model.NumberOfLike)
         @Html.HiddenFor(model => model.NumberOfShare)
+        @Html.HiddenFor(model => model.Timestamp)
+        @Html.HiddenFor(model => model.TakenDate)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.Name, new { @class = "col-md-6" })
+            <label for="journeyname" class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter journey name..." })
                 @Html.ValidationMessageFor(model => model.Name)
-                
             </div>
-                       
         </div>
+        <br />
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextAreaFor(model => model.Description, new { @class = "col-md-6" })
-                @Html.ValidationMessageFor(model => model.Description)
-                
+            <label for="journey-description" class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", placeholder = "Write your description here...", rows = "4" })
+                @Html.ValidationMessageFor(x => x.Description)
             </div>
-                
         </div>
+        <br />
+
+        @*<div class="form-group">
+                <label class="col-sm-2 control-label">Start Date</label>
+                <div class="col-sm-10">
+                    <div class="input-group date datepicker2">
+                        @Html.TextBoxFor(x => x.TakenDate, "{0:dd MMMM yyyy}", new { @class = "form-control", value = "14 February 2013" })
+                        <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                        @Html.ValidationMessageFor(x => x.TakenDate)
+                    </div>
+                </div>
+            </div>*@
+
         <div class="form-group">
-            @Html.LabelFor(model => model.TakenDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.TakenDate, new { @class = "col-md-6" })
-                @Html.ValidationMessageFor(model => model.TakenDate)
-                
+            <label class="col-sm-2 control-label">Destination List</label>
+            <div class="col-sm-10">
+                <ul id="sortable-destinations">
+                    @foreach (var destination in Model.Destinations.Select((value, i) => new { i, value }))
+                    {
+                        <li id="destination-@destination.value.DestinationID" data-destinationid="@destination.value.DestinationID" data-position="@destination.i">
+                            <i class="fa fa-map-marker"></i>@destination.value.Name
+                        </li>
+                    }
+                </ul>
+                <input type="hidden" name="SortedDestination" value="" />
             </div>
-                        
         </div>
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Timestamp, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.TextBoxFor(model => model.Timestamp, new { @class = "col-md-6" })
-                @Html.ValidationMessageFor(model => model.Timestamp)
-                
-            </div>
-                          
-        </div>
-     
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Cancel" id="btncancel" class="btn btn-default" />
             </div>
         </div>
-    </div>
+
+    </fieldset>
 }
-<div style="padding-left:30px;">
-    @Html.ActionLink("Back to List", "Journey")
-</div>
 
-
+<script type="text/javascript">
+    $(function () {
+        $("#sortable-destinations").sortable({
+            change: function (event, ui) {
+                console.log('start_pos = [' + ui.item.data('start_pos') + '] -- index = [' + ui.placeholder.index() + ']');
+            }
+        });
+        $("#sortable-destinations").disableSelection();
+    });
+</script>

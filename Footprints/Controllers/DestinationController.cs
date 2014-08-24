@@ -165,6 +165,24 @@ namespace Footprints.Controllers
                 return Redirect(Request.UrlReferrer.ToString());
             }
             var userId = new Guid(User.Identity.GetUserId());
+            var destination = destinationService.GetDestination(model.DestinationID);
+            
+            if (userId == destination.UserID)
+            {
+                List<String> listContentUrl = new List<String>();
+                List<Content> contents = destinationService.GetAllContent(destination.DestinationID).ToList();
+                if (contents != null && contents.Count > 0)
+                {
+                    foreach (var item in contents)
+                    {
+                        listContentUrl.Add("/" + item.ContentID + ".jpg");
+                        listContentUrl.Add("/thumbnails/" + item.ContentID + ".jpg");
+                    }
+                }
+                listContentUrl.Add("/thumbnails");
+                listContentUrl.Add("");
+                ImageProcessor.DeleteAlbums(userId.ToString(), destination.AlbumID.ToString(), listContentUrl);
+            }
             destinationService.DeleteDestination(userId, model.DestinationID);
             return RedirectToAction("Index", "Journey", new { journeyID = model.JourneyID });
         }

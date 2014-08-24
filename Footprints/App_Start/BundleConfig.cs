@@ -66,7 +66,7 @@ namespace Footprints
 
             //Core css
             bundles.Add(new StyleBundle("~/css/core").Include(
-                "~/assets/css/admin/module.admin.stylesheet-complete.min.css"
+                "~/assets/css/admin/module.admin.stylesheet-complete.min.css"                
                 //,"~/assets/library/bootstrap/css/bootstrap.min.css"
                 //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
                 //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_regular.css"
@@ -81,6 +81,7 @@ namespace Footprints
             //Admin css
             bundles.Add(new StyleBundle("~/css/admin").Include(
                 "~/assets/css/admin/admin.css"
+                , "~/Content/jqueryui/jquery-ui.css"
                 //,"~/assets/library/bootstrap/css/bootstrap.min.css"
                 //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
                 //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_regular.css"

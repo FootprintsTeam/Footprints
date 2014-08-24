@@ -1,5 +1,8 @@
 ﻿@model Footprints.ViewModels.DestinationViewModel
 @using Footprints.ViewModels;
+@using Footprints.Models;
+@using Newtonsoft.Json;
+@using Footprints.Common;
 @using Microsoft.AspNet.Identity;
 @{
     ViewBag.Title = "Destination";
@@ -85,7 +88,7 @@
 </div>
 <!-- // Modal END -->
 @{Html.RenderPartial("DeleteCommentModal");}
-@{Html.RenderPartial("DeletePhotoModal", new DeletePhotoFormViewModel() { DestinationID = @Model.DestinationID});}
+@{Html.RenderPartial("DeletePhotoModal", new DeletePhotoFormViewModel() { DestinationID = @Model.DestinationID });}
 
 <script type="text/javascript">
     //Delete photo
@@ -102,7 +105,7 @@
         if ($(this).find("span").html() == "Like") {           
 
             //submit http request
-            $.get("@Url.Action("LikeUnlike",new {controller = "Destination"})",
+            $.get("@Url.Action("LikeUnlike", new { controller = "Destination" })",
                 { destinationID: "@Model.DestinationID" },
                 function (data) {
                     if (data.Result == "Success") {
@@ -117,7 +120,7 @@
         }
         else {        
             //submit http request
-            $.get("@Url.Action("LikeUnlike",new {controller = "Destination"})",
+            $.get("@Url.Action("LikeUnlike", new { controller = "Destination" })",
                 { destinationID: "@Model.DestinationID" },
                 function (data) {
                     if (data.Result == "Success") {
@@ -141,7 +144,7 @@
         if ($(this).find("span").html() != null && $(this).find("span").html() != "Shared") {
             
             //send http request
-            $.get("@Url.Action("ShareDestination","Destination")", {
+            $.get("@Url.Action("ShareDestination", "Destination")", {
                 userID: "@User.Identity.GetUserId()",
                 destinationID: "@Model.DestinationID",
                 content: "something"
@@ -164,6 +167,8 @@
 @Scripts.Render("~/script/destination")
 <script type="text/javascript" src="/assets/plugins/jquery/jquery.resizecrop-1.0.3.js"></script>
 <script type="text/javascript">
+    var currentLatitude = @Model.Place.Latitude;
+    var currentLongitude = @Model.Place.Longitude;
     var imageContainerWidth = 50;
     var isFirstActiveGalleryTab = true;
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

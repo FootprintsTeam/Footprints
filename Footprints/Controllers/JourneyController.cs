@@ -41,14 +41,15 @@ namespace Footprints.Controllers
                 //Redirect to error page or newsfeed page
                 return RedirectToAction("Index", "Newsfeed");
             }
-            
+
             var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
             var journeyOwner = userService.RetrieveUser(journeyViewModel.UserID);
             journeyViewModel.NumberOfDestination = journeyViewModel.Destinations.Count();
             journeyViewModel.NumberOfLike = journeyService.GetNumberOfLike(journeyID);
             journeyViewModel.NumberOfShare = journeyService.GetNumberOfShare(journeyID);
 
-            foreach (var x in journeyViewModel.Destinations) {
+            foreach (var x in journeyViewModel.Destinations)
+            {
                 Mapper.Map<User, DestinationViewModel>(journeyOwner, x);
             }
 
@@ -124,7 +125,7 @@ namespace Footprints.Controllers
         [Authorize]
         public ActionResult Edit(EditJourneyViewModel model)
         {
-           var userId = new Guid(User.Identity.GetUserId());
+            var userId = new Guid(User.Identity.GetUserId());
             var journey = Mapper.Map<EditJourneyViewModel, Journey>(model);
             journey.Timestamp = DateTimeOffset.Now;
             journey.UserID = userId;
@@ -142,21 +143,11 @@ namespace Footprints.Controllers
         //
         // POST: /Journey/Delete/5
         [HttpPost]
-        public ActionResult Delete(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Guid JourneyID)
         {
-            try
-            {
-                // TODO: Add delete logic here
-                var jouneyID = new Guid(Request.Form["JourneyID"] as string);
-                var result = journeyService.DeleteJourney(new Guid(User.Identity.GetUserId()), jouneyID);
-                if (result) { 
-                return Content("success");
-                } else return Content ("fail");
-            }
-            catch(Exception e)
-            {
-                return Content(e.Message);
-            }
+            var result = journeyService.DeleteJourney(new Guid(User.Identity.GetUserId()), JourneyID);
+            return RedirectToAction("Index", "Newsfeed");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿var map;
-var mapDestinations;
 var marker;
+var mapDestinations;
 var tmpMarker;
 var infowindow;
 var pacinput;
@@ -22,18 +22,18 @@ if (hdDestinationLatitude.value.length > 0 && hdDestinationLongitude.value.lengt
 }
 function initialize() {
     psContainer = document.getElementById('sp-container');
-    if (document.getElementById('map-canvas-destinations') != null) {
-        var mapOptionsDestinations = {
-            center: new google.maps.LatLng(21.0226967, 105.8369637),
-            zoom: 15
-        };
-        mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptionsDestinations);
-    }
-
     var mapOptions = {
         center: centerLatLng,
-        zoom: 15
+        zoom: 11
     };
+    if (document.getElementById('map-canvas-destinations') != null) {
+        mapDestinations = new google.maps.Map(document.getElementById('map-canvas-destinations'), mapOptions);
+        var currentPostitionMarker = new google.maps.Marker({
+            position: new google.maps.LatLng(currentLatitude, currentLongitude),
+            map: mapDestinations
+        });
+    }
+
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     pacinput = /** @type {HTMLInputElement} */(
         document.getElementById('pac-input'));
@@ -46,10 +46,18 @@ function initialize() {
     autocomplete.bindTo('bounds', map);
 
     infowindow = new google.maps.InfoWindow();
-    marker = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
-    });
+    if (typeof currentLatitude !== "undefined" && currentLatitude) {
+        marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(currentLatitude, currentLongitude),
+            visible: true
+        });
+    } else {
+        marker = new google.maps.Marker({
+            map: map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+    }
 
     google.maps.event.addListener(autocomplete, 'place_changed', function () {
         psContainer.style.display = 'none';
@@ -128,12 +136,40 @@ function initialize() {
         //run the original setContent-method
         fx.apply(this, arguments);
     };
-    $("#map-canvas").curvedLine({
-        LatStart: -0.003089904783662708,
-        LngStart: -0.005879402160644531,
-        LatEnd: -0.006351470934259514,
-        LngEnd: 0.000514984130859375
-    });
+
+    if (typeof arrDestination !== "undefined" && arrDestination) {
+        var bounds = new google.maps.LatLngBounds();
+        for (index = 0; index <= arrDestination.length - 1; index++) {
+            //Draw curved lines
+            if (index < arrDestination.length - 1) {
+                $("#map-canvas").curvedLine({
+                    LatStart: arrDestination[index].Place.Latitude,
+                    LngStart: arrDestination[index].Place.Longitude,
+                    LatEnd: arrDestination[index + 1].Place.Latitude,
+                    LngEnd: arrDestination[index + 1].Place.Longitude
+                });
+            }
+            var newMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(arrDestination[index].Place.Latitude, arrDestination[index].Place.Longitude),
+                map: map,
+                title: 'Show destination information'
+            });
+            bounds.extend(new google.maps.LatLng(arrDestination[index].Place.Latitude, arrDestination[index].Place.Longitude));
+            // process multiple info windows
+            (function (newMarker, index) {
+                // add click event
+                google.maps.event.addListener(newMarker, 'click', function () {
+                    infowindow = new google.maps.InfoWindow({
+                        content: GetInfoWindowContent(arrDestination[index].Name, arrDestination[index].TakenDate, destinationURL.replace('destinationID=xxx', 'destinationID=' + arrDestination[index].DestinationID))
+                    });
+                    infowindow.open(map, newMarker);
+                });
+            })(newMarker, index);
+        }
+        if (bounds) {
+            map.fitBounds(bounds);
+        }
+    }
 }
 
 function nearbySearch(location) {
@@ -160,7 +196,6 @@ function displaySuggestionPlaces() {
         var address = '';
         for (i = 0; i < nearbyPlaces.length; i++) {
             if (nearbyPlaces[i].name) {
-                console.log(nearbyPlaces[i]);
                 if (typeof nearbyPlaces[i].formatted_address !== "undefined" && nearbyPlaces[i].formatted_address) {
                     address = nearbyPlaces[i].formatted_address;
                 } else if (nearbyPlaces[i].address_components) {
@@ -237,7 +272,7 @@ function GetPlaceDetails_Callback(place, status) {
 google.maps.event.addDomListener(window, "resize", resizingMap());
 
 $('#edit-destination-modal').on('show.bs.modal', function() {
-   resizeMap();
+    resizeMap();
 })
 
 function resizeMap() {
@@ -253,7 +288,6 @@ function resizingMap() {
 }
 
 (function ($) {
-
     var evenOdd = 0;
 
     $.fn.extend({
@@ -379,3 +413,6 @@ function resizingMap() {
     }
 
 })(jQuery);
+function GetInfoWindowContent(placeName, takenDate, url) {
+    return contentString = '<ul class="list-group margin-none innerT"><li class="list-group-item"><a href="' + url + '"><i class="fa fa-map-marker"></i> ' + placeName + '</a></li><li class="list-group-item"><i class="fa fa-calendar"></i> ' + takenDate + '</li></ul>';
+}

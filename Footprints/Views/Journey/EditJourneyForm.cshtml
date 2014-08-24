@@ -53,13 +53,7 @@
                                             <li id="destination-@destination.value.DestinationID" data-destinationid="@destination.value.DestinationID" data-position="@destination.i">
                                                 <i class="fa fa-map-marker"></i>@destination.value.Name
                                             </li>
-                                        }
-                                        @foreach (var destination in Model.Destinations.Select((value, i) => new { i, value }))
-                                        {
-                                            <li id="destination-@destination.value.DestinationID" data-destinationid="@destination.value.DestinationID" data-position="@destination.i">
-                                                <i class="fa fa-map-marker"></i>@destination.value.Name
-                                            </li>
-                                        }
+                                        }                      
                                     </ul>
                                     <input type="hidden" name="SortedDestination" value="" />
                                 </div>
@@ -86,6 +80,5 @@
             }
         });
         $("#sortable-destinations").disableSelection();
-    });
-    
+    });    
 </script>

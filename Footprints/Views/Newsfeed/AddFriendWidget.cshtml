@@ -10,8 +10,8 @@
                 <a href="#" class="pull-right innerT innerR text-white">
                     <i class="icon-reply-all-fill fa fa-2x "></i>
                 </a>
-                <a href="" class="text-white strong display-block">@Model.UserName</a>
-                <span>added <a href="" class="text-white strong">a Friend</a> on @Model.Timestamp.ToStringShort()</span>
+                <a href="@Url.Action("Index", "Personal", new { userID = Model.UserID })" class="text-white strong display-block">@Model.UserName</a>
+                <span> on @Model.Timestamp.ToStringShort()</span>
             </div>
         </div>
     </div>
@@ -20,24 +20,21 @@
     <div class="innerAll">
         @*<a href="@Url.Action("Index", "Destionation", new { destinationID = Model.DestinationID })"><p class="lead">@Model.DestinationName</p></a>*@
         @*@if (Model.URL != null) {
-                <img src="@Model.URL" style="width:100%;height:auto"/>
-            }*@
-        <a href="@Url.Action("Index", "Personal", new { userID = Model.FriendUserID })"><img src="@(Model.FriendProfilePicUrl == null ? null : Model.FriendProfilePicUrl)" alt="Friend Avatar" class="img-post display-block-inline" style="width:100%;height:auto !important"/></a>
-        
-    </div>
-
-    <!-- Comment -->
-    @*<div class="bg-gray innerAll border-top border-bottom text-small">
-            <span>View all <a href="" class="text-primary">@Model.Comments.Count() Comments</a></span>
-        </div>*@
-
-    @*@{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}*@
-
-    <div class="input-group comment">
-        <input type="text" class="form-control" placeholder="Your comment here...">
-        <div class="input-group-btn">
-            <button type="button" class="btn btn-primary" href="#"><i class="fa fa-comment"></i></button>
+        <img src="@Model.URL" style="width:100%;height:auto"/>}*@
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="@Url.Action("Index", "Personal", new { userID = Model.FriendUserID })"><img src="@(Model.FriendProfilePicUrl == null ? null : Model.FriendProfilePicUrl)" alt="Friend Avatar" class="img-post display-block-inline" style="width:100%;height:auto !important" /></a>
+            </div>
+            <div class="col-sm-6">
+                <p class="margin-none innerTB half"><h3 class="strong"><a href="@Url.Action("Index", "Personal", new { userID = Model.UserID })">@Model.UserName</a> has become friend with <a href="@Url.Action("Index", "Personal", new { userID = Model.FriendUserID })">@Model.FriendName</a></h3></p>                
+            </div>
         </div>
-    </div>
 
+        <!-- Comment -->
+        @*<div class="bg-gray innerAll border-top border-bottom text-small">
+                <span>View all <a href="" class="text-primary">@Model.Comments.Count() Comments</a></span>
+            </div>*@
+
+        @*@{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}*@
+    </div>
 </div>

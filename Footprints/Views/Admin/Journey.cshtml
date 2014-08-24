@@ -6,7 +6,154 @@
 @using PagedList.Mvc;
 
 @Styles.Render("~/css/admin");
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $("#dialog-edit").dialog({
+            title: 'Create User',
+            autoOpen: false,
+            resizable: true,
+            width: 620,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+                    window.location.href = url;
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        //$("#dialog-detail").dialog({
+        //    title: 'View User',
+        //    autoOpen: false,
+        //    resizable: false,
+        //    width: 400,
+        //    show: { effect: 'drop', direction: "up" },
+        //    modal: true,
+        //    draggable: true,
+        //    open: function (event, ui) {
+        //        $(".ui-dialog-titlebar-close").hide();
+        //        $(this).load(url);
+        //    },
+        //    buttons: {
+        //        "Close": function () {
+        //            $(this).dialog("close");
+        //        }
+        //    }
+        //});
+
+        //$("#lnkCreate").live("click", function (e) {
+        //    //e.preventDefault(); //use this or return false
+        //    url = $(this).attr('href');
+        //    $("#dialog-edit").dialog('open');
+
+        //    return false;
+        //});
+
+
+        $(".lnkEdit").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $(".ui-dialog-title").html("Update Journey");
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDelete").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $(".ui-dialog-title").html("Delete Journey");
+            $("#dialog-confirm").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDetail").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-detail").dialog('open');
+
+            return false;
+        });
+
+        $("#btncancel").live("click", function (e) {
+            $("#dialog-edit").dialog("close");
+            return false;
+        });
+    });
+</script>
+
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+
+<div id="dialog-confirm" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        Are you sure to delete?
+    </p>
+</div>
+
+<div id="dialog-edit" style="display: none">
+</div>
+<div id="dialog-detail" style="display: none">
+</div>
+
 
 <!-- <div class="layout-app">  -->
 <div class="innerLR" style="padding-top: 70px;">
@@ -16,48 +163,6 @@
     </div>
     <div class="clearfix"></div>
     <div class="separator-h"></div>
-
-    <!-- Filters -->
-    @*<div class="filter-bar">
-        <form class="margin-none form-inline">
-
-            <!-- From -->
-            <div class="form-group col-md-2 padding-none">
-                <label>From:</label>
-                <div class="input-group">
-                    <input type="text" name="from" id="dateRangeFrom" class="form-control" value="08/05/13" />
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                </div>
-            </div>
-            <!-- // From END -->
-            <!-- To -->
-            <div class="form-group col-md-2 padding-none">
-                <label>To:</label>
-                <div class="input-group">
-                    <input type="text" name="to" id="dateRangeTo" class="form-control" value="08/18/13" />
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                </div>
-            </div>
-            <!-- // To END -->
-
-            <!-- Select -->
-            <div class="form-group col-md-3 padding-none">
-                <label class="label-control">Select:</label>
-                <div class="col-md-8 padding-none">
-                    <select name="from" class="form-control">
-                        <option>Some option</option>
-                        <option>Other option</option>
-                        <option>Some other option</option>
-                    </select>
-                </div>
-            </div>
-            <!-- // Select END -->
-
-            <div class="clearfix"></div>
-        </form>
-    </div>*@
-    <!-- // Filters END -->
-    <!-- Widget -->
     <div class="widget widget-body-white">
 
         <!-- Widget heading -->
@@ -110,11 +215,8 @@
                             <td class="center">@journey.NumberOfShare</td>
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
-                                    @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
-                                        <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
-                                        <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
-                                    @Html.ActionLink("Edit", "EditJourney", "Admin", new { JourneyID = journey.JourneyID }, new { @class = "btn btn-success" })
-                                    @Html.ActionLink("Del", "DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID }, new { @class = "btn btn-danger" })
+                                    <a href='@Url.Action("EditJourney", "Admin", new { JourneyID = journey.JourneyID })' class="lnkEdit"><input type="button" value="Edit" class="btn btn-success" /> </a>
+                                    <a href='@Url.Action("DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID })' class="lnkDelete"><input type="button" value="Del" class="btn btn-danger" /> </a>                                                                                  
                                 </div>
                             </td>
                         </tr>
@@ -147,6 +249,5 @@
 
         </div>
     </div>
-    <!-- // Widget -->
-    @Scripts.Render("~/script/core")
+    <!-- // Widget -->    
 </div>
