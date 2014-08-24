@@ -20,9 +20,8 @@ namespace Footprints.Controllers
         IUserService userService;
         public AccountController(IUserService userService)
         {
-            this.userService = userService;          
+            this.userService = userService;
         }
-
         public AccountController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
@@ -47,7 +46,6 @@ namespace Footprints.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
         //
         // POST: /Account/Login
         [HttpPost]
@@ -78,19 +76,11 @@ namespace Footprints.Controllers
                     ModelState.AddModelError("", "Invalid UserName or Password.");
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
         //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
+        // GET: /Account/Register 
         [ChildActionOnly]
         [AllowAnonymous]
         public ActionResult RegisterPartial()
@@ -114,7 +104,6 @@ namespace Footprints.Controllers
                     if (result.Succeeded)
                     {
                         var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("Footprints");
-                        //UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>());
                         UserManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         var callbackUrl = Url.Action(
@@ -122,7 +111,7 @@ namespace Footprints.Controllers
                             "Account",
                             new { userId = user.Id, code = code },
                             protocol: Request.Url.Scheme);
-                        IdentityMessage message = new IdentityMessage();                        
+                        IdentityMessage message = new IdentityMessage();
                         message.Destination = model.Email;
                         message.Subject = "Confirm your account";
                         message.Body = "Please confirm your account by clicking this link: <a href=\""
@@ -132,7 +121,7 @@ namespace Footprints.Controllers
                         {
                             await UserManager.EmailService.SendAsync(message);
                             // System.Threading.Thread.Sleep(10000);
-                        }                        
+                        }
                         //await UserManager.SendEmailAsync(
                         //    user.Id,
                         //    "Confirm your account",
@@ -156,11 +145,12 @@ namespace Footprints.Controllers
                             });
                         return RedirectToAction("Index", "Newsfeed");
                     }
-                    else
-                    {
-                        AddErrors(result);
-                    }
-                }                
+                    AddErrors(result);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Email is already exist. Try to log-in !");
+                }
             }
             return View(model);
             // If we got this far, something failed, redisplay form
@@ -244,7 +234,6 @@ namespace Footprints.Controllers
                     }
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -377,7 +366,6 @@ namespace Footprints.Controllers
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
             return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && UserManager != null)
@@ -387,11 +375,9 @@ namespace Footprints.Controllers
             }
             base.Dispose(disposing);
         }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
-
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -399,14 +385,12 @@ namespace Footprints.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
-
         private async Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
             var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, identity);
         }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -414,7 +398,6 @@ namespace Footprints.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-
         private bool HasPassword()
         {
             try
@@ -431,7 +414,6 @@ namespace Footprints.Controllers
                 throw new Exception();
             }
         }
-
         public enum ManageMessageId
         {
             ChangePasswordSuccess,
@@ -439,7 +421,6 @@ namespace Footprints.Controllers
             RemoveLoginSuccess,
             Error
         }
-
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -451,25 +432,21 @@ namespace Footprints.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-
         private class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
             {
             }
-
             public ChallengeResult(string provider, string redirectUri, string userId)
             {
                 LoginProvider = provider;
                 RedirectUri = redirectUri;
                 UserId = userId;
             }
-
             public string LoginProvider { get; set; }
             public string RedirectUri { get; set; }
             public string UserId { get; set; }
-
             public override void ExecuteResult(ControllerContext context)
             {
                 var properties = new AuthenticationProperties() { RedirectUri = RedirectUri };

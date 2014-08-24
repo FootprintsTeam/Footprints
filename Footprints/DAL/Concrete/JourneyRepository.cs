@@ -306,8 +306,8 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(Journey:Journey)").
                 Where((Journey Journey) => Journey.JourneyID == JourneyID).
                 Match("(Journey)-[:HAS]->(Destination:Destination)").
-                Match("(DComment:Comment)-[:ON]->(Destination:Destination)").
-                Match("(JComment:Comment)-[:ON]->(Journey:Journey)").
+                Match("(DComment:Comment)-[:ON]->(Destination)").
+                Match("(JComment:Comment)-[:ON]->(Journey)").
                 With("Journey, Destination, DComment, JComment").
                 OrderBy("Destination.OrderNumber, DComment.Timestamp, JComment.Timestamp").
                 Return((Journey, Destination, DComment, JComment) => new
