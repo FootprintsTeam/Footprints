@@ -50,6 +50,8 @@ namespace Footprints.ViewModels
         public Guid DestinationID { get; set; }
         public string DestinationName { get; set; }
         public string Content { get; set; }
+        public Place Place { get; set; }
+        public string Description { get; set; }
         public static CommentWidgetViewModel GetSampleObject()
         {
             var sample = new CommentWidgetViewModel
@@ -72,6 +74,7 @@ namespace Footprints.ViewModels
     public class ShareWidgetViewModel : NewsfeedBaseWidgetViewModel
     {
         public Guid DestinationID { get; set; }
+        public string Destination_Description { get; set; }
         public string DestinationName { get; set; }
         public Guid JourneyID { get; set; }
         public string JourneyName { get; set; }
@@ -168,6 +171,7 @@ namespace Footprints.ViewModels
 
     public class JourneyWidgetViewModel : NewsfeedBaseWidgetViewModel {
         public string JourneyName { get; set; }
+        public string URL { get; set; }
         public string Description { get; set; }
         public Guid JourneyID { get; set; }
         public static JourneyWidgetViewModel GetSampleObject() {

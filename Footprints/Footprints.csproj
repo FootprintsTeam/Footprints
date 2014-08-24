@@ -2636,6 +2636,7 @@
     <Content Include="Views\Journey\JourneyList.cshtml" />
     <Content Include="Views\Search\NoResultWidget.cshtml" />
     <Content Include="Views\Destination\EditCommentForm.cshtml" />
+    <Content Include="Views\Newsfeed\AddPhotoWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
