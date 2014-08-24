@@ -16,10 +16,10 @@ namespace Footprints.DAL.Concrete
             var query = Db.Cypher.Match("(journey:Journey)").
                 Where((Journey journey) => journey.JourneyID == JourneyID).
                 Return(journey => journey.As<Journey>()).Results;
-            return  query.Count() == 0 ? null : query.First<Journey>();
-        }        
+            return query.Count() == 0 ? null : query.First<Journey>();
+        }
         public Journey GetJourneyDetail(Guid JourneyID)
-        {            
+        {
             var query = Db.Cypher.OptionalMatch("(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).
                                   OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
                                   OptionalMatch("(Destination)-[:AT]->(Place:Place)").
@@ -58,7 +58,7 @@ namespace Footprints.DAL.Concrete
                         destination.Contents.Add(content.Data);
                     }
                     result.Destinations.Add(destination);
-                }               
+                }
             }
             return result;
         }
@@ -76,7 +76,7 @@ namespace Footprints.DAL.Concrete
                 Journey_NumberOfLike = Journey.NumberOfLike,
                 Journey_NumberOfShare = Journey.NumberOfShare,
                 Timestamp = DateTimeOffset.Now
-            };            
+            };
             CypherQuery query = new CypherQuery("CREATE (journey:Journey {journey}) " +
                                                 " WITH journey " +
                                                 " MATCH (user:User {UserID : {UserID}}) " +
@@ -266,7 +266,7 @@ namespace Footprints.DAL.Concrete
         {
             var query = Db.Cypher.Match("(User:User)-[:HAS]->(Journey:Journey)").Where((Journey Journey) => Journey.JourneyID == JourneyID).AndWhere((User User) => User.UserID == UserID).
                         Set("Journey.Name = {Name}, Journey.Description = {Description}, Journey.TakenDate = {TakenDate}, Journey.Timestamp = {Timestamp}").
-                        WithParams(new Dictionary<String, Object> { {"Name", Name}, {"Description", Description}, {"TakenDate", TakenDate}, {"Timestamp", Timestamp} }).
+                        WithParams(new Dictionary<String, Object> { { "Name", Name }, { "Description", Description }, { "TakenDate", TakenDate }, { "Timestamp", Timestamp } }).
                         Return<Journey>("Journey").Results;
             return query.Count<Journey>() > 0 ? true : false;
         }
@@ -295,7 +295,7 @@ namespace Footprints.DAL.Concrete
                 tmp.Destinations = new List<Destination>();
                 foreach (var destination in item.Destination)
                 {
-                    tmp.Destinations.Add(destination.Data);   
+                    tmp.Destinations.Add(destination.Data);
                 }
                 result.Add(tmp);
             }

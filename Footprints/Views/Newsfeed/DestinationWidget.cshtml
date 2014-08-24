@@ -11,7 +11,7 @@
                     <i class="icon-reply-all-fill fa fa-2x "></i>
                 </a>
                 <a href="" class="text-white strong display-block">@Model.UserName</a>
-                <span><a href="" class="text-white strong">Checked in</a> on @Model.Timestamp.ToString("d")</span>
+                <span><a href="" class="text-white strong">Checked in at </a> on @Model.Timestamp.ToStringShort()</span>
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="map_canvas" style="height: 180px">
-                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl()" style="width:100%;" />
+                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl(170,180)" style="width:100%;" />
                 </div>
             </div>
             <div class="col-md-6">
@@ -30,10 +30,7 @@
                 </div>
                 <div class="media margin-none">                                        
                     <p class="margin-none innerTB half">@Model.Description.TruncateLongString(100)</p>
-                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="btn btn-xs btn-inverse">View</a>
-                    <div class="media-body">
-                        <small class="text-muted ">342 Likes</small>
-                    </div>
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="btn btn-xs btn-inverse">View</a>                    
                 </div>
             </div>
         </div>

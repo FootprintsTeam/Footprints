@@ -54,7 +54,7 @@ namespace Footprints.DAL.Concrete
                 ActivityID = Guid.NewGuid(),
                 Status = Activity.StatusEnum.Active,
                 Type = "ADD_NEW_FRIEND",
-                UserID = UserID_B,                
+                UserID = UserID_A,                
                 Timestamp = DateTimeOffset.Now
             };
             Activity ActivityOfB = new Activity
@@ -62,7 +62,7 @@ namespace Footprints.DAL.Concrete
                 ActivityID = Guid.NewGuid(),
                 Status = Activity.StatusEnum.Active,
                 Type = "ADD_NEW_FRIEND",
-                UserID = UserID_A,
+                UserID = UserID_B,
                 Timestamp = DateTimeOffset.Now
             };            
             CypherQuery query = new CypherQuery(" MATCH (userA:User {UserID : {UserID_A}}),(userB:User {UserID : {UserID_B}})" +
