@@ -5,11 +5,156 @@
     ViewBag.Title = "Destination Management";
 }
 
+@Styles.Render("~/css/admin")
+@Scripts.Render("~/scripts/adminmodal")
 
-@Styles.Render("~/css/admin");
+
+<script>
+    $(document).ready(function () {
+        var url = "";
+        $("#dialog-alert").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        if ('@TempData["msg"]' != "") {
+            $("#dialog-alert").dialog('open');
+        }
+
+        $("#dialog-edit").dialog({
+            title: 'Create User',
+            autoOpen: false,
+            resizable: true,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+                $(this).load(url);
+            }
+        });
+
+        $("#dialog-confirm").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 170,
+            width: 350,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+
+            },
+            buttons: {
+                "OK": function () {
+                    $(this).dialog("close");
+                    window.location.href = url;
+                },
+                "Cancel": function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        $(".lnkEdit").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $(".ui-dialog-title").html("Update Destination");
+            $("#dialog-edit").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDelete").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $(".ui-dialog-title").html("Delete Destination");
+            $("#dialog-confirm").dialog('open');
+
+            return false;
+        });
+
+        $(".lnkDetail").live("click", function (e) {
+            // e.preventDefault(); use this or return false
+            url = $(this).attr('href');
+            $("#dialog-detail").dialog('open');
+
+            return false;
+        });
+
+        $("#btncancel").live("click", function (e) {
+            $("#dialog-edit").dialog("close");
+            return false;
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        //Lay checkbox co ID=checkAll
+        var $checkBox = $("input:checkbox[id$=chkAll]");
+        //Lay mang cac checkbox co name =cid
+        var $tblChkBox = $("input:checkbox[name$=Id]");
+        //Them su kien click cho chkAll
+        $checkBox.click(function () {
+            $tblChkBox
+                    .attr('checked', $checkBox
+                    .is(':checked'));
+        }
+        );
+
+        //Them su kien cho cac checkbox co name la =cid
+        //Khi bo check thi chkAll cung tro ve trang thai Uncheck
+        $tblChkBox.click(
+            function (e) {
+                if (!$(this)[0].checked) {
+                    $checkBox.attr("checked", false);
+                }
+            }
+        );
+
+    });
+
+</script>
+
+<div id="dialog-alert" style="display: none">
+    <p>
+        @TempData["msg"]!
+    </p>
+</div>
+
+<div id="dialog-confirm" style="display: none">
+    <p>
+        <span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        Are you sure to delete destination?
+    </p>
+</div>
+
+<div id="dialog-edit" style="display: none">
+</div>
+<div id="dialog-detail" style="display: none">
+</div>
 
 <!-- <div class="layout-app">  -->
-<div class="innerLR" style="padding-top:70px;padding-left:30px;">
+<div class="innerLR" style="padding-top:90px;padding-left:30px;">
 
     <h3 class="margin-none pull-left">Destination Management</h3>
     <div class="btn-group btn-group-sm pull-right">
@@ -17,47 +162,6 @@
     </div>
     <div class="clearfix"></div>
     <div class="separator-h"></div>
-
-    @*<!-- Filters -->
-    <div class="filter-bar">
-        <form class="margin-none form-inline">
-
-            <!-- From -->
-            <div class="form-group col-md-2 padding-none">
-                <label>From:</label>
-                <div class="input-group">
-                    <input type="text" name="from" id="dateRangeFrom" class="form-control" value="08/05/13" />
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                </div>
-            </div>
-            <!-- // From END -->
-            <!-- To -->
-            <div class="form-group col-md-2 padding-none">
-                <label>To:</label>
-                <div class="input-group">
-                    <input type="text" name="to" id="dateRangeTo" class="form-control" value="08/18/13" />
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                </div>
-            </div>
-            <!-- // To END -->
-
-            <!-- Select -->
-            <div class="form-group col-md-3 padding-none">
-                <label class="label-control">Select:</label>
-                <div class="col-md-8 padding-none">
-                    <select name="from" class="form-control">
-                        <option>Some option</option>
-                        <option>Other option</option>
-                        <option>Some other option</option>
-                    </select>
-                </div>
-            </div>
-            <!-- // Select END -->
-
-            <div class="clearfix"></div>
-        </form>
-    </div>
-    <!-- // Filters END -->*@
     <!-- Widget -->
     <div class="widget widget-body-white">
 
@@ -87,7 +191,7 @@
             <table class="table table-condensed table-striped table-primary table-vertical-center checkboxs">
                 <thead>
                     <tr>
-                        <th style="width: 1%;" class="uniformjs"><input type="checkbox" /></th>
+                        <th style="width: 1%;" class="uniformjs"><input type="checkbox" id="chkAll" /></th>
                         <th class="center">Name</th>
                         <th class="center">Order Number</th>
                         <th class="center">Description</th>
@@ -104,7 +208,7 @@
                     @foreach (var destination in @Model)
                     {
                         <tr class="selectable">
-                            <td class="center uniformjs"><input type="checkbox" /></td>
+                            <td class="center uniformjs"><input type="checkbox" name="Id" value="@destination.DestinationID" /></td>
                             <td class="center">@destination.Name</td>
                             <td class="center">@destination.OrderNumber</td>
                             <td class="center">@destination.Description</td>
@@ -115,11 +219,8 @@
                             <td class="center">@destination.Place.Name</td>
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
-                                    @*<a href="#" class="btn btn-default"><i class="fa fa-eye"></i></a>
-                                    <a href="#" class="btn btn-success"><i class="fa fa-pencil"></i></a>
-                                    <a href="#" class="btn btn-danger"><i class="fa fa-times"></i></a>*@
-                                    @Html.ActionLink("Edit", "EditDestination", "Admin", new { DestinationID = destination.DestinationID }, new { @class = "btn btn-success" })
-                                    @Html.ActionLink("Del", "DeleteDestination", "Admin", new { DestinationID = destination.DestinationID }, new { @class = "btn btn-danger" })
+                                    <a href='@Url.Action("EditDestination", "Admin", new { DestinationID = destination.DestinationID })' class="lnkEdit"><input type="button" value="Edit" class="btn btn-success" /> </a>
+                                    <a href='@Url.Action("DeleteDestination", "Admin", new { DestinationID = destination.DestinationID })' class="lnkDelete"><input type="button" value="Del" class="btn btn-danger" /> </a>
                                 </div>
                             </td>
                         </tr>

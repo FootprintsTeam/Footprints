@@ -7,16 +7,15 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>@Model.Name</legend>
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.JourneyID)
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.NumberOfLike)
         @Html.HiddenFor(model => model.NumberOfShare)
         @Html.HiddenFor(model => model.Timestamp)
         @Html.HiddenFor(model => model.TakenDate)
+        @Html.HiddenFor(model => model.Comments)
 
         <div class="form-group">
             <label for="journeyname" class="col-sm-2 control-label">Name</label>
@@ -25,7 +24,7 @@
                 @Html.ValidationMessageFor(model => model.Name)
             </div>
         </div>
-        <br />
+        
         <div class="form-group">
             <label for="journey-description" class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
@@ -33,7 +32,6 @@
                 @Html.ValidationMessageFor(x => x.Description)
             </div>
         </div>
-        <br />
 
         @*<div class="form-group">
                 <label class="col-sm-2 control-label">Start Date</label>
@@ -67,8 +65,7 @@
                 <input type="submit" value="Cancel" id="btncancel" class="btn btn-default" />
             </div>
         </div>
-
-    </fieldset>
+    </div>
 }
 
 <script type="text/javascript">
