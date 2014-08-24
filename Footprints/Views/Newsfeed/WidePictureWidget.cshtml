@@ -1,14 +1,14 @@
 ﻿@model Footprints.ViewModels.AddPhotoWidgetViewModel
-
+@using Footprints.Common
 <div class="widget gridalicious-item not-responsive">
-    <a href=""><img src="../assets/images/photodune-6374531-at-celebration-xs.jpg" alt="" class="img-responsive"></a>
+    <a href=""><img src="@Model.URL" alt="" class="img-responsive"></a>
     <!-- Info -->
     <div class="bg-primary">
         <div class="innerAll">
-            <a href="#" class="pull-right innerT innerR text-white"><i class="icon-reply-all-fill fa fa-2x "></i></a>
+            <a href="#" class="pull-right innerT innerR text-white"><img src="@Model.ProfilePicURL" style="width:50px !important;height:50px" class="media-object"></a>
             <div class="innerAll">
-                <a href="" class="text-white text-medium">Fun Party in Rome </a>
-                <span class="display-block">on 15th January, 2014</span>
+                <a href="" class="text-white text-medium">@Model.DestinationName</a>
+                <span class="display-block">on @Model.Timestamp.ToStringShort()</span>
             </div>
         </div>
     </div>

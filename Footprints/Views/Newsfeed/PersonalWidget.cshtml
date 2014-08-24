@@ -1,11 +1,11 @@
 ﻿@model Footprints.ViewModels.PersonalWidgetViewModel
-
+@using Footprints.Common
 <div class="widget gridalicious-item not-responsive">
     <div class="widget-body text-center">
         <a href=""><img src="@Model.ProfilePicURL" style="width:120px" alt="" class="img-circle"></a>
         <h2 class="strong margin-none">@Model.UserName</h2>
         <div class="innerB"></div>
-        <a href="" class="btn btn-primary text-center btn-block">Since @Model.JoinDate</a>
+        <a href="" class="btn btn-primary text-center btn-block">Since @Model.JoinDate.ToStringLong()</a>
         <div class="btn-group-vertical btn-block">
             <a href="" class="btn btn-default">
                 <span class="badge pull-right badge-primary hidden-md">@Model.NumberOfJourney</span>Journeys

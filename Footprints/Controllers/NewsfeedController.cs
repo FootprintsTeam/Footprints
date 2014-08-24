@@ -36,79 +36,7 @@ namespace Footprints.Controllers
 
         //
         // GET: /Newsfeed/Newsfeed/
-
-        public IList<NewsfeedBaseWidgetViewModel> ConstructNewsfeedCollection(IList<Activity> newsfeedWidgets) {
-            IList<NewsfeedBaseWidgetViewModel> viewModels = new List<NewsfeedBaseWidgetViewModel>();
-
-            if (newsfeedWidgets == null)
-            {
-                return viewModels;
-            }
-
-            foreach (var activity in newsfeedWidgets)
-            {
-
-                var user = userService.RetrieveUser(activity.UserID);
-
-                switch (activity.Type)
-                {
-                    case Constant.ActivityAddNewContent:
-                        var destinationPhoto = destinationService.GetDestinationDetail(activity.DestinationID);
-                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);
-                        Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, photoModel);
-                        Mapper.Map<Destination, AddPhotoWidgetViewModel>(destinationPhoto, photoModel);
-                        Mapper.Map<Content, AddPhotoWidgetViewModel>(destinationPhoto.Contents.First(), photoModel);
-                        viewModels.Add(photoModel);
-                        break;
-
-                    case Constant.ActivityAddNewDestination:
-                        DestinationWidgetViewModel destinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
-                        //Mapper.Map<Destination,DestinationWidgetViewModel>()
-                        Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, destinationModel);
-                        Mapper.Map<Destination, DestinationWidgetViewModel>(destinationService.GetDestinationDetail(activity.DestinationID), destinationModel);
-                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), destinationModel.Comments);
-                        viewModels.Add(destinationModel);
-                        break;
-
-                    case Constant.ActivityAddNewFriend:
-                        //
-                        break;
-
-                    case Constant.ActivityAddnewJourney:
-                        JourneyWidgetViewModel journeyModel = Mapper.Map<Activity, JourneyWidgetViewModel>(activity);
-                        Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, journeyModel);
-                        Mapper.Map<Journey, JourneyWidgetViewModel>(journeyService.RetrieveJourney(activity.JourneyID), journeyModel);
-                        viewModels.Add(journeyModel);
-                        break;
-
-                    case Constant.ActivityComment:
-                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);
-                        Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, commentModel);
-                        Mapper.Map<Destination, CommentWidgetViewModel>(destinationService.GetDestination(activity.DestinationID), commentModel);
-                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), commentModel.Comments);
-                        viewModels.Add(commentModel);
-                        break;
-
-                    case Constant.ActivityLikeDestination:
-                        break;
-
-                    case Constant.ActivityShareDestination:
-                        ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);
-                        Mapper.Map<User, NewsfeedBaseWidgetViewModel>(user, shareModel);
-                        Mapper.Map<User, ShareWidgetViewModel>(user, shareModel);
-                        Mapper.Map<Destination, ShareWidgetViewModel>(destinationService.GetDestinationDetail(activity.DestinationID), shareModel);
-                        Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID), shareModel.Comments);
-                        viewModels.Add(shareModel);
-                        break;
-
-                    default:
-                        System.Diagnostics.Debug.WriteLine(activity.Type + "something");
-                        break;
-                }
-            };
-
-            return viewModels;
-        }
+                
         
         public IList<NewsfeedBaseWidgetViewModel> NewConstructNewsfeedCollection(IList<Activity> newsfeedWidgets)
         {
@@ -153,7 +81,8 @@ namespace Footprints.Controllers
                     case Constant.ActivityComment:
                         CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);      
                         var commentList = commentService.RetrieveDestinationComment(activity.DestinationID);
-                        commentModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentList);                        
+                        commentModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentList);
+                        commentModel.Place = Mapper.Map<Activity, Place>(activity);
                         viewModels.Add(commentModel);
                         break;
 

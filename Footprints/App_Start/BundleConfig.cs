@@ -98,6 +98,11 @@ namespace Footprints
                 //, "~/assets/components/core/widgets.less"
                 ));
 
+            bundles.Add(new ScriptBundle("~/scripts/adminmodal").Include(
+                        "~/Scripts/jquery-1.8.2.min.js"
+                        , "~/Scripts/jquery-ui-1.8.24.min.js"
+                        ));
+
             //Timeline page css
             bundles.Add(new StyleBundle("~/css/timeline").Include(
                 "~/assets/components/ui_buttons/buttons.less",

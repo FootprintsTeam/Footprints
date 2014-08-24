@@ -18,15 +18,15 @@ namespace Footprints.Mappings
         {
             Mapper.CreateMap<User, PersonalAboutViewModel>();
             Mapper.CreateMap<Journey, JourneyViewModel>();
-            Mapper.CreateMap<Journey, JourneyWidgetViewModel>();
+            Mapper.CreateMap<Journey, JourneyWidgetViewModel>().ForMember(x => x.Type, opt => opt.Ignore());;
             Mapper.CreateMap<User, PersonalViewModel>();
             Mapper.CreateMap<Destination, DestinationViewModel>();
             Mapper.CreateMap<Destination, DestinationWidgetViewModel>().
-                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Name)); 
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Name));
             Mapper.CreateMap<Destination, CommentWidgetViewModel>().
-                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Name)); 
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Name));
             Mapper.CreateMap<Destination, AddPhotoWidgetViewModel>().
-                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Name)); 
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Name));
             Mapper.CreateMap<Comment, CommentViewModel>().
                 ForMember(x => x.UserAvatarURL, y => y.MapFrom(src => src.User.ProfilePicURL)).
                 ForMember(x => x.UserID, y => y.MapFrom(src => src.User.UserID)).
@@ -37,16 +37,18 @@ namespace Footprints.Mappings
             Mapper.CreateMap<Activity, NewsfeedBaseWidgetViewModel>();
             Mapper.CreateMap<Activity, AddFriendWidgetViewmodel>();
             Mapper.CreateMap<Activity, AddPhotoWidgetViewModel>().
-                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name)).                
-                ForMember(x=>x.URL,y=>y.MapFrom(src=>src.ContentURL));
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name)).
+                ForMember(x => x.URL, y => y.MapFrom(src => src.ContentURL));
             Mapper.CreateMap<Activity, CommentWidgetViewModel>().
-                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name));
+                ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name)).
+                ForMember(x=>x.Description,y=>y.MapFrom(src=>src.Destination_Description)).
+                ForMember(x => x.Content, y => y.MapFrom(src => src.CommentContent));
             Mapper.CreateMap<Activity, ShareWidgetViewModel>().
                 ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name));
             Mapper.CreateMap<Activity, PersonalWidgetViewModel>();
             Mapper.CreateMap<Activity, DestinationWidgetViewModel>().
                 ForMember(x => x.DestinationName, y => y.MapFrom(src => src.Destination_Name)).
-                ForMember(x=> x.Description, y=>y.MapFrom(src=>src.Destination_Description));
+                ForMember(x => x.Description, y => y.MapFrom(src => src.Destination_Description));
             Mapper.CreateMap<Activity, JourneyWidgetViewModel>().
                 ForMember(x => x.JourneyName, y => y.MapFrom(src => src.Journey_Name));
             Mapper.CreateMap<Activity, Place>().
@@ -61,7 +63,7 @@ namespace Footprints.Mappings
             //Mapper.CreateMap<User, JourneyWidgetViewModel>();
             Mapper.CreateMap<User, PersonalWidgetViewModel>();
             Mapper.CreateMap<User, NewsfeedBaseWidgetViewModel>();
-            
+
         }
     }
 }

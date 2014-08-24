@@ -17,7 +17,7 @@ var hdDestinationReference = frmDestination.elements["Reference"];
 var hdDestinationPlaceName = frmDestination.elements["PlaceName"];
 var hdDestinationAddress = frmDestination.elements["Address"];
 var centerLatLng = new google.maps.LatLng(21.0226967, 105.8369637);
-if (hdDestinationLatitude.value.length > 0 && hdDestinationLongitude.value.length > 0) {
+if (!(hdDestinationLatitude.value == 0 && hdDestinationLongitude.value == 0)) {
     centerLatLng = new google.maps.LatLng(hdDestinationLatitude.value, hdDestinationLongitude.value);
 }
 function initialize() {
@@ -33,18 +33,21 @@ function initialize() {
             map: mapDestinations
         });
     }
-
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-    pacinput = /** @type {HTMLInputElement} */(
-        document.getElementById('pac-input'));
-
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            if (typeof arrDestination === "undefined" || arrDestination.length == 0) {
+                map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+            }
+        }, function () { });
+    }
+    pacinput = (document.getElementById('pac-input'));
     var types = document.getElementById('type-selector');
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(pacinput);
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-
     var autocomplete = new google.maps.places.Autocomplete(pacinput);
     autocomplete.bindTo('bounds', map);
-
+    //Get current destination
     infowindow = new google.maps.InfoWindow();
     if (typeof currentLatitude !== "undefined" && currentLatitude) {
         marker = new google.maps.Marker({
@@ -58,7 +61,6 @@ function initialize() {
             anchorPoint: new google.maps.Point(0, -29)
         });
     }
-
     google.maps.event.addListener(autocomplete, 'place_changed', function () {
         psContainer.style.display = 'none';
         infowindow.close();
@@ -107,7 +109,6 @@ function initialize() {
         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
         infowindow.open(map, marker);
     });
-
     google.maps.event.addListener(map, 'click', function (event) {
         infowindow.close();
         hdDestinationPlaceId.value = '';
@@ -119,7 +120,6 @@ function initialize() {
         hdDestinationLongitude.value = marker.position.lng();
         nearbySearch(event.latLng);
     });
-
     //search place when click on POI
     var fx = google.maps.InfoWindow.prototype.setContent;
     //override the built-in setContent-method
@@ -151,27 +151,27 @@ function initialize() {
             }
             var newMarker = new google.maps.Marker({
                 position: new google.maps.LatLng(arrDestination[index].Place.Latitude, arrDestination[index].Place.Longitude),
-                map: map,
-                title: 'Show destination information'
+                map: map
             });
             bounds.extend(new google.maps.LatLng(arrDestination[index].Place.Latitude, arrDestination[index].Place.Longitude));
             // process multiple info windows
             (function (newMarker, index) {
                 // add click event
+                infowindow = new google.maps.InfoWindow({
+                    content: GetInfoWindowContent(arrDestination[index].Name, arrDestination[index].TakenDate, destinationURL.replace('destinationID=xxx', 'destinationID=' + arrDestination[index].DestinationID))
+                });
                 google.maps.event.addListener(newMarker, 'click', function () {
-                    infowindow = new google.maps.InfoWindow({
-                        content: GetInfoWindowContent(arrDestination[index].Name, arrDestination[index].TakenDate, destinationURL.replace('destinationID=xxx', 'destinationID=' + arrDestination[index].DestinationID))
-                    });
                     infowindow.open(map, newMarker);
                 });
             })(newMarker, index);
         }
-        if (bounds) {
+        if (bounds && arrDestination.length > 1) {
             map.fitBounds(bounds);
+        } else {
+            map.setCenter(new google.maps.LatLng(arrDestination[0].Place.Latitude, arrDestination[0].Place.Longitude));
         }
     }
 }
-
 function nearbySearch(location) {
     marker.setIcon();
     map.panTo(location);
@@ -268,7 +268,6 @@ function GetPlaceDetails_Callback(place, status) {
         hdDestinationAddress.value = place.formatted_address;
     }
 }
-
 google.maps.event.addDomListener(window, "resize", resizingMap());
 
 $('#edit-destination-modal').on('show.bs.modal', function() {
@@ -414,5 +413,6 @@ function resizingMap() {
 
 })(jQuery);
 function GetInfoWindowContent(placeName, takenDate, url) {
-    return contentString = '<ul class="list-group margin-none innerT"><li class="list-group-item"><a href="' + url + '"><i class="fa fa-map-marker"></i> ' + placeName + '</a></li><li class="list-group-item"><i class="fa fa-calendar"></i> ' + takenDate + '</li></ul>';
+    var date = new Date(takenDate.substring(0, 19));
+    return contentString = '<p><a href="' + url + '"><i class="fa fa-map-marker"></i> ' + placeName + '</a></p><p><i class="fa fa-calendar"></i> ' + $.datepicker.formatDate('d MM yy', date) + '</p>';
 }
