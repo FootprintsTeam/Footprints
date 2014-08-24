@@ -97,41 +97,43 @@ namespace Footprints.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Credentials:
-            var credentialUserName = "foreverplatinum9x@gmail.com";
-            var sentFrom = "foreverplatinum9x@gmail.com";
-            var pwd = "Angelwings1992";
+            var credentialUserName = "footprintsfu@outlook.com";
+            var sentFrom = "footprintsfu@outlook.com";
+            var pwd = "plgwpibslidjmszx";
 
-            System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient("smtp.gmail.com", Convert.ToInt32(465));
-            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(credentialUserName, pwd);
-            client.Credentials = credentials;
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
+            //System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient("smtp.gmail.com", Convert.ToInt32(465));
+            //System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(credentialUserName, pwd);
+            //client.Credentials = credentials;
+            //client.EnableSsl = true;
+            //client.UseDefaultCredentials = false;
+            //client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+            //client.Timeout = 3000000;
+            //var mail =
+            //    new System.Net.Mail.MailMessage(sentFrom, message.Destination);
+            //mail.Subject = message.Subject;
+            //mail.Body = message.Body;
+
+            //return client.SendMailAsync(mail);
+            
+           //  Configure the client:
+            System.Net.Mail.SmtpClient client =
+                new System.Net.Mail.SmtpClient("smtp.live.com");
+            client.Port = 587;
             client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-            client.Timeout = 3000000;
+            client.UseDefaultCredentials = false;
+            // Creatte the credentials:
+            System.Net.NetworkCredential credentials =
+                new System.Net.NetworkCredential(credentialUserName, pwd);
+            client.EnableSsl = true;
+            client.Credentials = credentials;
+            // Create the message:
             var mail =
                 new System.Net.Mail.MailMessage(sentFrom, message.Destination);
             mail.Subject = message.Subject;
             mail.Body = message.Body;
 
-            return client.SendMailAsync(mail);            
-            // Configure the client:
-            //System.Net.Mail.SmtpClient client =
-            //    new System.Net.Mail.SmtpClient("smtp-mail.outlook.com");
-            //client.Port = 587;
-            //client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
-            //client.UseDefaultCredentials = false;
-            //// Creatte the credentials:
-            //System.Net.NetworkCredential credentials =
-            //    new System.Net.NetworkCredential(credentialUserName, pwd);
-            //client.EnableSsl = true;
-            //client.Credentials = credentials;
-            //// Create the message:
-            //var mail =
-            //    new System.Net.Mail.MailMessage(sentFrom, message.Destination);
-            //mail.Subject = message.Subject;
-            //mail.Body = message.Body;
-            //// Send:
-            //return client.SendMailAsync(mail);
+            // Send:
+            return client.SendMailAsync(mail);
         }
     }
 

@@ -11,7 +11,7 @@ using Microsoft.Owin.Security;
 using Footprints.Models;
 using Footprints.Services;
 using Footprints.Common;
-
+using Microsoft.AspNet.Identity.Owin;
 namespace Footprints.Controllers
 {
     [Authorize]
@@ -19,20 +19,26 @@ namespace Footprints.Controllers
     {
         IUserService userService;
         public AccountController(IUserService userService)
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())),
-                new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
-            this.userService = userService;
-           
+            this.userService = userService;          
         }
 
-        public AccountController(UserManager<ApplicationUser> userManager, ApplicationUserManager applicationUserManager)
+        public AccountController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
-            ApplicationUserManager = applicationUserManager;
         }
-        public UserManager<ApplicationUser> UserManager { get; private set; }
-        public ApplicationUserManager ApplicationUserManager { get; set; }
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -121,11 +127,11 @@ namespace Footprints.Controllers
                         message.Subject = "Confirm your account";
                         message.Body = "Please confirm your account by clicking this link: <a href=\""
                             + callbackUrl + "\">link</a>";
-                        Console.WriteLine(message.Body + " ");
-                        if (ApplicationUserManager.EmailService != null)
+                        // Console.WriteLine(message.Body + " ");
+                        if (UserManager.EmailService != null)
                         {
-                            await ApplicationUserManager.EmailService.SendAsync(message);
-                            System.Threading.Thread.Sleep(10000);
+                            await UserManager.EmailService.SendAsync(message);
+                            // System.Threading.Thread.Sleep(10000);
                         }                        
                         //await UserManager.SendEmailAsync(
                         //    user.Id,
@@ -134,7 +140,7 @@ namespace Footprints.Controllers
                         //+ callbackUrl + "\">link</a>");
                         ViewBag.Link = callbackUrl;
                         var roleResult = UserManager.AddToRole(user.Id, "Active");
-                        await SignInAsync(user, isPersistent: false);
+                        // await SignInAsync(user, isPersistent: false);
                         //add neo4j user here
                         userService.AddNewUser(
                             new User
@@ -156,11 +162,10 @@ namespace Footprints.Controllers
                     }
                 }                
             }
-
+            return View(model);
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("Login", "Account");
+            // return RedirectToAction("Login", "Account");
         }
-
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -179,7 +184,6 @@ namespace Footprints.Controllers
             }
             return RedirectToAction("Manage", new { Message = message });
         }
-
         //
         // GET: /Account/Manage
         public ActionResult Manage(ManageMessageId? message)
@@ -194,7 +198,6 @@ namespace Footprints.Controllers
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
-
         //
         // POST: /Account/Manage
         [HttpPost]
