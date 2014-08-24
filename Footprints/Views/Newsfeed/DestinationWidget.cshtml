@@ -5,13 +5,13 @@
     <!-- Info -->
     <div class="bg-primary">
         <div class="media">
-            <a href="" class="pull-left"><img src="@Model.ProfilePicURL" style="width:50px !important" class="media-object"></a>
+            <a href="@Url.Action("Index", "Personal", new { @Model.UserID})" class="pull-left"><img src="@Model.ProfilePicURL" style="width:50px !important" class="media-object"></a>
             <div class="media-body innerTB half">
                 <a href="#" class="pull-right innerT innerR text-white">
                     <i class="icon-reply-all-fill fa fa-2x "></i>
                 </a>
-                <a href="" class="text-white strong display-block">@Model.UserName</a>
-                <span><a href="" class="text-white strong">Checked in at </a> on @Model.Timestamp.ToStringShort()</span>
+                <a href="@Url.Action("Index", "Personal", new { @Model.UserID})" class="text-white strong display-block">@Model.UserName</a>
+                <span>Checked in at <a href="" class="text-white strong">@Model.DestinationName</a> on @Model.Timestamp.ToStringShort()</span>
             </div>
         </div>
     </div>

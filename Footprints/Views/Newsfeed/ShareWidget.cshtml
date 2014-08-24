@@ -1,19 +1,36 @@
 ﻿@model Footprints.ViewModels.ShareWidgetViewModel
 @using Footprints.ViewModels
+@using Footprints.Common
 
 <div class="widget gridalicious-item not-responsive">
-
     <div class="media">
-        <a href="" class="pull-left"><img src="@Model.ProfilePicURL" style="width:50px !important" class="media-object"></a>
+        <a href="@Url.Action("Index", "Personal", new { @Model.UserID})" class="pull-left"><img src="@Model.ProfilePicURL" style="width:50px !important" class="media-object"></a>
         <div class="media-body innerTB half">
             <a href="#" class="pull-right innerT innerR text-muted"><i class="icon-reply-all-fill fa fa-2x "></i></a>
-            <a href="" class="strong display-block">@Model.UserName</a>
-            <span>shared a @Model.Type on @Model.Timestamp</span>
+            <span><a href="@Url.Action("Index", "Personal", new { @Model.UserID})" class="strong display-block">@Model.UserName</a>shared @Model.DestinationName</span>
+            <span>on @Model.Timestamp.ToStringShort()</span>
         </div>
     </div>
 
     <!-- Content -->
-    <a href=""><img src="../assets/images/photodune-2755655-party-time-s.jpg" alt="" class="img-responsive"></a>
+    <div class="innerAll">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="map_canvas" style="height: 180px">
+                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl(170,180)" style="width:100%;" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="strong text-inverse innerB half">
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="strong">@Model.Place.Name</a>
+                </div>
+                <div class="media margin-none">
+                    <p class="margin-none innerTB half">@Model.Destination_Description.TruncateLongString(100)</p>
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="btn btn-xs btn-inverse">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Comment -->
     <div class="bg-primary innerAll text-small ">

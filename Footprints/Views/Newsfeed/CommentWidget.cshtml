@@ -1,5 +1,6 @@
 ﻿@model Footprints.ViewModels.CommentWidgetViewModel
 @using Footprints.ViewModels;
+@using Footprints.Common;
 <div class="widget gridalicious-item not-responsive">
 
     <!-- Info -->
@@ -11,7 +12,7 @@
                     <i class="icon-reply-all-fill fa fa-2x "></i>
                 </a>
                 <a href="" class="text-white strong display-block">@Model.UserName</a>
-                <span>Commented on a <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID })">destination</a> on @Model.Timestamp</span>
+                <span>Commented on a <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID })">destination</a> on @Model.Timestamp.ToStringShort()</span>
             </div>
         </div>
     </div>
@@ -21,23 +22,20 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="map_canvas" style="height: 180px">
-                    <img id="google-map-json" src="" alt="somepicture" style="width:100%;" />
+                    <img id="google-map-json" src="@Model.Place.ConstructMapImageUrl(180,170)" alt="somepicture" style="width:100%;" />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="strong text-inverse innerB half">
-                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="strong">place name</a>
+                    <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="strong">@Model.DestinationName</a>
                 </div>
                 <div class="media margin-none">
-                    <p class="margin-none innerTB half">destination description goes here</p>
+                    <p class="margin-none innerTB half">@Model.Description.TruncateLongString(100)</p>
                     <a href="@Url.Action("Index", "Destination", new {destinationID = Model.DestinationID})" class="btn btn-xs btn-inverse">View</a>
-                    <div class="media-body">
-                        <small class="text-muted ">342 Likes</small>
-                    </div>
                 </div>
             </div>
         </div>
-        <blockquote class="margin-none">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, delectus!</blockquote>
+        <blockquote class="margin-none">@Model.Content</blockquote>
     </div>
 
     <!-- Comment -->
