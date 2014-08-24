@@ -105,12 +105,13 @@ namespace Footprints.Controllers
             else if (UserID == CurrentAdminID)
             {
                 ModelState.AddModelError("", "Cannot delete your Admin account");
-                return View();
+                TempData["Msg"] = "You can't not delete your account";                
             }
             else if (user != null)
             {
                 userSer.DeleteUser(UserID);
                 UserManager.DeleteAsync(user);
+                TempData["Msg"] = "Delete user " + user.UserName + " successfully";                
             }
             return RedirectToAction("UserList");
         }
@@ -183,6 +184,7 @@ namespace Footprints.Controllers
             else
             {
                 journeySer.DeleteJourney(UserID, JourneyID);
+                TempData["Msg"] = "Delete journey successfully";
                 return RedirectToAction("Journey");
             }
 
@@ -192,9 +194,9 @@ namespace Footprints.Controllers
         {
             if (JourneyID == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);                
             }
-            Journey JourneyRetrieved = journeySer.RetrieveJourney(JourneyID);
+            Journey JourneyRetrieved = journeySer.GetJourneyDetail(JourneyID);
             return View(JourneyRetrieved);
         }
 
@@ -205,6 +207,7 @@ namespace Footprints.Controllers
             if (ModelState.IsValid)
             {
                 journeySer.UpdateJourneyForAdmin(Journey);
+                TempData["Msg"] = "Journey has been updated succeessfully";
                 return RedirectToAction("Journey");
             }
             return View(Journey);
