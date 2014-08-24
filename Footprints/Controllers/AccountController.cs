@@ -11,7 +11,7 @@ using Microsoft.Owin.Security;
 using Footprints.Models;
 using Footprints.Services;
 using Footprints.Common;
-
+using Microsoft.AspNet.Identity.Owin;
 namespace Footprints.Controllers
 {
     [Authorize]
@@ -19,17 +19,26 @@ namespace Footprints.Controllers
     {
         IUserService userService;
         public AccountController(IUserService userService)
-            : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
-            this.userService = userService;
+            this.userService = userService;          
         }
 
-        public AccountController(UserManager<ApplicationUser> userManager)
+        public AccountController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
         }
-        public UserManager<ApplicationUser> UserManager { get; private set; }
-
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -48,7 +57,16 @@ namespace Footprints.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
+                // Require the user to have a confirmed email before they can log on.
+                var user = await UserManager.FindByNameAsync(model.UserName);
+                if (user != null)
+                {
+                    if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                    {
+                        ViewBag.errorMessage = "You must have a confirmed email to log on.";
+                        return View("Error");
+                    }
+                }
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
@@ -95,8 +113,34 @@ namespace Footprints.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+                        var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("Footprints");
+                        //UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>());
+                        UserManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action(
+                            "ConfirmEmail",
+                            "Account",
+                            new { userId = user.Id, code = code },
+                            protocol: Request.Url.Scheme);
+                        IdentityMessage message = new IdentityMessage();                        
+                        message.Destination = model.Email;
+                        message.Subject = "Confirm your account";
+                        message.Body = "Please confirm your account by clicking this link: <a href=\""
+                            + callbackUrl + "\">link</a>";
+                        // Console.WriteLine(message.Body + " ");
+                        if (UserManager.EmailService != null)
+                        {
+                            await UserManager.EmailService.SendAsync(message);
+                            // System.Threading.Thread.Sleep(10000);
+                        }                        
+                        //await UserManager.SendEmailAsync(
+                        //    user.Id,
+                        //    "Confirm your account",
+                        //"Please confirm your account by clicking this link: <a href=\""
+                        //+ callbackUrl + "\">link</a>");
+                        ViewBag.Link = callbackUrl;
                         var roleResult = UserManager.AddToRole(user.Id, "Active");
-                        await SignInAsync(user, isPersistent: false);
+                        // await SignInAsync(user, isPersistent: false);
                         //add neo4j user here
                         userService.AddNewUser(
                             new User
@@ -110,7 +154,6 @@ namespace Footprints.Controllers
                                 JoinDate = DateTimeOffset.Now,
                                 Genre = model.Genre
                             });
-
                         return RedirectToAction("Index", "Newsfeed");
                     }
                     else
@@ -119,11 +162,10 @@ namespace Footprints.Controllers
                     }
                 }                
             }
-
+            return View(model);
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("Login", "Account");
+            // return RedirectToAction("Login", "Account");
         }
-
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -142,7 +184,6 @@ namespace Footprints.Controllers
             }
             return RedirectToAction("Manage", new { Message = message });
         }
-
         //
         // GET: /Account/Manage
         public ActionResult Manage(ManageMessageId? message)
@@ -157,7 +198,6 @@ namespace Footprints.Controllers
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
         }
-
         //
         // POST: /Account/Manage
         [HttpPost]
