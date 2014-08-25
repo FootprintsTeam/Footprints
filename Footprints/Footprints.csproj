@@ -348,6 +348,8 @@
     <Content Include="assets\components\core_preload\preload.pace.init.js" />
     <Content Include="assets\components\forms_editors_wysihtml5\wysihtml5.init.js" />
     <Content Include="assets\components\forms_elements_bootstrap-datepicker\bootstrap-datepicker.init.js" />
+    <Content Include="assets\components\forms_elements_bootstrap-datetimepicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="assets\components\forms_elements_bootstrap-datetimepicker\bootstrap-datetimepicker.min.js" />
     <Content Include="assets\components\forms_elements_bootstrap-select\bootstrap-select.init.js" />
     <Content Include="assets\components\forms_elements_bootstrap-switch\bootstrap-switch.init.js" />
     <Content Include="assets\components\forms_elements_bootstrap-timepicker\bootstrap-timepicker.init.js" />
@@ -2566,7 +2568,6 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Manage.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\AddJourneyPartial.cshtml" />
@@ -2619,9 +2620,6 @@
     <Content Include="Views\Admin\EditDestination.cshtml" />
     <Content Include="Views\Personal\AddCoverPhotoModal.cshtml" />
     <Content Include="Views\Destination\DeletePhotoModal.cshtml" />
-    <Content Include="Views\Personal\AddPhotoPersonalWidget.cshtml" />
-    <Content Include="Views\Personal\CommentPersonalWidget.cshtml" />
-    <Content Include="Views\Personal\AddDestinationWidget.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Media\PhotoList.cshtml" />
     <Content Include="Views\Destination\PhotoList.cshtml" />
@@ -2640,7 +2638,6 @@
     <Content Include="Views\Search\NoResultWidget.cshtml" />
     <Content Include="Views\Destination\EditCommentForm.cshtml" />
     <Content Include="Views\Newsfeed\AddPhotoWidget.cshtml" />
-    <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Shared\NewDestinationFormModal.cshtml" />
   </ItemGroup>

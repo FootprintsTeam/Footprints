@@ -10,9 +10,9 @@
         <div class="caret"></div>
         <div class="box-generic">
             <div class="timeline-top-info">
-                <a href="@Url.Action("Index","Personal", new {userID = Model.UserID})"><img src="@Model.ProfilePicURL.ToString()" style="width:40px !important"/></a>
+                <a href="@Url.Action("Index","Personal", new {userID = Model.UserID})"><img src="@Model.ProfilePicURL.ToString()" style="width:40px !important" /></a>
                 <a href="@Url.Action("Index","Personal", new {userID = Model.UserID})" class="text-inverse">@Model.UserName</a> visited
-                <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID})" class="text-info"><i class="fa fa-location-arrow"></i> @Model.Place.Name</a>
+                <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID})" class="text-info"><i class="fa fa-location-arrow"></i> @Model.Name</a>
             </div>
             <div class="media margin-none">
                 <div class="row innerLR innerB">
@@ -31,14 +31,14 @@
             @*Comment Section*@
             @if (Model.Comments != null && Model.Comments.Count > 0)
             {
-                foreach (CommentViewModel comment in Model.Comments)
+                for (int index = 0; index < Model.Comments.Count && index < 4; index++)
                 {
                     <div class="media innerAll bg-gray margin-none border-top border-bottom">
-                        <a class="pull-left" href="#"><img src="@comment.UserAvatarURL" alt="photo" class="media-object" width="35"></a>
+                        <a class="pull-left" href="#"><img src="@Model.Comments[index].UserAvatarURL" alt="photo" class="media-object" width="35"></a>
                         <div class="media-body">
-                            <a href="" class="strong text-inverse">@comment.UserName</a> @comment.Content
+                            <a href="" class="strong text-inverse">@Model.Comments[index].UserName</a> @Model.Comments[index].Content
                             <div class="timeline-bottom">
-                                <i class="fa fa-clock-o"></i> @comment.TimeAgo
+                                <i class="fa fa-clock-o"></i> @Model.Comments[index].TimeAgo
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
             <div style="display: none" id="empty-last-comment-@Model.DestinationID"></div>
             <div class="innerAll" id="@String.Format("section-form-{0}", Model.DestinationID.ToString())">
                 @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnComplete = "addCommentComplete('" + @Model.DestinationID + "')", OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + Model.DestinationID.ToString() }))
-                {                    
+                {
                     @Html.AntiForgeryToken()
                     @Html.Hidden("DestinationID", Model.DestinationID)
                     @Html.TextBox("Content", null, new { id = "comment-input-" + @Model.DestinationID + "", @class = "form-control", placeholder = "Comment here ..." })

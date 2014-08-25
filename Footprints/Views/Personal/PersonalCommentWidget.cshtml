@@ -2,8 +2,11 @@
 @using Footprints.Common
 
 <li class="active">
-    <span class="type glyphicons comments">Comment <i></i></span>    
-    <div class="widget widget-heading-simple widget-body-white margin-none">        
+    <span class="type glyphicons comments"><i></i><span class="time"></span></span>
+    <div class="widget widget-heading-simple widget-body-white margin-none">
+        <div class="widget-body">
+            <p class="glyphicons user margin-none"><i></i> <strong><a href="">@Model.UserName</a> commented on a destination</strong> @Model.Content.TruncateLongString(100)</p>
+        </div>
         <div class="widget-body">
             <div class="media">
                 <div class="media-object pull-left thumb"><img src="@Model.ProfilePicURL" style="width:51px !important" alt="Image" /></div>

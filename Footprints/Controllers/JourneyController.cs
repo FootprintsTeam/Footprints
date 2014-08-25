@@ -31,9 +31,9 @@ namespace Footprints.Controllers
         }
         //
         // GET: /Journey/
-        public ActionResult Index(string username, Guid journeyID)
+        public ActionResult Index(Guid journeyID)
         {
-            var journeyModel = journeyService.GetJourneyDetail(journeyID);
+            var journeyModel = journeyService.GetJourneyDetailWithComment(journeyID);
             //Implementing
             //Journey does not exist
             if (journeyModel == null)
@@ -41,18 +41,15 @@ namespace Footprints.Controllers
                 //Redirect to error page or newsfeed page
                 return RedirectToAction("Index", "Newsfeed");
             }
-
             var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
             var journeyOwner = userService.RetrieveUser(journeyViewModel.UserID);
             journeyViewModel.NumberOfDestination = journeyViewModel.Destinations.Count();
             journeyViewModel.NumberOfLike = journeyService.GetNumberOfLike(journeyID);
             journeyViewModel.NumberOfShare = journeyService.GetNumberOfShare(journeyID);
-
             foreach (var x in journeyViewModel.Destinations)
             {
                 Mapper.Map<User, DestinationViewModel>(journeyOwner, x);
             }
-
             if (journeyViewModel.Comments == null)
             {
                 journeyViewModel.Comments = new List<CommentViewModel>();

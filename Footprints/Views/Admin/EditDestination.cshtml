@@ -15,13 +15,17 @@
         @Html.HiddenFor(model => model.UserID)
         @Html.HiddenFor(model => model.AlbumID)        
         @Html.HiddenFor(model => model.Place.PlaceID)
-        @Html.HiddenFor(model => model.Place.Reference)
-        @Html.HiddenFor(model => model.Contents)
+        @Html.HiddenFor(model => model.Place.Reference)        
         @Html.HiddenFor(model => model.NumberOfLike)
         @Html.HiddenFor(model => model.NumberOfShare)
         @Html.HiddenFor(model => model.TakenDate)
         @Html.HiddenFor(model => model.Timestamp)
         @Html.HiddenFor(model => model.Comments)
+        @for (int i = 0; i < Model.Contents.Count(); i++)
+        {
+            @Html.HiddenFor(model => model.Contents[i])
+        }
+
         
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Name</label>

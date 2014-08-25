@@ -141,8 +141,6 @@ namespace Footprints.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        var provider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("Footprints");
-                        UserManager.UserTokenProvider = new Microsoft.AspNet.Identity.Owin.DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
                         var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         var callbackUrl = Url.Action(
                             "ConfirmEmail",
@@ -174,7 +172,7 @@ namespace Footprints.Controllers
                                 Genre = model.Genre
                             });
                         ViewBag.Link = callbackUrl;
-                        return View("DisplayEmail");
+                        return View(model);
                     }
                     AddErrors(result);
                 }
@@ -199,8 +197,8 @@ namespace Footprints.Controllers
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(userId);
-                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
-                return RedirectToAction("ConfirmEmailResponse");
+                // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
+                return RedirectToAction("ConfirmEmail");
             }
             return View("Error");
         }

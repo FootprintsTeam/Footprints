@@ -86,9 +86,7 @@ namespace Footprints.Models
                     context.Get<ApplicationDbContext>()));
             return manager;
         }
-
     }
-
     public class EmailService : IIdentityMessageService
     {
         public EmailService()
