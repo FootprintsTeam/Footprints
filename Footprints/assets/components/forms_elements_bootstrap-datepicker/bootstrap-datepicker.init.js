@@ -43,5 +43,11 @@ $(function () {
     // other
     if ($('.datepicker').length) $(".datepicker").bdatepicker({ showOtherMonths: true });
     if ($('.datepicker-inline').length) $('.datepicker-inline').bdatepicker({ inline: true, showOtherMonths: true });
-
+    $('.datepicker2').on('click', function (event) {
+        if ($.browser.chrome) {
+            setTimeout(function () {
+                $('.datepicker').css('zIndex', 10011);
+            }, 100);
+        }
+    });
 });
