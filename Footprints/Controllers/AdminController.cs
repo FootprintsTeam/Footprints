@@ -34,7 +34,7 @@ namespace Footprints.Controllers
             this.journeySer = journeySer;
             this.destinationSer = destinationSer;
         }
-
+        
         //
         // GET: /Admin/       
 
@@ -42,7 +42,7 @@ namespace Footprints.Controllers
         {
             return View();
         }
-
+        
         public ActionResult Destination(int? page)
         {
             int pageNumber = (page ?? 1);
@@ -93,11 +93,18 @@ namespace Footprints.Controllers
             return View(Destination);
         }
 
+        //public static IList<User> list;
         public ActionResult UserList(int? page)
         {
             int pageNumber = (page ?? 1);
             IList<User> list = userSer.GetUser();
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult SearchUser(String keyword)
+        {
+            IList<User> list = userSer.GetUser();
+            var result = list.Where(u => u.UserName.Contains(keyword)).OrderBy(u=> u.UserName).ToList();           
+            return PartialView("SearchUser", result);
         }
 
         public ActionResult DeleteUser(Guid UserID)
