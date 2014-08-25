@@ -132,11 +132,13 @@ namespace Footprints.DAL.Concrete
         }
         public IList<Journey> GetJourneyList()
         {
-            return Db.Cypher.Match("(journey:Journey)").Return(journey => journey.As<Journey>()).Results.ToList<Journey>();
+            var query = Db.Cypher.Match("(journey:Journey)").Return(journey => journey.As<Journey>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Journey>();
         }
         public IList<Journey> GetJourneyListBelongToUser(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:HAS]->(journey:Journey)").Where((User User) => User.UserID == UserID).Return(journey => journey.As<Journey>()).Results.ToList<Journey>();
+            var query = Db.Cypher.Match("(User:User)-[:HAS]->(journey:Journey)").Where((User User) => User.UserID == UserID).Return(journey => journey.As<Journey>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Journey>();
         }
         public void LikeJourney(Guid UserID, Guid JourneyID)
         {
@@ -185,7 +187,8 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserLiked(Guid JourneyID)
         {
-            return Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results.ToList<User>();
+            var query = Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
+            return query.Count() == 0 ? null : query.ToList<User>();
         }
         public void ShareJourney(Guid UserID, Guid JourneyID, String Content)
         {
@@ -227,12 +230,14 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserShared(Guid JourneyID)
         {
-            return Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results.ToList<User>();
+            var query = Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
+            return query.Count() == 0 ? null : query.ToList<User>();
         }
         //For Admin
         public IList<Journey> GetAllJourney()
         {
-            return Db.Cypher.Match("(Journey:Journey)").Return(Journey => Journey.As<Journey>()).Results.ToList<Journey>();
+            var query = Db.Cypher.Match("(Journey:Journey)").Return(Journey => Journey.As<Journey>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Journey>();
         }
         public int GetNumberOfJourney()
         {

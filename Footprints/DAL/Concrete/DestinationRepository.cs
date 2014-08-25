@@ -285,7 +285,8 @@ namespace Footprints.DAL.Concrete
         }
         public IList<Content> GetAllContent(Guid DestinationID)
         {
-            return Db.Cypher.Match("(Destination:Destination)-[:HAS]->(Content:Content)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(Content => Content.As<Content>()).Results.ToList<Content>();
+            var query = Db.Cypher.Match("(Destination:Destination)-[:HAS]->(Content:Content)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(Content => Content.As<Content>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Content>();
         }
         public void LikeDestination(Guid UserID, Guid DestinationID)
         {
@@ -337,7 +338,8 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserLiked(Guid DestinationID)
         {
-            return Db.Cypher.Match("(Destination:Destination)-[:LIKED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(User => User.As<User>()).Results.ToList<User>();
+            var query = Db.Cypher.Match("(Destination:Destination)-[:LIKED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(User => User.As<User>()).Results;
+            return query.Count() == 0 ? null : query.ToList<User>();
         }
         public void ShareDestination(Guid UserID, Guid DestinationID, String Content)
         {
@@ -384,7 +386,8 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserShared(Guid DestinationID)
         {
-            return Db.Cypher.Match("(Destination:Destination)-[:SHARED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(user => user.As<User>()).Results.ToList<User>();
+            var query = Db.Cypher.Match("(Destination:Destination)-[:SHARED_BY]->(User:User)").Where((Destination Destination) => Destination.DestinationID == DestinationID).Return(user => user.As<User>()).Results;
+            return query.Count() == 0 ? null : query.ToList<User>();
         }
         //For Admin
         public IList<Destination> GetAllDestination() 
@@ -399,7 +402,7 @@ namespace Footprints.DAL.Concrete
                                         content = content.CollectAs<Content>()
                                     }).Results;
             List<Destination> result = new List<Destination>();       
-             Destination currentDestination = new Destination();           
+            Destination currentDestination = new Destination();           
             foreach (var item in query)
             {
                 currentDestination = new Destination();
@@ -413,7 +416,7 @@ namespace Footprints.DAL.Concrete
                 }
                 result.Add(currentDestination);
             }
-            return result;
+            return query.Count() == 0 ? null : result;
         }
         public int GetNumberOfDestination(Guid UserID)
         {
