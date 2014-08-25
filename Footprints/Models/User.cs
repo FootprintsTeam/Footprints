@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using Footprints.Common;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace Footprints.Models
 {
     public class User
     {
+        [HiddenInput(DisplayValue = false)]
         public Guid UserID { get; set; }
         public String About { get; set; }      
         [Display(Name="First name")]

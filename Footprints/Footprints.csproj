@@ -291,7 +291,6 @@
     <Compile Include="ViewModels\MediaViewModel.cs" />
     <Compile Include="ViewModels\FriendViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedPostViewModel.cs" />
-    <Compile Include="ViewModels\PersonalAboutViewModel.cs" />
     <Compile Include="ViewModels\NewsfeedViewModel.cs" />
     <Compile Include="ViewModels\SearchViewModel.cs" />
   </ItemGroup>
@@ -349,6 +348,8 @@
     <Content Include="assets\components\core_preload\preload.pace.init.js" />
     <Content Include="assets\components\forms_editors_wysihtml5\wysihtml5.init.js" />
     <Content Include="assets\components\forms_elements_bootstrap-datepicker\bootstrap-datepicker.init.js" />
+    <Content Include="assets\components\forms_elements_bootstrap-datetimepicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="assets\components\forms_elements_bootstrap-datetimepicker\bootstrap-datetimepicker.min.js" />
     <Content Include="assets\components\forms_elements_bootstrap-select\bootstrap-select.init.js" />
     <Content Include="assets\components\forms_elements_bootstrap-switch\bootstrap-switch.init.js" />
     <Content Include="assets\components\forms_elements_bootstrap-timepicker\bootstrap-timepicker.init.js" />

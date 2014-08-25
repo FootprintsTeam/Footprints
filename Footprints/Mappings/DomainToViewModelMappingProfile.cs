@@ -16,7 +16,6 @@ namespace Footprints.Mappings
 
         protected override void Configure()
         {
-            Mapper.CreateMap<User, PersonalAboutViewModel>();
             Mapper.CreateMap<Journey, JourneyViewModel>();
             Mapper.CreateMap<Journey, JourneyWidgetViewModel>().ForMember(x => x.Type, opt => opt.Ignore());;
             Mapper.CreateMap<User, PersonalViewModel>();

@@ -36,7 +36,7 @@ namespace Footprints.Controllers
 
             var currentUserID = User.Identity.GetUserId();
             var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(currentUserID)) : userService.RetrieveUser(new Guid(userID));
-            
+
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
 
             //add number of pictures
@@ -47,20 +47,28 @@ namespace Footprints.Controllers
             if (!userID.Equals("default"))
                 ViewBag.AlreadyFriend = userService.CheckFriendShip(new Guid(currentUserID), new Guid(userID));
             //var model = PersonalViewModel.GetSampleObject();      
-      
+
             return View(viewModel);
 
         }
-        public ActionResult About()
+        public ActionResult About(string userID = "default")
         {
-
-            var model = PersonalAboutViewModel.GetSampleObject();
-            return View(model);
+            var currentUserID = User.Identity.GetUserId();
+            var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(currentUserID)) : userService.RetrieveUser(new Guid(userID));
+            var viewModel = Mapper.Map<User, PersonalViewModel>(model);
+            //add number of pictures
+            viewModel.NumberOfPhoto = userService.GetNumberOfContentByUserID(viewModel.UserID);
+            viewModel.NumberOfJourney = (int)userService.GetNumberOfJourney(viewModel.UserID);
+            viewModel.NumberOfDestination = destinationService.GetNumberOfDestination(viewModel.UserID);
+            viewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(viewModel.UserID);
+            if (!userID.Equals("default"))
+                ViewBag.AlreadyFriend = userService.CheckFriendShip(new Guid(currentUserID), new Guid(userID));
+            return View(viewModel);
 
         }
 
         [HttpPost]
-        public ActionResult Update(PersonalAboutViewModel model)
+        public ActionResult Update(PersonalViewModel model)
         {
             return View();
         }
@@ -69,7 +77,7 @@ namespace Footprints.Controllers
         public ActionResult Update()
         {
             var model = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
-            var viewModel = Mapper.Map<User, PersonalAboutViewModel>(model);
+            var viewModel = Mapper.Map<User, PersonalViewModel>(model);
             return View(viewModel);
         }
 
@@ -135,13 +143,13 @@ namespace Footprints.Controllers
             //check if already is friend
             if (!userService.CheckFriendShip(userID, currentUserID))
             {
-                 result = userService.AddFriendRelationship(currentUserID, userID);
+                result = userService.AddFriendRelationship(currentUserID, userID);
             }
-            else 
+            else
             {
-                 result = userService.DeleteFriendRelationship(currentUserID, userID);
+                result = userService.DeleteFriendRelationship(currentUserID, userID);
             }
-                        
+
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
     }
