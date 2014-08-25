@@ -157,10 +157,10 @@ function initialize() {
             // process multiple info windows
             (function (newMarker, index) {
                 // add click event
-                infowindow = new google.maps.InfoWindow({
-                    content: GetInfoWindowContent(arrDestination[index].Name, arrDestination[index].TakenDate, destinationURL.replace('destinationID=xxx', 'destinationID=' + arrDestination[index].DestinationID))
-                });
                 google.maps.event.addListener(newMarker, 'click', function () {
+                    infowindow = new google.maps.InfoWindow({
+                        content: GetInfoWindowContent(arrDestination[index].Name, arrDestination[index].TakenDate, destinationURL.replace('destinationID=xxx', 'destinationID=' + arrDestination[index].DestinationID))
+                    });
                     infowindow.open(map, newMarker);
                 });
             })(newMarker, index);
