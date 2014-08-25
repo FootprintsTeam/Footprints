@@ -55,12 +55,12 @@ namespace Footprints.Controllers
             if (DestinationID == null)
             {
                 TempData["Msg"] = "Delete destination failed";
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);                
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             else
             {
                 destinationSer.DeleteDestinationForAdmin(DestinationID);
-                TempData["Msg"] = "Delete destination succeessfully";
+                TempData["Msg"] = "Delete destination successfully";
                 return RedirectToAction("Destination");
             }
         }
@@ -79,17 +79,18 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditDestination(Destination Destination)
         {
-            //if (ModelState.IsValid)
-            //{
-            destinationSer.UpdateDestinationForAdmin(Destination);
-            TempData["Msg"] = "Destination has been updated succeessfully";
-            return RedirectToAction("Destination");
-            //}
-            //else
-            //{
-            //    ModelState.AddModelError("", "Error");
-            //}
-            //return View(Destination);
+            if (ModelState.IsValid)
+            {
+                destinationSer.UpdateDestinationForAdmin(Destination);
+                TempData["Msg"] = "Destination has been updated successfully";
+                return RedirectToAction("Destination");
+            }
+            else
+            {
+                TempData["Msg"] = "Update destination failed";
+                ModelState.AddModelError("", "Error");
+            }
+            return View(Destination);
         }
 
         public ActionResult UserList(int? page)
@@ -114,9 +115,10 @@ namespace Footprints.Controllers
                 TempData["Msg"] = "You can not delete your account";
             }
             else if (user != null)
-            {                
+            {
                 IdentityResult result = UserManager.Delete(user);
-                if (result.Succeeded) {
+                if (result.Succeeded)
+                {
                     userSer.DeleteUser(UserID);
                     TempData["Msg"] = "Delete user " + user.UserName + " successfully";
                 }
@@ -171,7 +173,7 @@ namespace Footprints.Controllers
                         if (roleResult.Succeeded)
                         {
                             userSer.UpdateUser(uActive);
-                            TempData["Msg"] = "User has been updated succeessfully";
+                            TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
                     }
@@ -199,7 +201,7 @@ namespace Footprints.Controllers
                         if (roleResult.Succeeded)
                         {
                             userSer.UpdateUser(uActive);
-                            TempData["Msg"] = "User has been updated succeessfully";
+                            TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
                     }
@@ -226,7 +228,7 @@ namespace Footprints.Controllers
                         if (roleResult.Succeeded)
                         {
                             userSer.UpdateUser(uActive);
-                            TempData["Msg"] = "User has been updated succeessfully";
+                            TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
                     }
@@ -253,7 +255,7 @@ namespace Footprints.Controllers
                         if (roleResult.Succeeded)
                         {
                             userSer.UpdateUser(uActive);
-                            TempData["Msg"] = "User has been updated succeessfully";
+                            TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
                     }
@@ -267,7 +269,7 @@ namespace Footprints.Controllers
             }
             return View(User);
         }
-   
+
         public ActionResult Journey(int? page)
         {
             int pageNumber = (page ?? 1);
@@ -330,7 +332,7 @@ namespace Footprints.Controllers
             if (ModelState.IsValid)
             {
                 journeySer.UpdateJourneyForAdmin(Journey);
-                TempData["Msg"] = "Journey has been updated succeessfully";
+                TempData["Msg"] = "Journey has been updated successfully";
                 return RedirectToAction("Journey");
             }
             return View(Journey);

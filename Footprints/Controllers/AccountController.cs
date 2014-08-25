@@ -121,7 +121,7 @@ namespace Footprints.Controllers
                             await UserManager.EmailService.SendAsync(message);
                             
                         }                                 
-                        var roleResult = UserManager.AddToRole(user.Id, "Active");
+                        var roleResult = UserManager.AddToRole(user.Id, "Inactive");
                         // await SignInAsync(user, isPersistent: false);
                         //add neo4j user here
                         userService.AddNewUser(
@@ -141,7 +141,7 @@ namespace Footprints.Controllers
                         return View("DisplayEmail");
                     }
                     AddErrors(result);
-                }
+                } 
                 else
                 {
                     ModelState.AddModelError("", "Email is already exist. Try to log-in !");
@@ -161,7 +161,7 @@ namespace Footprints.Controllers
             {
                 return View("Error");
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            var result = await UserManager.ConfirmEmailAsync(userId, code);            
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
