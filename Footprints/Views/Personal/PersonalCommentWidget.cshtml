@@ -2,10 +2,31 @@
 @using Footprints.Common
 
 <li class="active">
-    <span class="type glyphicons comments">Comment <i></i><span class="time">@Model.Timestamp.ToStringShort()</span></span>
+    <span class="type glyphicons comments"><i></i><span class="time"></span></span>
     <div class="widget widget-heading-simple widget-body-white margin-none">
         <div class="widget-body">
             <p class="glyphicons user margin-none"><i></i> <strong><a href="">@Model.UserName</a> commented on a destination</strong> @Model.Content.TruncateLongString(100)</p>
+        </div>
+        <div class="widget-body">
+            <div class="media">
+                <div class="media-object pull-left thumb"><img src="@Model.ProfilePicURL" style="width:51px !important" alt="Image" /></div>
+                <div class="media-body">
+                    <a class="author">@Model.UserName</a><br />
+                    <span class="muted">@Model.Timestamp.ToStringShort()</span>
+                </div>
+            </div>
+            <div class="alert alert-gray">
+                <p class="glyphicons circle_info"><i></i> <strong>Comment on a destination</strong> - <a href="">@Model.DestinationName</a></p>
+                <p>@Model.Content</p>
+                <!-- Gallery Layout -->
+                <div class="gallery gallery-2 separator top">
+                    <ul class="row" data-toggle="modal-gallery" data-target="#modal-gallery" id="gallery-4" data-delegate="#gallery-4">
+                        <li class="col-md-12 hidden-phone"><a class="thumb" href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID })" data-gallery="gallery"><img src="@(Model.Place != null ?  Model.Place.ConstructMapImageUrl(200, 150, 12, 2) : "null")" alt="photo" class="img-responsive" /></a></li>
+                    </ul>
+                </div>
+                <!-- // Gallery Layout END -->
+            </div>
+            @*<a class="glyphicons single picture"><i></i></a>*@
         </div>
     </div>
 </li>

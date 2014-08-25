@@ -31,7 +31,7 @@ namespace Footprints.Controllers
         }
         //
         // GET: /Journey/
-        public ActionResult Index(string username, Guid journeyID)
+        public ActionResult Index(Guid journeyID)
         {
             var journeyModel = journeyService.GetJourneyDetailWithComment(journeyID);
             //Implementing
