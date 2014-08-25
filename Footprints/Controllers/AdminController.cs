@@ -304,9 +304,9 @@ namespace Footprints.Controllers
                     journeySer.DeleteJourney(UserID, id);
                     return RedirectToAction("Journey");
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.StackTrace);
                 }
             }
             TempData["Msg"] = "Delete multiple journey successfully";

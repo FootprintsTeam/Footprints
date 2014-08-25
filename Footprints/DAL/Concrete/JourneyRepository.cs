@@ -303,11 +303,11 @@ namespace Footprints.DAL.Concrete
         }
         public Journey GetJourneyDetailWithComment(Guid JourneyID)
         {
-            var query = Db.Cypher.Match("(Journey:Journey)").
+            var query = Db.Cypher.OptionalMatch("(Journey:Journey)").
                 Where((Journey Journey) => Journey.JourneyID == JourneyID).
-                Match("(Journey)-[:HAS]->(Destination:Destination)").
-                Match("(DComment:Comment)-[:ON]->(Destination)").
-                Match("(JComment:Comment)-[:ON]->(Journey)").
+                OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
+                OptionalMatch("(DComment:Comment)-[:ON]->(Destination)").
+                OptionalMatch("(JComment:Comment)-[:ON]->(Journey)").
                 With("Journey, Destination, DComment, JComment").
                 OrderBy("Destination.OrderNumber, DComment.Timestamp, JComment.Timestamp").
                 Return((Journey, Destination, DComment, JComment) => new

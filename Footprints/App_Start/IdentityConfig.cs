@@ -34,14 +34,14 @@ namespace Footprints.Models
                 RequireUniqueEmail = true
             };
             // Configure validation logic for passwords
-            //manager.PasswordValidator = new PasswordValidator
-            //{
-            //    RequiredLength = 6,
-            //    RequireNonLetterOrDigit = true,
-            //    RequireDigit = true,
-            //    RequireLowercase = true,
-            //    RequireUppercase = true,
-            //};
+            manager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 6,
+                RequireNonLetterOrDigit = true,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true,
+            };
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
             manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -131,7 +131,7 @@ namespace Footprints.Models
                 new System.Net.Mail.MailMessage(sentFrom, message.Destination);
             mail.Subject = message.Subject;
             mail.Body = message.Body;
-
+            mail.IsBodyHtml = true;
             // Send:
             return client.SendMailAsync(mail);
         }
