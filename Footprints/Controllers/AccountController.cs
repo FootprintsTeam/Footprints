@@ -167,7 +167,7 @@ namespace Footprints.Controllers
                         {
                             await UserManager.EmailService.SendAsync(message);
                         }
-                        var roleResult = UserManager.AddToRole(user.Id, "Active");
+                        var roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
                         // await SignInAsync(user, isPersistent: false);
                         //add neo4j user here
                         userService.AddNewUser(
@@ -175,7 +175,7 @@ namespace Footprints.Controllers
                             {
                                 UserID = new Guid(user.Id),
                                 Email = user.Email,
-                                Status = Footprints.Models.StatusEnum.Active,
+                                Status = Footprints.Models.StatusEnum.Unconfirmed,
                                 UserName = user.UserName,
                                 ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
                                 CoverPhotoURL = Constant.DEFAULT_COVER_URL,
@@ -215,8 +215,11 @@ namespace Footprints.Controllers
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(userId);
-                // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
-                return RedirectToAction("ConfirmEmail");
+                Footprints.Models.User RetrievedUser = userService.RetrieveUser(new Guid(user.Id));
+                RetrievedUser.Status = StatusEnum.Active;
+                userService.UpdateUser(RetrievedUser);
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
+                return RedirectToAction("Index","Newsfeed");                
             }
             return View("Error");
         }

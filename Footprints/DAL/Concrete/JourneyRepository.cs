@@ -322,30 +322,40 @@ namespace Footprints.DAL.Concrete
                     JComment = JComment.CollectAs<Comment>(),
                     DComment = DComment.CollectAs<Comment>()
                 }).Results;
-            Destination destination = new Destination();
-            Journey result = new Journey();
-            result.Destinations = new List<Destination>();
-            result.Comments = new List<Comment>();
+            Destination destination = null;
+            Journey result = null;
+
             bool first = true;
             foreach (var item in query)
             {
+                if (item.Journey == null)
+                {
+                    break;
+                }
                 if (first)
                 {
+                    result = new Journey();
                     result = item.Journey;
+                    result.Destinations = new List<Destination>();
+                    result.Comments = new List<Comment>();
                     first = false;
                     foreach (var comment in item.JComment)
                     {
                         result.Comments.Add(comment.Data);
                     }
                 }
-                destination = new Destination();
-                destination.Comments = new List<Comment>();
-                destination = item.Destination;
-                foreach (var comment in item.DComment)
+                if (item.Destination != null)
                 {
-                    destination.Comments.Add(comment.Data);
+                    destination = new Destination();                    
+                    destination = item.Destination;
+                    destination.Comments = new List<Comment>();
+                    foreach (var comment in item.DComment)
+                    {
+                        destination.Comments.Add(comment.Data);
+                    }
                 }
-                result.Destinations.Add(destination);
+
+                if (destination != null) result.Destinations.Add(destination);
             }
             return query.Count() == 0 ? null : result;
         }

@@ -48,7 +48,7 @@ namespace Footprints.Controllers
             var destinationModel = destinationService.GetDestinationDetailWithLimitedContent(destinationID, NumberOfPhotoPerLoad);
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
             var comments = commentService.RetrieveDestinationComment(destinationID);
-            if (comments.Count > 0)
+            if (comments != null && comments.Count > 0)
             {
                 destinationViewModel.Comments = new List<CommentViewModel>();
                 foreach (var comment in comments)
@@ -56,6 +56,7 @@ namespace Footprints.Controllers
                     destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
                 }
             }
+
             destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(destinationModel.UserID).Count;
             destinationViewModel.NumberOfDestination = destinationService.GetNumberOfDestination(destinationModel.UserID);
             destinationViewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(destinationModel.UserID);

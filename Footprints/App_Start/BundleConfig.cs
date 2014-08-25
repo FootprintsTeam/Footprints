@@ -66,7 +66,7 @@ namespace Footprints
 
             //Core css
             bundles.Add(new StyleBundle("~/css/core").Include(
-                "~/assets/css/admin/module.admin.stylesheet-complete.min.css"                
+                "~/assets/css/admin/module.admin.stylesheet-complete.min.css"
                 //,"~/assets/library/bootstrap/css/bootstrap.min.css"
                 //, "~/assets/library/icons/fontawesome/assets/css/font-awesome.min.css"
                 //, "~/assets/library/icons/glyphicons/assets/css/glyphicons_regular.css"
@@ -96,6 +96,10 @@ namespace Footprints
                 //, "~/assets/plugins/maps_vector/css/elements.css"
                 //, "~/assets/components/maps_vector/maps-vector.less"
                 //, "~/assets/components/core/widgets.less"
+                ));
+
+            bundles.Add(new StyleBundle("~/css/admincontent").Include(                
+                "~/assets/library/bootstrap/css/bootstrap.min.css"                
                 ));
 
             bundles.Add(new ScriptBundle("~/scripts/adminmodal").Include(
@@ -137,7 +141,7 @@ namespace Footprints
             //Destination Page
             bundles.Add(new StyleBundle("~/script/destination").Include(
                 "~/assets/components/widget_lists/list-group.less",
-				"~/assets/components/ui_labels/labels.less"
+                "~/assets/components/ui_labels/labels.less"
             ));
 
             //Media
@@ -188,7 +192,7 @@ namespace Footprints
                 "~/assets/plugins/media_blueimp/js/blueimp-gallery.min.js",
                 "~/assets/plugins/media_blueimp/js/jquery.blueimp-gallery.min.js"
                 ));
-			//Form-modal
+            //Form-modal
             bundles.Add(new StyleBundle("~/css/form-modal").Include(
                 "~/assets/components/ui_forms/forms.less",
                 "~/assets/components/ui_buttons/buttons.less",
@@ -205,7 +209,7 @@ namespace Footprints
                 "~/assets/plugins/notifications_gritter/js/jquery.gritter.min.js",
                 "~/assets/components/admin_notifications_gritter/gritter.init.js"
                ));
-            
+
 
             //Datepicker
             bundles.Add(new StyleBundle("~/css/datepicker").Include(
@@ -216,7 +220,7 @@ namespace Footprints
                "~/assets/plugins/forms_elements_bootstrap-datepicker/js/bootstrap-datepicker.js",
                "~/assets/components/forms_elements_bootstrap-datepicker/bootstrap-datepicker.init.js"
                ));
-            
+
             //Jquery fileupload - blueimp
             bundles.Add(new StyleBundle("~/css/fileupload").Include(
                 "~/assets/components/jquery_fileupload/jquery.fileupload-ui.css",
