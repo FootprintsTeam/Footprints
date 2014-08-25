@@ -16,6 +16,7 @@ namespace Footprints.ViewModels
         public int NumberOfJourney { get; set; }
         public int NumberOfDestination { get; set; }
         public int NumberOfFriend { get; set; }
+        public IList<NewsfeedBaseWidgetViewModel> Activities { get; set; }
         public static PersonalViewModel GetSampleObject()
         {
             var sample = new PersonalViewModel
