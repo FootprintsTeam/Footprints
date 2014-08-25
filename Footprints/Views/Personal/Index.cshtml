@@ -23,9 +23,11 @@
                         <div class="col-md-6">
                             <div class="innerAll">
                                 <ul class="timeline">
-                                    @{Html.RenderPartial("AddDestinationWidget");}
-                                    @{Html.RenderPartial("CommentPersonalWidget");}
+                                    @{Html.RenderPartial("PersonalDestinationWidget",DestinationWidgetViewModel.GetSampleObject());}
+                                    @{Html.RenderPartial("PersonalCommentWidget",CommentWidgetViewModel.GetSampleObject());}
                                     @{Html.RenderPartial("PersonalAddPhotoWidget",AddPhotoWidgetViewModel.GetSampleObject());}
+                                    @{Html.RenderPartial("PersonalJourneyWidget",JourneyWidgetViewModel.GetSampleObject());}
+                                    @{Html.RenderPartial("PersonalShareWidget", ShareWidgetViewModel.GetSampleObject());}
                                 </ul>
                             </div>
                         </div>

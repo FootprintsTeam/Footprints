@@ -3,7 +3,7 @@
 
 <li class="active">
     <div class="separator">        
-        <span class="type glyphicons picture">Photo <i></i><span class="time">@Model.Timestamp.ToStringShort()</span></span>
+        <span class="type glyphicons picture">Photo <i></i><span class="time"></span></span>
     </div>
     <div class="widget widget-heading-simple widget-body-white margin-none">
         <div class="widget-body">
@@ -11,7 +11,7 @@
                 <div class="media-object pull-left thumb"><img src="@Model.ProfilePicURL" style="width:51px !important" alt="Image" /></div>
                 <div class="media-body">
                     <a class="author">@Model.UserName</a><br />
-                    <span class="muted">something</span>
+                    <span class="muted">@Model.Timestamp.ToStringShort()</span>
                 </div>
             </div>
             <div class="alert alert-gray">
