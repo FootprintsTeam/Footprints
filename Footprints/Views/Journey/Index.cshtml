@@ -155,8 +155,16 @@
     </div>
 </div>
 <!-- // Modal END -->
+@{
+    List<DestinationInfoOnMapViewModel> sortedDestinationList = new List<DestinationInfoOnMapViewModel>();
+    var sortedDestinationViewModel = Model.Destinations.OrderBy(x => x.TakenDate).ThenBy(x => x.OrderNumber).ToList();
+    foreach (var destination in sortedDestinationViewModel)
+    {
+        sortedDestinationList.Add(AutoMapper.Mapper.Map<DestinationViewModel, DestinationInfoOnMapViewModel>(destination));
+    }
+}
 <script type="text/javascript">
-    var arrDestination = $.parseJSON('@Html.ToJson(Model.Destinations)');
+    var arrDestination = @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(sortedDestinationList)));
     var destinationURL = '@Url.Action("Index", "Destination", new { destinationID = "xxx"})';
 
     var isCommentProcessing = false;
@@ -178,7 +186,7 @@
     function validateAddCommentForm(destinationId) {
         if (isCommentProcessing) return false;
         isCommentProcessing = true;
-        
+
         var txtcontent = $('#comment-input-' + destinationId);
         if (txtcontent == null || txtcontent.val() == null || txtcontent.val().trim().length == 0)
             return false;

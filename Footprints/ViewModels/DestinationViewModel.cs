@@ -8,28 +8,16 @@ using Footprints.Models;
 
 namespace Footprints.ViewModels
 {
-    public class DestinationViewModel
+    public class DestinationViewModel : Destination
     {
-        public Guid UserID { get; set; }
         public string ProfilePicURL { get; set; }
         public String CoverPhotoUrl { get; set; }
         public String UserName { get; set; }
         public int NumberOfJourney { get; set; }
         public int NumberOfDestination { get; set; }
         public int NumberOfFriend { get; set; }
-        public Guid DestinationID { get; set; }
-        public Guid AlbumID { get; set; }
-        public Guid JourneyID { get; set; }
-        public String Name { get; set; }
-        public String Description { get; set; }
-        public Footprints.Models.Place Place { get; set; }
-        public int NumberOfLike { get; set; }
-        public int NumberOfShare { get; set; }
         public int NumberOfPhoto { get; set; }
-        public IList<Content> Contents { get; set; }
-
-        public IList<CommentViewModel> Comments { get; set; }
-        public DateTimeOffset TakenDate { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
         public EditDestinationFormViewModel EditDestinationForm { get; set; }
         public AddCommentFormViewModel AddCommentForm { get; set; }
         public string TimeAgo
@@ -241,4 +229,13 @@ namespace Footprints.ViewModels
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid DestinationID { get; set; }
     }
+
+    public class DestinationInfoOnMapViewModel
+    {
+        public Guid DestinationID { get; set; }
+        public String Name { get; set; }
+        public DateTimeOffset TakenDate { get; set; }
+        public Place Place { get; set; }
+    }
+
 }
