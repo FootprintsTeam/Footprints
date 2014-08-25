@@ -296,6 +296,10 @@
     <Compile Include="ViewModels\SearchViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Footprints-20140516110236.mdf" />
+    <Content Include="App_Data\Footprints-20140516110236_log.ldf">
+      <DependentUpon>Footprints-20140516110236.mdf</DependentUpon>
+    </Content>
     <Content Include="assets\components\admin_courses\courses-featured-1.init.js" />
     <Content Include="assets\components\admin_email\email.init.js" />
     <Content Include="assets\components\admin_employees\employees.init.js" />
@@ -2639,6 +2643,7 @@
     <Content Include="Views\Newsfeed\AddPhotoWidget.cshtml" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Shared\NewDestinationFormModal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />
@@ -2667,7 +2672,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Controllers\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />

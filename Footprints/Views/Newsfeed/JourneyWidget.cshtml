@@ -1,24 +1,23 @@
 ﻿@model Footprints.ViewModels.JourneyWidgetViewModel
-
+@using Footprints.Common
 
 <div class="widget gridalicious-item not-responsive ">
     <!-- Info -->
     <div class="bg-gray  border-bottom innerAll">
-        <a href="#" class="pull-right innerT text-primary">
-            <i class="icon-reply-all-fill fa fa-2x "></i>
-        </a>
+        <a href="@Url.Action("Index", "Personal", new { @Model.UserID})" class="pull-right"><img src="@Model.ProfilePicURL" style="width:50px !important" class="media-object"></a>
         <a href="" class="lead strong display-block margin-none">New Journey - @Model.JourneyName </a>
-        <span>added on @Model.Timestamp.ToString("d")</span>
+        <span>added on @Model.Timestamp.ToStringShort()</span>
     </div>
     <!-- Content -->
     <div class="innerAll">
-        <p class="lead ">Important text goes in this line!</p>
+        <p class="lead strong">@Model.JourneyName</p>
         <div class="innerB">
-            <a href=""><img src="../assets/images/social/100/1.jpg" alt="" class="img-responsive" /></a>            
+            @if(Model.URL != null){
+                <a href=""><img src="@Model.URL" alt="" class="img-responsive" /></a>
+                }
         </div>
     </div>
     <div class="innerAll border-top">
-        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, impedit minus non commodi facere doloribus nemo ea voluptate nesciunt deleniti.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, iste omnis fugiat porro consequuntur ratione iure error reprehenderit cum est ab similique magnam molestias aperiam voluptatibus quia aliquid! Sed, minima, totam, omnis delectus autem placeat quod velit sapiente odit error numquam neque atque quae facere laborum. Non, suscipit obcaecati nobis.</p>        
+        <p> @Model.Description</p>        
     </div>
 </div>
