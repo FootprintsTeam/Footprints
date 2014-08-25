@@ -73,7 +73,12 @@ namespace Footprints.Controllers
             var user = await UserManager.FindByNameAsync(model.UserName);
             if (user == null)
             {
-                ModelState.AddModelError("", "Invalid UserName or Password.");
+                ModelState.AddModelError("Login", "Invalid UserName or Password.");
+                return View(model);
+            }
+            if (!UserManager.IsEmailConfirmed(user.Id))
+            {
+                ModelState.AddModelError("Login","You must confirm your email !");
                 return View(model);
             }
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
@@ -88,7 +93,7 @@ namespace Footprints.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("Login", "Invalid UserName or Password.");
                     return View(model);
             }
         }
@@ -151,7 +156,7 @@ namespace Footprints.Controllers
                         message.Destination = model.Email;
                         message.Subject = "Confirm your account";
                         message.Body = "Please confirm your account by clicking this link: <a href=\""
-                            + callbackUrl + "\">link</a>";
+                            + callbackUrl + "\">Footprints Verification</a>";
                         if (UserManager.EmailService != null)
                         {
                             await UserManager.EmailService.SendAsync(message);
@@ -172,16 +177,19 @@ namespace Footprints.Controllers
                                 Genre = model.Genre
                             });
                         ViewBag.Link = callbackUrl;
-                        return View(model);
+                        return View("Login");
                     }
-                    AddErrors(result);
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError("Register", item);
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email is already exist. Try to log-in !");
+                    ModelState.AddModelError("Register", "Email is already exist. Try to log-in !");
                 }
             }
-            return View(model);
+            return View("Login");
             // If we got this far, something failed, redisplay form
             // return RedirectToAction("Login", "Account");
         }
