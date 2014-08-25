@@ -3,6 +3,13 @@
 @{
     Layout = "~/Views/Shared/AdminLayout.cshtml";
     ViewBag.Title = "Destination Management";
+    AjaxOptions options = new AjaxOptions
+    {
+        UpdateTargetId = "searchResult",
+        //Confirm = "Are you sure to start search?",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementId = "divLoading"
+    };
 }
 
 @Styles.Render("~/css/admin")
@@ -146,11 +153,24 @@
 
 <!-- <div class="layout-app">  -->
 <div class="innerLR" style="padding-top:90px;padding-left:30px;">
-
-    <h3 class="margin-none pull-left">Destination Management</h3>
-    <div class="btn-group btn-group-sm pull-right">
-        <a href="" class="btn btn-primary">Add Destination</a>
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="margin-none pull-left">Destination Management</h3>
+        </div>
+        <div class="col-md-4">
+            @using (Ajax.BeginForm("SearchDestination", "Admin", options))
+            {
+                <div class="col-md-10">
+                    <div class="form-group">
+                        @*<div id="divLoading" style="color:red;width:200px;background-color:yellow;font-size:larger;display:none;position:absolute;">Loading ....</div>*@
+                        <input type="text" name="keyword" class="form-control" placeholder="Enter keyword to search destination..." style="background-color:white;" />
+                        <button type="submit" class="btn btn-info" style="display:none;"></button>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
+
     <div class="clearfix"></div>
     <div class="separator-h"></div>
     <!-- Widget -->
@@ -168,13 +188,13 @@
             <div class="separator bottom">
                 Total destination:
                 @*<span class="pull-right">
-                    <label class="strong">Sort by:</label>
-                    <select class="selectpicker margin-none" data-style="btn-default btn-xs">
-                        <option>Option</option>
-                        <option>Option</option>
-                        <option>Option</option>
-                    </select>
-                </span>*@
+                        <label class="strong">Sort by:</label>
+                        <select class="selectpicker margin-none" data-style="btn-default btn-xs">
+                            <option>Option</option>
+                            <option>Option</option>
+                            <option>Option</option>
+                        </select>
+                    </span>*@
                 <div class="clearfix"></div>
             </div>
             <!-- // Total destination & sort by options END -->
@@ -194,7 +214,7 @@
                         <th class="center" style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="searchResult">
                     <!-- Item -->
                     @foreach (var destination in @Model)
                     {
@@ -243,5 +263,5 @@
 
         </div>
     </div>
-    <!-- // Widget -->    
+    <!-- // Widget -->
 </div>

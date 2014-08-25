@@ -152,16 +152,26 @@
 
 <!-- <div class="layout-app">  -->
 <div class="innerLR" style="padding-top: 90px;padding-left:30px;">
-    <h3 class="margin-none pull-left">User Management</h3>
-    <div class="btn-group btn-group-sm pull-right">
-        @using (Ajax.BeginForm("SearchUser", "Admin", options))
-        {
-            <div>
-                Search User: <input type="text" name="keyword" class="form-control"/>
-                <input type="submit" value="Search" />
-                <div id="divLoading" style="color:red;width:200px;background-color:yellow;font-size:larger;display:none;position:absolute;">Loading ....</div>
-            </div>            
-        }
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="margin-none pull-left">User Management</h3>
+        </div>
+        <div class="col-md-4">
+            @using (Ajax.BeginForm("SearchUser", "Admin", options))
+            {
+                @*<div>
+                        Search User: <input type="text" name="keyword" class="form-control"/>
+                        <input type="submit" value="Search" />
+                    </div>*@
+                <div class="col-md-10">
+                    <div class="form-group">
+                        @*<div id="divLoading" style="color:red;width:200px;background-color:yellow;font-size:larger;display:none;position:absolute;">Loading ....</div>*@
+                        <input type="text" name="keyword" class="form-control" placeholder="Enter keyword to search user..." style="background-color:white;"/>
+                        <button type="submit" class="btn btn-info" style="display:none;"></button>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
     <div class="clearfix"></div>
     <div class="separator-h"></div>
@@ -188,7 +198,7 @@
                 <thead>
                     <tr>
                         <th style="width: 1%;" class="uniformjs"><input type="checkbox" id="chkAll" /></th>
-                        <th style="width: 20%;" class="left">Email</th>
+                        <th style="width: 20%;" class="center">Email</th>
                         <th style="width: 10%;" class="left">Username</th>
                         <th class="center">Full name</th>
                         <th class="center">Status</th>
