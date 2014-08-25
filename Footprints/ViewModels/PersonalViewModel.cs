@@ -8,57 +8,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 namespace Footprints.ViewModels
 {
-    public class PersonalViewModel
+    public class PersonalViewModel : User
     {
-        [HiddenInput(DisplayValue = false)]
-        public Guid UserID { get; set; }
-
         public int NumberOfPhoto { get; set; }
-
         public String CoverPhotoUrl { get; set; }
-
-        public String FirstName { get; set; }
-
-        public String LastName { get; set; }
-        
-        public String Email { get; set; }
-
-        public String Address { get; set; }
-
-        public String PhoneNumber { get; set; }
-
-        public String UserName { get; set; }
-
-        public StatusEnum Status { get; set; }
         [DataType(DataType.DateTime, ErrorMessage = "Please enter a valid date in the format dd/mm/yyyy hh:mm")]
-
-        public DateTimeOffset JoinDate { get; set; }
-
-        public String ProfilePicURL { get; set; }
-
-        public String DisplayName()
-        {
-            return FirstName + " " + LastName;
-        }
-
-        public int NumberOfJourney
-        {
-            get;
-            set;
-        }
-
-        public int NumberOfDestination
-        {
-            get;
-            set;
-        }
-
-        public int NumberOfFriend
-        {
-            get;
-            set;
-        }
-
+        public int NumberOfJourney { get; set; }
+        public int NumberOfDestination { get; set; }
+        public int NumberOfFriend { get; set; }
         public static PersonalViewModel GetSampleObject()
         {
             var sample = new PersonalViewModel
