@@ -4,26 +4,32 @@
 <form action="@Url.Action("Register","Account")" style="margin:30px 30px" method="post">
 
     @Html.AntiForgeryToken()
-
-
     <h1 style="color:#fff">Register</h1>
     <hr />
-    @Html.ValidationSummary(true)
-
+    @{
+        if (Session["ValidationSummary"] != null && Session["ValidationSummary"].Equals("Register"))
+        {
+            @Session["Error"];
+        } 
+    }
     <div class="form-group">
         @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", placeholder = "Username" })
+        @Html.ValidationMessageFor(x => x.UserName)
     </div>
 
     <div class="form-group">
         @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Password", type = "Password" })
+        @Html.ValidationMessageFor(x => x.Password)
     </div>
 
     <div class="form-group">
         @Html.TextBoxFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password", type = "Password" })
+        @Html.ValidationMessageFor(x => x.ConfirmPassword)
     </div>
 
     <div class="form-group">
         @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Your Email" })
+        @Html.ValidationMessageFor(x => x.Email)
     </div>
 
     <div class="form-group">
@@ -32,10 +38,10 @@
                 @Html.RadioButtonFor(model => model.Genre, Genre.Male) <h4 style="color:#fff;display:inline">Male</h4>
             </div>
             <div class="col-md-5 text-inverse">
-                @Html.RadioButtonFor(model => model.Genre, Genre.Female) <h4 style="color: #fff; display: inline">Female</h4>
+                @Html.RadioButtonFor(model => model.Genre, Genre.Female) <h4 style="color: #fff; display: inline">Female</h4>                
             </div>
         </div>
-
+        @Html.ValidationMessageFor(x => x.Genre)
     </div>
 
     <hr />
