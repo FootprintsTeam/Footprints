@@ -2640,6 +2640,9 @@
     <Content Include="Views\Newsfeed\AddPhotoWidget.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Shared\NewDestinationFormModal.cshtml" />
+    <Content Include="Views\Admin\SearchUser.cshtml" />
+    <Content Include="Views\Admin\SearchDestination.cshtml" />
+    <Content Include="Views\Admin\SearchJourney.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

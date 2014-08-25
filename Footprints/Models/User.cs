@@ -34,7 +34,7 @@ namespace Footprints.Models
         public String CoverPhotoURL { get; set; }
         public String DisplayName()
         {
-            return FirstName + " " + LastName;
+            return FirstName + " " + LastName;             
         }
     }
     public enum StatusEnum { Banned, Active, Inactive, Admin }

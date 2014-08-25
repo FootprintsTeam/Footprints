@@ -34,7 +34,7 @@ namespace Footprints.Controllers
             this.journeySer = journeySer;
             this.destinationSer = destinationSer;
         }
-
+        
         //
         // GET: /Admin/       
 
@@ -42,12 +42,19 @@ namespace Footprints.Controllers
         {
             return View();
         }
-
+        
         public ActionResult Destination(int? page)
         {
             int pageNumber = (page ?? 1);
             IList<Destination> list = destinationSer.GetAllDestination();
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult SearchDestination(String keyword)
+        {
+            IList<Destination> list = destinationSer.GetAllDestination();
+            var result = list.Where(u => u.Name.Contains(keyword)).OrderBy(u => u.Name).ToList();
+            return PartialView(result);
         }
 
         public ActionResult DeleteDestination(Guid DestinationID)
@@ -93,11 +100,18 @@ namespace Footprints.Controllers
             return View(Destination);
         }
 
+        //public static IList<User> list;
         public ActionResult UserList(int? page)
         {
             int pageNumber = (page ?? 1);
             IList<User> list = userSer.GetUser();
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult SearchUser(String keyword)
+        {
+            IList<User> list = userSer.GetUser();
+            var result = list.Where(u => u.UserName.Contains(keyword)).OrderBy(u=> u.UserName).ToList();           
+            return PartialView(result);
         }
 
         public ActionResult DeleteUser(Guid UserID)
@@ -275,6 +289,13 @@ namespace Footprints.Controllers
             int pageNumber = (page ?? 1);
             IList<Journey> list = journeySer.GetAllJourney();
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult SearchJourney(String keyword)
+        {
+            IList<Journey> list = journeySer.GetAllJourney();
+            var result = list.Where(u => u.Name.Contains(keyword)).OrderBy(u => u.Name).ToList();
+            return PartialView(result);
         }
 
         public ActionResult DeleteJourney(Guid UserID, Guid JourneyID)
