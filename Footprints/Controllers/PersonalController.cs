@@ -25,6 +25,7 @@ namespace Footprints.Controllers
         IDestinationService destinationService;
         ICommentService commentService;
         INewsfeedService newsfeedService;
+        int skip;
         public PersonalController(IUserService userService, IJourneyService journeyService, IDestinationService destinationService, ICommentService commentService, INewsfeedService newsfeedService)
         {
             this.userService = userService;
@@ -32,6 +33,7 @@ namespace Footprints.Controllers
             this.destinationService = destinationService;
             this.commentService = commentService;
             this.newsfeedService = newsfeedService;
+            skip = 0;
         }
 
         //
@@ -155,7 +157,7 @@ namespace Footprints.Controllers
             var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(currentUserID)) : userService.RetrieveUser(new Guid(userID));
 
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
-            viewModel.Activities =  NewConstructNewsfeedCollection(userService.GetAllActivity(viewModel.UserID));
+            viewModel.Activities =  NewConstructNewsfeedCollection(userService.GetAllActivity(viewModel.UserID,skip,Constant.defaultNewsfeedBlockNumber));
             //add number of pictures
             viewModel.NumberOfPhoto = userService.GetNumberOfContentByUserID(viewModel.UserID);
             viewModel.NumberOfJourney = (int)userService.GetNumberOfJourney(viewModel.UserID);
