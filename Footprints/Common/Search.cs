@@ -21,54 +21,54 @@ namespace Footprints.Common
             //Search by UserName
             var query = Db.Cypher.Start(new
             {
-                UserName = Node.ByIndexQuery("node_auto_index", "UserName:\"" + TextEntered + "\"")
-            }).
+                UserName = Node.ByIndexQuery("node_auto_index", "UserName:" + TextEntered + "~")
+            }).Match("UserName:User").
             Return(UserName => UserName.As<User>()).
             Limit(Limit).
             Results;
             if (query.Count() > 0 && result == null) result = new List<User>();
             foreach (var item in query)
             {
-                result.Add(item);
+                if (!result.Contains(item)) result.Add(item);
             }
             //Search by FirstName
             query = Db.Cypher.Start(new
             {
                 FirstName = Node.ByIndexQuery("node_auto_index", "FirstName:\"" + TextEntered + "\"")
-            }).
+            }).Match("FirstName:User").
             Return(FirstName => FirstName.As<User>()).
             Limit(Limit).
             Results;
             if (query.Count() > 0 && result == null) result = new List<User>();
             foreach (var item in query)
             {
-                result.Add(item);
+                if (!result.Contains(item)) result.Add(item);
             }
             //Search by LastName
             query = Db.Cypher.Start(new
             {
                 LastName = Node.ByIndexQuery("node_auto_index", "LastName:\"" + TextEntered + "\"")
-            }).
+            }).Match("LastName:User").
             Return(LastName => LastName.As<User>()).
             Limit(Limit).
             Results;
             if (query.Count() > 0 && result == null) result = new List<User>();
             foreach (var item in query)
             {
-                result.Add(item);
+                if (!result.Contains(item)) result.Add(item);
             }
             //Search by Email
             query = Db.Cypher.Start(new
             {
                 Email = Node.ByIndexQuery("node_auto_index", "Email:\"" + TextEntered + "\"")
-            }).
+            }).Match("Email:User").
            Return(Email => Email.As<User>()).
            Limit(Limit).
            Results;
             if (query.Count() > 0 && result == null) result = new List<User>();
             foreach (var item in query)
             {
-                result.Add(item);
+                if (!result.Contains(item)) result.Add(item);
             }
             return result;
         }
@@ -84,7 +84,7 @@ namespace Footprints.Common
             if (query.Count() > 0 && result == null) result = new List<Journey>();
             foreach (var item in query)
             {
-                if (item != null) result.Add(item);
+                if (item != null && !result.Contains(item)) result.Add(item);
             }
             query = Db.Cypher.Start(new
             {
@@ -95,7 +95,7 @@ namespace Footprints.Common
             if (query.Count() > 0 && result == null) result = new List<Journey>();
             foreach (var item in query)
             {
-                if (item.Name != null) result.Add(item);
+                if (item.Name != null && !result.Contains(item)) result.Add(item);
             }
             return result;
         }
@@ -111,7 +111,7 @@ namespace Footprints.Common
             if (query.Count() > 0 && result == null) result = new List<Destination>();
             foreach (var item in query)
             {
-                if (item != null) result.Add(item);
+                if (item != null && !result.Contains(item)) result.Add(item);
             }
             query = Db.Cypher.Start(new
             {
@@ -122,19 +122,37 @@ namespace Footprints.Common
             if (query.Count() > 0 && result == null) result = new List<Destination>();
             foreach (var item in query)
             {
-                if (item.Name != null) result.Add(item);
+                if (item.Name != null && !result.Contains(item)) result.Add(item);
             }
             return result;
         }
         public IList<Journey> SearchPlace(String TextEntered, int Limit)
         {
+            List<Journey> result = null;
             var query = Db.Cypher.Start(new
             {
                 Name = Node.ByIndexQuery("node_auto_index", "Name:\"" + TextEntered + "\"")
-            }).Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:AT]->(Name:Place )")
+            }).Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:AT]->(Name:Place)")
             .Return(Journey => Journey.As<Journey>()).Limit(Limit).
             Results;
-            return query.Count() == 0 ? null : query.ToList<Journey>();
+            if (query.Count() > 0 && result == null) result = new List<Journey>();
+            foreach (var item in query)
+            {
+                if (!result.Contains(item)) result.Add(item);
+            }
+
+            query = Db.Cypher.Start(new
+            {
+                Name = Node.ByIndexQuery("node_auto_index", "Address:\"" + TextEntered + "\"")
+            }).Match("(User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination)-[:AT]->(Address:Place)")
+            .Return(Journey => Journey.As<Journey>()).Limit(Limit).
+            Results;
+            if (query.Count() > 0 && result == null) result = new List<Journey>();
+            foreach (var item in query)
+            {
+                if (!result.Contains(item)) result.Add(item);
+            }
+            return result;
         }
     }
     public interface ISearch
