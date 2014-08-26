@@ -78,13 +78,13 @@ namespace Footprints.Controllers
                 Session["ValidationSummary"] = "Login";
                 return View(model);
             }
-            if (!UserManager.IsEmailConfirmed(user.Id))
-            {
-                ModelState.AddModelError("","You must confirm your email !");
-                errors += "Invalid UserName or Password.";
-                Session["ValidationSummary"] = "Login";
-                return View(model);
-            }
+            //if (!UserManager.IsEmailConfirmed(user.Id))
+            //{
+            //    ModelState.AddModelError("","You must confirm your email !");
+            //    errors += "Invalid UserName or Password.";
+            //    Session["ValidationSummary"] = "Login";
+            //    return View(model);
+            //}
             var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -147,29 +147,12 @@ namespace Footprints.Controllers
             {
                 var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
                 var emailExisted = UserManager.FindByEmail(model.Email);
-                if (emailExisted == null)
+                var userExisted = UserManager.FindByName(model.UserName);
+                if (emailExisted == null && userExisted == null)
                 {
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        var callbackUrl = Url.Action(
-                            "ConfirmEmail",
-                            "Account",
-                            new { userId = user.Id, code = code },
-                            protocol: Request.Url.Scheme);
-                        IdentityMessage message = new IdentityMessage();
-                        message.Destination = model.Email;
-                        message.Subject = "Confirm your account";
-                        message.Body = "Please confirm your account by clicking this link: <a href=\""
-                            + callbackUrl + "\">Footprints Verification</a>";
-                        if (UserManager.EmailService != null)
-                        {
-                            await UserManager.EmailService.SendAsync(message);
-                        }
-                        var roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
-                        // await SignInAsync(user, isPersistent: false);
-                        //add neo4j user here
                         userService.AddNewUser(
                             new User
                             {
@@ -182,8 +165,29 @@ namespace Footprints.Controllers
                                 JoinDate = DateTimeOffset.Now,
                                 Genre = model.Genre
                             });
-                        ViewBag.Link = callbackUrl;
-                        return View("Login");
+
+                        return RedirectToAction("Index", "Newsfeed");
+                        //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        //var callbackUrl = Url.Action(
+                        //    "ConfirmEmail",
+                        //    "Account",
+                        //    new { userId = user.Id, code = code },
+                        //    protocol: Request.Url.Scheme);
+                        //IdentityMessage message = new IdentityMessage();
+                        //message.Destination = model.Email;
+                        //message.Subject = "Confirm your account";
+                        //message.Body = "Please confirm your account by clicking this link: <a href=\""
+                        //    + callbackUrl + "\">Footprints Verification</a>";
+                        //if (UserManager.EmailService != null)
+                        //{
+                        //    await UserManager.EmailService.SendAsync(message);
+                        //}
+                        //var roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
+                        //// await SignInAsync(user, isPersistent: false);
+                        ////add neo4j user here
+                        
+                        //ViewBag.Link = callbackUrl;
+                        //return View("Login");
                     }
                     foreach (var item in result.Errors)
                     {
@@ -193,8 +197,8 @@ namespace Footprints.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email is already exist. Try to log-in !");
-                    errors += ("Email is already exist. Try to log-in !");
+                    ModelState.AddModelError("", "Email or Username is already exist. Try to log-in !");
+                    errors += ("Email or Username is already exist. Try to log-in !");
                 }
             }
             Session["ValidationSummary"] = "Register";
