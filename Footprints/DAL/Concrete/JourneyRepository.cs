@@ -328,9 +328,9 @@ namespace Footprints.DAL.Concrete
                     DUser = DUser.As<User>(),
                     JUser = JUser.As<User>()
                 }).Results;
-            Destination destination = null;
-            Journey result = null;
-            Comment comment = null;
+            Destination destination = new Destination();
+            Journey result = new Journey();
+            Guid defaultGUID = new Guid();
             bool first = true;
             foreach (var item in query)
             {
@@ -343,16 +343,30 @@ namespace Footprints.DAL.Concrete
                     result = item.Journey;
                     result.Destinations = new List<Destination>();
                     result.Comments = new List<Comment>();
-                    first = false;                    
+                    first = false;
                 }
+                if (item.JComment != null)
+                {
+                    if (item.JUser != null) item.JComment.User = item.JUser; 
+                    result.Comments.Add(item.JComment);
+                }
+                
                 if (item.Destination != null)
                 {
-                    destination = item.Destination;
-                    destination.Place = new Place();
-                    destination.Place = item.Place;
-                    destination.Comments = new List<Comment>();
-                }
-                if (destination != null) result.Destinations.Add(destination);
+                    if (!item.Destination.DestinationID.Equals(destination.DestinationID))
+                    {
+                        if (!destination.DestinationID.Equals(defaultGUID)) result.Destinations.Add(destination);
+                        destination = item.Destination;
+                        destination.Place = new Place();
+                        destination.Place = item.Place;
+                        destination.Comments = new List<Comment>();
+                    }
+                    if (item.DComment != null)
+                    {
+                        if (item.DUser != null) item.DComment.User = item.DUser;
+                        destination.Comments.Add(item.DComment);
+                    }
+                }               
             }
             return query.Count() == 0 ? null : result;
         }
