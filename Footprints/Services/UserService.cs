@@ -152,7 +152,7 @@ namespace Footprints.Services
         }
         public IList<Activity> GetAllActivity(Guid UserID, int Skip, int Limit)
         {
-            return _userRepo.GetAllActivity(UserID, int Skip, int Limit);
+            return _userRepo.GetAllActivity(UserID, Skip, Limit);
         }
     }
 }
