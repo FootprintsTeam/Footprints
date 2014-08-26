@@ -1,0 +1,20 @@
+﻿@model IList<Footprints.Models.Journey>
+
+@foreach (var journey in @Model)
+{
+    <tr class="selectable">
+        <td class="center uniformjs"><input type="checkbox" value="@journey.JourneyID" name="Id" /></td>
+        <td class="center">@journey.Name</td>
+        <td class="center">@journey.Description</td>
+        <td class="center">@journey.TakenDate</td>
+        <td class="center">@journey.Timestamp</td>
+        <td class="center">@journey.NumberOfLike</td>
+        <td class="center">@journey.NumberOfShare</td>
+        <td class="center">
+            <div class="btn-group btn-group-sm">
+                <a href='@Url.Action("EditJourney", "Admin", new { JourneyID = journey.JourneyID })' class="lnkEdit"><input type="button" value="Edit" class="btn btn-success" /> </a>
+                <a href='@Url.Action("DeleteJourney", "Admin", new { UserID = journey.UserID, JourneyID = journey.JourneyID })' class="lnkDelete"><input type="button" value="Del" class="btn btn-danger" /> </a>
+            </div>
+        </td>
+    </tr>
+}

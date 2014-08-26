@@ -1,0 +1,20 @@
+﻿@model IList<Footprints.Models.User>
+
+@foreach (var user in @Model)
+{
+    <tr class="searchResult">
+        <td class="center uniformjs"><input type="checkbox" value="@user.UserID" name="Id" /></td>
+        <td class="left">@user.Email</td>
+        <td class="left">@user.UserName</td>
+        <td class="center">@user.DisplayName()</td>
+        <td class="center">@user.Status</td>
+        <td class="center">@user.Address</td>
+        <td class="center">@user.About</td>
+        <td class="center">
+            <div class="btn-group btn-group-sm">
+                <a href='@Url.Action("EditUser", "Admin", new { UserID = user.UserID })' class="lnkEdit"><input type="button" value="Edit" class="btn btn-success" /> </a>
+                <a href='@Url.Action("DeleteUser", "Admin", new { UserID = user.UserID })' class="lnkDelete"><input type="button" value="Del" class="btn btn-danger" /> </a>
+            </div>
+        </td>
+    </tr>
+}   

@@ -30,7 +30,7 @@ namespace Footprints.DAL.Concrete
                 currentComment.User = item.user;
                 result.Add(currentComment);
             }
-            return result;
+            return query.Count() == 0 ? null : result;
         }
         public IList<Comment> GetAllCommentOnDestination(Guid DestinationID)
         {
@@ -52,7 +52,7 @@ namespace Footprints.DAL.Concrete
                 currentComment.User = item.user;
                 result.Add(currentComment);
             }
-            return result;
+            return query.Count() == 0 ? null : result;
         }
         public Comment GetAComment(Guid CommentID)
         {
@@ -195,7 +195,8 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserLikeComment(Guid CommentID)
         {
-            return Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(user:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results.ToList<User>();
+            var query = Db.Cypher.Match("(Comment:Comment)-[:LIKED_BY]->(user:User)").Where((Comment Comment) => Comment.CommentID == CommentID).Return(user => user.As<User>()).Results;
+            return query.Count() == 0 ? null : query.ToList<User>();
         }
         //TODO
         public void DeleteAComment(Guid UserID, Guid CommentID)

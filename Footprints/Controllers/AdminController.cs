@@ -34,7 +34,7 @@ namespace Footprints.Controllers
             this.journeySer = journeySer;
             this.destinationSer = destinationSer;
         }
-
+        
         //
         // GET: /Admin/       
 
@@ -42,12 +42,19 @@ namespace Footprints.Controllers
         {
             return View();
         }
-
+        
         public ActionResult Destination(int? page)
         {
             int pageNumber = (page ?? 1);
             IList<Destination> list = destinationSer.GetAllDestination();
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult SearchDestination(String keyword)
+        {
+            IList<Destination> list = destinationSer.GetAllDestination();
+            var result = list.Where(u => u.Name.Contains(keyword)).OrderBy(u => u.Name).ToList();
+            return PartialView(result);
         }
 
         public ActionResult DeleteDestination(Guid DestinationID)
@@ -93,11 +100,18 @@ namespace Footprints.Controllers
             return View(Destination);
         }
 
+        //public static IList<User> list;
         public ActionResult UserList(int? page)
         {
             int pageNumber = (page ?? 1);
             IList<User> list = userSer.GetUser();
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+        public ActionResult SearchUser(String keyword)
+        {
+            IList<User> list = userSer.GetUser();
+            var result = list.Where(u => u.UserName.Contains(keyword)).OrderBy(u=> u.UserName).ToList();           
+            return PartialView(result);
         }
 
         public ActionResult DeleteUser(Guid UserID)
@@ -144,7 +158,7 @@ namespace Footprints.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditUser(User User)
-        {
+        {            
             if (ModelState.IsValid)
             {
                 IdentityResult user = UserManager.SetEmail(User.UserID.ToString(), User.Email.ToString());
@@ -152,114 +166,40 @@ namespace Footprints.Controllers
                 {
                     if (User.Status.Equals(Footprints.Models.StatusEnum.Active))
                     {
-                        Footprints.Models.User uActive = new Models.User
-                        {
-                            UserID = User.UserID,
-                            About = User.About,
-                            FirstName = User.FirstName,
-                            LastName = User.LastName,
-                            Email = User.Email,
-                            Address = User.Address,
-                            PhoneNumber = User.PhoneNumber,
-                            Genre = User.Genre,
-                            DateOfBirth = User.DateOfBirth,
-                            UserName = User.UserName,
-                            Status = StatusEnum.Active,
-                            JoinDate = User.JoinDate,
-                            ProfilePicURL = User.ProfilePicURL,
-                            CoverPhotoURL = User.CoverPhotoURL,
-                        };
                         IdentityResult roleResult = UserManager.AddToRole(User.UserID.ToString(), "Active");
                         if (roleResult.Succeeded)
                         {
-                            userSer.UpdateUser(uActive);
+                            User.Status = StatusEnum.Active;
+                            userSer.UpdateUser(User);
                             TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
                     }
                     else if (User.Status.Equals(Footprints.Models.StatusEnum.Admin))
                     {
-                        Footprints.Models.User uActive = new Models.User
-                        {
-                            UserID = User.UserID,
-                            About = User.About,
-                            FirstName = User.FirstName,
-                            LastName = User.LastName,
-                            Email = User.Email,
-                            Address = User.Address,
-                            PhoneNumber = User.PhoneNumber,
-                            Genre = User.Genre,
-                            DateOfBirth = User.DateOfBirth,
-                            UserName = User.UserName,
-                            Status = StatusEnum.Admin,
-                            JoinDate = User.JoinDate,
-                            ProfilePicURL = User.ProfilePicURL,
-                            CoverPhotoURL = User.CoverPhotoURL,
-                        };
+                       
 
                         IdentityResult roleResult = UserManager.AddToRole(User.UserID.ToString(), "Admin");
                         if (roleResult.Succeeded)
                         {
-                            userSer.UpdateUser(uActive);
+                            User.Status = StatusEnum.Admin;
+                            userSer.UpdateUser(User);
                             TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
                     }
                     else if (User.Status.Equals(Footprints.Models.StatusEnum.Banned))
                     {
-                        Footprints.Models.User uActive = new Models.User
-                        {
-                            UserID = User.UserID,
-                            About = User.About,
-                            FirstName = User.FirstName,
-                            LastName = User.LastName,
-                            Email = User.Email,
-                            Address = User.Address,
-                            PhoneNumber = User.PhoneNumber,
-                            Genre = User.Genre,
-                            DateOfBirth = User.DateOfBirth,
-                            UserName = User.UserName,
-                            Status = StatusEnum.Banned,
-                            JoinDate = User.JoinDate,
-                            ProfilePicURL = User.ProfilePicURL,
-                            CoverPhotoURL = User.CoverPhotoURL,
-                        };
+                  
                         IdentityResult roleResult = UserManager.AddToRole(User.UserID.ToString(), "Banned");
                         if (roleResult.Succeeded)
                         {
-                            userSer.UpdateUser(uActive);
+                            User.Status = StatusEnum.Banned;
+                            userSer.UpdateUser(User);
                             TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
-                    }
-                    else if (User.Status.Equals(Footprints.Models.StatusEnum.Inactive))
-                    {
-                        Footprints.Models.User uActive = new Models.User
-                        {
-                            UserID = User.UserID,
-                            About = User.About,
-                            FirstName = User.FirstName,
-                            LastName = User.LastName,
-                            Email = User.Email,
-                            Address = User.Address,
-                            PhoneNumber = User.PhoneNumber,
-                            Genre = User.Genre,
-                            DateOfBirth = User.DateOfBirth,
-                            UserName = User.UserName,
-                            Status = StatusEnum.Inactive,
-                            JoinDate = User.JoinDate,
-                            ProfilePicURL = User.ProfilePicURL,
-                            CoverPhotoURL = User.CoverPhotoURL,
-                        };
-                        IdentityResult roleResult = UserManager.AddToRole(User.UserID.ToString(), "Inactive");
-                        if (roleResult.Succeeded)
-                        {
-                            userSer.UpdateUser(uActive);
-                            TempData["Msg"] = "User has been updated successfully";
-                            return RedirectToAction("UserList");
-                        }
-                    }
-
+                    }                
                 }
                 else
                 {
@@ -275,6 +215,13 @@ namespace Footprints.Controllers
             int pageNumber = (page ?? 1);
             IList<Journey> list = journeySer.GetAllJourney();
             return View(list.ToPagedList(pageNumber, pageSize));
+        }
+
+        public ActionResult SearchJourney(String keyword)
+        {
+            IList<Journey> list = journeySer.GetAllJourney();
+            var result = list.Where(u => u.Name.Contains(keyword)).OrderBy(u => u.Name).ToList();
+            return PartialView(result);
         }
 
         public ActionResult DeleteJourney(Guid UserID, Guid JourneyID)

@@ -132,11 +132,13 @@ namespace Footprints.DAL.Concrete
         }
         public IList<Journey> GetJourneyList()
         {
-            return Db.Cypher.Match("(journey:Journey)").Return(journey => journey.As<Journey>()).Results.ToList<Journey>();
+            var query = Db.Cypher.Match("(journey:Journey)").Return(journey => journey.As<Journey>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Journey>();
         }
         public IList<Journey> GetJourneyListBelongToUser(Guid UserID)
         {
-            return Db.Cypher.Match("(User:User)-[:HAS]->(journey:Journey)").Where((User User) => User.UserID == UserID).Return(journey => journey.As<Journey>()).Results.ToList<Journey>();
+            var query = Db.Cypher.Match("(User:User)-[:HAS]->(journey:Journey)").Where((User User) => User.UserID == UserID).Return(journey => journey.As<Journey>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Journey>();
         }
         public void LikeJourney(Guid UserID, Guid JourneyID)
         {
@@ -185,7 +187,8 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserLiked(Guid JourneyID)
         {
-            return Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results.ToList<User>();
+            var query = Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
+            return query.Count() == 0 ? null : query.ToList<User>();
         }
         public void ShareJourney(Guid UserID, Guid JourneyID, String Content)
         {
@@ -227,12 +230,14 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserShared(Guid JourneyID)
         {
-            return Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results.ToList<User>();
+            var query = Db.Cypher.Match("(Journey:Journey)-[:SHARED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
+            return query.Count() == 0 ? null : query.ToList<User>();
         }
         //For Admin
         public IList<Journey> GetAllJourney()
         {
-            return Db.Cypher.Match("(Journey:Journey)").Return(Journey => Journey.As<Journey>()).Results.ToList<Journey>();
+            var query = Db.Cypher.Match("(Journey:Journey)").Return(Journey => Journey.As<Journey>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Journey>();
         }
         public int GetNumberOfJourney()
         {
@@ -308,39 +313,47 @@ namespace Footprints.DAL.Concrete
                 OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
                 OptionalMatch("(DComment:Comment)-[:ON]->(Destination)").
                 OptionalMatch("(JComment:Comment)-[:ON]->(Journey)").
-                With("Journey, Destination, DComment, JComment").
+                OptionalMatch("(Destination)-[:AT]->(Place:Place)").
+                OptionalMatch("(DComment)-[:COMMENT_BY]->(DUser:User)").
+                OptionalMatch("(JComment)-[:COMMENT_BY]->(JUser:User)").
+                With("Journey, Destination, DComment, JComment, Place, DUser, JUser").
                 OrderBy("Destination.OrderNumber, DComment.Timestamp, JComment.Timestamp").
-                Return((Journey, Destination, DComment, JComment) => new
+                Return((Journey, Destination, DComment, JComment, Place, DUser, JUser) => new
                 {
                     Journey = Journey.As<Journey>(),
                     Destination = Destination.As<Destination>(),
-                    JComment = JComment.CollectAs<Comment>(),
-                    DComment = DComment.CollectAs<Comment>()
+                    JComment = JComment.As<Comment>(),
+                    DComment = DComment.As<Comment>(),
+                    Place = Place.As<Place>(),
+                    DUser = DUser.As<User>(),
+                    JUser = JUser.As<User>()
                 }).Results;
-            Destination destination = new Destination();
-            Journey result = new Journey();
-            result.Destinations = new List<Destination>();
-            result.Comments = new List<Comment>();
+            Destination destination = null;
+            Journey result = null;
+            Comment comment = null;
             bool first = true;
             foreach (var item in query)
             {
+                if (item.Journey == null)
+                {
+                    return null;
+                }
                 if (first)
                 {
                     result = item.Journey;
+                    result.Destinations = new List<Destination>();
+                    result.Comments = new List<Comment>();
                     first = false;
-                    foreach (var comment in item.JComment)
-                    {
-                        result.Comments.Add(comment.Data);
-                    }
+                    
                 }
-                destination = new Destination();
-                destination.Comments = new List<Comment>();
-                destination = item.Destination;
-                foreach (var comment in item.DComment)
+                if (item.Destination != null)
                 {
-                    destination.Comments.Add(comment.Data);
+                    destination = item.Destination;
+                    destination.Place = new Place();
+                    destination.Place = item.Place;
+                    destination.Comments = new List<Comment>();
                 }
-                result.Destinations.Add(destination);
+                if (destination != null) result.Destinations.Add(destination);
             }
             return query.Count() == 0 ? null : result;
         }

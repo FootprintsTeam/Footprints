@@ -46,6 +46,7 @@ namespace Footprints.Controllers
             journeyViewModel.NumberOfDestination = journeyViewModel.Destinations.Count();
             journeyViewModel.NumberOfLike = journeyService.GetNumberOfLike(journeyID);
             journeyViewModel.NumberOfShare = journeyService.GetNumberOfShare(journeyID);
+            
             foreach (var x in journeyViewModel.Destinations)
             {
                 Mapper.Map<User, DestinationViewModel>(journeyOwner, x);
