@@ -23,11 +23,45 @@
                         <div class="col-md-6">
                             <div class="innerAll">
                                 <ul class="timeline">
-                                    @{Html.RenderPartial("PersonalDestinationWidget",DestinationWidgetViewModel.GetSampleObject());}
-                                    @{Html.RenderPartial("PersonalCommentWidget",CommentWidgetViewModel.GetSampleObject());}
-                                    @{Html.RenderPartial("PersonalAddPhotoWidget",AddPhotoWidgetViewModel.GetSampleObject());}
-                                    @{Html.RenderPartial("PersonalJourneyWidget",JourneyWidgetViewModel.GetSampleObject());}
+                                    @{Html.RenderPartial("PersonalDestinationWidget", DestinationWidgetViewModel.GetSampleObject());}
+                                    @{Html.RenderPartial("PersonalCommentWidget", CommentWidgetViewModel.GetSampleObject());}
+                                    @{Html.RenderPartial("PersonalAddPhotoWidget", AddPhotoWidgetViewModel.GetSampleObject());}
+                                    @{Html.RenderPartial("PersonalJourneyWidget", JourneyWidgetViewModel.GetSampleObject());}
                                     @{Html.RenderPartial("PersonalShareWidget", ShareWidgetViewModel.GetSampleObject());}
+                                    @foreach (var activity in Model.Activities)
+                                    {
+
+                                        switch (activity.Type)
+                                        {
+                                            case Constant.ActivityAddNewContent:
+                                                Html.RenderPartial("PersonalAddPhotoWidget", activity);
+                                                break;
+
+                                            case Constant.ActivityAddNewDestination:
+                                                Html.RenderPartial("PersonalDestinationWidget", activity);
+                                                break;
+
+                                            case Constant.ActivityAddNewFriend:
+                                                //Html.RenderPartial("AddFriendWidget", activity);
+                                                break;
+
+                                            case Constant.ActivityAddnewJourney:
+                                                Html.RenderPartial("PersonalJourneyWidget", activity);
+                                                break;
+
+                                            case Constant.ActivityComment:
+                                                Html.RenderPartial("PersonalCommentWidget", activity);
+                                                break;                                            
+
+                                            case Constant.ActivityShareDestination:
+                                                Html.RenderPartial("PersonalShareWidget", activity);
+                                                break;
+
+                                            default:
+                                                System.Diagnostics.Debug.WriteLine(activity.Type + "something");
+                                                break;
+                                        }
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -59,11 +93,10 @@
                         <li class="innerAll border-bottom">
                             <span class="badge badge-default bg-primary pull-right">@Model.NumberOfFriend</span>
                             <i class="fa fa-fw icon-browser-check"></i> Friends
-                        </li>                                               
+                        </li>
                     </ul>
                 </div>
                 <!-- //END ACCOUNT DETAILS -->
-
                 @*Basic Info*@
                 <div class="widget">
                     <div class="widget-head border-bottom bg-gray">
@@ -145,14 +178,14 @@
                     }
                 });
         }
-        else {            
+        else {
             //submit http request
             $.get("@Url.Action("MakeFriend",new {controller = "Personal"})",
                 { userID: "@Model.UserID" },
-                function (data) {                    
-                    if (data.result.toString() == "true") {                        
+                function (data) {
+                    if (data.result.toString() == "true") {
                         //change icon
-                        $("#friend-button").html('Add Friend');  
+                        $("#friend-button").html('Add Friend');
                     }
                 });
         }
