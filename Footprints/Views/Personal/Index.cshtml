@@ -187,5 +187,34 @@
         return false;
     });
 </script>
+
+<script type="text/javascript">
+        var BlockNumber = 2;  //Infinate Scroll starts from second block
+        var NoMoreData = false;
+        var inProgress = false;
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() -
+            $(window).height() && !NoMoreData && !inProgress) {
+
+                inProgress = true;
+                $("#loadingDiv").show();
+
+                $.post("@Url.Action("InfiniteScroll",
+            "Personal")", { "BlockNumber": BlockNumber },
+                        function (data) {
+                            BlockNumber = BlockNumber + 1;
+                            NoMoreData = data.NoMoreData;                            
+                            for (i = 0; i < data.length; i++) {
+                                //$(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
+                                $(".timeline").append($.parseHTML(data[i].HTMLString));
+                            }
+                            $("#loadingDiv").hide();
+                            inProgress = false;
+                        });
+            }
+        });
+</script>
+
 @{Html.RenderPartial("AddCoverPhotoModal");}
 @Scripts.Render("~/script/personal")
