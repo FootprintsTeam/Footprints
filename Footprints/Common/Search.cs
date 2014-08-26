@@ -22,7 +22,7 @@ namespace Footprints.Common
             var query = Db.Cypher.Start(new
             {
                 UserName = Node.ByIndexQuery("node_auto_index", "UserName:" + TextEntered + "~")
-            }).Match("UserName:User").
+            }).Match("(UserName:User)").
             Return(UserName => UserName.As<User>()).
             Limit(Limit).
             Results;
@@ -35,7 +35,7 @@ namespace Footprints.Common
             query = Db.Cypher.Start(new
             {
                 FirstName = Node.ByIndexQuery("node_auto_index", "FirstName:\"" + TextEntered + "\"")
-            }).Match("FirstName:User").
+            }).Match("(FirstName:User)").
             Return(FirstName => FirstName.As<User>()).
             Limit(Limit).
             Results;
@@ -48,7 +48,7 @@ namespace Footprints.Common
             query = Db.Cypher.Start(new
             {
                 LastName = Node.ByIndexQuery("node_auto_index", "LastName:\"" + TextEntered + "\"")
-            }).Match("LastName:User").
+            }).Match("(LastName:User)").
             Return(LastName => LastName.As<User>()).
             Limit(Limit).
             Results;
@@ -61,7 +61,7 @@ namespace Footprints.Common
             query = Db.Cypher.Start(new
             {
                 Email = Node.ByIndexQuery("node_auto_index", "Email:\"" + TextEntered + "\"")
-            }).Match("Email:User").
+            }).Match("(Email:User)").
            Return(Email => Email.As<User>()).
            Limit(Limit).
            Results;
