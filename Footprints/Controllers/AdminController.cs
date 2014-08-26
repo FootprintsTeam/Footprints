@@ -10,16 +10,18 @@ using Microsoft.AspNet.Identity;
 using PagedList;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
+using Footprints.Common;
 
 namespace Footprints.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         public const int pageSize = 10;
         public IUserService userSer;
         public IJourneyService journeySer;
         public IDestinationService destinationSer;
+        public ISearch FullSearch;
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
         public AdminController(UserManager<ApplicationUser> userManager)
@@ -27,14 +29,14 @@ namespace Footprints.Controllers
             UserManager = userManager;
         }
 
-        public AdminController(IUserService userSer, IJourneyService journeySer, IDestinationService destinationSer)
+        public AdminController(IUserService userSer, IJourneyService journeySer, IDestinationService destinationSer, ISearch FullSearch)
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
             this.userSer = userSer;
             this.journeySer = journeySer;
             this.destinationSer = destinationSer;
+            this.FullSearch = FullSearch;
         }
-
         //
         // GET: /Admin/       
 
@@ -52,9 +54,23 @@ namespace Footprints.Controllers
 
         public ActionResult SearchDestination(String keyword)
         {
-            IList<Destination> list = destinationSer.GetAllDestination();
-            var result = list.Where(u => u.Name.Contains(keyword)).OrderBy(u => u.Name).ToList();
-            return PartialView(result);
+            if (!keyword.Equals(""))
+            {
+                IList<Destination> list = FullSearch.SearchDestination(keyword, 1000);
+                if (list != null)
+                {
+                    return PartialView(list);
+                }
+                else
+                {
+                    return PartialView("No result");
+                }
+            }
+            else
+            {
+                IList<Destination> listAll = destinationSer.GetAllDestination();
+                return PartialView(listAll);
+            }
         }
 
         public ActionResult DeleteDestination(Guid DestinationID)
@@ -109,9 +125,23 @@ namespace Footprints.Controllers
         }
         public ActionResult SearchUser(String keyword)
         {
-            IList<User> list = userSer.GetUser();
-            var result = list.Where(u => u.UserName.Contains(keyword)).OrderBy(u=> u.UserName).ToList();           
-            return PartialView(result);
+            if (!keyword.Equals(""))
+            {
+                IList<User> list = FullSearch.SearchUser(keyword, 1000);
+                if (list != null)
+                {
+                    return PartialView(list);
+                }
+                else
+                {
+                    return PartialView("No result");
+                }
+            }
+            else
+            {
+                IList<User> listAll = userSer.GetUser();
+                return PartialView(listAll);
+            }
         }
 
         public ActionResult DeleteUser(Guid UserID)
@@ -157,57 +187,86 @@ namespace Footprints.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUser(User User)
+        public ActionResult EditUser(User UpdatedUser)
         {
             if (ModelState.IsValid)
             {
-                IdentityResult user = UserManager.SetEmail(User.UserID.ToString(), User.Email.ToString());
+                IdentityResult user = UserManager.SetEmail(UpdatedUser.UserID.ToString(), UpdatedUser.Email.ToString());
                 if (user.Succeeded)
                 {
-                    if (User.Status.Equals(Footprints.Models.StatusEnum.Active))
+                    if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Active))
                     {
-                        IdentityResult roleResult = UserManager.AddToRole(User.UserID.ToString(), "Active");
+                        IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Active");                        
                         if (roleResult.Succeeded)
                         {
-                            User.Status = StatusEnum.Active;
-                            userSer.UpdateUser(User);
+                            UpdatedUser.Status = StatusEnum.Active;
+                            userSer.UpdateUser(UpdatedUser);
+                            TempData["Msg"] = "User has been updated successfully";
+                        }
+                        else
+                        {
+                            TempData["Msg"] = "Update user information failed !";                            
+                        }
+                    }
+                    else if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Admin))
+                    {
+                        IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Admin");
+                        if (roleResult.Succeeded)
+                        {
+                            UpdatedUser.Status = StatusEnum.Admin;
+                            userSer.UpdateUser(UpdatedUser);
                             TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
+                        else
+                        {
+                            TempData["Msg"] = "Update user information failed !";
+                        }
                     }
-                    else if (User.Status.Equals(Footprints.Models.StatusEnum.Admin))
+                    else if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Banned))
                     {
-                       
 
-                        IdentityResult roleResult = UserManager.AddToRole(User.UserID.ToString(), "Admin");
+                        IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Banned");
                         if (roleResult.Succeeded)
                         {
-                            User.Status = StatusEnum.Admin;
-                            userSer.UpdateUser(User);
+                            UpdatedUser.Status = StatusEnum.Banned;
+                            userSer.UpdateUser(UpdatedUser);
                             TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
+                        }
+                        else
+                        {
+                            TempData["Msg"] = "Update user information failed !";
                         }
                     }
-                    else if (User.Status.Equals(Footprints.Models.StatusEnum.Banned))
+                    else if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Unconfirmed))
                     {
-                  
-                        IdentityResult roleResult = UserManager.AddToRole(User.UserID.ToString(), "Banned");
+
+                        IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Unconfirmed");
                         if (roleResult.Succeeded)
                         {
-                            User.Status = StatusEnum.Banned;
-                            userSer.UpdateUser(User);
+                            UpdatedUser.Status = StatusEnum.Unconfirmed;
+                            userSer.UpdateUser(UpdatedUser);
                             TempData["Msg"] = "User has been updated successfully";
                             return RedirectToAction("UserList");
                         }
-                    }                
+                        else
+                        {
+                            TempData["Msg"] = "Update user information failed !";
+                        }
+                    }
+                    else
+                    {
+                        TempData["Msg"] = "Update user information failed !";
+                    }
                 }
                 else
                 {
                     TempData["Msg"] = "Update user information failed !";
-                    ModelState.AddModelError("", user.ToString());
                 }
             }
-            return View(User);
+            return View(UpdatedUser);
+
         }
 
         public ActionResult Journey(int? page)
@@ -219,9 +278,23 @@ namespace Footprints.Controllers
 
         public ActionResult SearchJourney(String keyword)
         {
-            IList<Journey> list = journeySer.GetAllJourney();
-            var result = list.Where(u => u.Name.Contains(keyword)).OrderBy(u => u.Name).ToList();
-            return PartialView(result);
+            if (!keyword.Equals(""))
+            {
+                IList<Journey> list = FullSearch.SearchJourney(keyword, 1000);
+                if (list != null)
+                {
+                    return PartialView(list);
+                }
+                else
+                {
+                    return PartialView("No result");
+                }
+            }
+            else
+            {
+                IList<Journey> listAll = journeySer.GetAllJourney();
+                return PartialView(listAll);
+            }
         }
 
         public ActionResult DeleteJourney(Guid UserID, Guid JourneyID)
