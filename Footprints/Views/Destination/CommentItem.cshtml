@@ -6,10 +6,11 @@
     <div class="media innerAll bg-gray margin-none border-top border-bottom">
         <a class="pull-left" href="#"><img src="@Model.User.ProfilePicURL" alt="photo" class="media-object" width="35"></a>
         <div class="media-body">
-            <a href="" class="strong text-inverse" style="white-space: pre-line">@Model.User.UserName</a> @Model.Content
+            <a href="@Url.Action("Index", "Personal", new { userID = @Model.User.UserID})" class="strong text-inverse">@Model.User.UserName</a>
             <div class="timeline-bottom">
                 <i class="fa fa-clock-o"></i> @DateTimeFormat.TimeAgo(@Model.Timestamp)
             </div>
+            <span style="white-space: pre-line">@Model.Content</span>
         </div>
     </div>
 }

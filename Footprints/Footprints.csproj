@@ -2646,7 +2646,7 @@
     <Content Include="Views\Admin\SearchUser.cshtml" />
     <Content Include="Views\Admin\SearchDestination.cshtml" />
     <Content Include="Views\Admin\SearchJourney.cshtml" />
-    <Content Include="Views\Journey\CommentWidget.cshtml" />
+    <Content Include="Views\Journey\CommentItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Media\Views\web.config" />

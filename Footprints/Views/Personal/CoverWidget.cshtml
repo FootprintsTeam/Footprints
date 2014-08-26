@@ -34,10 +34,10 @@
                         <a href="#" id="friend-button" class="pull-right btn btn-primary btn-sm" style="position:absolute;top:15px;right:15px">
                         @if (ViewBag.AlreadyFriend)
                         {
-                            <text>Unfriend</text>
+                            Html.Raw("Unfriend");
                         }
-                        else { 
-                            <text>Add Friend</text>
+                        else {
+                            Html.Raw("Add Friend");
                         }                        
                         </a>
                     </div>

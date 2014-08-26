@@ -8,6 +8,8 @@ using Footprints.Services;
 using AutoMapper;
 using Footprints.Models;
 using Microsoft.AspNet.Identity;
+using Footprints.Common.JsonModel;
+using System.IO;
 namespace Footprints.Controllers
 {
     public class JourneyController : Controller
@@ -15,11 +17,13 @@ namespace Footprints.Controllers
         IJourneyService journeyService;
         IDestinationService destinationService;
         IUserService userService;
-        public JourneyController(IJourneyService journeyService, IDestinationService destinationService, IUserService userService)
+        ICommentService commentService;
+        public JourneyController(IJourneyService journeyService, IDestinationService destinationService, IUserService userService, ICommentService commentService)
         {
             this.journeyService = journeyService;
             this.destinationService = destinationService;
             this.userService = userService;
+            this.commentService = commentService;
         }
 
         [ActionName("JourneySample")]
@@ -36,13 +40,6 @@ namespace Footprints.Controllers
             //get current user
             var userID = new Guid(User.Identity.GetUserId());
             var journeyModel = journeyService.GetJourneyDetailWithComment(journeyID);
-            //Implementing
-            //Journey does not exist
-            if (journeyModel == null)
-            {
-                //Redirect to error page or newsfeed page
-                return RedirectToAction("Index", "Newsfeed");
-            }
             var journeyViewModel = Mapper.Map<Journey, JourneyViewModel>(journeyModel);
             var journeyOwner = userService.RetrieveUser(journeyViewModel.UserID);
             journeyViewModel.NumberOfDestination = journeyViewModel.Destinations.Count();
@@ -154,6 +151,57 @@ namespace Footprints.Controllers
         {
             var result = journeyService.DeleteJourney(new Guid(User.Identity.GetUserId()), JourneyID);
             return RedirectToAction("Index", "Newsfeed");
+        }
+
+        protected String RenderPartialViewToString(String viewName, object model)
+        {
+            if (String.IsNullOrEmpty(viewName))
+                viewName = ControllerContext.RouteData.GetRequiredString("action");
+            ViewData.Model = model;
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewEngineResult viewResult =
+                ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                ViewContext viewContext = new ViewContext
+                (ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Comment(CommentViewModel comment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            var commentId = Guid.NewGuid();
+            var userId = new Guid(User.Identity.GetUserId());
+            comment.UserID = userId;
+            comment.CommentID = commentId;
+            comment.Timestamp = DateTimeOffset.Now;
+            var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
+            commentObj.Timestamp = DateTimeOffset.Now;
+            var jsonModel = new CommentInfo();
+            if (commentService.AddDestinationComment(userId, commentObj))
+            {
+                bool isPostedFromJourneyPage = Request.UrlReferrer.ToString().Contains("/Journey/Index");
+                if (isPostedFromJourneyPage) TempData.Add("CommentPage", "Journey");
+                var user = userService.RetrieveUser(userId);
+                commentObj.User = user;
+                jsonModel.HTMLString = RenderPartialViewToString("CommentItem", commentObj);
+                if (isPostedFromJourneyPage) TempData.Remove("CommentPage");
+            }
+            else
+            {
+                jsonModel.HTMLString = "";
+            }
+            jsonModel.DestinationID = comment.DestinationID;
+            return Json(jsonModel);
         }
     }
 }
