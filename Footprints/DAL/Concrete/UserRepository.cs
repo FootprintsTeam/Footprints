@@ -437,11 +437,13 @@ namespace Footprints.DAL.Concrete
                         Where((User User) => User.UserID == UserID).
                         Return<int>("Count(Content)").Results.FirstOrDefault();
         }
-        public IList<Activity> GetAllActivity(Guid UserID)
+        public IList<Activity> GetAllActivity(Guid UserID, int Skip, int Limit)
         {
             var query = Db.Cypher.Match("(User:User)-[:LATEST_ACTIVITY]->(LatestActivity:Activity)").
                         Where((User User) => User.UserID == UserID).
                         Match("(LatestActivity)-[:NEXT*]->(Activity:Activity)").
+                        With("LatestActivity, Activity").
+                        Skip(Skip).Limit(Limit).
                         Return((LatestActivity, Activity) => new
                         {
                             LatestActivity = LatestActivity.As<Activity>(),
@@ -496,6 +498,6 @@ namespace Footprints.DAL.Concrete
         IList<Journey> GetJourneyThumbnailWithSkipLimit(Guid UserID, int Skip, int Limit);
         IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit);
         int GetNumberOfContentByUserID(Guid UserID);
-        IList<Activity> GetAllActivity(Guid UserID);
+        IList<Activity> GetAllActivity(Guid UserID, int Skip, int Limit);
     }
 }
