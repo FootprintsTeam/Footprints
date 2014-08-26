@@ -8,9 +8,8 @@ namespace Footprints.Common
     public static class DateTimeFormat
     {
         public static string TimeAgo(DateTimeOffset dt){
-            var ts = new TimeSpan(DateTimeOffset.UtcNow.Ticks - dt.Ticks);
+            var ts = new TimeSpan(DateTimeOffset.Now.Ticks - dt.Ticks);
             double delta = Math.Abs(ts.TotalSeconds);
-
             if (delta < 60)
             {
                 return ts.Seconds == 1 ? "one second ago" : ts.Seconds + " seconds ago";

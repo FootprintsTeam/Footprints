@@ -218,7 +218,7 @@ namespace Footprints.Controllers
             }
             Session["ValidationSummary"] = "Register";
             Session["Error"] = (string)errors;
-            return View("Login", model);
+            return View("Login");
             // If we got this far, something failed, redisplay form
             // return RedirectToAction("Login", "Account");
         }
