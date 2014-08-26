@@ -34,7 +34,7 @@ namespace Footprints.Controllers
             this.journeySer = journeySer;
             this.destinationSer = destinationSer;
         }
-        
+
         //
         // GET: /Admin/       
 
@@ -42,7 +42,7 @@ namespace Footprints.Controllers
         {
             return View();
         }
-        
+
         public ActionResult Destination(int? page)
         {
             int pageNumber = (page ?? 1);
@@ -158,7 +158,7 @@ namespace Footprints.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditUser(User User)
-        {            
+        {
             if (ModelState.IsValid)
             {
                 IdentityResult user = UserManager.SetEmail(User.UserID.ToString(), User.Email.ToString());
