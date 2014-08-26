@@ -56,8 +56,9 @@ namespace Footprints.Controllers
                     destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
                 }
             }
-
-            destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(destinationModel.UserID).Count;
+            var journeys = journeyService.GetJourneyListBelongToUser(destinationModel.UserID);
+            destinationViewModel.JourneyID = journeys.First().JourneyID;
+            destinationViewModel.NumberOfJourney = journeys.Count;
             destinationViewModel.NumberOfDestination = destinationService.GetNumberOfDestination(destinationModel.UserID);
             destinationViewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(destinationModel.UserID);
             destinationViewModel.EditDestinationForm = new EditDestinationFormViewModel(destinationViewModel.Place);
@@ -383,6 +384,7 @@ namespace Footprints.Controllers
             return PartialView("EditDestinationForm", viewModel);
         }
 
+        [HttpPost]
         [ChildActionOnly]
         public ActionResult DestinationMainContentWidget(DestinationViewModel viewModel)
         {
