@@ -29,7 +29,7 @@
     @{
         if (Session["ValidationSummary"] != null && Session["ValidationSummary"].Equals("Login"))
         {
-            <div style="color:red">@Html.ValidationSummary();</div>
+            <div style="color:red">@Html.ValidationSummary()</div>
         }
     }
 </form>
