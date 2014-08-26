@@ -240,12 +240,12 @@
                         <th style="width: 1%;" class="uniformjs">
                             <input type="checkbox" id="chkAll" />
                         </th>
-                        <th class="center">Name</th>
-                        <th class="center">Description</th>
+                        <th class="center" style="width: 15%;">Name</th>
+                        <th class="center" style="width: 30%;">Description</th>
                         <th class="center">Taken Date</th>
                         <th class="center">Time stamp</th>
-                        <th class="center">Number Of Like</th>
-                        <th class="center">Number Of Share</th>
+                        <th class="center" style="width: 5%;">Like Number</th>
+                        <th class="center" style="width: 5%;">Share Number</th>
                         <th class="center" style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
@@ -255,8 +255,8 @@
                     {
                         <tr class="selectable">
                             <td class="center uniformjs"><input type="checkbox" value="@journey.JourneyID" name="Id" /></td>
-                            <td class="center">@journey.Name</td>
-                            <td class="center">@journey.Description</td>
+                            <td class="left">@journey.Name</td>
+                            <td class="left">@journey.Description</td>
                             <td class="center">@journey.TakenDate</td>
                             <td class="center">@journey.Timestamp</td>
                             <td class="center">@journey.NumberOfLike</td>

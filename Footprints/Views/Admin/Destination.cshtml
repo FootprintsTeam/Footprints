@@ -204,12 +204,12 @@
                     <tr>
                         <th style="width: 1%;" class="uniformjs"><input type="checkbox" id="chkAll" /></th>
                         <th style="width: 10%;" class="center">Name</th>
-                        <th class="center">Order Number</th>
-                        <th style="width: 25%;" class="center">Description</th>
+                        <th style="width: 4%;" class="center">Order Number</th>
+                        <th style="width: 30%;" class="center">Description</th>
                         <th class="center">Taken Date</th>
                         <th class="center">Time Stamp</th>
-                        <th class="center">Number Of Like</th>
-                        <th class="center">Number Of Share</th>
+                        <th style="width: 5%;" class="center">Like Number</th>
+                        <th style ="width: 5%;" class="center">Share Number</th>
                         <th style="width: 10%;" class="center">Place</th>
                         <th class="center" style="width: 150px;">Actions</th>
                     </tr>
@@ -220,14 +220,14 @@
                     {
                         <tr class="selectable">
                             <td class="center uniformjs"><input type="checkbox" name="Id" value="@destination.DestinationID" /></td>
-                            <td class="center">@destination.Name</td>
-                            <td class="center">@destination.OrderNumber</td>
-                            <td class="center">@destination.Description</td>
+                            <td class="left">@destination.Name</td>
+                            <td class="left">@destination.OrderNumber</td>
+                            <td class="left">@destination.Description</td>
                             <td class="center">@destination.TakenDate</td>
                             <td class="center">@destination.Timestamp</td>
                             <td class="center">@destination.NumberOfLike</td>
                             <td class="center">@destination.NumberOfShare</td>
-                            <td class="center">@destination.Place.Name</td>
+                            <td class="left">@destination.Place.Name</td>
                             <td class="center">
                                 <div class="btn-group btn-group-sm">
                                     <a href='@Url.Action("EditDestination", "Admin", new { DestinationID = destination.DestinationID })' class="lnkEdit"><input type="button" value="Edit" class="btn btn-success" /> </a>
