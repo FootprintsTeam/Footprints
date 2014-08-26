@@ -14,7 +14,7 @@ using Footprints.Services;
 using System.IO;
 using Footprints.Common;
 using AutoMapper;
-
+using Footprints.Helpers;
 namespace Footprints.Controllers
 {
     [Authorize]
@@ -154,17 +154,28 @@ namespace Footprints.Controllers
         public ActionResult InfiniteScroll(int BlockNumber)
         {
             ////////////////// THis line of code only for demo. Needs to be removed ////
-            System.Threading.Thread.Sleep(1000);
+            //System.Threading.Thread.Sleep(1000);
+
             ////////////////////////////////////////////////////////////////////////////
             //int BlockSize = 5;
             //var books = DataManager.GetBooks(BlockNumber, BlockSize);
+
             IList<InfiniteScrollJsonModel> jsonModels = new List<InfiniteScrollJsonModel>();
+
             //jsonModel.NoMoreData = books.Count < BlockSize;
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("DestinationWidget", DestinationWidgetViewModel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddFriendWidget", AddFriendWidgetViewmodel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("JourneyWidget", JourneyWidgetViewModel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("ShareWidget", ShareWidgetViewModel.GetSampleObject()) });
+
+            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            var activities = newsfeedService.LoadMoreNewsfeed(currentUser.UserID, Constant.defaultNewsfeedBlockNumber);
+            var viewModels = NewConstructNewsfeedCollection(activities);
+            foreach(var viewModel in viewModels){
+                jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString(viewModel.GetNewsfeedPartialViewName(), viewModel) });
+            }
+
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("DestinationWidget", DestinationWidgetViewModel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddFriendWidget", AddFriendWidgetViewmodel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("JourneyWidget", JourneyWidgetViewModel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("ShareWidget", ShareWidgetViewModel.GetSampleObject()) });
 
             return Json(jsonModels);
         }

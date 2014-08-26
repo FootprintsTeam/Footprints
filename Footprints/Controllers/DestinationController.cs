@@ -49,16 +49,8 @@ namespace Footprints.Controllers
             var destinationViewModel = Mapper.Map<Destination, DestinationViewModel>(destinationModel);
             var comments = commentService.RetrieveDestinationComment(destinationID);
             if (comments != null && comments.Count > 0)
-            {
-                destinationViewModel.Comments = new List<CommentViewModel>();
-                foreach (var comment in comments)
-                {
-                    destinationViewModel.Comments.Add(Mapper.Map<Comment, CommentViewModel>(comment));
-                }
-            }
-            var journeys = journeyService.GetJourneyListBelongToUser(destinationModel.UserID);
-            destinationViewModel.JourneyID = journeys.First().JourneyID;
-            destinationViewModel.NumberOfJourney = journeys.Count;
+                destinationViewModel.Comments = comments.ToList<Comment>();
+            destinationViewModel.NumberOfJourney = journeyService.GetJourneyListBelongToUser(destinationModel.UserID).Count;
             destinationViewModel.NumberOfDestination = destinationService.GetNumberOfDestination(destinationModel.UserID);
             destinationViewModel.NumberOfFriend = (int)userService.GetNumberOfFriend(destinationModel.UserID);
             destinationViewModel.EditDestinationForm = new EditDestinationFormViewModel(destinationViewModel.Place);
@@ -106,7 +98,7 @@ namespace Footprints.Controllers
             {
                 return Redirect(Request.UrlReferrer.ToString());
             }
-            
+
         }
 
         /// <summary>
@@ -168,7 +160,7 @@ namespace Footprints.Controllers
             }
             var userId = new Guid(User.Identity.GetUserId());
             var destination = destinationService.GetDestination(model.DestinationID);
-            
+
             if (userId == destination.UserID)
             {
                 List<String> listContentUrl = new List<String>();
@@ -222,23 +214,20 @@ namespace Footprints.Controllers
             }
             var commentId = Guid.NewGuid();
             var userId = new Guid(User.Identity.GetUserId());
-            var user = userService.RetrieveUser(userId);
-            comment.UserAvatarURL = user.ProfilePicURL;
-            comment.UserID = user.UserID;
+            comment.UserID = userId;
             comment.CommentID = commentId;
-            comment.UserName = User.Identity.GetUserName();
-            comment.Time = DateTimeOffset.Now;
-            comment.NumberOfLike = 0;
+            comment.Timestamp = DateTimeOffset.Now;
             var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
             commentObj.Timestamp = DateTimeOffset.Now;
             var jsonModel = new CommentInfo();
             if (commentService.AddDestinationComment(userId, commentObj))
             {
                 bool isPostedFromJourneyPage = Request.UrlReferrer.ToString().Contains("/Journey/Index");
-                    TempData.Add("CommentPage", "Journey");
-                jsonModel.HTMLString = RenderPartialViewToString("CommentItem", comment);
-                if (isPostedFromJourneyPage)
-                    TempData.Remove("CommentPage");
+                if(isPostedFromJourneyPage) TempData.Add("CommentPage", "Journey");
+                var user = userService.RetrieveUser(userId);
+                commentObj.User = user;
+                jsonModel.HTMLString = RenderPartialViewToString("CommentItem", commentObj);
+                if (isPostedFromJourneyPage) TempData.Remove("CommentPage");
             }
             else
             {
@@ -276,7 +265,7 @@ namespace Footprints.Controllers
             }
             return Json(data, JsonRequestBehavior.DenyGet);
         }
-        
+
         [HttpPost]
         [Authorize]
         public Guid DeleteComment(Guid CommentID)
@@ -384,13 +373,12 @@ namespace Footprints.Controllers
             return PartialView("EditDestinationForm", viewModel);
         }
 
-        [HttpPost]
         [ChildActionOnly]
         public ActionResult DestinationMainContentWidget(DestinationViewModel viewModel)
         {
             return PartialView("DestinationMainContentWidget", viewModel);
         }
-        public ActionResult ShareDestination(Guid userID, Guid destinationID, string content="content")
+        public ActionResult ShareDestination(Guid userID, Guid destinationID, string content = "content")
         {
             var result = "Success";
             destinationService.ShareDestination(userID, destinationID, content);
