@@ -42,5 +42,43 @@ namespace Footprints.Helpers
             }
             return "false";
         }
+
+        public static string GetNewsfeedPartialViewName(this NewsfeedBaseWidgetViewModel activity) {
+            switch (activity.Type)
+            {
+                case Constant.ActivityAddNewContent:
+                    return "WidePictureWidget";
+                    
+
+                case Constant.ActivityAddNewDestination:
+                    return "DestinationWidget";
+                    
+
+                case Constant.ActivityAddNewFriend:
+                    return "AddFriendWidget";
+                    
+
+                case Constant.ActivityAddnewJourney:
+                    return "JourneyWidget";
+                    
+
+                case Constant.ActivityComment:
+                    return "CommentWidget";
+                    
+
+                case Constant.ActivityLikeDestination:
+                    break;
+
+                case Constant.ActivityShareDestination:
+                    return "ShareWidget";
+                    
+
+                default:
+                    System.Diagnostics.Debug.WriteLine(activity.Type + "something");
+                    break;
+            }
+
+            return "false";
+        }
     }
 }
