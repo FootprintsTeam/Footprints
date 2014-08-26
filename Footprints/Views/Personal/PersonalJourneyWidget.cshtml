@@ -3,7 +3,7 @@
 
 <li class="active">
     <div class="separator bottom">        
-        <span class="type glyphicons suitcase"> <i></i></span>        
+        <span class="type glyphicons luggage"> <i></i></span>        
     </div>
     <div class="widget widget-heading-simple widget-body-white margin-none">
         <div class="widget-body">
@@ -16,8 +16,9 @@
             </div>
             <div class="alert alert-gray">
                 <p class="glyphicons circle_info margin-none"><i></i> Added a new journey named <a href="@Url.Action("Index", "Journey", new { journeyID = Model.JourneyID })">@Model.JourneyName</a></p>
-            </div>
-            <a class="glyphicons single pencil"><i></i></a>
+                <blockquote class="margin-none">@Model.Description</blockquote>     
+            </div>            
         </div>
     </div>
 </li>
+

@@ -3,7 +3,7 @@
 
 <li class="active">
     <div class="separator">
-        <span class="type glyphicons comments"> <i></i><span class="time"></span></span>
+        <span class="type glyphicons share"> <i></i><span class="time"></span></span>
     </div>
     <div class="widget widget-heading-simple widget-body-white margin-none">
         <div class="widget-body">
@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="alert alert-gray">
-                <p class="glyphicons circle_info"><i></i> Shared a new destination - <a href="">@Model.DestinationName</a></p>
+                <p class="glyphicons circle_info"><i></i> <strong>Shared a new destination -</strong> <a href="@Url.Action("Index","Destination",new {destinationID = Model.DestinationID})">@Model.DestinationName</a></p>
 
                 <!-- Gallery Layout -->
                 <div class="gallery gallery-2 separator top">

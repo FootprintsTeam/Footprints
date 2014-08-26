@@ -15,17 +15,12 @@
                 </div>
             </div>
             <div class="alert alert-gray">
-                <p class="glyphicons circle_info"><i></i> Added photos to the destination <a href="">@Model.DestinationName</a></p>
+                <p class="glyphicons circle_info"><i></i><strong>Added photos to the destination</strong> <a href="@Url.Action("Index","Destination",new {destinationID = Model.DestinationID})">@Model.DestinationName</a></p>
 
                 <!-- Gallery Layout -->
                 <div class="gallery gallery-2 separator top">
                     <ul class="row" data-toggle="modal-gallery" data-target="#modal-gallery" id="gallery-4" data-delegate="#gallery-4">                        
-                            <li class="col-md-4 hidden-phone"><a class="thumb" href="../assets/images/gallery-2/6.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/6.jpg" alt="photo" class="img-responsive" /></a></li>
-                            <li class="col-md-4 hidden-phone"><a class="thumb" href="../assets/images/gallery-2/5.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/5.jpg" alt="photo" class="img-responsive" /></a></li>
-                            <li class="col-md-4 hidden-phone"><a class="thumb" href="../assets/images/gallery-2/4.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/4.jpg" alt="photo" class="img-responsive" /></a></li>
-                            <li class="col-md-4"><a class="thumb" href="../assets/images/gallery-2/3.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/3.jpg" alt="photo" class="img-responsive" /></a></li>
-                            <li class="col-md-4"><a class="thumb" href="../assets/images/gallery-2/2.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/2.jpg" alt="photo" class="img-responsive" /></a></li>
-                            <li class="col-md-4"><a class="thumb" href="../assets/images/gallery-2/1.jpg" data-gallery="gallery"><img src="../assets/images/gallery-2/1.jpg" alt="photo" class="img-responsive" /></a></li>                        
+                            <li class="col-md-12 hidden-phone"><a class="thumb" href="@Url.Action("Index","Destination",new {destinationID = Model.DestinationID})" data-gallery="gallery"><img src="@Model.URL" alt="photo" class="img-responsive" /></a></li>                                       
                     </ul>
                 </div>
                 <!-- // Gallery Layout END -->

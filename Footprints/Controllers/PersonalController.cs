@@ -142,7 +142,6 @@ namespace Footprints.Controllers
             if (!userID.Equals("default"))
                 ViewBag.AlreadyFriend = userService.CheckFriendShip(new Guid(currentUserID), new Guid(userID));
             return View(viewModel);
-
         }
 
         [HttpPost]

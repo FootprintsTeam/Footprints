@@ -3,10 +3,7 @@
 
 <li class="active">
     <span class="type glyphicons comments"><i></i><span class="time"></span></span>
-    <div class="widget widget-heading-simple widget-body-white margin-none">
-        <div class="widget-body">
-            <p class="glyphicons user margin-none"><i></i> <strong><a href="">@Model.UserName</a> commented on a destination</strong> @Model.Content.TruncateLongString(100)</p>
-        </div>
+    <div class="widget widget-heading-simple widget-body-white margin-none">        
         <div class="widget-body">
             <div class="media">
                 <div class="media-object pull-left thumb"><img src="@Model.ProfilePicURL" style="width:51px !important" alt="Image" /></div>
@@ -16,8 +13,8 @@
                 </div>
             </div>
             <div class="alert alert-gray">
-                <p class="glyphicons circle_info"><i></i> <strong>Comment on a destination</strong> - <a href="">@Model.DestinationName</a></p>
-                <p>@Model.Content</p>
+                <p class="glyphicons circle_info"><i></i> <strong>Comment on a destination</strong> - <a href="@Url.Action("Index","Destination",new {destinationID = Model.DestinationID})">@Model.DestinationName</a></p>
+                <blockquote class="margin-none">@Model.Content</blockquote>                
                 <!-- Gallery Layout -->
                 <div class="gallery gallery-2 separator top">
                     <ul class="row" data-toggle="modal-gallery" data-target="#modal-gallery" id="gallery-4" data-delegate="#gallery-4">
