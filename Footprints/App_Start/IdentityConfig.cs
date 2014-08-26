@@ -166,14 +166,38 @@ namespace Footprints.Models
             const string email = "footprintsfu@hotmail.com";
             const string name = "admin";
             const string password = "123456";
-            const string roleName = "Admin";
+            const string roleName1 = "Active";
+            const string roleName2 = "Admin";
+            const string roleName3 = "Banned";
+            const string roleName4 = "Unconfirmed";
 
             //Create Role Admin if it does not exist
-            var role = roleManager.FindByName(roleName);
-            if (role == null)
+            var role1 = roleManager.FindByName(roleName1);
+            if (role1 == null)
             {
-                role = new IdentityRole(roleName);
-                var roleresult = roleManager.Create(role);
+                role1 = new IdentityRole(roleName1);
+                var roleresult = roleManager.Create(role1);
+            }
+
+            var role2 = roleManager.FindByName(roleName2);
+            if (role2 == null)
+            {
+                role2 = new IdentityRole(roleName2);
+                var roleresult = roleManager.Create(role2);
+            }
+
+            var role3 = roleManager.FindByName(roleName3);
+            if (role3 == null)
+            {
+                role3 = new IdentityRole(roleName3);
+                var roleresult = roleManager.Create(role3);
+            }
+
+            var role4 = roleManager.FindByName(roleName4);
+            if (role4 == null)
+            {
+                role4 = new IdentityRole(roleName4);
+                var roleresult = roleManager.Create(role4);
             }
 
             var user = userManager.FindByName(name);
@@ -186,9 +210,9 @@ namespace Footprints.Models
 
             // Add user admin to Role Admin if not already added
             var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name))
+            if (!rolesForUser.Contains(role2.Name))
             {
-                var result = userManager.AddToRole(user.Id, role.Name);
+                var result = userManager.AddToRole(user.Id, role2.Name);
             }
         }
     }

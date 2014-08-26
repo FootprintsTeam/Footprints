@@ -77,15 +77,14 @@ namespace Footprints.Controllers
         {
             if (DestinationID == null)
             {
-                TempData["Msg"] = "Delete destination failed";
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["Msg"] = "Delete destination failed";                
             }
             else
             {
                 destinationSer.DeleteDestinationForAdmin(DestinationID);
-                TempData["Msg"] = "Delete destination successfully";
-                return RedirectToAction("Destination");
+                TempData["Msg"] = "Delete destination successfully";                
             }
+            return RedirectToAction("Destination");
         }
 
         public ActionResult EditDestination(Guid DestinationID)
@@ -105,13 +104,12 @@ namespace Footprints.Controllers
             if (ModelState.IsValid)
             {
                 destinationSer.UpdateDestinationForAdmin(Destination);
-                TempData["Msg"] = "Destination has been updated successfully";
-                return RedirectToAction("Destination");
+                TempData["Msg"] = "Destination has been updated successfully";                
             }
             else
             {
                 TempData["Msg"] = "Update destination failed";
-                ModelState.AddModelError("", "Error");
+                return RedirectToAction("Destination");
             }
             return View(Destination);
         }
@@ -182,7 +180,15 @@ namespace Footprints.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Footprints.Models.User UserRetrieved = userSer.RetrieveUser(UserID);
-            return View(UserRetrieved);
+            var rolesRemove = UserManager.RemoveFromRoles(UserID.ToString(), UserRetrieved.Status.ToString());
+            if (rolesRemove.Succeeded)
+            { 
+                return View(UserRetrieved); 
+            }
+            else
+            {
+                return View(UserRetrieved);
+            }
         }
 
         [HttpPost]
@@ -196,16 +202,18 @@ namespace Footprints.Controllers
                 {
                     if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Active))
                     {
-                        IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Active");                        
+                        IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Active");
                         if (roleResult.Succeeded)
                         {
                             UpdatedUser.Status = StatusEnum.Active;
                             userSer.UpdateUser(UpdatedUser);
                             TempData["Msg"] = "User has been updated successfully";
+                            return RedirectToAction("UserList");
                         }
                         else
                         {
-                            TempData["Msg"] = "Update user information failed !";                            
+                            TempData["Msg"] = "Update user information failed !";
+                            return RedirectToAction("UserList");
                         }
                     }
                     else if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Admin))
@@ -221,11 +229,11 @@ namespace Footprints.Controllers
                         else
                         {
                             TempData["Msg"] = "Update user information failed !";
+                            return RedirectToAction("UserList");
                         }
                     }
                     else if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Banned))
                     {
-
                         IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Banned");
                         if (roleResult.Succeeded)
                         {
@@ -237,6 +245,7 @@ namespace Footprints.Controllers
                         else
                         {
                             TempData["Msg"] = "Update user information failed !";
+                            return RedirectToAction("UserList");
                         }
                     }
                     else if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Unconfirmed))
@@ -253,16 +262,19 @@ namespace Footprints.Controllers
                         else
                         {
                             TempData["Msg"] = "Update user information failed !";
+                            return RedirectToAction("UserList");
                         }
                     }
                     else
                     {
                         TempData["Msg"] = "Update user information failed !";
+                        return RedirectToAction("UserList");
                     }
                 }
                 else
                 {
                     TempData["Msg"] = "Update user information failed !";
+                    return RedirectToAction("UserList");
                 }
             }
             return View(UpdatedUser);
@@ -301,20 +313,18 @@ namespace Footprints.Controllers
         {
             if (UserID == null)
             {
-                TempData["Msg"] = "Delete journey failed";
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["Msg"] = "Delete journey failed";                
             }
             else if (JourneyID == null)
             {
-                TempData["Msg"] = "Delete journey failed";
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["Msg"] = "Delete journey failed";                
             }
             else
             {
                 journeySer.DeleteJourney(UserID, JourneyID);
-                TempData["Msg"] = "Delete journey successfully";
-                return RedirectToAction("Journey");
+                TempData["Msg"] = "Delete journey successfully";                
             }
+            return RedirectToAction("Journey");
         }
 
         public ActionResult DeleteMultipleJourney(Guid UserID, Guid[] JourneyID)

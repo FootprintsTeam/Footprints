@@ -8,7 +8,7 @@
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">                   
-        @Html.ValidationSummary()
+        @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.DestinationID)
         @Html.HiddenFor(model => model.JourneyID)
         @Html.HiddenFor(model => model.OrderNumber)

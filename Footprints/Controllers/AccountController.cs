@@ -153,18 +153,22 @@ namespace Footprints.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        userService.AddNewUser(
-                            new User
-                            {
-                                UserID = new Guid(user.Id),
-                                Email = user.Email,
-                                Status = Footprints.Models.StatusEnum.Unconfirmed,
-                                UserName = user.UserName,
-                                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
-                                CoverPhotoURL = Constant.DEFAULT_COVER_URL,
-                                JoinDate = DateTimeOffset.Now,
-                                Genre = model.Genre
-                            });
+                        IdentityResult roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
+                        if (roleResult.Succeeded)
+                        {
+                            userService.AddNewUser(
+                                new User
+                                {
+                                    UserID = new Guid(user.Id),
+                                    Email = user.Email,
+                                    Status = Footprints.Models.StatusEnum.Unconfirmed,
+                                    UserName = user.UserName,
+                                    ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
+                                    CoverPhotoURL = Constant.DEFAULT_COVER_URL,
+                                    JoinDate = DateTimeOffset.Now,
+                                    Genre = model.Genre
+                                });
+                        }
 
                         return RedirectToAction("Index", "Newsfeed");
                         //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -214,7 +218,7 @@ namespace Footprints.Controllers
             }
             Session["ValidationSummary"] = "Register";
             Session["Error"] = (string)errors;
-            return View("Login");
+            return View("Login", model);
             // If we got this far, something failed, redisplay form
             // return RedirectToAction("Login", "Account");
         }
@@ -234,7 +238,7 @@ namespace Footprints.Controllers
                 RetrievedUser.Status = StatusEnum.Active;
                 userService.UpdateUser(RetrievedUser);
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
-                return RedirectToAction("Index","Newsfeed");                
+                return RedirectToAction("Index", "Newsfeed");
             }
             return View("Error");
         }
@@ -408,7 +412,7 @@ namespace Footprints.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email};
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
