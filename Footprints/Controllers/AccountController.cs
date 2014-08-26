@@ -81,7 +81,7 @@ namespace Footprints.Controllers
             //if (!UserManager.IsEmailConfirmed(user.Id))
             //{
             //    ModelState.AddModelError("","You must confirm your email !");
-            //    errors += "Invalid UserName or Password.";
+            //    errors += "You must confirm your email !";
             //    Session["ValidationSummary"] = "Login";
             //    return View(model);
             //}
@@ -185,7 +185,18 @@ namespace Footprints.Controllers
                         //var roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
                         //// await SignInAsync(user, isPersistent: false);
                         ////add neo4j user here
-                        
+                        //userService.AddNewUser(
+                        //    new User
+                        //    {
+                        //        UserID = new Guid(user.Id),
+                        //        Email = user.Email,
+                        //        Status = Footprints.Models.StatusEnum.Unconfirmed,
+                        //        UserName = user.UserName,
+                        //        ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
+                        //        CoverPhotoURL = Constant.DEFAULT_COVER_URL,
+                        //        JoinDate = DateTimeOffset.Now,
+                        //        Genre = model.Genre
+                        //    });
                         //ViewBag.Link = callbackUrl;
                         //return View("Login");
                     }
@@ -235,7 +246,6 @@ namespace Footprints.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -258,11 +268,9 @@ namespace Footprints.Controllers
                 ViewBag.Link = callbackUrl;
                 return View("ForgotPasswordConfirmation");
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
@@ -270,7 +278,6 @@ namespace Footprints.Controllers
         {
             return View();
         }
-
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
@@ -278,7 +285,6 @@ namespace Footprints.Controllers
         {
             return code == null ? View("Error") : View();
         }
-
         //
         // POST: /Account/ResetPassword
         [HttpPost]
@@ -304,7 +310,6 @@ namespace Footprints.Controllers
             AddErrors(result);
             return View();
         }
-
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
@@ -312,7 +317,6 @@ namespace Footprints.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -323,7 +327,6 @@ namespace Footprints.Controllers
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
-
         //
         // GET: /Account/SendCode
         [AllowAnonymous]
@@ -350,7 +353,6 @@ namespace Footprints.Controllers
             {
                 return View();
             }
-
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
@@ -358,7 +360,6 @@ namespace Footprints.Controllers
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl });
         }
-
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
@@ -388,7 +389,6 @@ namespace Footprints.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
         //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
@@ -400,7 +400,6 @@ namespace Footprints.Controllers
             {
                 return RedirectToAction("Index", "Manage");
             }
-
             if (ModelState.IsValid)
             {
                 // Get the information about the user from the external login provider

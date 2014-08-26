@@ -25,7 +25,14 @@ namespace Footprints.App_Start
             builder.Register<IGraphClient>(context =>
             {
                 var graphClient = new GraphClient(new Uri("http://54.255.212.173:7474/db/data"));
-                graphClient.Connect();
+                try
+                {
+                    graphClient.Connect();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
                 return graphClient;
             }).SingleInstance();
 

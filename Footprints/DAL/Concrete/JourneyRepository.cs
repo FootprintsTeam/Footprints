@@ -343,8 +343,7 @@ namespace Footprints.DAL.Concrete
                     result = item.Journey;
                     result.Destinations = new List<Destination>();
                     result.Comments = new List<Comment>();
-                    first = false;
-                    
+                    first = false;                    
                 }
                 if (item.Destination != null)
                 {

@@ -102,9 +102,11 @@ namespace Footprints.DAL.Concrete
                                                 " WITH Comment, Activity " +
                                                 " MATCH (Destination:Destination) " +
                                                 " WHERE (Destination.DestinationID = {DestinationID}) " +
+                                                " MATCH (Destination)-[:AT]->(Place:Place)" +
                                                 " CREATE (Comment)-[:ON]->(Destination) " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
                                                 " SET Activity.Destination_Name = Destination.Name, Activity.Destination_Description = Destination.Description, Activity.Destination_NumberOfLike = Destination.NumberOfLike, Destination.Destination_NumberOfShare = Destination.NumberOfShare" +
+                                                " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " WITH Comment, Activity " +
                                                 " MATCH (User:User) " +
                                                 " WHERE (User.UserID = {UserID}) " +
