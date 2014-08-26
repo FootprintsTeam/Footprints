@@ -1,0 +1,8 @@
+﻿@model Footprints.Models.Comment
+<div class="media border-bottom margin-none bg-gray">
+    <a href="@Url.Action("Index", "Personal", new { userID = @Model.User.UserID})" class="pull-left innerAll"><img src="@Model.User.ProfilePicURL" width="50" class="media-object"></a>
+    <div class="media-body innerTB">
+        <a href="" class="strong text-inverse">@Model.User.UserName</a> 	<small class="text-muted ">wrote on @String.Format("{0:dd MMMM yyyy}", Model.Timestamp)</small>
+        <div style="white-space: pre-line">- @Model.Content</div>
+    </div>
+</div>

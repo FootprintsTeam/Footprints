@@ -1,14 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Footprints.Common
-@model Footprints.ViewModels.CommentViewModel
+@model Footprints.Models.Comment
 @if (TempData.ContainsKey("CommentPage") && TempData["CommentPage"].ToString().Equals("Journey"))
 {
     <div class="media innerAll bg-gray margin-none border-top border-bottom">
-        <a class="pull-left" href="#"><img src="@Model.UserAvatarURL" alt="photo" class="media-object" width="35"></a>
+        <a class="pull-left" href="#"><img src="@Model.User.ProfilePicURL" alt="photo" class="media-object" width="35"></a>
         <div class="media-body">
-            <a href="" class="strong text-inverse" style="white-space: pre-line">@Model.UserName</a> @Model.Content
+            <a href="" class="strong text-inverse" style="white-space: pre-line">@Model.User.UserName</a> @Model.Content
             <div class="timeline-bottom">
-                <i class="fa fa-clock-o"></i> @Model.TimeAgo
+                <i class="fa fa-clock-o"></i> @DateTimeFormat.TimeAgo(@Model.Timestamp)
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
 else
 {
     <li class="list-group-item" id="comment-item-@Model.CommentID">
-        @if (StringUtil.compareGuidToString(Model.UserID, User.Identity.GetUserId()))
+        @if (StringUtil.compareGuidToString(Model.User.UserID, User.Identity.GetUserId()))
         {
             <div class="icon-edit pull-right" style="position:absolute; top:8px;right:8px; z-index:1">
                 <div class="dropdown">
@@ -28,20 +28,20 @@ else
                 </div>
             </div>
         }
-        <a href="@Url.Action("Index", "Personal", new { userID = Model.UserID })">
-            <img src="@Model.UserAvatarURL" alt="Avatar" class="pull-left" width="36" height="36" />
+        <a href="@Url.Action("Index", "Personal", new { userID = Model.User.UserID })">
+            <img src="@Model.User.ProfilePicURL" alt="Avatar" class="pull-left" width="36" height="36" />
         </a>
         <div class="user-info">
             <div class="row">
                 <div class="col-md-3">
-                    <a href="@Url.Action("Index", "Personal", new { userID = Model.UserID })">@Model.UserName</a>
-                    <abbr><i class="fa fa-clock-o"></i> @Model.TimeAgo</abbr>
+                    <a href="@Url.Action("Index", "Personal", new { userID = Model.User.UserID })">@Model.User.UserName</a>
+                    <abbr><i class="fa fa-clock-o"></i> @DateTimeFormat.TimeAgo(@Model.Timestamp)</abbr>
                 </div>
                 <div class="col-md-9" id="comment-content-@Model.CommentID">
                     <span style="white-space: pre-line">@Model.Content</span>
                 </div>
                 @* Authenticate to display edit comment menu *@
-                @if (StringUtil.compareGuidToString(Model.UserID, User.Identity.GetUserId()))
+                @if (StringUtil.compareGuidToString(Model.User.UserID, User.Identity.GetUserId()))
                 {
                     Html.RenderPartial("EditCommentForm", Model);
                 }

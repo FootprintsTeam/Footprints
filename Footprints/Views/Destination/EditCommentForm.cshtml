@@ -1,4 +1,4 @@
-﻿@model Footprints.ViewModels.CommentViewModel
+﻿@model Footprints.Models.Comment
 <div class="col-md-9" style="display: none" id="comment-edit-@Model.CommentID">
     @using (Ajax.BeginForm("EditComment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "editComment" }, new { name = "frmEditComment" }))
     {

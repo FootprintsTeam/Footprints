@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Footprints.Common;
 using System.ComponentModel.DataAnnotations;
+using Footprints.Models;
 
 namespace Footprints.ViewModels
 {
@@ -51,22 +52,14 @@ namespace Footprints.ViewModels
         }
     }
 
-    public class CommentViewModel
+    public class CommentViewModel : Comment
     {
-        [Required]
-        public Guid DestinationID { get; set; }
-        [Required]
-        public Guid CommentID { get; set; }
         public Guid UserID { get; set; }
         public string UserAvatarURL { get; set; }
         public string UserName { get; set; }
-        [Required]
-        public string Content { get; set; }
-        public DateTimeOffset Time { get; set; }
-        public int NumberOfLike { get; set; }
         public string TimeAgo
         {
-            get { return DateTimeFormat.TimeAgo(this.Time); }
+            get { return DateTimeFormat.TimeAgo(this.Timestamp); }
             private set { }
         }
         public static IList<CommentViewModel> GetSampleObject()
@@ -77,7 +70,6 @@ namespace Footprints.ViewModels
                 UserID = Guid.NewGuid(), 
                 Content = "đây là một comment",
                 UserAvatarURL = "../assets/images/people/80/2.jpg", 
-                Time = DateTime.Now, 
                 NumberOfLike = 10, 
                 UserName = "Chiến Thắng"
             };

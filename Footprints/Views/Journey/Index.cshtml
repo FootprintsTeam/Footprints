@@ -124,6 +124,36 @@
                     }
                 </ul>
                 @*End Time Line*@
+
+                @{
+                    var AddCommentOption = new AjaxOptions()
+                    {
+                        HttpMethod = "POST",
+                        OnBegin = "return validateAddCommentForm('" + @Model.JourneyID + "');",
+                        OnSuccess = "addJourneyComment",
+                        OnComplete = "addCommentComplete"
+                    };
+                }
+                @if (Model.Comments != null && Model.Comments.Count > 0)
+                {
+                    foreach (var comment in Model.Comments)
+                    {
+                        Html.RenderPartial("CommentWidget", comment);
+                    }
+                }
+                <div style="display:none" id="empty-last-journey-comment"></div>
+                @using (Ajax.BeginForm("Comment", new { controller = "Journey" }, AddCommentOption))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="input-group comment">
+                        @Html.Hidden("JourneyID", Model.JourneyID)
+                        @Html.TextBox("Content", null, new { id = "comment-input-journey", @class = "form-control", placeholder = "Comment here ..." })
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-comment"></i></button>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
         @*End Time Line Div*@
@@ -193,7 +223,13 @@
         );
         $('#comment-input-' + data.DestinationID).val('');
     }
-    function addCommentComplete(destinationId) {
+    function addJourneyComment(data) {
+        $('#empty-last-journey-comment').before(
+            data.HTMLString
+        );
+        $('#comment-input-journey').val('');
+    }
+    function addCommentComplete() {
         isCommentProcessing = false;
     }
     function validateAddCommentForm(destinationId) {

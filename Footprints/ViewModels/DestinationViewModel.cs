@@ -17,7 +17,7 @@ namespace Footprints.ViewModels
         public int NumberOfDestination { get; set; }
         public int NumberOfFriend { get; set; }
         public int NumberOfPhoto { get; set; }
-        public List<CommentViewModel> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
         public EditDestinationFormViewModel EditDestinationForm { get; set; }
         public AddCommentFormViewModel AddCommentForm { get; set; }
         public string TimeAgo
@@ -77,12 +77,6 @@ namespace Footprints.ViewModels
                         ContentID = Guid.NewGuid(),
                         URL = "../assets/images/gallery-2/6.jpg"
                     }
-                },
-                Comments = new List<CommentViewModel>{
-                    CommentViewModel.GetSampleObject().First(),
-                    CommentViewModel.GetSampleObject().First(),
-                    CommentViewModel.GetSampleObject().First(),
-                    CommentViewModel.GetSampleObject().First()
                 },
                 Description = @"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, aspernatur ut ....",
                 Place = Place,
@@ -194,6 +188,7 @@ namespace Footprints.ViewModels
         [Required]
         [RegularExpression(Common.Constant.GUID_REGEX)]
         public Guid DestinationID { get; set; }
+        public Guid JourneyID { get; set; }
         [Required]
         [DataType(DataType.MultilineText)]
         public String Content { get; set; }
