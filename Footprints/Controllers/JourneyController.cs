@@ -33,6 +33,8 @@ namespace Footprints.Controllers
         // GET: /Journey/
         public ActionResult Index(Guid journeyID)
         {
+            //get current user
+            var userID = new Guid(User.Identity.GetUserId());
             var journeyModel = journeyService.GetJourneyDetailWithComment(journeyID);
             //Implementing
             //Journey does not exist
@@ -56,6 +58,12 @@ namespace Footprints.Controllers
                 journeyViewModel.Comments = new List<CommentViewModel>();
             }
             journeyViewModel.AddNewDestinationFormViewModel = new AddNewDestinationFormViewModel { JourneyID = journeyID, TakenDate = DateTimeOffset.Now };
+                        
+
+            //check if user already like or share
+            TempData["AlreadyLike"] = journeyService.UserAlreadyLiked(userID, journeyViewModel.JourneyID);
+            TempData["IsAuthor"] = userID == journeyViewModel.UserID ? true : false;
+
             return View(journeyViewModel);
         }
 

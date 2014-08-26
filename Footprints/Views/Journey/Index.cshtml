@@ -28,10 +28,25 @@
                             <p class="lead margin-none "> <i class="fa fa-quote-left text-muted fa-fw"></i>@Model.Description</p>
                         </div>
                         <div class="innerAll pull-right">
-                            <a class="btn btn-info"><i class="fa fa-thumbs-o-down" id="like-btn"></i> Unlike</a>
+                            @{
+                                if (!(bool)TempData["AlreadyLike"])
+                                {
+                                    <a class="btn btn-info"><i class="fa fa-thumbs-o-down" id="like-btn"></i> Unlike</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-info"><i class="fa fa-thumbs-o-up" id="like-btn"></i> Like</a>
+                                }
+                                TempData.Remove("AlreadyLike");
+                            }
                             <a class="btn btn-info"><i class="fa fa-share" id="like-btn"></i> Share</a>
-                            <a class="btn btn-primary" data-toggle="modal" data-target="#edit-journey-modal"><span class="glyphicon glyphicon-edit" id="edit-btn"></span> Edit</a>
-                            <a class="btn btn-danger" data-toggle="modal" data-target="#delete-journey-modal"><span class="glyphicon glyphicon-remove" id="delete-btn"></span> Delete</a>
+                            @{
+                                if ((bool)TempData["IsAuthor"])
+                                {
+                                    <a class="btn btn-primary" data-toggle="modal" data-target="#edit-journey-modal"><span class="glyphicon glyphicon-edit" id="edit-btn"></span> Edit</a>
+                                    <a class="btn btn-danger" data-toggle="modal" data-target="#delete-journey-modal"><span class="glyphicon glyphicon-remove" id="delete-btn"></span> Delete</a>
+                                }
+                            }
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -70,7 +85,7 @@
             </div>
 
             <div class="pull-right col-lg-9 col-md-8">
-                <div class="row innerL innerB" >
+                <div class="row innerL innerB">
                     <input id="pac-input" class="controls" type="text" placeholder="Enter a location">
                     <div id="google-map-container" style="height: 400px; width: 100%">
                         <div id="map-canvas"></div>
