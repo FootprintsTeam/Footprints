@@ -129,7 +129,7 @@
                     var AddCommentOption = new AjaxOptions()
                     {
                         HttpMethod = "POST",
-                        OnBegin = "return validateAddCommentForm('" + @Model.JourneyID + "');",
+                        OnBegin = "return validateAddJourneyCommentForm('" + @Model.JourneyID + "');",
                         OnSuccess = "addJourneyComment",
                         OnComplete = "addCommentComplete"
                     };
@@ -138,7 +138,7 @@
                 {
                     foreach (var comment in Model.Comments)
                     {
-                        Html.RenderPartial("CommentWidget", comment);
+                        Html.RenderPartial("CommentItem", comment);
                     }
                 }
                 <div style="display:none" id="empty-last-journey-comment"></div>
@@ -147,8 +147,8 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
                     <div class="input-group comment">
-                        @Html.Hidden("JourneyID", Model.JourneyID)
-                        @Html.TextBox("Content", null, new { id = "comment-input-journey", @class = "form-control", placeholder = "Comment here ..." })
+                        @Html.HiddenFor(x => Model.JourneyID)
+                        @Html.TextBox("Content", null, new { id = "comment-input-journey-" + @Model.JourneyID , @class = "form-control", placeholder = "Comment here ..." })
                         <div class="input-group-btn">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-comment"></i></button>
                         </div>
@@ -237,6 +237,17 @@
         isCommentProcessing = true;
 
         var txtcontent = $('#comment-input-' + destinationId);
+        if (txtcontent == null || txtcontent.val() == null || txtcontent.val().trim().length == 0)
+            return false;
+        else
+            return true;
+    }
+    function validateAddJourneyCommentForm(journeyID) {
+        console.log('validateAddJourneyCommentForm');
+        if (isCommentProcessing) return false;
+        isCommentProcessing = true;
+
+        var txtcontent = $('#comment-input-journey-' + journeyID);
         if (txtcontent == null || txtcontent.val() == null || txtcontent.val().trim().length == 0)
             return false;
         else
