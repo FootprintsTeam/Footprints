@@ -328,7 +328,7 @@ namespace Footprints.DAL.Concrete
                     DUser = DUser.As<User>(),
                     JUser = JUser.As<User>()
                 }).Results;
-            Destination destination;
+            Destination destination = new Destination();
             Journey result = null;
             bool first = true;
             foreach (var item in query)
