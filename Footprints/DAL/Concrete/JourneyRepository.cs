@@ -328,9 +328,8 @@ namespace Footprints.DAL.Concrete
                     DUser = DUser.As<User>(),
                     JUser = JUser.As<User>()
                 }).Results;
-            Destination destination = new Destination();
-            Journey result = new Journey();
-            Guid defaultGUID = new Guid();
+            Destination destination;
+            Journey result = null;
             bool first = true;
             foreach (var item in query)
             {
@@ -355,9 +354,8 @@ namespace Footprints.DAL.Concrete
                 {
                     if (!item.Destination.DestinationID.Equals(destination.DestinationID))
                     {
-                        if (!destination.DestinationID.Equals(defaultGUID)) result.Destinations.Add(destination);
                         destination = item.Destination;
-                        destination.Place = new Place();
+                        result.Destinations.Add(destination);
                         destination.Place = item.Place;
                         destination.Comments = new List<Comment>();
                     }
