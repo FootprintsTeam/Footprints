@@ -313,48 +313,46 @@ namespace Footprints.DAL.Concrete
                 OptionalMatch("(Journey)-[:HAS]->(Destination:Destination)").
                 OptionalMatch("(DComment:Comment)-[:ON]->(Destination)").
                 OptionalMatch("(JComment:Comment)-[:ON]->(Journey)").
-                With("Journey, Destination, DComment, JComment").
+                OptionalMatch("(Destination)-[:AT]->(Place:Place)").
+                OptionalMatch("(DComment)-[:COMMENT_BY]->(DUser:User)").
+                OptionalMatch("(JComment)-[:COMMENT_BY]->(JUser:User)").
+                With("Journey, Destination, DComment, JComment, Place, DUser, JUser").
                 OrderBy("Destination.OrderNumber, DComment.Timestamp, JComment.Timestamp").
-                Return((Journey, Destination, DComment, JComment) => new
+                Return((Journey, Destination, DComment, JComment, Place, DUser, JUser) => new
                 {
                     Journey = Journey.As<Journey>(),
                     Destination = Destination.As<Destination>(),
-                    JComment = JComment.CollectAs<Comment>(),
-                    DComment = DComment.CollectAs<Comment>()
+                    JComment = JComment.As<Comment>(),
+                    DComment = DComment.As<Comment>(),
+                    Place = Place.As<Place>(),
+                    DUser = DUser.As<User>(),
+                    JUser = JUser.As<User>()
                 }).Results;
             Destination destination = null;
             Journey result = null;
-
+            Comment comment = null;
             bool first = true;
             foreach (var item in query)
             {
                 if (item.Journey == null)
                 {
-                    break;
+                    return null;
                 }
                 if (first)
                 {
-                    result = new Journey();
                     result = item.Journey;
                     result.Destinations = new List<Destination>();
                     result.Comments = new List<Comment>();
                     first = false;
-                    foreach (var comment in item.JComment)
-                    {
-                        result.Comments.Add(comment.Data);
-                    }
+                    
                 }
                 if (item.Destination != null)
                 {
-                    destination = new Destination();                    
                     destination = item.Destination;
+                    destination.Place = new Place();
+                    destination.Place = item.Place;
                     destination.Comments = new List<Comment>();
-                    foreach (var comment in item.DComment)
-                    {
-                        destination.Comments.Add(comment.Data);
-                    }
                 }
-
                 if (destination != null) result.Destinations.Add(destination);
             }
             return query.Count() == 0 ? null : result;
