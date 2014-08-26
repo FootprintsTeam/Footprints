@@ -156,6 +156,7 @@ namespace Footprints.Controllers
                         IdentityResult roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
                         if (roleResult.Succeeded)
                         {
+
                             userService.AddNewUser(
                                 new User
                                 {
@@ -168,9 +169,12 @@ namespace Footprints.Controllers
                                     JoinDate = DateTimeOffset.Now,
                                     Genre = model.Genre
                                 });
+
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
+                            return RedirectToAction("Index", "Newsfeed");
                         }
 
-                        return RedirectToAction("Index", "Newsfeed");
+                        
                         //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         //var callbackUrl = Url.Action(
                         //    "ConfirmEmail",
@@ -218,7 +222,7 @@ namespace Footprints.Controllers
             }
             Session["ValidationSummary"] = "Register";
             Session["Error"] = (string)errors;
-            return View("Login", model);
+            return View("Login");
             // If we got this far, something failed, redisplay form
             // return RedirectToAction("Login", "Account");
         }
