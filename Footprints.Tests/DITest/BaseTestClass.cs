@@ -15,9 +15,10 @@ namespace Footprints.Tests.DITest
         public  GraphClient client;
 
         //List Repository
-        public UserRepository userRep;
-        public JourneyRepository journeyRep;
+        public UserRepository userRepo;
+        public JourneyRepository journeyRepo;
         public CommentRepository commentRepo;
+        public DestinationRepository destinationRepo;
         //List model
         public IList<User> users;
         public IList<Journey> journeys;
@@ -26,6 +27,9 @@ namespace Footprints.Tests.DITest
             client = new GraphClient(new Uri("http://54.179.157.145:7474/db/data"));
             client.Connect();
             commentRepo = new CommentRepository(client);
+            journeyRepo = new JourneyRepository(client);
+            destinationRepo = new DestinationRepository(client);
+            userRepo = new UserRepository(client);
         }
 
         void SetupUser(){
@@ -36,7 +40,7 @@ namespace Footprints.Tests.DITest
                 FirstName = "Nhan",
                 LastName = "Trinh"
             });
-            userRep = new UserRepository(client);
+            userRepo = new UserRepository(client);
         }
 
         void SetupJourney() {
@@ -52,7 +56,7 @@ namespace Footprints.Tests.DITest
                 UserID = users.First().UserID
             });
 
-            journeyRep = new JourneyRepository(client);
+            journeyRepo = new JourneyRepository(client);
         }
     }
 }

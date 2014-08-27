@@ -38,6 +38,7 @@ namespace Footprints.Services
         void DeleteDestinationForAdmin(Guid DestinationID);
         bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);
         int GetMaxOrderNumber(Guid JourneyID);
+        Destination GetDestinationDetailWithComment(Guid DestinationID, int Limit);
     }
     public class DestinationService : IDestinationService
     {
@@ -159,6 +160,10 @@ namespace Footprints.Services
         }
         public int GetMaxOrderNumber(Guid JourneyID) {
             return _destinationRepo.GetMaxOrderNumber(JourneyID);
+        }
+        public Destination GetDestinationDetailWithComment(Guid DestinationID, int Limit)
+        {
+            return _destinationRepo.GetDestinationDetailWithComment(DestinationID, Limit);
         }
     }
 }

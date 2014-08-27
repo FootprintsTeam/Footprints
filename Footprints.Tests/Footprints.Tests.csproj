@@ -113,6 +113,9 @@
   <ItemGroup>
     <Compile Include="Common\StringUtilTests.cs" />
     <Compile Include="DAL\Concrete\CommentRepositoryTests.cs" />
+    <Compile Include="DAL\Concrete\DestinationRepositoryTests.cs" />
+    <Compile Include="DAL\Concrete\JourneyRepositoryTests.cs" />
+    <Compile Include="DAL\Concrete\UserRepositoryTests.cs" />
     <Compile Include="DITest\AutofacTest.cs" />
     <Compile Include="DITest\BaseTestClass.cs" />
     <Compile Include="DITest\UserMigrationTest.cs" />
