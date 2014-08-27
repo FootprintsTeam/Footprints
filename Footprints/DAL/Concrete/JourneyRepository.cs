@@ -117,7 +117,7 @@ namespace Footprints.DAL.Concrete
         public bool UpdateJourneyForAdmin(Journey Journey)
         {
             var query = Db.Cypher.Match("(journey:Journey)").Where((Journey journey) => journey.JourneyID == Journey.JourneyID).
-                        Set("journey.Name = {Journey}.Name, jouney.Description = {Journey}.Description").
+                        Set("journey.Name = {Journey}.Name, journey.Description = {Journey}.Description").
                         WithParam("Journey", Journey).Return<Journey>("journey").Results;
             return query.Count<Journey>() > 0 ? true : false;
         }
