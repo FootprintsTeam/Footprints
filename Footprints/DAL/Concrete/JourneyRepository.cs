@@ -387,6 +387,16 @@ namespace Footprints.DAL.Concrete
             }
             return 0;
         }
+        public bool DeleteJourneyForAdmin(Guid JourneyID) 
+        {
+            Db.Cypher.Match("(Journey:Journey)-[r]-()").
+                        Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                        Match("(Activity:Activity)").Where((Activity Activity) => Activity.JourneyID == JourneyID).
+                        Set("Activity.Status = 'Deleted'").
+                        With("Journey, r").
+                        Delete("Journey, r").ExecuteWithoutResults();
+            return true;
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -414,5 +424,6 @@ namespace Footprints.DAL.Concrete
         IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID);
         Journey GetJourneyDetailWithComment(Guid JourneyID);
         long GetNumberOfCreatedJourneyBetweenDays(String Start, String End);
+        bool DeleteJourneyForAdmin(Guid JourneyID);
     }
 }

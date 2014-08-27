@@ -36,6 +36,7 @@ namespace Footprints.Services
         int GetNumberOfContent(Guid JourneyID);
         IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID);
         Journey GetJourneyDetailWithComment(Guid JourneyID);
+        bool DeleteJourneyForAdmin(Guid JourneyID);
     }
     public class JourneyService : IJourneyService
     {
@@ -139,6 +140,10 @@ namespace Footprints.Services
         public Journey GetJourneyDetailWithComment(Guid JourneyID)
         {
             return journeyRepository.GetJourneyDetailWithComment(JourneyID);
+        }
+        public bool DeleteJourneyForAdmin(Guid JourneyID)
+        {
+            return journeyRepository.DeleteJourneyForAdmin(JourneyID);
         }
     }
 }
