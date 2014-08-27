@@ -43,18 +43,23 @@ namespace Footprints.Controllers
 
         public ActionResult Index(DashboardViewModel dashView)
         {
-            DateTime today = DateTime.Now;
-            String format = "{MM/dd/yyyy}";
+            DateTime today = DateTime.Today;
+            DateTime tomorrow = DateTime.Today.AddDays(1);
+            String format = "{yyyy/MM/dd}";
 
             long totalUser = userSer.GetTotalUser();
             long totalJourney = journeySer.GetNumberOfJourney();
             long totalDestination = destinationSer.GetNumberOfDestination();
-            //long todayuser = userSer.GetNumberOfRegisterUserBetweenDays(today.ToString(format), today.ToString(format));
-
+            long todayuser = userSer.GetNumberOfRegisterUserBetweenDays(today.ToString(format), tomorrow.ToString(format));
+            long todayJourney = journeySer.GetNumberOfCreatedJourneyBetweenDays(today.ToString(format), tomorrow.ToString(format));
+            long todayDestination = destinationSer.GetNumberOfCreatedDestinationBetweenDays(today.ToString(format), tomorrow.ToString(format));
             //asssign values to view models
             dashView.TotalDestination = totalDestination;
             dashView.TotalJourney = totalJourney;
             dashView.TotalUser = totalUser;
+            dashView.TodayRegisterUser = todayuser;
+            dashView.TodayNewJourney = todayJourney;
+            dashView.TodayNewDestination = todayDestination;
             
             return View(dashView);
         }

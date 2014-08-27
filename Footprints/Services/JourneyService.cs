@@ -37,6 +37,7 @@ namespace Footprints.Services
         IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID);
         Journey GetJourneyDetailWithComment(Guid JourneyID);
         bool DeleteJourneyForAdmin(Guid JourneyID);
+        long GetNumberOfCreatedJourneyBetweenDays(String Start, String End);
     }
     public class JourneyService : IJourneyService
     {
@@ -144,6 +145,10 @@ namespace Footprints.Services
         public bool DeleteJourneyForAdmin(Guid JourneyID)
         {
             return journeyRepository.DeleteJourneyForAdmin(JourneyID);
+        }
+        public long GetNumberOfCreatedJourneyBetweenDays(String Start, String End)
+        {
+            return journeyRepository.GetNumberOfCreatedJourneyBetweenDays(Start, End);
         }
     }
 }

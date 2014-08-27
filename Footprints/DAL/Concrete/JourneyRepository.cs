@@ -375,8 +375,8 @@ namespace Footprints.DAL.Concrete
         public long GetNumberOfCreatedJourneyBetweenDays(String Start, String End)
         {
            var query = Db.Cypher.Match("(Journey:Journey)").
-           Where((Journey Journey) => Journey.Timestamp.ToString().CompareTo(Start) >= 0).
-           AndWhere((Journey Journey) => Journey.Timestamp.ToString().CompareTo(End) <= 0).
+           Where("Journey.Timestamp >= {Start}").WithParam("Start", Start).
+           AndWhere("Journey.Timestamp <= {End}").WithParam("End", End).
            Return((Journey) => new
            {
                NumberOfJourney = Journey.Count()
