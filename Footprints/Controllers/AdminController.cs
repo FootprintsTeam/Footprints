@@ -11,6 +11,7 @@ using PagedList;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
 using Footprints.Common;
+using Footprints.ViewModels;
 
 namespace Footprints.Controllers
 {
@@ -40,9 +41,20 @@ namespace Footprints.Controllers
         //
         // GET: /Admin/       
 
-        public ActionResult Index()
+        public ActionResult Index(DashboardViewModel dashView)
         {
-            return View();
+            long totalUser = userSer.GetTotalUser();
+            long totalJourney = journeySer.GetNumberOfJourney();
+            long totalDestination = destinationSer.GetNumberOfDestination();
+            long todayuser = userSer.GetNumberOfRegisterUserBetweenDays(DateTime.Today.ToShortDateString(), DateTime.Today.ToShortDateString());
+
+            //asssign values to view models
+            dashView.TotalDestination = totalDestination;
+            dashView.TotalJourney = totalJourney;
+            dashView.TotalUser = totalUser;
+
+            dashView.TodayRegisterUser = todayuser;
+            return View(dashView);
         }
 
         public ActionResult Destination(int? page)

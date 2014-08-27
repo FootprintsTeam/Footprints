@@ -7,11 +7,11 @@ namespace Footprints.ViewModels
 {
     public class DashboardViewModel
     {
-        public int TodayRegisterUser { get; set; }
-        public int TotalUser { get; set; }
-        public int TodayNewJourney { get; set; }
-        public int TotalJourney { get; set; }
-        public int TodayNewDestination { get; set; }
-        public int TotalDestination { get; set; }
+        public long TodayRegisterUser { get; set; }
+        public long TotalUser { get; set; }
+        public long TodayNewJourney { get; set; }
+        public long TotalJourney { get; set; }
+        public long TodayNewDestination { get; set; }
+        public long TotalDestination { get; set; }
     }
 }
