@@ -63,7 +63,7 @@ namespace Footprints.Controllers
                 }
                 else
                 {
-                    return PartialView("No result");
+                    return PartialView("NoResult");
                 }
             }
             else
@@ -104,14 +104,14 @@ namespace Footprints.Controllers
             if (ModelState.IsValid)
             {
                 destinationSer.UpdateDestinationForAdmin(Destination);
-                TempData["Msg"] = "Destination has been updated successfully";                
+                TempData["Msg"] = "Destination has been updated successfully";
+                return RedirectToAction("Destination");
             }
             else
             {
                 TempData["Msg"] = "Update destination failed";
                 return RedirectToAction("Destination");
-            }
-            return View(Destination);
+            }            
         }
 
         //public static IList<User> list;
@@ -132,7 +132,7 @@ namespace Footprints.Controllers
                 }
                 else
                 {
-                    return PartialView("No result");
+                    return PartialView("NoResult");
                 }
             }
             else
@@ -298,7 +298,7 @@ namespace Footprints.Controllers
                 }
                 else
                 {
-                    return PartialView("No result");
+                    return PartialView("NoResult");
                 }
             }
             else
@@ -364,7 +364,10 @@ namespace Footprints.Controllers
                 TempData["Msg"] = "Journey has been updated successfully";
                 return RedirectToAction("Journey");
             }
-            return View(Journey);
+            else {
+                TempData["Msg"] = "Update journey failed !";
+                return RedirectToAction("Journey");
+            }                        
         }
     }
 }

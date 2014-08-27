@@ -21,10 +21,8 @@
         @Html.HiddenFor(model => model.TakenDate)
         @Html.HiddenFor(model => model.Timestamp)
         @Html.HiddenFor(model => model.Comments)
-        @for (int i = 0; i < Model.Contents.Count(); i++)
-        {
-            @Html.HiddenFor(model => model.Contents[i])
-        }
+            @Html.HiddenFor(model => model.Contents)
+
 
         
         <div class="form-group">
