@@ -432,10 +432,10 @@ namespace Footprints.DAL.Concrete
         }
         public bool UserAlreadyShared(Guid UserID, Guid DestinationID)
         {
-            var query = Db.Cypher.OptionalMatch("(Destination:Destination)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
+            var query = Db.Cypher.Match("(Destination:Destination)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
                 .AndWhere((Destination Destination) => Destination.DestinationID == DestinationID).Return(Destination => Destination.As<Destination>())
-                .Results.ToList<Destination>();
-            return query.Count > 0 ? true : false;
+                .Results;
+            return query.Count() > 0 ? true : false;
         }
         public int GetNumberOfContent(Guid UserID)
         {
