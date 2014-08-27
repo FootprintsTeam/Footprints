@@ -22,7 +22,7 @@
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
                             <div class="innerAll">
-                                <ul class="timeline">                                    
+                                <ul class="timeline">
                                     @foreach (var activity in Model.Activities)
                                     {
 
@@ -46,7 +46,7 @@
 
                                             case Constant.ActivityComment:
                                                 Html.RenderPartial("PersonalCommentWidget", activity);
-                                                break;                                            
+                                                break;
 
                                             case Constant.ActivityShareDestination:
                                                 Html.RenderPartial("PersonalShareWidget", activity);
@@ -189,31 +189,31 @@
 </script>
 
 <script type="text/javascript">
-        var BlockNumber = 2;  //Infinate Scroll starts from second block
-        var NoMoreData = false;
-        var inProgress = false;
+    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
 
-        $(window).scroll(function () {
-            if ($(window).scrollTop() == $(document).height() -
-            $(window).height() && !NoMoreData && !inProgress) {
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() -
+        $(window).height() && !NoMoreData && !inProgress) {
 
-                inProgress = true;
-                $("#loadingDiv").show();
+            inProgress = true;
+            $("#loadingDiv").show();
 
-                $.post("@Url.Action("InfiniteScroll",
+            $.post("@Url.Action("InfiniteScroll",
             "Personal")", { "BlockNumber": BlockNumber },
-                        function (data) {
-                            BlockNumber = BlockNumber + 1;
-                            NoMoreData = data.NoMoreData;                            
-                            for (i = 0; i < data.length; i++) {
-                                //$(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
-                                $(".timeline").append($.parseHTML(data[i].HTMLString));
-                            }
-                            $("#loadingDiv").hide();
-                            inProgress = false;
-                        });
-            }
-        });
+                    function (data) {
+                        BlockNumber = BlockNumber + 1;
+                        NoMoreData = data.NoMoreData;
+                        for (i = 0; i < data.length; i++) {
+                            //$(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
+                            $(".timeline").append($.parseHTML(data[i].HTMLString));
+                        }
+                        $("#loadingDiv").hide();
+                        inProgress = false;
+                    });
+        }
+    });
 </script>
 
 @{Html.RenderPartial("AddCoverPhotoModal");}
