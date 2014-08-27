@@ -1,21 +1,17 @@
-﻿@model IEnumerable<Footprints.ViewModels.CommentViewModel>
+﻿@using Footprints.Common
+@model IEnumerable<Footprints.Models.Comment>
 @using Footprints.ViewModels
 
-<div class="media margin-none bg-gray">
-    @{
-        if (Model != null)
-        {
-            foreach (CommentViewModel comment in Model)
-            {
-                <a href="" class="pull-left innerAll"><img src="@comment.UserAvatarURL" style="width:50px !important" class="media-object"></a>
-                <div class="media-body innerTB">
-                    <a href="#" class="pull-right innerT innerR text-muted"><i class="icon-reply-all-fill fa fa-2x "></i></a>
-                    <a href="" class="strong text-inverse">@comment.UserName</a><small class="text-muted display-block ">on @comment.Timestamp</small>
-                    <a href="" class="text-small">mark it</a>
-                    <div>- @comment.Content</div>
-                </div>
-            }
-        }
-    }
-</div>
-
+@foreach (var comment in Model)
+{
+    <div class="media innerAll bg-gray margin-none border-top border-bottom">
+        <a class="pull-left" href="@Url.Action("Index", "Personal", new { userID = comment.User.UserID})"><img src="@comment.User.ProfilePicURL" alt="photo" class="media-object" width="35"></a>
+        <div class="media-body">
+            <a href="@Url.Action("Index", "Personal", new { userID = @comment.User.UserID })" class="strong text-inverse">@comment.User.UserName</a>
+            <div class="timeline-bottom">
+                <i class="fa fa-clock-o"></i> @DateTimeFormat.TimeAgo(@comment.Timestamp)
+            </div>
+            <span style="white-space: pre-line">@comment.Content</span>
+        </div>
+    </div>
+}
