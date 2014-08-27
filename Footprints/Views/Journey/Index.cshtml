@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = "Journey";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.JourneyID = Model.JourneyID;
 }
 @Styles.Render("~/css/journey")
 <div class="container">
@@ -124,43 +125,20 @@
                     }
                 </ul>
                 @*End Time Line*@
-
+                @*comment area*@
                 @{
-                    var AddCommentOption = new AjaxOptions()
-                    {
-                        HttpMethod = "POST",
-                        OnBegin = "return validateAddJourneyCommentForm('" + @Model.JourneyID + "');",
-                        OnSuccess = "addJourneyComment",
-                        OnComplete = "addCommentComplete"
-                    };
+                    var commentSectionViewData = new ViewDataDictionary {
+                                        { "JourneyID", Model.JourneyID }};
                 }
-                @if (Model.Comments != null && Model.Comments.Count > 0)
-                {
-                    foreach (var comment in Model.Comments)
-                    {
-                        Html.RenderPartial("CommentItem", comment);
-                    }
-                }
-                <div style="display:none" id="empty-last-journey-comment"></div>
-                @using (Ajax.BeginForm("Comment", new { controller = "Journey" }, AddCommentOption))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-                    <div class="input-group comment">
-                        @Html.HiddenFor(x => Model.JourneyID)
-                        @Html.TextBox("Content", null, new { id = "comment-input-journey-" + @Model.JourneyID , @class = "form-control", placeholder = "Comment here ..." })
-                        <div class="input-group-btn">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-comment"></i></button>
-                        </div>
-                    </div>
-                }
+                @{Html.RenderPartial("CommentSection", Model.Comments, commentSectionViewData);}
+                @*End comment area*@
             </div>
         </div>
         @*End Time Line Div*@
     </div>
 </div>
 @Scripts.Render("~/script/journey")
-
+@{Html.RenderPartial("DeleteCommentModal");}
 @{Html.RenderPartial("EditJourneyForm", Model);}
 @* Delete destination confirmation modal*@
 <div class="modal fade" id="delete-journey-modal">
@@ -209,50 +187,6 @@
 <script type="text/javascript">
     var arrDestination = @(Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(sortedDestinationList)));
     var destinationURL = '@Url.Action("Index", "Destination", new { destinationID = "xxx"})';
-
-    var isCommentProcessing = false;
-    $('[id^="comment-input-"]').keyup(function (ev) {
-        if (ev.which == 13) {
-            $(this).parents('form').submit();
-        }
-
-    });
-    function addComment(data) {
-        $('#empty-last-comment-' + data.DestinationID).before(
-            data.HTMLString
-        );
-        $('#comment-input-' + data.DestinationID).val('');
-    }
-    function addJourneyComment(data) {
-        $('#empty-last-journey-comment').before(
-            data.HTMLString
-        );
-        $('#comment-input-journey').val('');
-    }
-    function addCommentComplete() {
-        isCommentProcessing = false;
-    }
-    function validateAddCommentForm(destinationId) {
-        if (isCommentProcessing) return false;
-        isCommentProcessing = true;
-
-        var txtcontent = $('#comment-input-' + destinationId);
-        if (txtcontent == null || txtcontent.val() == null || txtcontent.val().trim().length == 0)
-            return false;
-        else
-            return true;
-    }
-    function validateAddJourneyCommentForm(journeyID) {
-        console.log('validateAddJourneyCommentForm');
-        if (isCommentProcessing) return false;
-        isCommentProcessing = true;
-
-        var txtcontent = $('#comment-input-journey-' + journeyID);
-        if (txtcontent == null || txtcontent.val() == null || txtcontent.val().trim().length == 0)
-            return false;
-        else
-            return true;
-    }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 <script src="/assets/plugins/google_map/js/google.map.init.js"></script>

@@ -200,6 +200,14 @@ namespace Footprints.ViewModels
                 Content = ""
             };
         }
+        public static AddCommentFormViewModel GetEmptyModelForJourney(Guid JourneyID)
+        {
+            return new AddCommentFormViewModel
+            {
+                JourneyID = JourneyID,
+                Content = ""
+            };
+        }
     }
 
     public class EditCommentFormViewModel

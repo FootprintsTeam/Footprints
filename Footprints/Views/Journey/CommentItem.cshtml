@@ -1,8 +1,54 @@
-﻿@model Footprints.Models.Comment
-<div class="media border-bottom margin-none bg-gray">
-    <a href="@Url.Action("Index", "Personal", new { userID = @Model.User.UserID})" class="pull-left innerAll"><img src="@Model.User.ProfilePicURL" width="50" class="media-object"></a>
-    <div class="media-body innerTB">
-        <a href="" class="strong text-inverse">@Model.User.UserName</a> 	<small class="text-muted ">wrote on @String.Format("{0:dd MMMM yyyy}", Model.Timestamp)</small>
-        <div style="white-space: pre-line">- @Model.Content</div>
+﻿@using Microsoft.AspNet.Identity
+@using Footprints.Common
+@model Footprints.Models.Comment
+@*@if (TempData.ContainsKey("CommentPage") && TempData["CommentPage"].ToString().Equals("Journey"))
+{*@
+        <li class="list-group-item" id="comment-item-@Model.CommentID">
+        @if (StringUtil.compareGuidToString(Model.User.UserID, User.Identity.GetUserId()))
+        {
+            <div class="icon-edit pull-right" style="position:absolute; top:8px;right:8px; z-index:1">
+                <div class="dropdown">
+                    <a href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-pencil"></i></a>
+                    <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu" style="white-space:nowrap">
+                        <li><a onclick="javascript:SetupEditCommentForm.showEditCommentArea('@Model.CommentID');">Edit...</a></li>
+                        <li><a onclick="javascript:SetupDeleteCommentForm.displayPopUpWindow('@Model.CommentID');">Delete...</a></li>
+                    </ul>
+                </div>
+            </div>
+        }
+        <a href="@Url.Action("Index", "Personal", new { userID = Model.User.UserID })">
+            <img src="@Model.User.ProfilePicURL" alt="Avatar" class="pull-left" width="36" height="36" />
+        </a>
+        <div class="user-info">
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="@Url.Action("Index", "Personal", new { userID = Model.User.UserID })">@Model.User.UserName</a>
+                    <abbr><i class="fa fa-clock-o"></i> @DateTimeFormat.TimeAgo(@Model.Timestamp)</abbr>
+                </div>
+                <div class="col-md-9">
+                    <div id="comment-content-@Model.CommentID">
+                        <span style="white-space: pre-line">@Model.Content</span>
+                    </div>
+                    @* Authenticate to display edit comment menu *@
+                    @if (StringUtil.compareGuidToString(Model.User.UserID, User.Identity.GetUserId()))
+                    {
+                        Html.RenderPartial("EditCommentForm", Model);
+                    }
+                </div>
+            </div>
+        </div>
+    </li>
+@*}
+else
+{
+    <div class="media innerAll bg-gray margin-none border-top border-bottom">
+        <a class="pull-left" href="#"><img src="@Model.User.ProfilePicURL" alt="photo" class="media-object" width="35"></a>
+        <div class="media-body">
+            <a href="@Url.Action("Index", "Personal", new { userID = @Model.User.UserID})" class="strong text-inverse">@Model.User.UserName</a>
+            <div class="timeline-bottom">
+                <i class="fa fa-clock-o"></i> @DateTimeFormat.TimeAgo(@Model.Timestamp)
+            </div>
+            <span style="white-space: pre-line">@Model.Content</span>
+        </div>
     </div>
-</div>
+}*@

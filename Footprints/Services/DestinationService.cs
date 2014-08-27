@@ -37,6 +37,7 @@ namespace Footprints.Services
         IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID);
         void DeleteDestinationForAdmin(Guid DestinationID);
         bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);
+        int GetMaxOrderNumber(Guid JourneyID);
     }
     public class DestinationService : IDestinationService
     {
@@ -155,6 +156,9 @@ namespace Footprints.Services
         public bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp)
         {
             return _destinationRepo.UpdateDestination(UserID, DestinationID, Name, Description, TakenDate, Place, Timestamp);
+        }
+        public int GetMaxOrderNumber(Guid JourneyID) {
+            return _destinationRepo.GetMaxOrderNumber(JourneyID);
         }
     }
 }
