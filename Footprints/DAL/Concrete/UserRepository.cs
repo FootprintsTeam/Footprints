@@ -443,6 +443,8 @@ namespace Footprints.DAL.Concrete
                         Where((User User) => User.UserID == UserID).
                         Match("(LatestActivity)-[:NEXT*]->(Activity:Activity)").
                         With("LatestActivity, Activity").
+                        OrderBy("Activity.Timestamp").
+                        With("LatestActivity, Activity").
                         Skip(Skip).Limit(Limit).
                         Return((LatestActivity, Activity) => new
                         {
@@ -453,7 +455,7 @@ namespace Footprints.DAL.Concrete
             List<Activity> result = new List<Activity>();
             foreach (var item in query)
             {
-                if ((item.LatestActivity != null) && (item.LatestActivity.Status != Activity.StatusEnum.Deleted) ) 
+                if ((item.LatestActivity != null) && (item.LatestActivity.Status != Activity.StatusEnum.Deleted) && Skip == 0) 
                 {
                     result.Add(item.LatestActivity);
                 }
