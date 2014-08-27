@@ -137,7 +137,7 @@ function initialize() {
         fx.apply(this, arguments);
     };
 
-    if (typeof arrDestination !== "undefined" && arrDestination) {
+    if (typeof arrDestination !== "undefined" && arrDestination && arrDestination.length > 0) {
         var bounds = new google.maps.LatLngBounds();
         for (index = 0; index <= arrDestination.length - 1; index++) {
             //Draw curved lines

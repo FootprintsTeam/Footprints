@@ -1,0 +1,102 @@
+﻿@using Footprints.ViewModels
+@using Footprints.Models
+@model IList<Footprints.Models.Comment>
+<div class="row">
+    <div class="col-md-9 col-sm-8">
+        <ul class="list-group social-comments margin-none">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var comment in Model)
+                {
+                    Html.RenderPartial("CommentItem", comment);
+                }
+            }
+            <li class="list-group-item innerAll" id="comment-section-container">
+                @{Html.RenderPartial("AddCommentForm", AddCommentFormViewModel.GetEmptyModelForJourney((Guid)ViewBag.JourneyID));}
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="~/assets/plugins/forms_elements_textarea/jquery.autosize.js"></script>
+<script type="text/javascript">
+    //get data from callback and insert html
+    var isCommentProcessing = false;
+    function addComment(data) {
+        $('#comment-section-container').before(
+            data.HTMLString
+        );
+        $('#comment-input-@ViewBag.JourneyID').val('');
+    }
+    function addCommentComplete() {
+        isCommentProcessing = false;
+    }
+    function validateAddCommentForm(journeyID) {
+        if (isCommentProcessing) return false;
+        isCommentProcessing = true;
+        var form = $('#add-comment-form-' + journeyID);
+        if (form == null)
+            return false;
+        else {
+            var txtContent = form.find('textarea');
+            if (txtContent == null || txtContent.val() == null || txtContent.val().trim().length == 0)
+                return false;
+            else
+                return true;
+        }
+    }
+    //Edit comment callback function
+    function editComment(data) {
+        if (data != null && data.length > 0) {
+            var commentObj = data[0];
+            var commentContent = $("#comment-content-" + commentObj.CommentID);
+            commentContent.find('span').text(commentObj.Content);
+            commentContent.show();
+            var commentEdit = $("#comment-edit-" + commentObj.CommentID);
+            var commentEditTextarea = commentEdit.find('form').find('textarea[name="Content"]');
+            commentEditTextarea.text(commentObj.Content);
+            commentEditTextarea.val(commentObj.Content);
+            commentEdit.hide();
+        }
+    }
+    //Check for keyup Esc on edit comment field
+    $('[id^="comment-edit-"]').keyup(function (ev) {
+        if (ev.which == 27) {
+            $(this).hide();
+            var commentContent = $("#comment-content-" + $(this).attr('id').replace('comment-edit-', ''));
+            commentContent.show();
+            $(this).find('form textarea').text(commentContent.find('span').text());
+            $(this).find('textarea').val($(this).find('textarea').text());
+        }
+    });
+    var SetupEditCommentForm = (function () {
+        return {
+            init: function () {
+            },
+            showEditCommentArea: function (CommentID) {
+                var commentContentList = $('div[id^="comment-content-"]');
+                commentContentList.each(function () {
+                    $(this).show();
+                });
+                var commentEditList = $('div[id^="comment-edit-"]');
+                commentEditList.each(function () {
+                    $(this).hide();
+                });
+                var commentContent = $('#comment-content-' + CommentID)
+                commentContent.hide();
+                var commentEdit = $('#comment-edit-' + CommentID);
+                commentEdit.show();
+            }
+        };
+    })();
+    //Check unchanged comment content
+    $('form[name="frmEditComment"]').submit(function () {
+        var txtComment = $(this).find('textarea');
+        if (txtComment.val() == txtComment.text().trim()) {
+            return false;
+        }
+    });
+    $(function () {
+        SetupEditCommentForm.init();
+        $('.autoheight').autosize();
+    });
+</script>

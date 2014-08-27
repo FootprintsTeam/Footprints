@@ -190,7 +190,6 @@ namespace Footprints.Controllers
                 return View(UserRetrieved);
             }
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditUser(User UpdatedUser)

@@ -38,14 +38,16 @@ else
                     <a href="@Url.Action("Index", "Personal", new { userID = Model.User.UserID })">@Model.User.UserName</a>
                     <abbr><i class="fa fa-clock-o"></i> @DateTimeFormat.TimeAgo(@Model.Timestamp)</abbr>
                 </div>
-                <div class="col-md-9" id="comment-content-@Model.CommentID">
-                    <span style="white-space: pre-line">@Model.Content</span>
+                <div class="col-md-9">
+                    <div id="comment-content-@Model.CommentID">
+                        <span style="white-space: pre-line">@Model.Content</span>
+                    </div>
+                    @* Authenticate to display edit comment menu *@
+                    @if (StringUtil.compareGuidToString(Model.User.UserID, User.Identity.GetUserId()))
+                    {
+                        Html.RenderPartial("EditCommentForm", Model);
+                    }
                 </div>
-                @* Authenticate to display edit comment menu *@
-                @if (StringUtil.compareGuidToString(Model.User.UserID, User.Identity.GetUserId()))
-                {
-                    Html.RenderPartial("EditCommentForm", Model);
-                }
             </div>
         </div>
     </li>
