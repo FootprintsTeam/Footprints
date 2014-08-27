@@ -105,33 +105,6 @@
         });
     });
 </script>
-<script type="text/javascript">
-    $(function () {
-        //Lay checkbox co ID=checkAll
-        var $checkBox = $("input:checkbox[id$=chkAll]");
-        //Lay mang cac checkbox co name =cid
-        var $tblChkBox = $("input:checkbox[name$=Id]");
-        //Them su kien click cho chkAll
-        $checkBox.click(function () {
-            $tblChkBox
-                    .attr('checked', $checkBox
-                    .is(':checked'));
-        }
-        );
-
-        //Them su kien cho cac checkbox co name la =cid
-        //Khi bo check thi chkAll cung tro ve trang thai Uncheck
-        $tblChkBox.click(
-            function (e) {
-                if (!$(this)[0].checked) {
-                    $checkBox.attr("checked", false);
-                }
-            }
-        );
-
-    });
-
-</script>
 
 <div id="dialog-alert" style="display: none">
     <p>
