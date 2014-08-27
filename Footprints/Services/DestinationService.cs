@@ -39,6 +39,8 @@ namespace Footprints.Services
         bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);
         int GetMaxOrderNumber(Guid JourneyID);
         Destination GetDestinationDetailWithComment(Guid DestinationID, int Limit);
+        long GetNumberOfCreatedDestinationBetweenDays(String Start, String End);
+        long GetNumberOfDestination();
     }
     public class DestinationService : IDestinationService
     {
@@ -164,6 +166,14 @@ namespace Footprints.Services
         public Destination GetDestinationDetailWithComment(Guid DestinationID, int Limit)
         {
             return _destinationRepo.GetDestinationDetailWithComment(DestinationID, Limit);
+        }
+        public long GetNumberOfCreatedDestinationBetweenDays(String Start, String End)
+        {
+            return _destinationRepo.GetNumberOfCreatedDestinationBetweenDays(Start, End);
+        }
+        public long GetNumberOfDestination()
+        {
+            return _destinationRepo.GetNumberOfDestination();
         }
     }
 }

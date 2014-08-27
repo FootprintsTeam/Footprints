@@ -37,6 +37,7 @@ namespace Footprints.Services
         int GetNumberOfContentByUserID(Guid UserID);
         IList<Activity> GetAllActivity(Guid UserID, int Skip, int Limit);
         long GetNumberOfRegisterUserBetweenDays(String Start, String End);
+        long GetTotalUser();
     }
     public class UserService : IUserService
     {
@@ -158,6 +159,10 @@ namespace Footprints.Services
         public long GetNumberOfRegisterUserBetweenDays(String Start, String End)
         {
             return _userRepo.GetNumberOfRegisterUserBetweenDays(Start, End);
+        }
+        public long GetTotalUser()
+        {
+            return _userRepo.GetTotalUser();
         }
     }
 }

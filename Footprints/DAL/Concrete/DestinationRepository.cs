@@ -496,6 +496,35 @@ namespace Footprints.DAL.Concrete
             }
             return query.Count() == 0 ? null : result;
         }
+        //For Admin
+        public long GetNumberOfCreatedDestinationBetweenDays(String Start, String End)
+        {
+            var query = Db.Cypher.Match("(Destination:Destination)").
+                       Where((Destination Destination) => Destination.Timestamp.ToString().CompareTo(Start) >= 0).
+                       AndWhere((Destination Destination) => Destination.Timestamp.ToString().CompareTo(End) <= 0).
+                       Return((Destination) => new
+                       {
+                           NumberOfDestination = Destination.Count()
+                       }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfDestination;
+            }
+            return 0;
+        }
+        //For Admin
+        public long GetNumberOfDestination()
+        {
+            var query = Db.Cypher.Match("(Destination:Destination)").Return((Destination) => new
+            {
+                NumberOfDestination = Destination.Count()
+            }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfDestination;
+            }
+            return 0;
+        }
     }
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
@@ -529,6 +558,8 @@ namespace Footprints.DAL.Concrete
         bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);
         int GetMaxOrderNumber(Guid JourneyID);
         Destination GetDestinationDetailWithComment(Guid DestinationID, int Limit);
+        long GetNumberOfCreatedDestinationBetweenDays(String Start, String End);
+        long GetNumberOfDestination();
     }
 
 }

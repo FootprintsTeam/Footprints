@@ -371,6 +371,22 @@ namespace Footprints.DAL.Concrete
             }
             return query.Count() == 0 ? null : result;
         }
+
+        public long GetNumberOfCreatedJourneyBetweenDays(String Start, String End)
+        {
+           var query = Db.Cypher.Match("(Journey:Journey)").
+           Where((Journey Journey) => Journey.Timestamp.ToString().CompareTo(Start) >= 0).
+           AndWhere((Journey Journey) => Journey.Timestamp.ToString().CompareTo(End) <= 0).
+           Return((Journey) => new
+           {
+               NumberOfJourney = Journey.Count()
+           }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfJourney;
+            }
+            return 0;
+        }
     }
     public interface IJourneyRepository : IRepository<Journey>
     {
@@ -397,5 +413,6 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfContent(Guid JourneyID);
         IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID);
         Journey GetJourneyDetailWithComment(Guid JourneyID);
+        long GetNumberOfCreatedJourneyBetweenDays(String Start, String End);
     }
 }

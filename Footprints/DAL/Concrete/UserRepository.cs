@@ -486,6 +486,19 @@ namespace Footprints.DAL.Concrete
             }
             return 0;
         }
+        //For Admin
+        public long GetTotalUser()
+        {
+            var query = Db.Cypher.Match("(User:User)").Return((User) => new
+            {
+                NumberOfUser = User.Count()
+            }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfUser;
+            }
+            return 0;
+        }
 
     }
     
@@ -519,5 +532,6 @@ namespace Footprints.DAL.Concrete
         int GetNumberOfContentByUserID(Guid UserID);
         IList<Activity> GetAllActivity(Guid UserID, int Skip, int Limit);
         long GetNumberOfRegisterUserBetweenDays(String Start, String End);
+        long GetTotalUser();
     }
 }
