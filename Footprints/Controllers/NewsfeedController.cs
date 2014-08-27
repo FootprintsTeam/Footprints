@@ -25,7 +25,6 @@ namespace Footprints.Controllers
         IDestinationService destinationService;
         IJourneyService journeyService;
         ICommentService commentService;
-        
         public NewsfeedController(IUserService userService, INewsfeedService newsfeedService, IDestinationService destinationService, IJourneyService journeyService, ICommentService commentService)
         {
             this.commentService = commentService;
@@ -112,7 +111,7 @@ namespace Footprints.Controllers
             return viewModels;
         }
         public ActionResult Index()
-        {            
+        {
             var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
             var newsfeedWidgets = newsfeedService.RetrieveNewsFeed(currentUser.UserID, Constant.defaultNewsfeedBlockNumber);
 

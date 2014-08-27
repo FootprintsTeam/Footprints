@@ -124,6 +124,7 @@ namespace Footprints.DAL.Concrete
         {
             int cnt = 0;
             numberOfFriends = friendList.Count;
+            if (numberOfFriends == 0) return null;
             List<Activity> moreNewsfeed = new List<Activity>();
             while (!priorityQueue.IsEmpty && cnt < l)
             {
