@@ -1,6 +1,4 @@
 ﻿@Styles.Render("~/css/admincontent")
-@*@Styles.Render("~/css/form-modal")*@
-@*@Styles.Render("~/css/datepicker")*@
 <head>
     <title>@ViewBag.Title</title>
 </head>
@@ -21,7 +19,7 @@
                     <li>@Html.ActionLink("Manage Journey", "Journey")</li>
                     <li>@Html.ActionLink("Manage Destination", "Destination")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                @Html.Partial("_AdminLoginLayout")
             </div>
         </div>
     </div>
@@ -29,4 +27,3 @@
 </div>
 
 @Scripts.Render("~/script/jquery-validate")
-@*@Scripts.Render("~/script/datepicker")*@
