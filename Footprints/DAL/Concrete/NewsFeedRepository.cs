@@ -10,15 +10,20 @@ namespace Footprints.DAL.Concrete
 {
     public class NewsFeedRepository : RepositoryBase<NewsFeedRepository>, INewsFeedRepository
     {
-        private C5.IntervalHeap<Activity> priorityQueue;
-        private List<Activity> result;
-        private LinkedList<User> friendList = new LinkedList<User>();
-        private LinkedList<LinkedList<Activity>> activities = new LinkedList<LinkedList<Activity>>();
-        private Activity latestActivity = new Activity(), mostRecentActivity = new Activity();
-        private int numberOfFriends, latestFriendPosition, currentFriendPosition;
+        private static C5.IntervalHeap<Activity> priorityQueue;        
+        private static LinkedList<User> friendList = new LinkedList<User>();
+        private static LinkedList<LinkedList<Activity>> activities;
+        private static Activity latestActivity, mostRecentActivity;
+        private static int numberOfFriends, latestFriendPosition, currentFriendPosition;
         public NewsFeedRepository(IGraphClient client) : base(client) { }
         public void LoadEgoNetwork(Guid UserID)
         {
+            latestActivity = new Activity();
+            activities = new LinkedList<LinkedList<Activity>>();
+            mostRecentActivity = new Activity();
+            ActivityComparer comparer = new ActivityComparer();
+            numberOfFriends = latestFriendPosition = currentFriendPosition = 0;            
+            priorityQueue = new C5.IntervalHeap<Activity>(comparer);
             //SQL-Injection-prone
             var query = Db.Cypher.Match("(User:User)-[ego:EGO* {UserID : User.UserID }]->(friend:User)").
                         Where((User User) => User.UserID == UserID).AndWhere("friend.UserID <> 'TEMP'").
@@ -58,9 +63,8 @@ namespace Footprints.DAL.Concrete
             //If necessary
             LoadEgoNetwork(UserID);
             //Init
-            ActivityComparer comparer = new ActivityComparer();
-            priorityQueue = new C5.IntervalHeap<Activity>(comparer);
-            result = new List<Activity>();
+            
+            var result = new List<Activity>();
             numberOfFriends = friendList.Count;
             if (numberOfFriends == 0) return null;
             // Add latest activity of closest friend in ego
@@ -118,11 +122,7 @@ namespace Footprints.DAL.Concrete
                     }
                 }
             }
-            GC.KeepAlive(priorityQueue);
-            GC.KeepAlive(activities);
-            GC.KeepAlive(latestFriendPosition);
-            GC.KeepAlive(currentFriendPosition);
-            GC.KeepAlive(numberOfFriends);
+           
             return result.Count == 0 ? null : result;
         }
         public IList<Activity> LoadMoreNewsfeed(Guid UserID, int l)
@@ -169,11 +169,7 @@ namespace Footprints.DAL.Concrete
                     }
                 }
             }
-            GC.KeepAlive(priorityQueue);
-            GC.KeepAlive(activities);
-            GC.KeepAlive(latestFriendPosition);
-            GC.KeepAlive(currentFriendPosition);
-            GC.KeepAlive(numberOfFriends);
+
             return moreNewsfeed.Count == 0 ? null : moreNewsfeed;
         }
     }

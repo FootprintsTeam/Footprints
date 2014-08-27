@@ -168,7 +168,8 @@ namespace Footprints.Controllers
             var activities = newsfeedService.LoadMoreNewsfeed(currentUser.UserID, Constant.defaultNewsfeedBlockNumber);
             var viewModels = NewConstructNewsfeedCollection(activities);
             foreach(var viewModel in viewModels){
-                jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString(viewModel.GetNewsfeedPartialViewName(), viewModel) });
+                var viewName = viewModel.GetNewsfeedPartialViewName();
+                jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = viewName == null ? "" : RenderPartialViewToString(viewName, viewModel) });
             }
 
             //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });

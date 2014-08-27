@@ -78,7 +78,7 @@ namespace Footprints.Helpers
                     break;
             }
 
-            return "false";
+            return null;
         }
     }
 }
