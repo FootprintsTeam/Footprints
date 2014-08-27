@@ -474,8 +474,8 @@ namespace Footprints.DAL.Concrete
         public long GetNumberOfRegisterUserBetweenDays(String Start, String End)
         {
             var query = Db.Cypher.Match("(User:User)").
-                        Where((User User) => User.JoinDate.ToString().CompareTo(Start) >= 0).
-                        AndWhere((User User) => User.JoinDate.ToString().CompareTo(End) <= 0).
+                        Where("User.JoinDate >= {Start}").WithParam("Start", Start).
+                        AndWhere("User.JoinDate <= {End}").WithParam("End", End).
                         Return((User) => new
                         {
                             NumberOfUser = User.Count()
