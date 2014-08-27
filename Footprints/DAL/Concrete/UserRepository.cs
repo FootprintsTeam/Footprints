@@ -470,6 +470,23 @@ namespace Footprints.DAL.Concrete
             }
             return null;
         }
+        //For Admin
+        public long GetNumberOfRegisterUserBetweenDays(String Start, String End)
+        {
+            var query = Db.Cypher.Match("(User:User)").
+                        Where((User User) => User.JoinDate.ToString().CompareTo(Start) >= 0).
+                        AndWhere((User User) => User.JoinDate.ToString().CompareTo(End) <= 0).
+                        Return((User) => new
+                        {
+                            NumberOfUser = User.Count()
+                        }).Results;
+            foreach (var item in query)
+            {
+                return item.NumberOfUser;
+            }
+            return 0;
+        }
+
     }
     
     public interface IUserRepository : IRepository<User>
@@ -501,5 +518,6 @@ namespace Footprints.DAL.Concrete
         IList<Content> GetListContentByUserID(Guid UserID, int Skip, int Limit);
         int GetNumberOfContentByUserID(Guid UserID);
         IList<Activity> GetAllActivity(Guid UserID, int Skip, int Limit);
+        long GetNumberOfRegisterUserBetweenDays(String Start, String End);
     }
 }

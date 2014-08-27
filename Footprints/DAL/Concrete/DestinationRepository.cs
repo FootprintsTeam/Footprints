@@ -105,7 +105,8 @@ namespace Footprints.DAL.Concrete
                 Place_Name = Place.Name,
                 Place_Address = Place.Address,
                 Longitude = Place.Longitude,
-                Latitude = Place.Latitude
+                Latitude = Place.Latitude,
+                Timestamp = DateTimeOffset.Now
             };
             CypherQuery query = new CypherQuery(" OPTIONAL MATCH (User:User)-[:HAS]->(Journey:Journey) WHERE (User.UserID = {UserID}) AND (Journey.JourneyID = {JourneyID})" +
                                                 " WITH User, Journey " +
@@ -178,17 +179,9 @@ namespace Footprints.DAL.Concrete
         public bool UpdateDestinationForAdmin(Destination Destination)
         {
             var query = Db.Cypher.Match("(destination:Destination)").Where((Destination destination) => destination.DestinationID == Destination.DestinationID).
-                Set("destination.Name = {Destination}.Name, destination.OrderNumber = {Destination}.OrderNumber, destination.Description = {Destination}.Description, destination.TakenDate = {Destination}.TakenDate, destination.NumberOfLike = {Destination}.NumberOfLike, destination.NumberOfShare = {Destination}.NumberOfShare, destination.Timestamp = {Destination}.Timestamp").
-                WithParam("Destination", Destination).
-                Merge("(place:Place {PlaceID : {Place}.PlaceID, Name : {Place}.Name, Longitude : {Place}.Longitude, Latitude : {Place}.Latitude, Reference : {Place}.Reference, Address : {Place}.Address } )").WithParam("Place", Destination.Place).
-                With("destination, place").
-                Match("(Activity:Activity)").Where((Activity Activity) => Activity.DestinationID == Destination.DestinationID).
-                Set("Activity.Place_Name = place.Name, Activity.Place_Address = place.Address, Activity.Longitude = place.Longitude, Activity.Latitude = place.Latitude ").
-                With("destination, place").
-                Match("(destination)-[rel:AT]->(Place:Place)").
-                Delete("rel").
-                Create("(destination)-[:AT]->(place)").
-                Return(destination => destination.As<Destination>()).Results;
+                        Set("destination.Name = {Destination}.Name, destination.Description = {Destination}.Description").
+                        WithParam("Destination", Destination).
+                        Return(destination => destination.As<Destination>()).Results;
             return query.Count<Destination>() > 0 ? true : false;
         }
         public void DeleteDestination(Guid UserID, Guid DestinationID)
@@ -229,7 +222,7 @@ namespace Footprints.DAL.Concrete
                 ContentID = Content.ContentID,
                 ContentURL = Content.URL,
                 UserID = UserID,
-                Timestamp = Content.Timestamp,                
+                Timestamp = DateTimeOffset.Now              
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User)-[:HAS]->(Journey:Journey)-[:HAS]->(Destination:Destination) WHERE (User.UserID = {UserID}) AND (Destination.DestinationID = {DestinationID}) " +
                                                 " MATCH (Destination)-[:AT]->(Place:Place)" +
@@ -296,6 +289,7 @@ namespace Footprints.DAL.Concrete
                 Status = Models.Activity.StatusEnum.Active,
                 Type = "LIKE_A_DESTINATION",
                 DestinationID = DestinationID,
+                UserID = UserID,
                 Timestamp = DateTimeOffset.Now
             };
             CypherQuery query = new CypherQuery(" MATCH (User:User), (Destination:Destination) " +
@@ -303,7 +297,7 @@ namespace Footprints.DAL.Concrete
                                                 " MATCH (Destination)-[:AT]->(Place:Place)" + 
                                                 " CREATE (Destination)-[:LIKED_BY]->(User) " +
                                                 " SET Destination.NumberOfLike = Destination.NumberOfLike + 1 " +
-                                                " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
+                                                " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, UserID : {Activity}.UserID, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
                                                 " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
                                                 " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
@@ -350,6 +344,7 @@ namespace Footprints.DAL.Concrete
                 Status = Models.Activity.StatusEnum.Active,
                 Type = "SHARE_A_DESTINATION",
                 DestinationID = DestinationID,
+                UserID = UserID,
                 SharedContent = Content,
                 Timestamp = DateTimeOffset.Now
             };
@@ -358,7 +353,7 @@ namespace Footprints.DAL.Concrete
                                                 " MATCH (Destination)-[:AT]->(Place:Place)" +
                                                 " CREATE (Destination)-[:SHARED_BY]->(User) " +
                                                 " SET Destination.NumberOfShare = Destination.NumberOfShare + 1 " +
-                                                " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, Content : {Activity}.Content, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
+                                                " CREATE (Activity:Activity {ActivityID : {Activity}.ActivityID, UserID : {Activity}.UserID, Content : {Activity}.Content, Status : {Activity}.Status, Type : {Activity}.Type, DestinationID : {Activity}.DestinationID, Timestamp : {Activity}.Timestamp, Destination_Name : Destination.Name, Destination_Description : Destination.Description, Destination_NumberOfLike : Destination.NumberOfLike, Destination_NumberOfShare : Destination.NumberOfShare}) " +
                                                 " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL " +
                                                 " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
