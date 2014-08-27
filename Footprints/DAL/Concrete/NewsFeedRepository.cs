@@ -118,14 +118,17 @@ namespace Footprints.DAL.Concrete
                     }
                 }
             }
+            GC.KeepAlive(priorityQueue);
+            GC.KeepAlive(activities);
+            GC.KeepAlive(latestFriendPosition);
+            GC.KeepAlive(currentFriendPosition);
+            GC.KeepAlive(numberOfFriends);
             return result.Count == 0 ? null : result;
         }
         public IList<Activity> LoadMoreNewsfeed(Guid UserID, int l)
         {
             int cnt = 0;
-            numberOfFriends = friendList.Count;
             if (numberOfFriends == 0) return null;
-            if (priorityQueue == null) return null;
             List<Activity> moreNewsfeed = new List<Activity>();
             while (!priorityQueue.IsEmpty && cnt < l)
             {
@@ -136,18 +139,24 @@ namespace Footprints.DAL.Concrete
                     moreNewsfeed.Add(mostRecentActivity);
                 }
                 cnt++;
-                var tempActivity = activities.ElementAt(currentFriendPosition).Find(mostRecentActivity);
-                if (tempActivity != null && tempActivity.Next != null)
+                Activity tmpActivity = new Activity();
+                bool ok = false;
+                for (int i = 0; i < activities.Count; i++)
                 {
-                    priorityQueue.Add(tempActivity.Next.Value);
-                }
-                else
-                {
-                    tempActivity = activities.ElementAt(latestFriendPosition).Find(mostRecentActivity);
-                    if (tempActivity != null && tempActivity.Next != null)
+                    for (int j = 0; j < activities.ElementAt(i).Count; j++)
                     {
-                        priorityQueue.Add(tempActivity.Next.Value);
+                        if (activities.ElementAt(i).ElementAt(j) == mostRecentActivity)
+                        {
+                            if (j < activities.ElementAt(i).Count - 1)
+                            {
+                                tmpActivity = activities.ElementAt(i).ElementAt(j + 1);
+                                priorityQueue.Add(tmpActivity);
+                                ok = true;
+                                break;
+                            }
+                        }
                     }
+                    if (ok) break;
                 }
                 if (mostRecentActivity.Timestamp == latestActivity.Timestamp)
                 {
@@ -160,6 +169,11 @@ namespace Footprints.DAL.Concrete
                     }
                 }
             }
+            GC.KeepAlive(priorityQueue);
+            GC.KeepAlive(activities);
+            GC.KeepAlive(latestFriendPosition);
+            GC.KeepAlive(currentFriendPosition);
+            GC.KeepAlive(numberOfFriends);
             return moreNewsfeed.Count == 0 ? null : moreNewsfeed;
         }
     }
