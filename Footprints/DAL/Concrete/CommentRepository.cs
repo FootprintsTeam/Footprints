@@ -77,7 +77,7 @@ namespace Footprints.DAL.Concrete
                         Where((Comment comment) => comment.CommentID == Comment.CommentID).
                         AndWhere((User User) => User.UserID == UserID).
                         With("comment, rel").Where("rel IS NOT NULL").
-                        Set("comment = {Comment}").WithParam("Comment", Comment).
+                        Set("comment.Content = {Comment}.Content").WithParam("Comment", Comment).
                         With("comment").
                         Match("(Activity:Activity)").Where((Activity Activity) => Activity.CommentID == Comment.CommentID).
                         Set("Activity.Content = comment.Content").

@@ -1,0 +1,12 @@
+﻿@model Footprints.ViewModels.AddCommentFormViewModel
+@using (Ajax.BeginForm("Comment", new { controller = "Journey" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnComplete = "addCommentComplete", OnBegin = "return validateAddCommentForm('" + @Model.JourneyID + "');" }, new { id = "add-comment-form-" + @Model.JourneyID }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(x => x.JourneyID)
+    <div class="form-group">
+        @Html.TextAreaFor(x => x.Content, new { name = "message", id = "comment-input-" + Model.JourneyID, @class = "form-control autoheight", placeholder = "Comment here ...", rows = "1", style = "resize:none;" })
+        @Html.ValidationMessageFor(x => x.Content)
+        <input type="submit" class="btn btn-xs btn-primary pull-right" value="Done" />
+    </div>
+}

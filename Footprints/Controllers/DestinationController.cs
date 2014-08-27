@@ -83,6 +83,8 @@ namespace Footprints.Controllers
             destination.AlbumID = Guid.NewGuid();
             destination.DestinationID = Guid.NewGuid();
             destination.Timestamp = DateTimeOffset.Now;
+            var maxOrderNumber = destinationService.GetMaxOrderNumber(model.JourneyID);
+            destination.OrderNumber = ++maxOrderNumber;
             try
             {
                 if (destinationService.AddNewDestination(destination.UserID, destination, place, model.JourneyID))
@@ -164,7 +166,7 @@ namespace Footprints.Controllers
             if (userId == destination.UserID)
             {
                 List<String> listContentUrl = new List<String>();
-                List<Content> contents = destinationService.GetAllContent(destination.DestinationID).ToList();
+                IList<Content> contents = destinationService.GetAllContent(destination.DestinationID);
                 if (contents != null && contents.Count > 0)
                 {
                     foreach (var item in contents)

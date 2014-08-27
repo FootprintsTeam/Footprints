@@ -45,6 +45,7 @@ namespace Footprints.Controllers
             journeyViewModel.NumberOfDestination = journeyViewModel.Destinations.Count();
             journeyViewModel.NumberOfLike = journeyService.GetNumberOfLike(journeyID);
             journeyViewModel.NumberOfShare = journeyService.GetNumberOfShare(journeyID);
+            journeyViewModel.NumberOfPhoto = journeyService.GetNumberOfContent(journeyID);
             
             foreach (var x in journeyViewModel.Destinations)
             {
@@ -52,7 +53,7 @@ namespace Footprints.Controllers
             }
             if (journeyViewModel.Comments == null)
             {
-                journeyViewModel.Comments = new List<CommentViewModel>();
+                journeyViewModel.Comments = new List<Comment>();
             }
             journeyViewModel.AddNewDestinationFormViewModel = new AddNewDestinationFormViewModel { JourneyID = journeyID, TakenDate = DateTimeOffset.Now };
                         
@@ -187,7 +188,7 @@ namespace Footprints.Controllers
             var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
             commentObj.Timestamp = DateTimeOffset.Now;
             var jsonModel = new CommentInfo();
-            if (commentService.AddDestinationComment(userId, commentObj))
+            if (commentService.AddJourneyComment(userId, commentObj))
             {
                 bool isPostedFromJourneyPage = Request.UrlReferrer.ToString().Contains("/Journey/Index");
                 if (isPostedFromJourneyPage) TempData.Add("CommentPage", "Journey");
@@ -200,8 +201,49 @@ namespace Footprints.Controllers
             {
                 jsonModel.HTMLString = "";
             }
-            jsonModel.DestinationID = comment.DestinationID;
+            jsonModel.JourneyID = comment.JourneyID;
             return Json(jsonModel);
+        }
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditComment(CommentViewModel comment)
+        {
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+            var userId = new Guid(User.Identity.GetUserId());
+            var commentObj = (Models.Comment)Mapper.Map<CommentViewModel, Models.Comment>(comment);
+            //reset timestamp to current
+            commentObj.Timestamp = DateTimeOffset.Now;
+            //reset number of like
+            IEnumerable<User> userLikedList = journeyService.GetAllUserLiked(comment.JourneyID);
+            if (userLikedList != null)
+            {
+                commentObj.NumberOfLike = userLikedList.Count();
+            }
+            else
+            {
+                commentObj.NumberOfLike = 0;
+            }
+            var data = new List<CommentViewModel>();
+            if (commentService.UpdateComment(userId, commentObj))
+            {
+                data.Add(comment);
+            }
+            return Json(data, JsonRequestBehavior.DenyGet);
+        }
+        [HttpPost]
+        [Authorize]
+        public Guid DeleteComment(Guid CommentID)
+        {
+            if (CommentID != null)
+            {
+                var userId = new Guid(User.Identity.GetUserId());
+                commentService.DeleteAComment(userId, CommentID);
+            }
+            return CommentID;
         }
     }
 }

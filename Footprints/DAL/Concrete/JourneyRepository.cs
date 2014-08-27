@@ -187,7 +187,7 @@ namespace Footprints.DAL.Concrete
         }
         public IList<User> GetAllUserLiked(Guid JourneyID)
         {
-            var query = Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(user => user.As<User>()).Results;
+            var query = Db.Cypher.Match("(Journey:Journey)-[:LIKED_BY]->(User:User)").Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(User => User.As<User>()).Results;
             return query.Count() == 0 ? null : query.ToList<User>();
         }
         public void ShareJourney(Guid UserID, Guid JourneyID, String Content)
