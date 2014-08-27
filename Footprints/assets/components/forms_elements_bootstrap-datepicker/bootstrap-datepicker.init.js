@@ -12,7 +12,7 @@ $(function () {
 
     // component
     $('.datepicker2').bdatepicker({
-        format: "dd MM yyyy"
+        format: "mm/dd/yyyy"
     });
 
     // today button

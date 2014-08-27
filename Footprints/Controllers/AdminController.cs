@@ -43,17 +43,19 @@ namespace Footprints.Controllers
 
         public ActionResult Index(DashboardViewModel dashView)
         {
+            DateTime today = DateTime.Now;
+            String format = "{MM/dd/yyyy}";
+
             long totalUser = userSer.GetTotalUser();
             long totalJourney = journeySer.GetNumberOfJourney();
             long totalDestination = destinationSer.GetNumberOfDestination();
-            long todayuser = userSer.GetNumberOfRegisterUserBetweenDays(DateTime.Today.ToShortDateString(), DateTime.Today.ToShortDateString());
+            //long todayuser = userSer.GetNumberOfRegisterUserBetweenDays(today.ToString(format), today.ToString(format));
 
             //asssign values to view models
             dashView.TotalDestination = totalDestination;
             dashView.TotalJourney = totalJourney;
             dashView.TotalUser = totalUser;
-
-            dashView.TodayRegisterUser = todayuser;
+            
             return View(dashView);
         }
 
@@ -113,15 +115,17 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditDestination(Destination Destination)
         {
-
+            if (ModelState.IsValid)
+            {
                 destinationSer.UpdateDestinationForAdmin(Destination);
                 TempData["Msg"] = "Destination has been updated successfully";
                 return RedirectToAction("Destination");
-        
-            //    destinationSer.UpdateDestinationForAdmin(Destination);
-            //    TempData["Msg"] = "Destination has been updated successfully";
-            //    return RedirectToAction("Destination");
-            //}            
+            }
+            else
+            {
+                TempData["Msg"] = "Update destination failed";
+                return RedirectToAction("Destination");
+            }            
         }
 
         //public static IList<User> list;
@@ -336,13 +340,13 @@ namespace Footprints.Controllers
             return RedirectToAction("Journey");
         }
 
-        public ActionResult DeleteMultipleJourney(Guid UserID, Guid[] JourneyID)
+        public ActionResult DeleteMultipleJourney(Guid[] Id)
         {
-            foreach (var id in JourneyID)
+            foreach (var jid in Id)
             {
                 try
                 {
-                    journeySer.DeleteJourney(UserID, id);
+                    //journeySer.DeleteJourney(UserID, jid);
                     return RedirectToAction("Journey");
                 }
                 catch (Exception ex)
