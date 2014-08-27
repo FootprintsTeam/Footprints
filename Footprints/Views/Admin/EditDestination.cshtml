@@ -7,24 +7,8 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">                   
+    <div class="form-horizontal">
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.DestinationID)
-        @Html.HiddenFor(model => model.JourneyID)
-        @Html.HiddenFor(model => model.OrderNumber)
-        @Html.HiddenFor(model => model.UserID)
-        @Html.HiddenFor(model => model.AlbumID)        
-        @Html.HiddenFor(model => model.Place.PlaceID)
-        @Html.HiddenFor(model => model.Place.Reference)        
-        @Html.HiddenFor(model => model.NumberOfLike)
-        @Html.HiddenFor(model => model.NumberOfShare)
-        @Html.HiddenFor(model => model.TakenDate)
-        @Html.HiddenFor(model => model.Timestamp)
-        @Html.HiddenFor(model => model.Comments)
-            @Html.HiddenFor(model => model.Contents)
-
-
-        
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Name</label>
             <div class="col-sm-10">
@@ -36,40 +20,8 @@
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Enter description..." , row="4"})
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Enter description...", row = "4" })
                 @Html.ValidationMessageFor(model => model.Description)
-            </div>
-        </div>
-   
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Place Name</label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(model => model.Place.Name, new { @class = "form-control", placeholder = "Enter place name..." })
-                @Html.ValidationMessageFor(model => model.Place.Name)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Place Latitude</label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(model => model.Place.Latitude, new { @class = "form-control", placeholder = "Enter place latitude..." })
-                @Html.ValidationMessageFor(model => model.Place.Latitude)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Place Longitude</label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(model => model.Place.Longitude, new { @class = "form-control", placeholder = "Enter place longitude..." })
-                @Html.ValidationMessageFor(model => model.Place.Longitude)
-            </div>
-        </div>
-      
-        <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Place Address</label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(model => model.Place.Address, new { @class = "form-control", placeholder = "Enter place address..." })
-                @Html.ValidationMessageFor(model => model.Place.Address)
             </div>
         </div>
 

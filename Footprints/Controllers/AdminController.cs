@@ -101,17 +101,15 @@ namespace Footprints.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditDestination(Destination Destination)
         {
-            if (ModelState.IsValid)
-            {
+
                 destinationSer.UpdateDestinationForAdmin(Destination);
                 TempData["Msg"] = "Destination has been updated successfully";
                 return RedirectToAction("Destination");
-            }
-            else
-            {
-                TempData["Msg"] = "Update destination failed";
-                return RedirectToAction("Destination");
-            }            
+        
+            //    destinationSer.UpdateDestinationForAdmin(Destination);
+            //    TempData["Msg"] = "Destination has been updated successfully";
+            //    return RedirectToAction("Destination");
+            //}            
         }
 
         //public static IList<User> list;
