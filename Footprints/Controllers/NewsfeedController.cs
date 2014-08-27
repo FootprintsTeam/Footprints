@@ -108,7 +108,7 @@ namespace Footprints.Controllers
                 }
             };
 
-            return viewModels;
+            return viewModels.OrderByDescending(x => x.Timestamp).ToList<NewsfeedBaseWidgetViewModel>();
         }
         public ActionResult Index()
         {
