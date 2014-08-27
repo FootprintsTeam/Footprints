@@ -167,8 +167,8 @@
 @Scripts.Render("~/script/destination")
 <script type="text/javascript" src="/assets/plugins/jquery/jquery.resizecrop-1.0.3.js"></script>
 <script type="text/javascript">
-    var currentLatitude = @Model.Place.Latitude;
-    var currentLongitude = @Model.Place.Longitude;
+    var currentLatitude = "@Model.Place.Latitude";
+    var currentLongitude = "@Model.Place.Longitude";
     var imageContainerWidth = 50;
     var isFirstActiveGalleryTab = true;
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

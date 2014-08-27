@@ -80,7 +80,19 @@
                     TempData.Remove("AlreadyLike");
                 }
             </a>
-            <a href="#" class="innerLR" id="share-btn"><i class="fa fa-2x fa-share-square-o"></i> <span>Share</span></a>
+            <a href="#" class="innerLR" id="share-btn">                
+                @{
+                    if (!(bool)TempData["AlreadyShare"])
+                    {
+                        <i class="fa fa-2x fa-share-square-o"></i> <span>Share</span>
+                    }
+                    else
+                    {
+                        <i class="fa fa-2x fa-check-square-o"></i> <span>Shared</span>
+                    }
+                    TempData.Remove("AlreadyShare");
+                }
+            </a>
             <a href="@Url.Action("Index", "Journey", new { journeyID = @Model.JourneyID})"><i class="fa fa-2x icon-map-location-fill-2"></i> <span>Journey</span></a>
         </div>
     </div>

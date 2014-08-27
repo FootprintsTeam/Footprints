@@ -58,6 +58,7 @@ namespace Footprints.Controllers
             Mapper.Map<User, DestinationViewModel>(userService.RetrieveUser(destinationViewModel.UserID), destinationViewModel);
             //check if user already like or share
             TempData["AlreadyLike"] = destinationService.UserAlreadyLike(userId, destinationID);
+            TempData["AlreadyShare"] = destinationService.UserAlreadyShared(userId, destinationID);
             TempData["IsAuthor"] = userId == destinationModel.UserID ? true : false;
             return View(destinationViewModel);
         }
