@@ -10,7 +10,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Footprints.Models;
 using Footprints.ViewModels;
-using Footprints.Services; 
+using Footprints.Services;
 using AutoMapper;
 using Footprints.Common.JsonModel;
 using Footprints.Common;

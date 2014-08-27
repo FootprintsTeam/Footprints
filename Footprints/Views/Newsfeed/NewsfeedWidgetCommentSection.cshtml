@@ -5,7 +5,7 @@
 @foreach (var comment in Model)
 {
     <div class="media innerAll bg-gray margin-none border-top border-bottom">
-        <a class="pull-left" href="@Url.Action("Index", "Personal", new { userID = comment.User.UserID})"><img src="@comment.User.ProfilePicURL" alt="photo" class="media-object" width="35"></a>
+        <a class="pull-left" href="@Url.Action("Index", "Personal", new { userID = comment.User.UserID})"><img src="@comment.User.ProfilePicURL" alt="photo" class="media-object" style="width: 35px !important; height: 35px !important"></a>
         <div class="media-body">
             <a href="@Url.Action("Index", "Personal", new { userID = @comment.User.UserID })" class="strong text-inverse">@comment.User.UserName</a>
             <div class="timeline-bottom">

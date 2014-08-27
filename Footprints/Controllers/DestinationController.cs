@@ -225,12 +225,18 @@ namespace Footprints.Controllers
             var jsonModel = new CommentInfo();
             if (commentService.AddDestinationComment(userId, commentObj))
             {
-                bool isPostedFromJourneyPage = Request.UrlReferrer.ToString().Contains("/Journey/Index");
-                if(isPostedFromJourneyPage) TempData.Add("CommentPage", "Journey");
+                if (Request.UrlReferrer.ToString().Contains("/Journey/Index"))
+                {
+                    TempData.Add("CommentPage", "Journey");
+                }
+                else if (Request.UrlReferrer.ToString().Contains("/Newsfeed/Index"))
+                {
+                    TempData.Add("CommentPage", "Newsfeed");
+                }
                 var user = userService.RetrieveUser(userId);
                 commentObj.User = user;
                 jsonModel.HTMLString = RenderPartialViewToString("CommentItem", commentObj);
-                if (isPostedFromJourneyPage) TempData.Remove("CommentPage");
+                TempData.Remove("CommentPage");
             }
             else
             {

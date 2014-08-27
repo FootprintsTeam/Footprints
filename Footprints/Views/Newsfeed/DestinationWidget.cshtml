@@ -45,7 +45,16 @@
     <!--  Comment -->
     <div style="display: none" id="empty-last-comment-@Model.DestinationID"></div>
     <div class="" id="@String.Format("section-form-{0}", Model.DestinationID.ToString())">
-        @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnComplete = "addCommentComplete('" + @Model.DestinationID + "')", OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + Model.DestinationID.ToString() }))
+        @{
+            var jaxOptions = new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');",
+                OnSuccess = "addCommentDestination",
+                OnComplete = "addCommentComplete"
+            };
+        }
+        @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, jaxOptions, new { id = "add-comment-form-" + Model.DestinationID.ToString() }))
         {
             @Html.AntiForgeryToken()
             @Html.Hidden("DestinationID", Model.DestinationID)
