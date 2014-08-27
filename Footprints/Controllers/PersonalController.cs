@@ -15,7 +15,7 @@ using AutoMapper;
 using Footprints.Common.JsonModel;
 using Footprints.Common;
 using System.IO;
-
+using Footprints.Helpers;
 namespace Footprints.Controllers
 {
     public class PersonalController : Controller
@@ -25,15 +25,14 @@ namespace Footprints.Controllers
         IDestinationService destinationService;
         ICommentService commentService;
         INewsfeedService newsfeedService;
-        int skip;
+        private static int skip;
         public PersonalController(IUserService userService, IJourneyService journeyService, IDestinationService destinationService, ICommentService commentService, INewsfeedService newsfeedService)
         {
             this.userService = userService;
             this.journeyService = journeyService;
             this.destinationService = destinationService;
             this.commentService = commentService;
-            this.newsfeedService = newsfeedService;
-            skip = 0;
+            this.newsfeedService = newsfeedService;            
         }
 
         //
@@ -116,17 +115,25 @@ namespace Footprints.Controllers
         public ActionResult InfiniteScroll(int BlockNumber)
         {
             ////////////////// THis line of code only for demo. Needs to be removed ////
-            System.Threading.Thread.Sleep(1000);
-            ////////////////////////////////////////////////////////////////////////////
-            //int BlockSize = 5;
-            //var books = DataManager.GetBooks(BlockNumber, BlockSize);
             IList<InfiniteScrollJsonModel> jsonModels = new List<InfiniteScrollJsonModel>();
+
             //jsonModel.NoMoreData = books.Count < BlockSize;
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("DestinationWidget", DestinationWidgetViewModel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddFriendWidget", AddFriendWidgetViewmodel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("JourneyWidget", JourneyWidgetViewModel.GetSampleObject()) });
-            jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("ShareWidget", ShareWidgetViewModel.GetSampleObject()) });
+
+            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            var activities = userService.GetAllActivity(currentUser.UserID, skip, Constant.defaultNewsfeedBlockNumber);
+            skip = skip + Constant.defaultNewsfeedBlockNumber;
+            var viewModels = NewConstructNewsfeedCollection(activities);
+            foreach (var viewModel in viewModels)
+            {
+                var viewName = viewModel.GetPersonalPartialViewName();
+                jsonModels.Add(new InfiniteScrollJsonModel { HTMLString =  viewName.Equals("false") ? "" : RenderPartialViewToString(viewName, viewModel) });
+            }
+
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("DestinationWidget", DestinationWidgetViewModel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("AddFriendWidget", AddFriendWidgetViewmodel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("JourneyWidget", JourneyWidgetViewModel.GetSampleObject()) });
+            //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("ShareWidget", ShareWidgetViewModel.GetSampleObject()) });
 
             return Json(jsonModels);
         }
@@ -152,12 +159,13 @@ namespace Footprints.Controllers
 
         public ActionResult Index(string userID = "default")
         {
-            
+            skip = 0;
             var currentUserID = User.Identity.GetUserId();
             var model = userID.Equals("default") ? userService.RetrieveUser(new Guid(currentUserID)) : userService.RetrieveUser(new Guid(userID));
 
             var viewModel = Mapper.Map<User, PersonalViewModel>(model);
-            viewModel.Activities =  NewConstructNewsfeedCollection(userService.GetAllActivity(viewModel.UserID,skip,Constant.defaultNewsfeedBlockNumber));
+            viewModel.Activities = NewConstructNewsfeedCollection(userService.GetAllActivity(viewModel.UserID, skip, Constant.defaultNewsfeedBlockNumber));
+            skip = skip + Constant.defaultNewsfeedBlockNumber;
             //add number of pictures
             viewModel.NumberOfPhoto = userService.GetNumberOfContentByUserID(viewModel.UserID);
             viewModel.NumberOfJourney = (int)userService.GetNumberOfJourney(viewModel.UserID);
