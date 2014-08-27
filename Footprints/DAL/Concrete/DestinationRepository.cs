@@ -459,6 +459,20 @@ namespace Footprints.DAL.Concrete
                         Return(Content => Content.As<Content>()).OrderBy("Content.Timestamp").Skip(Skip).Limit(Limit).Results;
             return query.Count() == 0 ? null : query.ToList<Content>();
         }
+        public int GetMaxOrderNumber(Guid JourneyID)
+        {
+            var query = Db.Cypher.Match("(Journey:Journey)-[:HAS]->(Destination:Destination)").
+                Where((Journey Journey) => Journey.JourneyID == JourneyID).
+                With("Destination").OrderByDescending("Destination.OrderNumber").Limit(1).Return((Destination) => new
+                {
+                    MaxOrderNumber = Destination.As<Destination>().OrderNumber
+                }).Results;
+            foreach (var item in query)
+            {
+                return item.MaxOrderNumber;
+            }
+            return 0;
+        }
     }
     public interface IDestinationRepository : IRepository<DestinationRepository>
     {
@@ -490,6 +504,7 @@ namespace Footprints.DAL.Concrete
         IList<Content> GetContentListWithSkipAndLimit(int Skip, int Limit, Guid DestinationID);
         void DeleteDestinationForAdmin(Guid DestinationID);
         bool UpdateDestination(Guid UserID, Guid DestinationID, String Name, String Description, DateTimeOffset TakenDate, Place Place, DateTimeOffset Timestamp);
+        int GetMaxOrderNumber(Guid JourneyID);
     }
 
 }
