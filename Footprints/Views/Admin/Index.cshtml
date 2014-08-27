@@ -1,79 +1,156 @@
-﻿@{
+﻿@model Footprints.ViewModels.DashboardViewModel
+
+@{
     ViewBag.Title = "Welcome to Footprints CMS System";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
+
 }
 
-<script>
-    $(function () {
-        $('#container').highcharts({
-            data: {
-                table: document.getElementById('datatable')
-            },
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Data extracted from a HTML table in the page'
-            },
-            yAxis: {
-                allowDecimals: false,
-                title: {
-                    text: 'Units'
-                }
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        this.point.y + ' ' + this.point.name.toLowerCase();
-                }
-            }
-        });
-    });
-</script>
+<link href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css" rel="stylesheet" />
+<link href="~/Content/AdminLTE.css" rel="stylesheet" />
+
 <div class="clearfix"></div>
 <div style="padding-top: 70px; padding-left: 30px;">
-    <h2>Welcome to Footprints CMS System</h2>
+
+    <section class="content-header">
+        <h1>
+            Dashboard
+            <small>Control panel</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li class="active">@DateTime.Now</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        
+        <!-- row 1 -->
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-purple">
+                    <div class="inner">
+                        <h3>
+                            @*@Model.TodayNewJourney*@
+                        </h3>
+                        <p>
+                            Today Journey
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios7-paw"></i>
+                    </div>
+                    <a href="@Url.Action("Journey", "Admin")" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+
+            <div class="col-md-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>
+                            @*@Model.TodayNewDestination*@
+                        </h3>
+                        <p>
+                            Today Destination
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bug"></i>
+                    </div>
+                    <a href="@Url.Action("Destination", "Admin")" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+            <div class="col-md-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-olive">
+                    <div class="inner">
+                        <h3>
+                            @*@Model.TodayRegisterUser*@
+                        </h3>
+                        <p>
+                            Today User Registrations 
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="@Url.Action("UserList", "Admin")" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+        </div> <!-- ./end row 2 -->
+
+        <!-- row 2 -->
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3>
+                            @Model.TotalJourney
+                        </h3>
+                        <p>
+                            Total Journey
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios7-paw"></i>
+                    </div>
+                    <a href="@Url.Action("Journey", "Admin")" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+
+            <div class="col-md-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>
+                            @Model.TotalDestination
+                        </h3>
+                        <p>
+                            Total Destination
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-bug"></i>
+                    </div>
+                    <a href="@Url.Action("Destination", "Admin")" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+            <div class="col-md-4 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3>
+                            @Model.TotalUser
+                        </h3>
+                        <p>
+                            User Registrations
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                    <a href="@Url.Action("UserList", "Admin")" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div><!-- ./col -->
+        </div> <!-- ./end row 2 -->
+
+    </section>
+
 </div>
 
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
-<table id="datatable">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Jane</th>
-            <th>John</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <th>Apples</th>
-            <td>3</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <th>Pears</th>
-            <td>2</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <th>Plums</th>
-            <td>5</td>
-            <td>11</td>
-        </tr>
-        <tr>
-            <th>Bananas</th>
-            <td>1</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <th>Oranges</th>
-            <td>2</td>
-            <td>4</td>
-        </tr>
-    </tbody>
-</table>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/data.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>

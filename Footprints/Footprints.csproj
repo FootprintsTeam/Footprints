@@ -1811,11 +1811,13 @@
     <Content Include="assets\plugins\ui_sliders_range_jqrangeslider\css\iThing.css" />
     <Content Include="assets\plugins\ui_sliders_range_jqrangeslider\js\jQAllRangeSliders-withRuler-min.js" />
     <Content Include="assets\plugins\ui_sliders_range_mousewheel\jquery.mousewheel.min.js" />
+    <Content Include="Content\AdminLTE.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\destinationcss.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jqueryui\jquery-ui.css" />
     <Content Include="Content\nanogallerycss\font\nano_icon_font.svg" />
     <Content Include="Content\nanogallerycss\loading.gif" />
