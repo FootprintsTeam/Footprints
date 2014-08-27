@@ -5,15 +5,15 @@
         <a href=""><img src="@Model.ProfilePicURL" style="width:120px" alt="" class="img-circle"></a>
         <h2 class="strong margin-none">@Model.UserName</h2>
         <div class="innerB"></div>
-        <a href="" class="btn btn-primary text-center btn-block">Since @Model.JoinDate.ToStringLong()</a>
+        <a href="@Url.Action("Index", "Personal", new { userID = @Model.UserID})" class="btn btn-primary text-center btn-block">Since @Model.JoinDate.ToStringLong()</a>
         <div class="btn-group-vertical btn-block">
-            <a href="" class="btn btn-default">
+            <a href="@Url.Action("JourneyList", "Journey", new { userID = @Model.UserID})" class="btn btn-default">
                 <span class="badge pull-right badge-primary hidden-md">@Model.NumberOfJourney</span>Journeys
             </a>
-            <a href="" class="btn btn-default">
+            <a href="@Url.Action("JourneyList", "Journey", new { userID = @Model.UserID})" class="btn btn-default">
                 <span class="badge pull-right badge-primary hidden-md">@Model.NumberOfDestination</span>Destinations
             </a>
-            <a href="" class="btn btn-default">
+            <a href="@Url.Action("Index", "Friend", new { userID = @Model.UserID})" class="btn btn-default">
                 <span class="badge pull-right badge-primary hidden-md">@Model.NumberOfFriend</span>Friends
             </a>
         </div>
