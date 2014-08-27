@@ -258,17 +258,17 @@ namespace Footprints.DAL.Concrete
         }
         public bool UserAlreadyLiked(Guid UserID, Guid JourneyID)
         {
-            var query = Db.Cypher.OptionalMatch("(Journey:Journey)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
+            var query = Db.Cypher.Match("(Journey:Journey)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
                 .AndWhere((Journey Journey) => Journey.JourneyID == JourneyID).Return(Journey => Journey.As<Journey>())
-                .Results.ToList<Journey>();
-            return query.Count > 0 ? true : false;
+                .Results;
+            return query.Count() > 0 ? true : false;
         }
         public bool UserAlreadyShared(Guid UserID, Guid JourneyID)
         {
-            var query = Db.Cypher.OptionalMatch("(Journey:Journey)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
+            var query = Db.Cypher.Match("(Journey:Journey)-[rel:SHARED_BY]->(User:User)").Where((User User) => User.UserID == UserID)
                 .AndWhere((Journey Journey) => Journey.JourneyID == JourneyID).Return(Journey => Journey.As<Journey>())
-                .Results.ToList<Journey>();
-            return query.Count > 0 ? true : false;
+                .Results;
+            return query.Count() > 0 ? true : false;
         }
         public bool UpdateJourney(Guid UserID, Guid JourneyID, String Name, String Description, DateTimeOffset TakenDate, DateTimeOffset Timestamp)
         {
