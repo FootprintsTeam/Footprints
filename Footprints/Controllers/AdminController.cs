@@ -45,7 +45,7 @@ namespace Footprints.Controllers
         {
             DateTime today = DateTime.Today;
             DateTime tomorrow = DateTime.Today.AddDays(1);
-            String format = "{yyyy/MM/dd}";
+            String format = "{yyyy-MM-dd}";
 
             long totalUser = userSer.GetTotalUser();
             long totalJourney = journeySer.GetNumberOfJourney();
@@ -60,7 +60,7 @@ namespace Footprints.Controllers
             dashView.TodayRegisterUser = todayuser;
             dashView.TodayNewJourney = todayJourney;
             dashView.TodayNewDestination = todayDestination;
-            
+
             return View(dashView);
         }
 
@@ -96,12 +96,12 @@ namespace Footprints.Controllers
         {
             if (DestinationID == null)
             {
-                TempData["Msg"] = "Delete destination failed";                
+                TempData["Msg"] = "Delete destination failed";
             }
             else
             {
                 destinationSer.DeleteDestinationForAdmin(DestinationID);
-                TempData["Msg"] = "Delete destination successfully";                
+                TempData["Msg"] = "Delete destination successfully";
             }
             return RedirectToAction("Destination");
         }
@@ -130,7 +130,7 @@ namespace Footprints.Controllers
             {
                 TempData["Msg"] = "Update destination failed";
                 return RedirectToAction("Destination");
-            }            
+            }
         }
 
         //public static IList<User> list;
@@ -201,8 +201,8 @@ namespace Footprints.Controllers
             Footprints.Models.User UserRetrieved = userSer.RetrieveUser(UserID);
             var rolesRemove = UserManager.RemoveFromRoles(UserID.ToString(), UserRetrieved.Status.ToString());
             if (rolesRemove.Succeeded)
-            { 
-                return View(UserRetrieved); 
+            {
+                return View(UserRetrieved);
             }
             else
             {
@@ -327,20 +327,16 @@ namespace Footprints.Controllers
             }
         }
 
-        public ActionResult DeleteJourney(Guid UserID, Guid JourneyID)
+        public ActionResult DeleteJourney(Guid JourneyID)
         {
-            if (UserID == null)
+            if (JourneyID == null)
             {
-                TempData["Msg"] = "Delete journey failed";                
-            }
-            else if (JourneyID == null)
-            {
-                TempData["Msg"] = "Delete journey failed";                
+                TempData["Msg"] = "Delete journey failed";
             }
             else
             {
-                journeySer.DeleteJourney(UserID, JourneyID);
-                TempData["Msg"] = "Delete journey successfully";                
+                journeySer.DeleteJourneyForAdmin(JourneyID);
+                TempData["Msg"] = "Delete journey successfully";
             }
             return RedirectToAction("Journey");
         }
@@ -383,10 +379,11 @@ namespace Footprints.Controllers
                 TempData["Msg"] = "Journey has been updated successfully";
                 return RedirectToAction("Journey");
             }
-            else {
+            else
+            {
                 TempData["Msg"] = "Update journey failed !";
                 return RedirectToAction("Journey");
-            }                        
+            }
         }
     }
 }
