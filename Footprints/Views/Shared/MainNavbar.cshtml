@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="navbar-fixed-layout-collapse">
             <div class="row">
                 <div class="col-md-4">
-                    @*@{Html.RenderPartial("SearchFormPartial", new SearchDataViewModel { Keyword = @ViewBag.Keyword == null? "" : @ViewBag.Keyword, SearchTypes = searchType });}*@
+                    @{Html.RenderPartial("SearchFormPartial", new SearchDataViewModel { Keyword = @ViewBag.Keyword == null? "" : @ViewBag.Keyword, SearchTypes = searchType });}
                 </div>
                 <div class="col-md-6">
                     <ul class="nav navbar-nav navbar-right">
