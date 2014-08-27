@@ -37,7 +37,7 @@
                     @Html.LabelFor(x => x.TakenDate, new { @class = "col-md-2 control-label" })
                     <div class="col-sm-4">
                         <div class="input-group date datepicker2">
-                            @Html.TextBoxFor(x => x.TakenDate, "{0:dd MMMM yyyy}", new { @class = "form-control", id = "TakenDate", data_val = "true" })
+                            @Html.TextBoxFor(x => x.TakenDate, new { @class = "form-control", id = "TakenDate", data_val = "true" })
                             @Html.ValidationMessageFor(x => x.TakenDate)
                             <span class="input-group-addon"><i class="fa fa-th"></i></span>
                         </div>
