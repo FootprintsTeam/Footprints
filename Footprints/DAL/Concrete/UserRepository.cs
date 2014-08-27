@@ -439,17 +439,20 @@ namespace Footprints.DAL.Concrete
         }
         public IList<Activity> GetAllActivity(Guid UserID, int Skip, int Limit)
         {
+            if (Skip == 0) Limit--;
+            else Skip--;
             var query = Db.Cypher.Match("(User:User)-[:LATEST_ACTIVITY]->(LatestActivity:Activity)").
                         Where((User User) => User.UserID == UserID).
-                        Match("(LatestActivity)-[:NEXT*]->(Activity:Activity)").
-                        With("LatestActivity, Activity").
-                        OrderBy("Activity.Timestamp").
-                        With("LatestActivity, Activity").
-                        Skip(Skip).Limit(Limit).
-                        Return((LatestActivity, Activity) => new
+                        Match("(LatestActivity)-[:NEXT*]->(NextActivity:Activity)").
+                        With("LatestActivity, NextActivity").
+                        OrderBy("NextActivity.Timestamp").
+                        With("LatestActivity, NextActivity").
+                        Skip(Skip).
+                        Limit(Limit).
+                        Return((LatestActivity, NextActivity) => new
                         {
                             LatestActivity = LatestActivity.As<Activity>(),
-                            Activity = Activity.CollectAs<Activity>()
+                            NextActivity = NextActivity.CollectAs<Activity>()
                         }).
                         Results;
             List<Activity> result = new List<Activity>();
@@ -459,7 +462,7 @@ namespace Footprints.DAL.Concrete
                 {
                     result.Add(item.LatestActivity);
                 }
-                foreach (var activity in item.Activity)
+                foreach (var activity in item.NextActivity)
 	            {
 		            if ((activity != null) && (activity.Data.Status != Activity.StatusEnum.Deleted)) 
                     {
