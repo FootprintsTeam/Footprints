@@ -10,5 +10,6 @@ namespace Footprints.Common.JsonModel
         public String HTMLString { get; set; }
         public Guid DestinationID { get; set; }
         public Guid JourneyID { get; set; }
+        public Guid UniqueID { get; set; }
     }
 }

@@ -62,6 +62,7 @@ namespace Footprints.ViewModels
             get { return DateTimeFormat.TimeAgo(this.Timestamp); }
             private set { }
         }
+        public Guid UniqueID { get; set; }
         public static IList<CommentViewModel> GetSampleObject()
         {
             var sample = new CommentViewModel { 

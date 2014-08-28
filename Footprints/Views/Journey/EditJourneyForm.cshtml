@@ -14,7 +14,7 @@
                     <div class="innerLR">
                         @using (Html.BeginForm("Edit", "Journey", FormMethod.Post, new { name="frmEditJourney", @class = "form-horizontal", role = "form"}))
                         {
-                            Html.ValidationSummary(true);
+                            @Html.ValidationSummary(true);
                             @Html.AntiForgeryToken();
                             @Html.Hidden("UserID", new Guid(User.Identity.GetUserId()));
                             @Html.Hidden("JourneyID", Guid.NewGuid());

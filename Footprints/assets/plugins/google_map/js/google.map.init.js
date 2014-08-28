@@ -25,9 +25,13 @@ if (typeof frmDestination !== "undefined") {
     var hdDestinationPlaceName = frmDestination.elements["PlaceName"];
     var hdDestinationAddress = frmDestination.elements["Address"];
 }
-var centerLatLng = new google.maps.LatLng(21.0226967, 105.8369637);
+var centerLatLng;
 if (typeof frmDestination !== "undefined" && !(hdDestinationLatitude.value == 0 && hdDestinationLongitude.value == 0)) {
     centerLatLng = new google.maps.LatLng(hdDestinationLatitude.value, hdDestinationLongitude.value);
+} else if (typeof currentLatitude !== "undefined") {
+    centerLatLng = new google.maps.LatLng(currentLatitude, currentLongitude);
+} else {
+    centerLatLng = new google.maps.LatLng(21.0226967, 105.8369637);
 }
 function initialize() {
     psContainer = document.getElementById('sp-container');
@@ -41,11 +45,12 @@ function initialize() {
             position: new google.maps.LatLng(currentLatitude, currentLongitude),
             map: mapDestinations
         });
+        mapDestinations.setCenter(new google.maps.LatLng(currentLatitude, currentLongitude));
     }
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-            if (typeof arrDestination === "undefined" || arrDestination.length == 0) {
+            if (typeof currentLatitude === "undefined" && (typeof arrDestination === "undefined" || arrDestination.length == 0)) {
                 map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
             }
         }, function () { });

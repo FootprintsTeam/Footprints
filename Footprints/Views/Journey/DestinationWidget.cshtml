@@ -33,9 +33,10 @@
             {
                 if (Model.Comments.Count > 4)
                 {
-                    <a href="@Url.Action("Index", "Destination", new { destinationID = @Model.DestinationID})"></a><div class="bg-gray innerAll border-top border-bottom text-small ">
+                    <a href="@Url.Action("Index", "Destination", new { destinationID = @Model.DestinationID})" class="innerall border-top display-block "><i class="innerLR fa fa-bars"></i> View all comments <span class="text-muted">@Model.Comments.Count comments</span></a>
+                    @*<a class="" href="@Url.Action("Index", "Destination", new { destinationID = @Model.DestinationID})"></a><div class="bg-gray innerAll border-top border-bottom text-small ">
                         <span>View all <a href="" class="text-primary">@Model.Comments.Count Comments</a></span>
-                    </div>
+                    </div>*@
                 }
                 for (int index = 0; index < Model.Comments.Count && index < 4; index++)
                 {
@@ -53,7 +54,7 @@
             }
             <div style="display: none" id="empty-last-comment-@Model.DestinationID"></div>
             <div class="" id="@String.Format("section-form-{0}", Model.DestinationID.ToString())">
-                @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addComment", OnComplete = "addCommentComplete('" + @Model.DestinationID + "')", OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + Model.DestinationID.ToString() }))
+                @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addCommentDestination", OnComplete = "addCommentComplete", OnBegin = "return validateAddCommentDestinationDataForm('" + @Model.DestinationID + "');" }, new { id = "add-comment-form-" + Model.DestinationID.ToString() }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.Hidden("DestinationID", Model.DestinationID)

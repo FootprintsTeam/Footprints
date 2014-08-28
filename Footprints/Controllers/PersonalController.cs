@@ -37,7 +37,7 @@ namespace Footprints.Controllers
 
         //
         // GET: /Personal/Personal/
-       
+
         public IList<NewsfeedBaseWidgetViewModel> NewConstructNewsfeedCollection(IList<Activity> newsfeedWidgets)
         {
 

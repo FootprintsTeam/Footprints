@@ -42,49 +42,46 @@
         </div>
     </div>
 </div>
-@if (TempData["IsAuthor"] != null && (bool)TempData["IsAuthor"])
-{
-    Html.RenderPartial("EditDestinationForm", Model.EditDestinationForm);
-    <div class="modal fade" id="delete-destination-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal heading -->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title">Delete Destination</h3>
-                </div>
-                <!-- // Modal heading END -->
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="innerAll">
-                        <div class="innerLR">
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <label class="control-label">Are you sure want to delete this destination?</label>
-                                </div>
+
+@{Html.RenderPartial("EditDestinationForm", Model.EditDestinationForm);}
+<div class="modal fade" id="delete-destination-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal heading -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title">Delete Destination</h3>
+            </div>
+            <!-- // Modal heading END -->
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="innerAll">
+                    <div class="innerLR">
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <label class="control-label">Are you sure want to delete this destination?</label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- // Modal body END -->
-                <div class="modal-footer">
-                    @using (Html.BeginForm("Delete", "Destination", FormMethod.Post, new { @name = "frmDeleteDestination", @role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        @Html.HiddenFor(x => @Model.DestinationID)
-                        @Html.HiddenFor(x => @Model.JourneyID)
-                        <button class="btn btn-primary" type="submit">Confirm</button>
-                        <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                    }
-                </div>
+            </div>
+            <!-- // Modal body END -->
+            <div class="modal-footer">
+                @using (Html.BeginForm("Delete", "Destination", FormMethod.Post, new { @name = "frmDeleteDestination", @role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x => @Model.DestinationID)
+                    @Html.HiddenFor(x => @Model.JourneyID)
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                    <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                }
             </div>
         </div>
     </div>
-    <!-- // Modal END -->
-    Html.RenderPartial("DeletePhotoModal", new DeletePhotoFormViewModel() { DestinationID = @Model.DestinationID });
-    @TempData.Remove("IsAuthor");
-}
+</div>
+@{Html.RenderPartial("DeletePhotoModal", new DeletePhotoFormViewModel() { DestinationID = @Model.DestinationID });}
+   
 @{Html.RenderPartial("DeleteCommentModal");}
 <script type="text/javascript">
     function deletePhoto(data) {
@@ -162,8 +159,8 @@
 @Scripts.Render("~/script/destination")
 <script type="text/javascript" src="/assets/plugins/jquery/jquery.resizecrop-1.0.3.js"></script>
 <script type="text/javascript">
-    var currentLatitude = "@Model.Place.Latitude";
-    var currentLongitude = "@Model.Place.Longitude";
+    var currentLatitude = @Model.Place.Latitude;
+    var currentLongitude = @Model.Place.Longitude;
     var imageContainerWidth = 50;
     var isFirstActiveGalleryTab = true;
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

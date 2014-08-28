@@ -51,7 +51,7 @@
                                 break;
                         }
                     };
-                    <!-- //End Widget -->                    
+                    <!-- //End Widget -->
                 </div>
                 <div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
             </div>
@@ -96,15 +96,15 @@
         });
         var isCommentProcessing = false;
         function addCommentDestination(data) {
-            $('#empty-last-comment-' + data.DestinationID).before(
+            $('#empty-last-comment-' + data.DestinationID + '-' + data.UniqueID).before(
                 data.HTMLString
             );
-            $('#comment-input-' + data.DestinationID).val('');
+            $('#comment-input-' + data.DestinationID + '-' + data.UniqueID).val('');
         }
-        function validateAddCommentForm(DestinationID) {
+        function validateAddCommentForm(DestinationID, UniqueID) {
             if (isCommentProcessing) return false;
             isCommentProcessing = true;
-            var commentInput = $('#comment-input-' + DestinationID);
+            var commentInput = $('#comment-input-' + DestinationID + '-' + UniqueID);
             if (commentInput == null || commentInput.val().length == 0) {
                 return false;
             } else {

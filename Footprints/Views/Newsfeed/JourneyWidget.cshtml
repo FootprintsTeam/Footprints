@@ -5,7 +5,7 @@
     <!-- Info -->
     <div class="bg-gray  border-bottom innerAll">
         <a href="@Url.Action("Index", "Personal", new { @Model.UserID})" class="pull-right"><img src="@Model.ProfilePicURL" style="width:50px !important" class="media-object"></a>
-        <a href="" class="lead strong display-block margin-none">New Journey - @Model.JourneyName </a>
+        <a href="@Url.Action("Index", "Journey", new { journeyID = Model.JourneyID})" class="lead strong display-block margin-none">New Journey - @Model.JourneyName </a>
         <span>added on @Model.Timestamp.ToStringShort()</span>
     </div>
     <!-- Content -->
