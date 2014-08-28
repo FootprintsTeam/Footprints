@@ -284,6 +284,13 @@ namespace Footprints.DAL.Concrete
                    Where((Journey Journey) => Journey.JourneyID == JourneyID).Return<int>("Count(Content)").Results;
             return query.Count() == 0 ? 0 : query.First();
         }
+
+        public List<Content> GetAllContent(Guid JourneyID)
+        {
+            var query = Db.Cypher.OptionalMatch("(Journey:Journey)-[:HAS]->(Destination:Destination)-[:HAS]->(Content)").
+                   Where((Journey Journey) => Journey.JourneyID == JourneyID).Return(Content => Content.As<Content>()).Results;
+            return query.Count() == 0 ? null : query.ToList<Content>();
+        }
         public IList<Journey> GetJourneyDetailsListBelongToUser(Guid UserID)
         {
             var query = Db.Cypher.OptionalMatch("(User:User)-[:HAS]->(Journey:Journey)").Where((User User) => User.UserID == UserID).
@@ -429,5 +436,6 @@ namespace Footprints.DAL.Concrete
         Journey GetJourneyDetailWithComment(Guid JourneyID);
         long GetNumberOfCreatedJourneyBetweenDays(String Start, String End);
         bool DeleteJourneyForAdmin(Guid JourneyID);
+        List<Content> GetAllContent(Guid JourneyID);
     }
 }

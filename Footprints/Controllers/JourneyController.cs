@@ -45,7 +45,18 @@ namespace Footprints.Controllers
             journeyViewModel.NumberOfDestination = journeyViewModel.Destinations.Count();
             journeyViewModel.NumberOfLike = journeyService.GetNumberOfLike(journeyID);
             journeyViewModel.NumberOfShare = journeyService.GetNumberOfShare(journeyID);
-            journeyViewModel.NumberOfPhoto = journeyService.GetNumberOfContent(journeyID);
+            List<Content> contents = journeyService.GetAllContent(journeyID);
+            if (contents != null && (journeyViewModel.NumberOfPhoto = contents.Count()) > 0)
+            {
+                if (journeyViewModel.NumberOfPhoto == 1)
+                {
+                    journeyViewModel.CoverPhoto = contents[0];
+                }
+                else
+                {
+                    journeyViewModel.CoverPhoto = contents[new Random().Next(0, contents.Count() - 1)];
+                }
+            }
             
             foreach (var x in journeyViewModel.Destinations)
             {

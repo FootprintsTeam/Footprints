@@ -22,6 +22,7 @@ namespace Footprints.Mappings
             Mapper.CreateMap<AddNewDestinationFormViewModel, Destination>();
             Mapper.CreateMap<EditDestinationFormViewModel, Place>();
             Mapper.CreateMap<EditDestinationFormViewModel, Destination>();
+            Mapper.CreateMap<EditJourneyViewModel, Journey>();
 			Mapper.CreateMap<CommentViewModel, Comment>();
             Mapper.CreateMap<DestinationViewModel, EditDestinationFormViewModel>();
             Mapper.CreateMap<DestinationViewModel, DestinationInfoOnMapViewModel>();

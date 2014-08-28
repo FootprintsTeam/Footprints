@@ -19,7 +19,7 @@ namespace Footprints.ViewModels
         public int NumberOfShare { get; set; }
         public int NumberOfDestination { get; set; }
         public int NumberOfPhoto { get; set; }
-        public CoverPhoto CoverPhoto { get; set; }
+        public Content CoverPhoto { get; set; }
         public IList<DestinationViewModel> Destinations { get; set; }
         public IList<Comment> Comments { get; set; }
         public string TimeAgo
@@ -42,11 +42,6 @@ namespace Footprints.ViewModels
                 NumberOfShare = 4,
                 NumberOfDestination = 10,
                 NumberOfPhoto = 200,
-                CoverPhoto = new CoverPhoto
-                {
-                    PhotoId = new Guid(),
-                    PhotoUrl = "https://s3-ap-southeast-1.amazonaws.com/elasticbeanstalk-ap-southeast-1-01156/user_123456/album_12345/avt.JPG"
-                },
                 AddNewDestinationFormViewModel = AddNewDestinationFormViewModel.GetEmptyObject(Guid.NewGuid()),
                 Destinations = new List<DestinationViewModel> { 
                     DestinationViewModel.GetSampleObject()
