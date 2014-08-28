@@ -197,7 +197,6 @@
                             BlockNumber = BlockNumber + 1;
                             NoMoreData = data.NoMoreData;
                             for (i = 0; i < data.length; i++) {
-                                //$(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
                                 $(".timeline").append($.parseHTML(data[i].HTMLString));
                             }
                             $("#loadingDiv").hide();
@@ -206,8 +205,15 @@
                     });
         }
     });
+    $('#btn-modal-cover-picture-add').on('click', function () {
+        console.log('Cover');
+        $('#SubActionName').text('AddCoverPhoto');
+        $('#modal-cover-picture-add').fadeIn();
+    });
+    $('#btn-modal-avatar-picture-add').on('click', function () {
+        console.log('Avatar');
+        $('#modal-cover-picture-add').fadeIn();
+    });
 </script>
-
 @{Html.RenderPartial("AddCoverPhotoModal");}
-@{Html.RenderPartial("AddPictureModal");}
 @Scripts.Render("~/script/personal")
