@@ -73,80 +73,64 @@ namespace Footprints.DAL.Concrete
                                                 " CREATE (activityOfB:Activity {ActivityID : {ActivityOfB}.ActivityID, Status : {ActivityOfB}.Status, Type : {ActivityOfB}.Type, UserID : {ActivityOfB}.UserID, Timestamp : {ActivityOfB}.Timestamp, UserName : userB.UserName, FirstName : userB.FirstName, LastName : userB.LastName, ProfilePicURL : userB.ProfilePicURL, FriendName : userA.UserName, FriendUserID : userA.UserID, FriendProfilePicURL : userA.ProfilePicURL}) " +
                                                 " CREATE (activityOfB)-[:ACT_ON_USER]->(userA) " +
                                                 " WITH userA, userB, activityOfA, activityOfB " +
-                                                " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +                                        
+                                                " MATCH (userA)-[f:LATEST_ACTIVITY]->(nextActivityA) " +
                                                 "    CREATE (userA)-[rAafter:LATEST_ACTIVITY]->(activityOfA) " +
                                                 "    CREATE (activityOfA)-[:NEXT]->(nextActivityA) " +
-                                                " SET rAafter = f" +
+
                                                 " WITH userA, userB, activityOfA, activityOfB, f " +
-                                                " DELETE f" +
-                                                " WITH userA, userB, activityOfA, activityOfB " +
                                                 " MATCH (userB)-[fi:LATEST_ACTIVITY]->(nextActivityB) " +
                                                 "    CREATE (userB)-[rBafter:LATEST_ACTIVITY]->(activityOfB) " +
                                                 "    CREATE (activityOfB)-[:NEXT]->(nextActivityB) " +
-                                                " SET rBafter = fi " +
-                                                " WITH userA, userB, activityOfA, activityOfB, fi " +
-                                                " DELETE fi " +
-                                                " WITH userA, userB " +
+                                                
+                                                " WITH userA, userB, f, fi " +
                                                 " MATCH (userA)-[egoA:EGO {UserID : {UserID_A}}]->(EgoNodeOfA) " +
                                                 "    CREATE (userA)-[egoAafter:EGO {UserID : {UserID_A}}]->(userB) " +
                                                 "    CREATE (userB)-[:EGO {UserID : {UserID_A}}]->(EgoNodeOfA) " +
-                                                "    SET egoAafter = egoA " +
-                                                " WITH userA, userB, egoA " +
-                                                " DELETE egoA " +
-                                                " WITH userA, userB " +
+
+                                                " WITH userA, userB, f, fi, egoA " +
                                                 " MATCH (userB)-[egoB:EGO {UserID : {UserID_B}}]->(EgoNodeOfB) " +                                                
+
                                                 "    CREATE (userB)-[egoBafter:EGO {UserID : {UserID_B}}]->(userA) " +
                                                 "    CREATE (userA)-[:EGO {UserID : {UserID_B}}]->(EgoNodeOfB)" + 
-                                                "    SET egoBafter = egoB " +
-                                                " WITH userA, userB, egoB" +                                                 
-                                                "   DELETE egoB " ,
+                                                " WITH userA, userB, f, fi, egoA, egoB" + 
+                                                " DELETE f, fi, egoA, egoB",
                                                 new Dictionary<String, Object> { { "UserID_A", UserID_A }, { "UserID_B", UserID_B }, { "ActivityOfA", ActivityOfA }, { "ActivityOfB", ActivityOfB } }, 
                                                 CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
         }
-        //TODO
+        
         public bool DeleteFriendRelationship(Guid UserID_A, Guid UserID_B)
         {
             CypherQuery query = new CypherQuery(" OPTIONAL MATCH (UserA:User)-[rel:FRIEND]-(UserB:User) " +
-                                            " WHERE (UserA.UserID = {UserID_A}) AND (UserB.UserID = {UserID_B}) " +
-                                            " DELETE rel " + 
-                                            " WITH UserA, UserB " +
-                                            " OPTIONAL MATCH (previousB:User)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)" +
-                                            "   DELETE relPB" + 
-                                            " WITH UserA, UserB, previousB " +
+                                            " WHERE (UserA.UserID = {UserID_A}) AND (UserB.UserID = {UserID_B}) " +                                                                                       
+                                            " OPTIONAL MATCH (previousB:User)-[relPB:EGO {UserID : UserA.UserID}]->(UserB)" +                                                                                       
                                             " OPTIONAL MATCH (UserB)-[relNB:EGO {UserID : UserA.UserID}]->(nextB:User) " +
-                                            " CREATE (previousB)-[rBnew:EGO {UserID : UserA.UserID}]->(nextB) " +
-                                            " SET rBnew = relNB " +
-                                            " WITH UserA, UserB, relNB" +
-                                            "   DELETE relNB" +
-                                            " WITH UserA, UserB " +
-                                            " OPTIONAL MATCH (previousA:User)-[relPA:EGO {UserID : UserB.UserID}]->(UserA) " +
-                                            "   DELETE relPA" + 
-                                            " WITH UserA, UserB, previousA " +
+                                            " CREATE (previousB)-[rBnew:EGO {UserID : UserA.UserID}]->(nextB) " +                                            
+                                            " WITH UserA, UserB, rel, relPB, relNB" +                                                                                        
+                                            " OPTIONAL MATCH (previousA:User)-[relPA:EGO {UserID : UserB.UserID}]->(UserA) " +                                                                                        
                                             " OPTIONAL MATCH (UserA)-[relNA:EGO {UserID : UserB.UserID}]->(nextA:User) " +                                            
                                             " CREATE (previousA)-[rAnew:EGO {UserID : UserB.UserID}]->(nextA) " +
-                                            " SET rAnew = relNA " + 
-                                            " WITH UserA, UserB, relNA" +
-                                            "   DELETE relNA " +                                               
-                                            " WITH UserA, UserB " +
+                                            " WITH UserA, UserB, rel, relPB, relNB, relNA, relPA " +
                                             " OPTIONAL MATCH (UserA)-[:LATEST_ACTIVITY]->(LatestActivityA) " +
                                             " OPTIONAL MATCH (LatestActivityA)-[:NEXT*]->(NextActivityA) " +
-                                            " WITH UserA, UserB, LatestActivityA, NextActivityA " +
-                                            " WHERE (LatestActivityA.UserID IS NOT NULL) AND (LatestActivityA.UserID = UserB.UserID) " +
+                                            " WITH UserA, UserB, rel, relPB, relNB, relNA, relPA, LatestActivityA, NextActivityA " +
+                                            " WHERE (LatestActivityA.UserID IS NOT NULL) AND (LatestActivityA.FriendUserID = UserB.UserID) " +
                                             " SET LatestActivityA.Status = 'Deleted' " +
-                                            " WITH UserA, UserB, NextActivityA " +
+                                            " WITH UserA, UserB, rel, relPB, relNB, relNA, relPA, NextActivityA " +
                                             " WHERE (NextActivityA.UserID IS NOT NULL) AND (NextActivityA.UserID = UserB.UserID) " +
                                             " SET NextActivityA.Status = 'Deleted' " +
-                                            " WITH UserA, UserB " +
+                                            " WITH UserA, UserB, rel, relPB, relNB, relNA, relPA " +
                                             " OPTIONAL MATCH (UserB)-[:LATEST_ACTIVITY]->(LatestActivityB) " +
                                             " OPTIONAL MATCH (LatestActivityB)-[:NEXT*]->(NextActivityB) " +
-                                            " WITH UserA, LatestActivityB, NextActivityB " +
+                                            " WITH UserA, LatestActivityB, NextActivityB, rel, relPB, relNB, relNA, relPA " +
                                             " WHERE (LatestActivityB.UserID IS NOT NULL) AND (LatestActivityB.UserID = UserA.UserID) " +
                                             " SET LatestActivityB.Status = 'Deleted' " +
-                                            " WITH UserA, NextActivityB " +
+                                            " WITH UserA, NextActivityB, rel, relPB, relNB, relNA, relPA " +
                                             " WHERE (NextActivityB.UserID IS NOT NULL) AND (NextActivityB.UserID = UserA.UserID) " +
-                                            " SET NextActivityB.Status = 'Deleted'", 
+                                            " SET NextActivityB.Status = 'Deleted'" +
+                                            " WITH rel, relPB, relNB, relNA, relPA" +
+                                            " DELETE rel, relPB, relNB, relNA, relPA ", 
                 new Dictionary<String, Object> { {"UserID_A", UserID_A}, {"UserID_B", UserID_B} }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
             return true;
@@ -445,8 +429,6 @@ namespace Footprints.DAL.Concrete
                         Where((User User) => User.UserID == UserID).
                         Match("(LatestActivity)-[:NEXT*]->(NextActivity:Activity)").
                         With("LatestActivity, NextActivity").
-                        OrderBy("NextActivity.Timestamp").
-                        With("LatestActivity, NextActivity").
                         Skip(Skip).
                         Limit(Limit).
                         Return((LatestActivity, NextActivity) => new
@@ -456,7 +438,7 @@ namespace Footprints.DAL.Concrete
                         }).
                         Results;
             List<Activity> result = new List<Activity>();
-            foreach (var item in query)
+             foreach (var item in query)
             {
                 if ((item.LatestActivity != null) && (item.LatestActivity.Status != Activity.StatusEnum.Deleted) && Skip == 0) 
                 {

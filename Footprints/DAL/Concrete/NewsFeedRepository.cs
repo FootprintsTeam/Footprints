@@ -10,8 +10,8 @@ namespace Footprints.DAL.Concrete
 {
     public class NewsFeedRepository : RepositoryBase<NewsFeedRepository>, INewsFeedRepository
     {
-        private static C5.IntervalHeap<Activity> priorityQueue;        
-        private static LinkedList<User> friendList = new LinkedList<User>();
+        private static C5.IntervalHeap<Activity> priorityQueue;
+        private static LinkedList<User> friendList;
         private static LinkedList<LinkedList<Activity>> activities;
         private static Activity latestActivity, mostRecentActivity;
         private static int numberOfFriends, latestFriendPosition, currentFriendPosition;
@@ -21,6 +21,7 @@ namespace Footprints.DAL.Concrete
             latestActivity = new Activity();
             activities = new LinkedList<LinkedList<Activity>>();
             mostRecentActivity = new Activity();
+            friendList = new LinkedList<User>();
             ActivityComparer comparer = new ActivityComparer();
             numberOfFriends = latestFriendPosition = currentFriendPosition = 0;            
             priorityQueue = new C5.IntervalHeap<Activity>(comparer);
@@ -65,7 +66,7 @@ namespace Footprints.DAL.Concrete
             //Init
             
             var result = new List<Activity>();
-            //numberOfFriends = activities.Count();
+            numberOfFriends = friendList.Count;
             if (numberOfFriends == 0) return null;
             if (activities.ElementAt(0).Count == 0) return null;
             // Add latest activity of closest friend in ego

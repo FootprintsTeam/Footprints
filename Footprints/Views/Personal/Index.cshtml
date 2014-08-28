@@ -204,7 +204,7 @@
             $("#loadingDiv").show();
 
             $.post("@Url.Action("InfiniteScroll",
-            "Personal")", { "BlockNumber": BlockNumber },
+            "Personal", new {UserID = Model.UserID})", { "BlockNumber": BlockNumber },
                     function (data) {
                         BlockNumber = BlockNumber + 1;
                         NoMoreData = data.NoMoreData;

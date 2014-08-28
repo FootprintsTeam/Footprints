@@ -37,7 +37,7 @@ namespace Footprints.Controllers
 
         //
         // GET: /Personal/Personal/
-
+       
         public IList<NewsfeedBaseWidgetViewModel> NewConstructNewsfeedCollection(IList<Activity> newsfeedWidgets)
         {
 
@@ -112,14 +112,13 @@ namespace Footprints.Controllers
         }
 
         [HttpPost]
-        public ActionResult InfiniteScroll(int BlockNumber)
+        public ActionResult InfiniteScroll(int BlockNumber, Guid UserID)
         {
             ////////////////// THis line of code only for demo. Needs to be removed ////
             IList<InfiniteScrollJsonModel> jsonModels = new List<InfiniteScrollJsonModel>();
 
-            //jsonModel.NoMoreData = books.Count < BlockSize;
-
-            var currentUser = userService.RetrieveUser(new Guid(User.Identity.GetUserId()));
+            //jsonModel.NoMoreData = books.Count < BlockSize;            
+            var currentUser = userService.RetrieveUser(UserID);
             var activities = userService.GetAllActivity(currentUser.UserID, skip, Constant.defaultNewsfeedBlockNumber);
             skip = skip + Constant.defaultNewsfeedBlockNumber;
             var viewModels = NewConstructNewsfeedCollection(activities);
