@@ -32,19 +32,40 @@
         </div>
     </div>
 
-    <!-- Comment -->
-    <div class="bg-primary innerAll text-small ">
-        <span>View all <a href="" class="strong text-white">@Model.Comments.Count Comment</a></span>
+    @{
+        var uniqueid = Guid.NewGuid();
+    }
+    @if (Model.Comments != null && Model.Comments.Count > 0)
+    {
+        <a href="#comments-collapse-@uniqueid" class="innerAll border-top display-block " data-toggle="collapse"><i class="innerLR fa fa-bars"></i> View all comments <span class="text-muted">@Model.Comments.Count comments</span></a>
+    }
+
+    <div class="collapse" id="comments-collapse-@uniqueid">
+        @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
     </div>
-
-    <!-- First Comment -->
-    <!-- First Comment -->
-    @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
-
-    <div class="input-group comment">
-        <input type="text" class="form-control" placeholder="Your comment here...">
-        <div class="input-group-btn">
-            <button type="button" class="btn btn-primary" href="#"><i class="fa fa-comment"></i></button>
-        </div>
+    <!--  Comment -->
+    <div style="display: none" id="empty-last-comment-@Model.DestinationID-@uniqueid"></div>
+    <div class="" id="@String.Format("section-form-{0}", Model.DestinationID.ToString() + '-' + @uniqueid)">
+        @{
+            var jaxOptions = new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "', '" + uniqueid + "');",
+                OnSuccess = "addCommentDestination",
+                OnComplete = "addCommentComplete"
+            };
+        }
+        @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, jaxOptions, new { id = "add-comment-form-" + Model.DestinationID.ToString() + '-' + uniqueid }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("DestinationID", Model.DestinationID)
+            @Html.Hidden("UniqueID", @uniqueid)
+            <div class="input-group comment">
+                @Html.TextBox("Content", "", new { id = "comment-input-" + @Model.DestinationID + "-" + @uniqueid, @class = "form-control", placeholder = "Comment here ..." })
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-comment"></i></button>
+                </div>
+            </div>
+        }
     </div>
 </div>

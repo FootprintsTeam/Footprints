@@ -1,4 +1,5 @@
-﻿@model Footprints.ViewModels.DestinationViewModel
+﻿@using Microsoft.AspNet.Identity;
+@model Footprints.ViewModels.DestinationViewModel
 @{
     Footprints.Models.User user = ViewBag.User as Footprints.Models.User;
 }
@@ -11,7 +12,7 @@
             </h3>
             <p>
                 <h5 class="text-muted" style="margin-bottom:0px !important">@*2 ngày trước*@ @Model.TimeAgo</h5>
-                @if (TempData["IsAuthor"] != null && (bool)TempData["IsAuthor"])
+                @if (User.Identity.GetUserId().Equals(Model.UserID.ToString()))
                 {
                     <br />
                     <a data-toggle="modal" href="#edit-destination-modal">
@@ -23,8 +24,9 @@
                         <span class="btn btn-default no-margin">
                             <i class="glyphicon glyphicon-remove"></i> Delete
                         </span>
-                    </a>
+                    </a>                    
                 }
+
             </p>
 
         </div>

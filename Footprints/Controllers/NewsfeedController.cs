@@ -55,7 +55,9 @@ namespace Footprints.Controllers
                 {
                     case Constant.ActivityAddNewContent:
                         var destinationPhoto = destinationService.GetDestinationDetail(activity.DestinationID);
-                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);                          
+                        AddPhotoWidgetViewModel photoModel = Mapper.Map<Activity, AddPhotoWidgetViewModel>(activity);
+                        //var commentList = 
+                        photoModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentService.RetrieveDestinationComment(activity.DestinationID));
                         viewModels.Add(photoModel);
                         break;
 
@@ -73,13 +75,13 @@ namespace Footprints.Controllers
                         break;
 
                     case Constant.ActivityAddnewJourney:
-                        JourneyWidgetViewModel journeyModel = Mapper.Map<Activity, JourneyWidgetViewModel>(activity);                        
+                        JourneyWidgetViewModel journeyModel = Mapper.Map<Activity, JourneyWidgetViewModel>(activity);
                         Mapper.Map<Journey, JourneyWidgetViewModel>(journeyService.RetrieveJourney(activity.JourneyID), journeyModel);
                         viewModels.Add(journeyModel);
                         break;
 
                     case Constant.ActivityComment:
-                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);      
+                        CommentWidgetViewModel commentModel = Mapper.Map<Activity, CommentWidgetViewModel>(activity);
                         var commentList = commentService.RetrieveDestinationComment(activity.DestinationID);
                         commentModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentList);
                         commentModel.Place = Mapper.Map<Activity, Place>(activity);
@@ -89,15 +91,15 @@ namespace Footprints.Controllers
                     case Constant.ActivityLikeDestination:
                         DestinationWidgetViewModel likeDestinationModel = Mapper.Map<Activity, DestinationWidgetViewModel>(activity);
                         var commenLiketList = commentService.RetrieveDestinationComment(activity.DestinationID);
-                        likeDestinationModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commenLiketList);   
+                        likeDestinationModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commenLiketList);
                         likeDestinationModel.Place = Mapper.Map<Activity, Place>(activity);
                         viewModels.Add(likeDestinationModel);
                         break;
 
                     case Constant.ActivityShareDestination:
-                        ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);                       
+                        ShareWidgetViewModel shareModel = Mapper.Map<Activity, ShareWidgetViewModel>(activity);
                         var commentShareList = commentService.RetrieveDestinationComment(activity.DestinationID);
-                        shareModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentShareList);   
+                        shareModel.Comments = Mapper.Map<IList<Comment>, IList<CommentViewModel>>(commentShareList);
                         shareModel.Place = Mapper.Map<Activity, Place>(activity);
                         viewModels.Add(shareModel);
                         break;

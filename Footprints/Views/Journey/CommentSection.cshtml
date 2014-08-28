@@ -95,6 +95,33 @@
             return false;
         }
     });
+
+    function addCommentDestination(data) {
+        $('#empty-last-comment-' + data.DestinationID).before(
+            data.HTMLString
+        );
+        $('#comment-input-' + data.DestinationID).val('');
+    }
+    function validateAddCommentDestinationDataForm(DestinationID, UniqueID) {
+        if (isCommentProcessing) return false;
+        isCommentProcessing = true;
+        var commentInput = $('#comment-input-' + DestinationID);
+        if (commentInput == null || commentInput.val().length == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    $('[id^="comment-input-"]').keydown(function (e) {
+        if (e.which == 13) {
+            if ($(this).val() != '') {
+                $(this).parents('form').submit();
+            } else {
+                e.preventDefault();
+            }
+        }
+    });
+
     $(function () {
         SetupEditCommentForm.init();
         $('.autoheight').autosize();

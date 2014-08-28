@@ -7,36 +7,46 @@
         <div class="innerAll">
             <a href="#" class="pull-right innerT innerR text-white"><img src="@Model.ProfilePicURL" style="width:50px !important;height:50px" class="media-object"></a>
             <div class="innerAll">
-                <a href="" class="text-white text-medium">@Model.DestinationName</a>
+                <a href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID })" class="text-white text-medium">@Model.DestinationName</a>
                 <span class="display-block">on @Model.Timestamp.ToStringShort()</span>
             </div>
         </div>
     </div>
 
-    <!-- Comment -->
-    <div class="bg-gray border-bottom innerAll text-small ">
-        <span>View all <a href="" class="strong text-primary">1 Comment</a></span>
-    </div>
+    @{
+        var uniqueid = Guid.NewGuid();
+    }
+    @if (Model.Comments != null && Model.Comments.Count > 0)
+    {
+        <a href="#comments-collapse-@uniqueid" class="innerAll border-top display-block " data-toggle="collapse"><i class="innerLR fa fa-bars"></i> View all comments <span class="text-muted">@Model.Comments.Count comments</span></a>
+    }
 
-    <!-- First Comment -->
-    <div class="media margin-none bg-gray">
-        <a href="" class="pull-left innerAll">
-            <img src="../assets/images/people/50/12.jpg" width="50" class="media-object">
-        </a>
-        <div class="media-body innerTB">
-            <a href="#" class="pull-right innerT innerR text-muted">
-                <i class="icon-reply-all-fill fa fa-2x "></i>
-            </a>
-            <a href="" class="strong text-inverse">Adrian Demian</a> 	<small class="text-muted display-block ">on Jan 15th, 2014</small>
-            <div>- Happy B-Day!</div>
-            <a href="" class="text-small">mark it</a>
-
-        </div>
+    <div class="collapse" id="comments-collapse-@uniqueid">
+        @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
     </div>
-    <div class="input-group comment">
-        <input type="text" class="form-control" placeholder="Your comment here...">
-        <div class="input-group-btn">
-            <button type="button" class="btn btn-primary" href="#"><i class="fa fa-comment"></i></button>
-        </div>
+    <!--  Comment -->
+    <div style="display: none" id="empty-last-comment-@Model.DestinationID-@uniqueid"></div>
+    <div class="" id="@String.Format("section-form-{0}", Model.DestinationID.ToString() + '-' + @uniqueid)">
+        @{
+            var jaxOptions = new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "', '" + uniqueid + "');",
+                OnSuccess = "addCommentDestination",
+                OnComplete = "addCommentComplete"
+            };
+        }
+        @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, jaxOptions, new { id = "add-comment-form-" + Model.DestinationID.ToString() + '-' + uniqueid }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("DestinationID", Model.DestinationID)
+            @Html.Hidden("UniqueID", @uniqueid)
+            <div class="input-group comment">
+                @Html.TextBox("Content", "", new { id = "comment-input-" + @Model.DestinationID + "-" + @uniqueid, @class = "form-control", placeholder = "Comment here ..." })
+                <div class="input-group-btn">
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-comment"></i></button>
+                </div>
+            </div>
+        }
     </div>
 </div>

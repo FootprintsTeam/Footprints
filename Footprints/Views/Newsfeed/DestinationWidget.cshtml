@@ -11,7 +11,7 @@
                     <i class="icon-reply-all-fill fa fa-2x "></i>
                 </a>
                 <a href="@Url.Action("Index", "Personal", new { @Model.UserID})" class="text-white strong display-block">@Model.UserName</a>
-                <span>Checked in at <a href="" class="text-white strong">@Model.DestinationName</a> on @Model.Timestamp.ToStringShort()</span>
+                <span>Checked in at <a class="text-white strong" href="@Url.Action("Index", "Destination", new { destinationID = Model.DestinationID })">@Model.DestinationName</a> on @Model.Timestamp.ToStringShort()</span>
             </div>
         </div>
     </div>
@@ -35,33 +35,36 @@
             </div>
         </div>
     </div>
-    <!-- //Content -->
     @{
         var uniqueid = Guid.NewGuid();
     }
-    <a href="#comments-collapse-@uniqueid" class="innerAll border-top display-block " data-toggle="collapse"><i class="innerLR fa fa-bars"></i> View all comments <span class="text-muted">@Model.Comments.Count comments</span></a>
+    @if (Model.Comments != null && Model.Comments.Count > 0)
+    {
+        <a href="#comments-collapse-@uniqueid" class="innerAll border-top display-block " data-toggle="collapse"><i class="innerLR fa fa-bars"></i> View all comments <span class="text-muted">@Model.Comments.Count comments</span></a>
+    }
 
     <div class="collapse" id="comments-collapse-@uniqueid">
         @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
     </div>
     <!--  Comment -->
-    <div style="display: none" id="empty-last-comment-@Model.DestinationID"></div>
-    <div class="" id="@String.Format("section-form-{0}", Model.DestinationID.ToString())">
+    <div style="display: none" id="empty-last-comment-@Model.DestinationID-@uniqueid"></div>
+    <div class="" id="@String.Format("section-form-{0}", Model.DestinationID.ToString() + '-' + @uniqueid)">
         @{
             var jaxOptions = new AjaxOptions()
             {
                 HttpMethod = "POST",
-                OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "');",
+                OnBegin = "return validateAddCommentForm('" + @Model.DestinationID + "', '" + uniqueid + "');",
                 OnSuccess = "addCommentDestination",
                 OnComplete = "addCommentComplete"
             };
         }
-        @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, jaxOptions, new { id = "add-comment-form-" + Model.DestinationID.ToString() }))
+        @using (Ajax.BeginForm("Comment", new { controller = "Destination" }, jaxOptions, new { id = "add-comment-form-" + Model.DestinationID.ToString() + '-' + uniqueid }))
         {
             @Html.AntiForgeryToken()
             @Html.Hidden("DestinationID", Model.DestinationID)
+            @Html.Hidden("UniqueID", @uniqueid)
             <div class="input-group comment">
-                @Html.TextBox("Content", null, new { id = "comment-input-" + @Model.DestinationID + "", @class = "form-control", placeholder = "Comment here ..." })
+                @Html.TextBox("Content", "", new { id = "comment-input-" + @Model.DestinationID + "-" + @uniqueid, @class = "form-control", placeholder = "Comment here ..." })
                 <div class="input-group-btn">
                     <button class="btn btn-primary" type="submit"><i class="fa fa-comment"></i></button>
                 </div>

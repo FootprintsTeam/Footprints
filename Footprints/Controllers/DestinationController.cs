@@ -219,6 +219,7 @@ namespace Footprints.Controllers
             var commentObj = Mapper.Map<CommentViewModel, Comment>(comment);
             commentObj.Timestamp = DateTimeOffset.Now;
             var jsonModel = new CommentInfo();
+            jsonModel.UniqueID = comment.UniqueID;
             if (commentService.AddDestinationComment(userId, commentObj))
             {
                 if (Request.UrlReferrer.ToString().Contains("/Journey/Index"))
@@ -262,7 +263,7 @@ namespace Footprints.Controllers
             commentObj.Timestamp = DateTimeOffset.Now;
             //reset number of like
             IEnumerable<User> userLikedList = destinationService.GetAllUserLiked(comment.DestinationID);
-            commentObj.NumberOfLike = userLikedList == null ? 0 : userLikedList.Count();
+            commentObj.NumberOfLike = userLikedList.Count();
             var data = new List<CommentViewModel>();
             if (commentService.UpdateComment(userId, commentObj))
             {
