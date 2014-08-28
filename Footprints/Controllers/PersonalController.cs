@@ -212,7 +212,7 @@ namespace Footprints.Controllers
         public ActionResult AddPhoto(FormCollection form)
         {
             var subActionName = form.GetValue("SubActionName");
-            if (subActionName != null && subActionName.Equals("AddCoverPhoto"))
+            if (subActionName != null && subActionName.AttemptedValue.Equals("AddCoverPhoto"))
             {
                 FileInfoList fileInforList = null;
                 if (Request.Files.Count > 0)

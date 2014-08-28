@@ -167,9 +167,9 @@
         var target = $(e.target).attr("href");
         if ((target == '#tab-gallery')) {
             if (isFirstActiveGalleryTab) {
-                var listImg = $('.img-responsive');
+                var listImg = $('.img-resize-responsive');
                 imageContainerWidth = listImg.first().parents('li').width();
-                $('.img-responsive').resizecrop({
+                $('.img-resize-responsive').resizecrop({
                     width: imageContainerWidth,
                     height: imageContainerWidth,
                     vertical: "top"

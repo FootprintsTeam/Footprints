@@ -206,12 +206,11 @@
         }
     });
     $('#btn-modal-cover-picture-add').on('click', function () {
-        console.log('Cover');
-        $('#SubActionName').text('AddCoverPhoto');
+        $('#SubActionName').val('AddCoverPhoto');
         $('#modal-cover-picture-add').fadeIn();
     });
     $('#btn-modal-avatar-picture-add').on('click', function () {
-        console.log('Avatar');
+        $('#SubActionName').val('AddAvatarPhoto');
         $('#modal-cover-picture-add').fadeIn();
     });
 </script>

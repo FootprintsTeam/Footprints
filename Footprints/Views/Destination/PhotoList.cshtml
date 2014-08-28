@@ -20,11 +20,11 @@
         <a class="thumb no-ajaxify" data-gallery="gallery-3" href="@content.URL">
             @if (@content.ThumbURL != null && @content.ThumbURL.Length > 0)
             {
-                <img src="@content.ThumbURL" alt="photo" class="img-responsive" />
+                <img src="@content.ThumbURL" alt="photo" class="img-resize-responsive" />
             }
             else
             {
-                <img src="@content.URL" alt="photo" class="img-responsive" />
+                <img src="@content.URL" alt="photo" class="img-resize-responsive" />
             }
         </a>
     </li>
