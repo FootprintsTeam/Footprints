@@ -499,6 +499,10 @@ namespace Footprints.DAL.Concrete
         //For Admin
         public long GetNumberOfCreatedDestinationBetweenDays(String Start, String End)
         {
+            Start = Start.Replace("{", "");
+            Start = Start.Replace("}", "");
+            End = End.Replace("{", "");
+            End = End.Replace("}", "");
             var query = Db.Cypher.Match("(Destination:Destination)").
                        Where("Destination.Timestamp >= {Start}").WithParam("Start", Start).
                        AndWhere("Destination.Timestamp <= {End}").WithParam("End", End).

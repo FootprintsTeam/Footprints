@@ -476,6 +476,10 @@ namespace Footprints.DAL.Concrete
         //For Admin
         public long GetNumberOfRegisterUserBetweenDays(String Start, String End)
         {
+            Start = Start.Replace("{", "");
+            Start = Start.Replace("}", "");
+            End = End.Replace("{", "");
+            End = End.Replace("}", "");
             var query = Db.Cypher.Match("(User:User)").
                         Where("User.JoinDate >= {Start}").WithParam("Start", Start).
                         AndWhere("User.JoinDate <= {End}").WithParam("End", End).

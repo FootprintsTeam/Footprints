@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Footprints.Common
 @model Footprints.Models.Comment
-@if (TempData.ContainsKey("CommentPage") && TempData["CommentPage"].ToString().Equals("Journey"))
+@if (TempData.ContainsKey("CommentPage") && (TempData["CommentPage"].ToString().Equals("Journey") || TempData["CommentPage"].ToString().Equals("Newsfeed")))
 {
     <div class="media innerAll bg-gray margin-none border-top border-bottom">
         <a class="pull-left" href="#"><img src="@Model.User.ProfilePicURL" alt="photo" class="media-object" width="35"></a>

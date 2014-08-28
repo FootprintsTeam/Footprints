@@ -21,22 +21,16 @@ namespace Footprints.Controllers
         // GET: /Friend/Friend/
         public ActionResult Index(string userID = "default")
         {
-            IList<User> friendList;
+            var viewModel = new FriendViewModel();
             if (userID != "default")
             {
-                friendList = userService.GetFriendList(new Guid(userID));                
+                var uid = new Guid(userID);
+                viewModel.FriendList = userService.GetFriendList(uid);
             }
             else
             {
-                friendList = userService.GetFriendList(new Guid(User.Identity.GetUserId()));
+                viewModel.FriendList = userService.GetFriendList(new Guid(User.Identity.GetUserId()));
             }
-
-            var viewModel = new FriendViewModel();
-
-            foreach (User user in friendList) {
-                viewModel.FriendList.Add(Mapper.Map<User,FriendItemViewModel>(user));
-            };
-            
             return View(viewModel);
         }
 

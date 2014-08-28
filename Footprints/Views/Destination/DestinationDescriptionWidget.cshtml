@@ -10,18 +10,23 @@
                 @*Chuyến đi đến Đà Nẵng*@ @Model.Name
             </h3>
             <p>
-                <h5 class="text-muted" style="margin-bottom:0px !important">@*2 ngày trước*@ @Model.TimeAgo</h5><br />
-                <a data-toggle="modal" href="#edit-destination-modal">
-                    <span class="btn btn-default no-margin">
-                        <i class="glyphicon glyphicon-pencil"></i> Edit
-                    </span>
-                </a>
-                <a href="#delete-destination-modal" data-toggle="modal">
-                    <span class="btn btn-default no-margin">
-                        <i class="glyphicon glyphicon-remove"></i> Delete
-                    </span>
-                </a>
+                <h5 class="text-muted" style="margin-bottom:0px !important">@*2 ngày trước*@ @Model.TimeAgo</h5>
+                @if (TempData["IsAuthor"] != null && (bool)TempData["IsAuthor"])
+                {
+                    <br />
+                    <a data-toggle="modal" href="#edit-destination-modal">
+                        <span class="btn btn-default no-margin">
+                            <i class="glyphicon glyphicon-pencil"></i> Edit
+                        </span>
+                    </a>
+                    <a href="#delete-destination-modal" data-toggle="modal">
+                        <span class="btn btn-default no-margin">
+                            <i class="glyphicon glyphicon-remove"></i> Delete
+                        </span>
+                    </a>
+                }
             </p>
+
         </div>
 
         <a href="@Url.Action("Index", "Personal", new { userID = Model.UserID})"><img src="@Model.ProfilePicURL" class="thumb pull-left" alt="" width="100"></a>

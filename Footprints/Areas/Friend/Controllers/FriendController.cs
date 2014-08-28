@@ -13,8 +13,7 @@ namespace Footprints.Areas.Friend.Controllers
         // GET: /Friend/Friend/
         public ActionResult Index()
         {
-            var model = FriendViewModel.GetSampleObject();
-            return View(model);
+            return null;
             
         }
 

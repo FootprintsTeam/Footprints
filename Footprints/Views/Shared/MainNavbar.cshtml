@@ -57,8 +57,7 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu" aria-labelledby="setting-dropdown">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Manage","Account")"><span class="glyphicon glyphicon-stats innerR"><i class=""></i></span>Manage Account</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Contact","Home")"><span class="glyphicon glyphicon-question-sign innerR"></span> Q&A</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("Manage","Account")"><span class="glyphicon glyphicon-stats innerR"><i class=""></i></span>Manage Account</a></li>                                
                                 <li role="presentation">
                                     <a role="menuitem" tabindex="-1" href="#" onclick="document.getElementById('log-out-form').submit()"><span class="glyphicon glyphicon-off innerR"></span>Log Out</a>
                                     <form id="log-out-form" action="@Url.Action("LogOff","Account")" method="post">

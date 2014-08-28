@@ -68,18 +68,16 @@
                 <div class="widget widget-body-white padding-none ">
                     <div class="widget-head height-auto">
                         <div class="media innerAll">
-                            <a href="" class="pull-right"><i class="fa icon-comment-fill-2"></i></a>
                             <a href="" class="pull-left"><img src="@Model.ProfilePicURL" alt="" class="img-circle" style="width:50px;height:50px"></a>
                             <div class="media-body">
                                 <h4>@Model.UserName</h4>
-                                <p class="margin-none">@Model.About</p>
                             </div>
                         </div>
                     </div>
                     <ul class="list-unstyled">
                         <li class="innerAll border-bottom">
-                            <span class="badge badge-default pull-right">@Model.NumberOfJourney</span>
-                            <i class="fa fa-fw fa-suitcase"></i> Journeys
+                            <a href=""></a><span class="badge badge-default pull-right">@Model.NumberOfJourney</span>
+                            <i class="fa fa-fw icon-map-location-fill-2"></i> Journeys
                         </li>
                         <li class="innerAll border-bottom">
                             <span class="badge badge-default pull-right">@Model.NumberOfDestination</span>
@@ -87,7 +85,7 @@
                         </li>
                         <li class="innerAll border-bottom">
                             <span class="badge badge-default bg-primary pull-right">@Model.NumberOfFriend</span>
-                            <i class="fa fa-fw fa-users"></i> Friends
+                            <i class="fa fa-fw fa-group"></i> Friends
                         </li>
                     </ul>
                 </div>
@@ -145,11 +143,11 @@
                             <p class=" margin-none"><i class="fa fa-phone fa-fw text-muted"></i> @(Model.PhoneNumber != null ? Model.PhoneNumber : "Not Updated Yet")</p>
                         </div>
                         <div class="border-top innerAll">
-                            <p class=" margin-none"><i class="fa fa-envelope fa-fw text-muted"></i> Email us</p>
+                            <p class=" margin-none"><i class="fa fa-envelope fa-fw text-muted"></i> @Model.Email</p>
                         </div>
-                        <div class="border-top innerAll">
+                        @*<div class="border-top innerAll">
                             <p class=" margin-none"><i class="fa fa-link fa-fw text-muted"></i> <a href="">Visit website</a></p>
-                        </div>
+                        </div>*@
                     </div>
                 </div>
             </div>

@@ -65,7 +65,7 @@ namespace Footprints.DAL.Concrete
             //Init
             
             var result = new List<Activity>();
-            numberOfFriends = friendList.Count;
+            numberOfFriends = activities.Count();
             if (numberOfFriends == 0) return null;
             // Add latest activity of closest friend in ego
             if (activities.ElementAt(0).ElementAt(0).Status != Activity.StatusEnum.Deleted)

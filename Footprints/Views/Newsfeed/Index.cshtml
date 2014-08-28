@@ -89,25 +89,22 @@
         });
         var isCommentProcessing = false;
         function addCommentDestination(data) {
-            console.log('addCommentDestination');
             $('#empty-last-comment-' + data.DestinationID).before(
                 data.HTMLString
             );
-            $('#comment-input-@ViewBag.DestinationID').val('');
+            $('#comment-input-' + data.DestinationID).val('');
         }
         function validateAddCommentForm(DestinationID) {
-            console.log('validateAddCommentForm');
             if (isCommentProcessing) return false;
             isCommentProcessing = true;
             var commentInput = $('#comment-input-' + DestinationID);
-            if (commentInput == null) {
+            if (commentInput == null || commentInput.val().length == 0) {
                 return false;
             } else {
-                return commentInput.val() == null;
+                return true;
             }
         }
         function addCommentComplete() {
-            console.log('addCommentComplete');
             isCommentProcessing = false;
         }
         $('[id^="comment-input-"]').keydown(function (e) {

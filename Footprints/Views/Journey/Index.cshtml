@@ -9,16 +9,19 @@
     ViewBag.JourneyID = Model.JourneyID;
 }
 @Styles.Render("~/css/journey")
-<div class="container">
+<div class="container" style="margin-top:60px">
     <div class="innerAll">
         @*Upper Content*@
         <div class="row">
             <div class="timeline-cover">
-                <div class="cover image ">
-                    <div class="top">
-                        <img src="../assets//images/photodune-2755655-party-time-s.jpg" class="img-responsive" />
+                @if (Model.CoverPhoto != null)
+                {
+                    <div class="cover image ">
+                        <div class="top">
+                            <img src="@Model.CoverPhoto.URL" class="img-responsive" />
+                        </div>
                     </div>
-                </div>
+                }
                 <div class="widget cover image">
                     <div class="widget-body padding-none margin-none">
                         <div class="innerAll border-right pull-left">
@@ -42,7 +45,7 @@
                             }
                             <a class="btn btn-info"><i class="fa fa-share" id="like-btn"></i> Share</a>
                             @{
-                                if ((bool)TempData["IsAuthor"])
+                                if (TempData["IsAuthor"] != null && (bool)TempData["IsAuthor"])
                                 {
                                     <a class="btn btn-primary" data-toggle="modal" data-target="#edit-journey-modal"><span class="glyphicon glyphicon-edit" id="edit-btn"></span> Edit</a>
                                     <a class="btn btn-danger" data-toggle="modal" data-target="#delete-journey-modal"><span class="glyphicon glyphicon-remove" id="delete-btn"></span> Delete</a>
@@ -96,20 +99,24 @@
                         </div>
                     </div>
                 </div>
-
-                @{Html.RenderPartial("AddNewDestinationForm", @Model.AddNewDestinationFormViewModel);}
-
+                @if (TempData["IsAuthor"] != null && (bool)TempData["IsAuthor"])
+                {
+                    Html.RenderPartial("AddNewDestinationForm", @Model.AddNewDestinationFormViewModel);
+                }
+                else
+                {
+                    <div style="display: none">
+                        Html.RenderPartial("AddNewDestinationForm", @Model.AddNewDestinationFormViewModel);
+                    </div>
+                }
+                <div class="row">
+                    <div class="innerAll pull-left">
+                        <p class="margin-none bg-white" style="white-space:pre-line"><i class="lead fa fa-quote-left text-muted fa-fw"></i>@Model.Description<i class="lead fa fa-quote-right text-muted fa-fw"></i></p>
+                    </div>
+                </div>
                 @*Time Line*@
                 <div class="media">
                     <a href="" class="btn btn-default pull-left">Today</a>
-                    <div class="media-body">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for a place">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Search</button>
-                            </span>
-                        </div><!-- /input-group -->
-                    </div>
                 </div>
 
                 <ul class="timeline-activity list-unstyled">
