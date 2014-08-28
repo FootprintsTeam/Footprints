@@ -32,7 +32,7 @@ namespace Footprints.Controllers
             this.journeyService = journeyService;
             this.destinationService = destinationService;
             this.commentService = commentService;
-            this.newsfeedService = newsfeedService;            
+            this.newsfeedService = newsfeedService;
         }
 
         //
@@ -125,7 +125,7 @@ namespace Footprints.Controllers
             foreach (var viewModel in viewModels)
             {
                 var viewName = viewModel.GetPersonalPartialViewName();
-                jsonModels.Add(new InfiniteScrollJsonModel { HTMLString =  viewName.Equals("false") ? "" : RenderPartialViewToString(viewName, viewModel) });
+                jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = viewName.Equals("false") ? "" : RenderPartialViewToString(viewName, viewModel) });
             }
 
             //jsonModels.Add(new InfiniteScrollJsonModel { HTMLString = RenderPartialViewToString("CommentWidget", CommentWidgetViewModel.GetSampleObject()) });
@@ -209,55 +209,55 @@ namespace Footprints.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AddCoverPhoto()
+        public ActionResult AddPhoto(FormCollection form)
         {
-            FileInfoList fileInforList = null;
-            if (Request.Files.Count > 0)
+            var subActionName = form.GetValue("SubActionName");
+            if (subActionName != null && subActionName.Equals("AddCoverPhoto"))
             {
-                var UserID = new Guid(User.Identity.GetUserId());
-                var ContentID = Guid.NewGuid();
-                fileInforList = ImageProcessor.UploadPhoto(UserID.ToString(), UserID.ToString(), ContentID.ToString(), Request.Files.Get(0).InputStream, "");
-                if (fileInforList != null && fileInforList.files.Count > 0)
+                FileInfoList fileInforList = null;
+                if (Request.Files.Count > 0)
                 {
-                    if (fileInforList.files.First().error == null)
+                    var UserID = new Guid(User.Identity.GetUserId());
+                    var ContentID = Guid.NewGuid();
+                    fileInforList = ImageProcessor.UploadPhoto(UserID.ToString(), UserID.ToString(), ContentID.ToString(), Request.Files.Get(0).InputStream, "");
+                    if (fileInforList != null && fileInforList.files.Count > 0)
                     {
-                        var user = userService.RetrieveUser(UserID);
-                        if (!user.CoverPhotoURL.Equals(Constant.DEFAULT_COVER_URL))
+                        if (fileInforList.files.First().error == null)
                         {
-                            ImageProcessor.DeletePhoto(user.UserID.ToString(), user.UserID.ToString(), StringUtil.GetContentIdFromS3Url(user.CoverPhotoURL, user.UserID.ToString(), user.UserID.ToString()));
+                            var user = userService.RetrieveUser(UserID);
+                            if (!user.CoverPhotoURL.Equals(Constant.DEFAULT_COVER_URL))
+                            {
+                                ImageProcessor.DeletePhoto(user.UserID.ToString(), user.UserID.ToString(), StringUtil.GetContentIdFromS3Url(user.CoverPhotoURL, user.UserID.ToString(), user.UserID.ToString()));
+                            }
+                            userService.UpdateCoverPhotoURL(UserID, fileInforList.files.First().url);
                         }
-                        userService.UpdateCoverPhotoURL(UserID, fileInforList.files.First().url);
                     }
                 }
+                return Json(fileInforList, JsonRequestBehavior.AllowGet);
             }
-            return Json(fileInforList, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddAvatarPhoto()
-        {
-            FileInfoList fileInforList = null;
-            if (Request.Files.Count > 0)
+            else
             {
-                var UserID = new Guid(User.Identity.GetUserId());
-                var ContentID = Guid.NewGuid();
-                fileInforList = ImageProcessor.UploadPhoto(UserID.ToString(), UserID.ToString(), ContentID.ToString(), Request.Files.Get(0).InputStream, "");
-                if (fileInforList != null && fileInforList.files.Count > 0)
+                FileInfoList fileInforList = null;
+                if (Request.Files.Count > 0)
                 {
-                    if (fileInforList.files.First().error == null)
+                    var UserID = new Guid(User.Identity.GetUserId());
+                    var ContentID = Guid.NewGuid();
+                    fileInforList = ImageProcessor.UploadPhoto(UserID.ToString(), UserID.ToString(), ContentID.ToString(), Request.Files.Get(0).InputStream, "");
+                    if (fileInforList != null && fileInforList.files.Count > 0)
                     {
-                        var user = userService.RetrieveUser(UserID);
-                        if (!user.ProfilePicURL.Equals(Constant.DEFAULT_AVATAR_URL))
+                        if (fileInforList.files.First().error == null)
                         {
-                            ImageProcessor.DeletePhoto(user.UserID.ToString(), user.UserID.ToString(), StringUtil.GetContentIdFromS3Url(user.ProfilePicURL, user.UserID.ToString(), user.UserID.ToString()));
+                            var user = userService.RetrieveUser(UserID);
+                            if (!user.ProfilePicURL.Equals(Constant.DEFAULT_AVATAR_URL))
+                            {
+                                ImageProcessor.DeletePhoto(user.UserID.ToString(), user.UserID.ToString(), StringUtil.GetContentIdFromS3Url(user.ProfilePicURL, user.UserID.ToString(), user.UserID.ToString()));
+                            }
+                            userService.UpdateProfilePicURL(UserID, fileInforList.files.First().url);
                         }
-                        userService.UpdateProfilePicURL(UserID, fileInforList.files.First().url);
                     }
                 }
+                return Json(fileInforList, JsonRequestBehavior.AllowGet);
             }
-            return Json(fileInforList, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult MakeFriend(Guid userID)

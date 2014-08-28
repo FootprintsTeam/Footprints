@@ -153,60 +153,61 @@ namespace Footprints.Controllers
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
-                        IdentityResult roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
-                        if (roleResult.Succeeded)
-                        {
-
-                            userService.AddNewUser(
-                                new User
-                                {
-                                    UserID = new Guid(user.Id),
-                                    Email = user.Email,
-                                    Status = Footprints.Models.StatusEnum.Unconfirmed,
-                                    UserName = user.UserName,
-                                    ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
-                                    CoverPhotoURL = Constant.DEFAULT_COVER_URL,
-                                    JoinDate = DateTimeOffset.Now,
-                                    Genre = model.Genre
-                                });
-
-                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
-                            return RedirectToAction("Index", "Newsfeed");
-                        }
-
-                        
-                        //var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        //var callbackUrl = Url.Action(
-                        //    "ConfirmEmail",
-                        //    "Account",
-                        //    new { userId = user.Id, code = code },
-                        //    protocol: Request.Url.Scheme);
-                        //IdentityMessage message = new IdentityMessage();
-                        //message.Destination = model.Email;
-                        //message.Subject = "Confirm your account";
-                        //message.Body = "Please confirm your account by clicking this link: <a href=\""
-                        //    + callbackUrl + "\">Footprints Verification</a>";
-                        //if (UserManager.EmailService != null)
+                        //IdentityResult roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
+                        //if (roleResult.Succeeded)
                         //{
-                        //    await UserManager.EmailService.SendAsync(message);
+
+                        //    userService.AddNewUser(
+                        //        new User
+                        //        {
+                        //            UserID = new Guid(user.Id),
+                        //            Email = user.Email,
+                        //            Status = Footprints.Models.StatusEnum.Unconfirmed,
+                        //            UserName = user.UserName,
+                        //            ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
+                        //            CoverPhotoURL = Constant.DEFAULT_COVER_URL,
+                        //            JoinDate = DateTimeOffset.Now,
+                        //            Genre = model.Genre
+                        //        });
+
+                        //    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: true);
+                        //    return RedirectToAction("Index", "Newsfeed");
                         //}
-                        //var roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
-                        //// await SignInAsync(user, isPersistent: false);
-                        ////add neo4j user here
-                        //userService.AddNewUser(
-                        //    new User
-                        //    {
-                        //        UserID = new Guid(user.Id),
-                        //        Email = user.Email,
-                        //        Status = Footprints.Models.StatusEnum.Unconfirmed,
-                        //        UserName = user.UserName,
-                        //        ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
-                        //        CoverPhotoURL = Constant.DEFAULT_COVER_URL,
-                        //        JoinDate = DateTimeOffset.Now,
-                        //        Genre = model.Genre
-                        //    });
-                        //ViewBag.Link = callbackUrl;
-                        //return View("Login");
+
+
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action(
+                            "ConfirmEmail",
+                            "Account",
+                            new { userId = user.Id, code = code },
+                            protocol: Request.Url.Scheme);
+                        IdentityMessage message = new IdentityMessage();
+                        message.Destination = model.Email;
+                        message.Subject = "Confirm your account";
+                        message.Body = "Please confirm your account by clicking this link: <a href=\""
+                            + callbackUrl + "\">Footprints Verification</a>";
+                        if (UserManager.EmailService != null)
+                        {
+                            await UserManager.EmailService.SendAsync(message);
+                        }
+                        var roleResult = UserManager.AddToRole(user.Id, "Unconfirmed");
+                        // await SignInAsync(user, isPersistent: false);
+                        //add neo4j user here
+                        userService.AddNewUser(
+                            new User
+                            {
+                                UserID = new Guid(user.Id),
+                                Email = user.Email,
+                                Status = Footprints.Models.StatusEnum.Unconfirmed,
+                                UserName = user.UserName,
+                                ProfilePicURL = Constant.DEFAULT_AVATAR_URL,
+                                CoverPhotoURL = Constant.DEFAULT_COVER_URL,
+                                JoinDate = DateTimeOffset.Now,
+                                Genre = model.Genre
+                            });
+                        ViewBag.Link = callbackUrl;
+                        ModelState.AddModelError("", "Thanks for registerd at Footprints.Please check your email and confirm your email address before login to system.");
+                        return View("Login");
                     }
                     foreach (var item in result.Errors)
                     {

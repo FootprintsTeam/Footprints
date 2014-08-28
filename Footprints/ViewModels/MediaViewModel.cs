@@ -71,6 +71,7 @@ namespace Footprints.ViewModels
         public String ControllerName { get; set; }
         [Required]
         public bool DisplaySlide { get; set; }
+        public String SubActionName { get; set; }
     }
 
     public class DeletePhotoFormViewModel

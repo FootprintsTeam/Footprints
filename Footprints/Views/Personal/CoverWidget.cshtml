@@ -6,7 +6,7 @@
     <div class="cover image ">
         <div class="top">
             <img src="@Model.CoverPhotoUrl" class="img-responsive" style="width:1130px;height:250px" />
-            <a href="#modal-cover-picture-add" data-toggle="modal" class="btn btn-primary" style="position:absolute;right:10px;top:15px">Change Cover Picture</a>
+            <a id="btn-modal-cover-picture-add" href="#modal-cover-picture-add" data-toggle="modal" class="btn btn-primary" style="position:absolute;right:10px;top:15px">Change Cover Picture</a>
         </div>
         <ul class="list-unstyled" style="background:rgba(0,0,0,0.5) !important">
             <li><a href="@Url.Action("Index", "Personal", new { userId = Model.UserID })"><i class="fa fa-fw fa-clock-o"></i> <span>Timeline</span></a></li>
@@ -19,11 +19,12 @@
     <div class="widget cover image">
         <div class="widget-body padding-none margin-none">
             <div class="photo">
-                <a href="#modal-avatar-picture-add" data-toggle="modal"><img src="@Model.ProfilePicURL" class="img-circle" style="width:100px;height:100px" /></a>
+                @*<a id="btn-modal-avatar-picture-add" href="#modal-avatar-picture-add" data-toggle="modal"><img src="@Model.ProfilePicURL" class="img-circle" style="width:100px;height:100px" /></a>*@
             </div>
             <div class="innerAll border-right pull-left">
                 <h3 class="margin-none">@Model.UserName</h3>
                 <span>Joined since @Model.JoinDate.ToStringShort()</span>
+                <a id="btn-modal-avatar-picture-add" href="#modal-avatar-picture-add" data-toggle="modal">xxxxxx</a>
             </div>
             <div class="innerAll pull-left">
                 <p class="lead margin-none "> <i class="fa fa-quote-left text-muted fa-fw"></i> @Model.Status</p>
