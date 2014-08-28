@@ -4,127 +4,33 @@
     ViewBag.Title = "Friend";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@{ AjaxOptions AddFriendOptions = new AjaxOptions
-   {
-       HttpMethod = "Post",
-       OnSuccess = "addFriend"
-   };
-}
-@{ AjaxOptions UnFriendOptions = new AjaxOptions
-   {
-       HttpMethod = "Post",
-       OnSuccess = "unfriend"
-   };
-}
-<script type="text/javascript">
-    function unfriend(data) {
-        for (var i = 0; i < data.length; i++) {
-            var friend = data[i];
-            var target = $("#form-friend-" + friend.FriendID);
-            target.html('<span class="btn btn-info no-margin">Unfriended</button>');
-        }
-    }
-    function addFriend(data) {
-        for (var i = 0; i < data.length; i++) {
-            var friend = data[i];
-            var target = $("#form-friend-" + friend.FriendID);
-            target.html('<span class="btn btn-default no-margin">Added</button>');
-        }
-    }
-</script>
 <div class="container" style="margin-top:60px">
     <div class="innerAll">
         <div class="row">
-            <div class="col-lg-9 col-md-8">
-                @*Timeline cover*@
-                @*@{Html.RenderPartial("~/Views/Personal/CoverWidget.cshtml");}*@
+            <div class="col-lg-1 col-md-1"></div>
+            <div class="col-lg-10 col-md-10">
                 <div class="input-group innerB">
                     <input id="fac-input" type="text" class="form-control " placeholder="Search contacts">
                     <div class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></div>
                 </div>
                 <div class="row row-merge" id="friend-list-container">
-                    @{
-                        var isAuthor = true;
-    //var isAuthor = @Model.UserID.ToString().ToLower().Equals(@User.Identity.GetUserId().ToLower());
-                    }
-
-                    @foreach (var friend in Model.FriendList)
+                    @if (Model.FriendList != null && Model.FriendList.Count > 0)
                     {
-                        <div class="col-md-12 col-lg-6 bg-white border-bottom" name="friend-item-wrapper">
-                            <div class="row" id="block-friend-@friend.UserID">
-                                <div class="col-sm-9">
-                                    <div class="media">
-                                        <a class="pull-left margin-none" href="@Url.Action("Index", "Personal", new { id= @Model.UserID})">
-                                            <img class="img-clean" src="@friend.ProfilePicURL" alt=" ...">
-                                        </a>
-                                        <div class="media-body innerAll inner-2x padding-right-none padding-bottom-none">
-                                            <h4 class="media-heading"><a href="@Url.Action("Index", "Personal", new { id= @Model.UserID })" class="text-inverse" name="username">@friend.UserName</a></h4>
-                                            <p>@friend.Time.ToString("dd MMM yyyy")</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="innerAll pull-right" id="form-friend-@friend.UserID">
-                                        @if (isAuthor)
-                                        {
-                                            using (Ajax.BeginForm("Unfriend", new { controller = "Friend" }, UnFriendOptions))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                @Html.Hidden("UserID", @Model.UserID)
-                                                @Html.Hidden("FriendID", @friend.UserID)
-                                                <button type="submit" class="btn btn-default no-margin">
-                                                    <i class="glyphicon glyphicon-remove"></i> Unfriend
-                                                </button>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            using (Ajax.BeginForm("Add", new { controller = "Friend" }, AddFriendOptions))
-                                            {
-                                                @Html.AntiForgeryToken()
-                                                @Html.Hidden("UserID", @Model.UserID)
-                                                @Html.Hidden("FriendID", @friend.UserID)
-                                                <button type="submit" class="btn btn-default no-margin">
-                                                    <i class="glyphicon glyphicon-plus"></i> Add
-                                                </button>
-                                            }
-                                        }
-
+                        foreach (var friend in Model.FriendList)
+                        {
+                            <div class="media innerAll bg-gray margin-none border-top border-bottom col-md-4 col-lg-4">
+                                <a class="pull-left" href="#"><img src="@friend.ProfilePicURL" alt="photo" class="media-object" width="35"></a>
+                                <div class="media-body">
+                                    <a href="@Url.Action("Index", "Personal", new { userID = @friend.UserID})" class="strong text-inverse">@friend.UserName</a>
+                                    <div class="timeline-bottom">
+                                        <i class="fa fa-clock-o"></i> @friend.JoinDate.ToString("dd MMMM yyyy")
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
             </div>
-
-            @{Html.RenderPartial("TimelineAccountMenu");}
-
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $('#fac-input').keyup(function (ev) {
-        var $field = $(this);
-        var friendList = $('div[name = "friend-item-wrapper"]');
-        // this is the value before the keypress
-        var beforeVal = $field.val();
-        setTimeout(function () {
-            // this is the value after the keypress
-            var afterVal = $field.val();
-        }, 0);
-        if ($field.val() == '') {
-            friendList.each(function () {
-                $(this).show();
-            });
-        } else {
-            friendList.each(function () {
-                if ($(this).find('[name="username"]').text().toLowerCase().indexOf($field.val().toLowerCase()) >= 0) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
-    });
-</script>

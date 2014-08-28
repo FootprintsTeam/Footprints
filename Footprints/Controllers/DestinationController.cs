@@ -157,10 +157,6 @@ namespace Footprints.Controllers
             {
                 return null;
             }
-            if (!ModelState.IsValid)
-            {
-                return Redirect(Request.UrlReferrer.ToString());
-            }
             var userId = new Guid(User.Identity.GetUserId());
             var destination = destinationService.GetDestination(model.DestinationID);
 

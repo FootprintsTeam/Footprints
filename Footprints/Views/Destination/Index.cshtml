@@ -22,18 +22,12 @@
                     @{Html.RenderPartial("DestinationMainContentWidget", Model);}
                 </div>
                 <!-- // Tabs END -->
-                @*description area*@
                 @{Html.RenderPartial("DestinationDescriptionWidget");}
-                @*comment area*@
                 @{
-                    var commentSectionViewData = new ViewDataDictionary { 
+                    var commentSectionViewData = new ViewDataDictionary {
                         { "DestinationID", Model.DestinationID }};
                 }
                 @{Html.RenderPartial("CommentSection", Model.Comments, commentSectionViewData);}
-                @*Side Area*@
-                <div class="col-lg-3 col-md-4">
-
-                </div>
             </div>
 
             @*Statistic board*@
@@ -48,50 +42,51 @@
         </div>
     </div>
 </div>
-@{Html.RenderPartial("EditDestinationForm", Model.EditDestinationForm);}
-@* Delete destination confirmation modal*@
-<div class="modal fade" id="delete-destination-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal heading -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="modal-title">Delete Destination</h3>
-            </div>
-            <!-- // Modal heading END -->
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="innerAll">
-                    <div class="innerLR">
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <label class="control-label">Are you sure want to delete this destination?</label>
+@if (TempData["IsAuthor"] != null && (bool)TempData["IsAuthor"])
+{
+    Html.RenderPartial("EditDestinationForm", Model.EditDestinationForm);
+    <div class="modal fade" id="delete-destination-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">Delete Destination</h3>
+                </div>
+                <!-- // Modal heading END -->
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="innerAll">
+                        <div class="innerLR">
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <label class="control-label">Are you sure want to delete this destination?</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- // Modal body END -->
-            <div class="modal-footer">
-                @using (Html.BeginForm("Delete", "Destination", FormMethod.Post, new { @name = "frmDeleteDestination", @role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-                    @Html.HiddenFor(x => @Model.DestinationID)
-                    @Html.HiddenFor(x => @Model.JourneyID)
-                    <button class="btn btn-primary" type="submit">Confirm</button>
-                    <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
-                }
+                <!-- // Modal body END -->
+                <div class="modal-footer">
+                    @using (Html.BeginForm("Delete", "Destination", FormMethod.Post, new { @name = "frmDeleteDestination", @role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(x => @Model.DestinationID)
+                        @Html.HiddenFor(x => @Model.JourneyID)
+                        <button class="btn btn-primary" type="submit">Confirm</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                    }
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- // Modal END -->
+    <!-- // Modal END -->
+    Html.RenderPartial("DeletePhotoModal", new DeletePhotoFormViewModel() { DestinationID = @Model.DestinationID });
+    @TempData.Remove("IsAuthor");
+}
 @{Html.RenderPartial("DeleteCommentModal");}
-@{Html.RenderPartial("DeletePhotoModal", new DeletePhotoFormViewModel() { DestinationID = @Model.DestinationID });}
-
 <script type="text/javascript">
-    //Delete photo
     function deletePhoto(data) {
         if (data.Result == 'success') {
             $('#delete-photo-modal').modal('hide');
@@ -102,7 +97,7 @@
     }
     //liking
     $("#like-btn").click(function (e) {
-        if ($(this).find("span").html() == "Like") {           
+        if ($(this).find("span").html() == "Like") {
 
             //submit http request
             $.get("@Url.Action("LikeUnlike", new { controller = "Destination" })",
@@ -118,7 +113,7 @@
                     }
                 });
         }
-        else {        
+        else {
             //submit http request
             $.get("@Url.Action("LikeUnlike", new { controller = "Destination" })",
                 { destinationID: "@Model.DestinationID" },
@@ -127,7 +122,7 @@
                         //add number of like
                         $("#like-number").html(data.NumberOfLike);
                         $.post("@Url.Action("Share")"
-                        
+
                         )
                         //change icon
                         $("#like-btn").find("span").html('Like');
@@ -142,7 +137,7 @@
     //sharing
     $("#share-btn").click(function (e) {
         if ($(this).find("span").html() != null && $(this).find("span").html() != "Shared") {
-            
+
             //send http request
             $.get("@Url.Action("ShareDestination", "Destination")", {
                 userID: "@User.Identity.GetUserId()",

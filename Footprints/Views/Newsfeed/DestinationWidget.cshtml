@@ -36,10 +36,12 @@
         </div>
     </div>
     <!-- //Content -->
+    @{
+        var uniqueid = Guid.NewGuid();
+    }
+    <a href="#comments-collapse-@uniqueid" class="innerAll border-top display-block " data-toggle="collapse"><i class="innerLR fa fa-bars"></i> View all comments <span class="text-muted">@Model.Comments.Count comments</span></a>
 
-    <a href="#comments-collapse" class="innerAll border-top display-block " data-toggle="collapse"><i class="innerLR fa fa-bars"></i> View all comments <span class="text-muted">@Model.Comments.Count comments</span></a>
-
-    <div class="collapse" id="comments-collapse">
+    <div class="collapse" id="comments-collapse-@uniqueid">
         @{Html.RenderPartial("NewsfeedWidgetCommentSection", Model.Comments);}
     </div>
     <!--  Comment -->
