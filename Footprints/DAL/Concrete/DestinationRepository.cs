@@ -119,25 +119,28 @@ namespace Footprints.DAL.Concrete
                                                 " SET Activity.UserName = User.UserName, Activity.FirstName = User.FirstName, Activity.LastName = User.LastName, Activity.ProfilePicURL = User.ProfilePicURL, Activity.Journey_Name = Journey.Name, Activity.Journey_Description = Journey.Description, Activity.Journey_NumberOfLike = Journey.NumberOfLike, Activity.Journey_NumberOfShare = Journey.NumberOfShare " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
                                                 " WITH Destination, Journey, Activity, User " +
-                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
-                                                " DELETE f " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +                                                
                                                 " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
-                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " +
-                                                " WITH User " +
-                                                " MATCH (User)-[:FRIEND]->(friend) " +
-                                                " WITH User, COLLECT(friend) AS friends " +
-                                                " UNWIND friends AS fr " +
-                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(user)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
-                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
-                                                " WHERE NextFriendInEgo <>  User " +
-                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(user) " +
-                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " WITH fr, previousUser, nextUser " +
-                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ",
+                                                " CREATE (Activity)-[:NEXT]->(nextActivity) " + 
+                                                " DELETE f", 
                                                 new Dictionary<String, Object> { { "Destination", Destination }, { "UserID", UserID }, { "JourneyID", JourneyID }, { "Activity", Activity }, { "Place", Place } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
+            CypherQuery ChangeEgoNetwork = new CypherQuery("MATCH (User:User {UserID : {UserID}}) " +
+                                   " MATCH (User)-[:FRIEND]->(friend) WHERE friend.UserID <> 'TEMP' " +
+                                   " WITH User, COLLECT(friend) AS friends " +
+                                   " UNWIND friends AS fr " +
+                                   " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                   " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                   " WHERE NextFriendInEgo.UserID <>  User.UserID " +
+                                   " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
+                                   " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " WITH fr, rel, r1, r2, previousUser, nextUser " +
+                                   " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                   " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)" +
+                                   " DELETE rel, r1, r2",
+                                   new Dictionary<String, Object> { { "UserID", UserID } }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteCypher(ChangeEgoNetwork);
             return true;
         }
         public bool UpdateDestination(Guid UserID, Destination Destination)
@@ -240,25 +243,29 @@ namespace Footprints.DAL.Concrete
                                                 " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " WITH Destination, Content, Activity, User " +
                                                 " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
-                                                " DELETE f " +
                                                 " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
                                                 " CREATE (Activity)-[:NEXT]->(nextActivity) " +
-                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
-                                                " WITH User " +
-                                                " MATCH (User)-[:FRIEND]->(friend) " +
-                                                " WITH User, COLLECT(friend) AS friends " +
-                                                " UNWIND friends AS fr " +
-                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(user)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
-                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
-                                                " WHERE NextFriendInEgo <>  User " +
-                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(user) " +
-                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " WITH fr, previousUser, nextUser " +
-                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser) ",
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " + 
+                                                " DELETE f",
                                                 new Dictionary<String, Object> { { "DestinationID", DestinationID }, { "UserID", UserID }, { "Content", Content }, { "Activity", Activity } }, CypherResultMode.Projection);
-            ((IRawGraphClient)Db).ExecuteCypher(query);            
+            ((IRawGraphClient)Db).ExecuteCypher(query);
+
+            CypherQuery ChangeEgoNetwork = new CypherQuery("MATCH (User:User {UserID : {UserID}}) " +
+                                   " MATCH (User)-[:FRIEND]->(friend) WHERE friend.UserID <> 'TEMP' " +
+                                   " WITH User, COLLECT(friend) AS friends " +
+                                   " UNWIND friends AS fr " +
+                                   " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                   " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                   " WHERE NextFriendInEgo.UserID <>  User.UserID " +
+                                   " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
+                                   " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " WITH fr, rel, r1, r2, previousUser, nextUser " +
+                                   " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                   " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)" +
+                                   " DELETE rel, r1, r2",
+                                   new Dictionary<String, Object> { { "UserID", UserID } }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteCypher(ChangeEgoNetwork);
         }
         public void UpdateContent(Guid UserID, Content Content)
         {
@@ -302,26 +309,30 @@ namespace Footprints.DAL.Concrete
                                                 " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
                                                 " WITH User, Destination, Activity " +
-                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
-                                                " DELETE f " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +                                                
                                                 " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
                                                 " CREATE (Activity)-[:NEXT]->(nextActivity) " +
-                                                " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " +
-                                                " WITH User " +
-                                                " MATCH (User)-[:FRIEND]->(friend) " +
-                                                " WITH User, COLLECT(friend) AS friends " +
-                                                " UNWIND friends AS fr " +
-                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
-                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
-                                                " WHERE NextFriendInEgo <>  User " +
-                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
-                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " WITH fr, previousUser, nextUser " +
-                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
+                                                " CREATE (Activity)-[:ACT_ON_JOURNEY]->(Journey) " + 
+                                                " DELETE f",
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "DestinationID", DestinationID }, { "Activity", Activity } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
+
+            CypherQuery ChangeEgoNetwork = new CypherQuery("MATCH (User:User {UserID : {UserID}}) " +
+                                   " MATCH (User)-[:FRIEND]->(friend) WHERE friend.UserID <> 'TEMP' " +
+                                   " WITH User, COLLECT(friend) AS friends " +
+                                   " UNWIND friends AS fr " +
+                                   " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                   " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                   " WHERE NextFriendInEgo.UserID <>  User.UserID " +
+                                   " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
+                                   " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " WITH fr, rel, r1, r2, previousUser, nextUser " +
+                                   " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                   " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)" +
+                                   " DELETE rel, r1, r2",
+                                   new Dictionary<String, Object> { { "UserID", UserID } }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteCypher(ChangeEgoNetwork);
         }
         public void UnlikeDestination(Guid UserID, Guid DestinationID)
         {
@@ -358,26 +369,30 @@ namespace Footprints.DAL.Concrete
                                                 " SET Activity.Place_Name = Place.Name, Activity.Place_Address = Place.Address, Activity.Longitude = Place.Longitude, Activity.Latitude = Place.Latitude " +
                                                 " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination)" +
                                                 " WITH User, Destination, Activity " +
-                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +
-                                                " DELETE f " +
+                                                " MATCH (User)-[f:LATEST_ACTIVITY]->(nextActivity) " +                                                
                                                 " CREATE (User)-[:LATEST_ACTIVITY]->(Activity) " +
                                                 " CREATE (Activity)-[:NEXT]->(nextActivity) " +
-                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +
-                                                " WITH User " +
-                                                " MATCH (User)-[:FRIEND]->(friend) " +
-                                                " WITH User, COLLECT(friend) AS friends " +
-                                                " UNWIND friends AS fr " +
-                                                " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
-                                                " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
-                                                " WHERE NextFriendInEgo <>  User " +
-                                                " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
-                                                " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
-                                                " WITH fr, previousUser, nextUser " +
-                                                " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
-                                                " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)",
+                                                " CREATE (Activity)-[:ACT_ON_DESTINATION]->(Destination) " +                                                 
+                                                " DELETE f",
                                                 new Dictionary<String, Object> { { "UserID", UserID }, { "DestinationID", DestinationID }, { "Activity", Activity } }, CypherResultMode.Projection);
             ((IRawGraphClient)Db).ExecuteCypher(query);
+
+            CypherQuery ChangeEgoNetwork = new CypherQuery("MATCH (User:User {UserID : {UserID}}) " +
+                                   " MATCH (User)-[:FRIEND]->(friend) WHERE friend.UserID <> 'TEMP' " +
+                                   " WITH User, COLLECT(friend) AS friends " +
+                                   " UNWIND friends AS fr " +
+                                   " MATCH (fr)-[rel:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " OPTIONAL MATCH (previousUser)-[r1:EGO {UserID : fr.UserID}]->(User)-[r2:EGO {UserID : fr.UserID}]->(nextUser) " +
+                                   " WITH fr, User, rel, previousUser, r1, r2, nextUser, NextFriendInEgo " +
+                                   " WHERE NextFriendInEgo.UserID <>  User.UserID " +
+                                   " CREATE (fr)-[:EGO {UserID : fr.UserID }]->(User) " +
+                                   " CREATE (User)-[:EGO {UserID : fr.UserID}]->(NextFriendInEgo) " +
+                                   " WITH fr, rel, r1, r2, previousUser, nextUser " +
+                                   " WHERE previousUser IS NOT NULL AND nextUser IS NOT NULL " +
+                                   " CREATE (previousUser)-[:EGO {UserID : fr.UserID}]->(nextUser)" +
+                                   " DELETE rel, r1, r2",
+                                   new Dictionary<String, Object> { { "UserID", UserID } }, CypherResultMode.Projection);
+            ((IRawGraphClient)Db).ExecuteCypher(ChangeEgoNetwork);
         }
         public IList<User> GetAllUserShared(Guid DestinationID)
         {

@@ -206,14 +206,16 @@
             $.post("@Url.Action("InfiniteScroll",
             "Personal", new {UserID = Model.UserID})", { "BlockNumber": BlockNumber },
                     function (data) {
-                        BlockNumber = BlockNumber + 1;
-                        NoMoreData = data.NoMoreData;
-                        for (i = 0; i < data.length; i++) {
-                            //$(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
-                            $(".timeline").append($.parseHTML(data[i].HTMLString));
+                        if (data != null) {
+                            BlockNumber = BlockNumber + 1;
+                            NoMoreData = data.NoMoreData;
+                            for (i = 0; i < data.length; i++) {
+                                //$(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
+                                $(".timeline").append($.parseHTML(data[i].HTMLString));
+                            }
+                            $("#loadingDiv").hide();
+                            inProgress = false;
                         }
-                        $("#loadingDiv").hide();
-                        inProgress = false;
                     });
         }
     });

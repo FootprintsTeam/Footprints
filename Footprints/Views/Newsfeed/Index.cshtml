@@ -77,13 +77,20 @@
                 $.post("@Url.Action("InfiniteScroll",
             "Newsfeed")", { "BlockNumber": BlockNumber },
                         function (data) {
-                            BlockNumber = BlockNumber + 1;
-                            NoMoreData = data.NoMoreData;
-                            for (i = 0; i < data.length; i++) {
-                                $(".gridalicious-row").gridalicious('append', $.parseHTML(data[i].HTMLString));
+                            if (data != null) {
+                                BlockNumber = BlockNumber + 1;
+                                NoMoreData = data.NoMoreData;
+                                for (i = 0; i < data.length; i++) {
+                                    if (data[i].HTMLString != null && data[i].HTMLString != "") {
+                                        var htmlString = $.parseHTML(data[i].HTMLString);
+                                        $(".gridalicious-row").gridalicious('append', htmlString);
+                                    };
+                                    
+                                    var x = 5;
+                                }
+                                $("#loadingDiv").hide();
+                                inProgress = false;
                             }
-                            $("#loadingDiv").hide();
-                            inProgress = false;
                         });
             }
         });
