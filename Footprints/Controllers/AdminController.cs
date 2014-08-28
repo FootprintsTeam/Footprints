@@ -15,7 +15,7 @@ using Footprints.ViewModels;
 
 namespace Footprints.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         public const int pageSize = 10;
@@ -23,7 +23,7 @@ namespace Footprints.Controllers
         public IJourneyService journeySer;
         public IDestinationService destinationSer;
         public ISearch FullSearch;
-
+        
         public UserManager<ApplicationUser> UserManager { get; private set; }
         public AdminController(UserManager<ApplicationUser> userManager)
         {
@@ -214,24 +214,48 @@ namespace Footprints.Controllers
         public ActionResult EditUser(User UpdatedUser)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 IdentityResult user = UserManager.SetEmail(UpdatedUser.UserID.ToString(), UpdatedUser.Email.ToString());
                 if (user.Succeeded)
                 {
                     if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Active))
                     {
-                        IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Active");
-                        if (roleResult.Succeeded)
-                        {
-                            UpdatedUser.Status = StatusEnum.Active;
-                            userSer.UpdateUser(UpdatedUser);
-                            TempData["Msg"] = "User has been updated successfully";
-                            return RedirectToAction("UserList");
+                        if (UserManager.IsEmailConfirmed(UpdatedUser.UserID.ToString())) {
+                            IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Active");
+                            if (roleResult.Succeeded)
+                            {
+                                UpdatedUser.Status = StatusEnum.Active;
+                                userSer.UpdateUser(UpdatedUser);
+                                TempData["Msg"] = "User has been updated successfully";
+                                return RedirectToAction("UserList");
+                            }
+                            else
+                            {
+                                TempData["Msg"] = "Update user information failed !";
+                                return RedirectToAction("UserList");
+                            }
                         }
                         else
-                        {
-                            TempData["Msg"] = "Update user information failed !";
-                            return RedirectToAction("UserList");
+                        {                            
+                            using (var context = new ApplicationDbContext())
+                            {
+                                var AppUser = context.Users.Single(x => x.Id == UpdatedUser.UserID.ToString());                                
+                                AppUser.EmailConfirmed = true;                                
+                                context.SaveChanges();                                
+                            }
+                            IdentityResult roleResult = UserManager.AddToRole(UpdatedUser.UserID.ToString(), "Active");
+                            if (roleResult.Succeeded)
+                            {
+                                UpdatedUser.Status = StatusEnum.Active;
+                                userSer.UpdateUser(UpdatedUser);
+                                TempData["Msg"] = "User has been updated successfully";
+                                return RedirectToAction("UserList");
+                            }
+                            else
+                            {
+                                TempData["Msg"] = "Update user information failed !";
+                                return RedirectToAction("UserList");
+                            }
                         }
                     }
                     else if (UpdatedUser.Status.Equals(Footprints.Models.StatusEnum.Admin))
@@ -295,7 +319,7 @@ namespace Footprints.Controllers
                     return RedirectToAction("UserList");
                 }
             }
-            return View(UpdatedUser);
+            return RedirectToAction("UserList");
 
         }
 
