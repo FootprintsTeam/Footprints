@@ -33,18 +33,6 @@
                         </div>
                         <div class="innerAll pull-right">
                             @{
-                                if (!(bool)TempData["AlreadyLike"])
-                                {
-                                    <a class="btn btn-info"><i class="fa fa-thumbs-o-down" id="like-btn"></i> Unlike</a>
-                                }
-                                else
-                                {
-                                    <a class="btn btn-info"><i class="fa fa-thumbs-o-up" id="like-btn"></i> Like</a>
-                                }
-                                TempData.Remove("AlreadyLike");
-                            }
-                            <a class="btn btn-info"><i class="fa fa-share" id="like-btn"></i> Share</a>
-                            @{
                                 if (TempData["IsAuthor"] != null && (bool)TempData["IsAuthor"])
                                 {
                                     <a class="btn btn-primary" data-toggle="modal" data-target="#edit-journey-modal"><span class="glyphicon glyphicon-edit" id="edit-btn"></span> Edit</a>
