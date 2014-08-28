@@ -262,7 +262,7 @@ namespace Footprints.Controllers
             commentObj.Timestamp = DateTimeOffset.Now;
             //reset number of like
             IEnumerable<User> userLikedList = destinationService.GetAllUserLiked(comment.DestinationID);
-            commentObj.NumberOfLike = userLikedList.Count();
+            commentObj.NumberOfLike = userLikedList == null ? 0 : userLikedList.Count();
             var data = new List<CommentViewModel>();
             if (commentService.UpdateComment(userId, commentObj))
             {
