@@ -157,8 +157,13 @@
     </div>
 </div>
 
+<div class="innerAll inner-2x loading text-center text-medium" id="loadingDiv" style="display: none"><i class="fa fa-fw fa-spinner fa-spin"></i> Loading</div>
 
 <script type="text/javascript">
+    $(document).ready(function () {
+        $("#loadingDiv").hide();
+    });
+
     $("#friend-button").click(function (e) {
         if ($(this).html() == "Add Friend") {
 
